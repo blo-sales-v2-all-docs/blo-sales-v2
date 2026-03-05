@@ -75,5 +75,10 @@ public class PojoIntMovement {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "PojoIntMovement{" + "id_movement=" + id_movement + ", fk_product=" + fk_product + ", fk_user=" + fk_user + ", type=" + type + ", quantity=" + quantity + ", reason=" + reason + ", timestamp=" + timestamp + '}';
+    }
     
 }

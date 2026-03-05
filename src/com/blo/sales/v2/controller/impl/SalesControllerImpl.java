@@ -265,6 +265,17 @@ public class SalesControllerImpl implements ISalesController {
                 BloSalesV2Utils.ERROR_PRODUCT_NOT_FOUND
         );
         final var timestamp = BloSalesV2Utils.getTimestamp();
+        // registro previo antes de movimientos
+        final var movementBef = new PojoIntMovement();
+        movementBef.setFk_product(productFound.getIdProduct());
+        movementBef.setFk_user(idUser);
+        movementBef.setQuantity(productFound.getQuantity());
+        movementBef.setReason(ReasonsEntityEnum.DEVOLUTION);
+        movementBef.setTimestamp(BloSalesV2Utils.getTimestamp());
+        movementBef.setType(TypesEntityEnum.NOT_MODIFIED);
+        historyController.registerMovement(movementBef);
+        logger.log(String.format("movimiento registrado %s", movementBef.toString()));
+        
         // registrar los productos que llegan al stock
         final var movement = new PojoIntMovement();
         movement.setFk_product(productFound.getIdProduct());
