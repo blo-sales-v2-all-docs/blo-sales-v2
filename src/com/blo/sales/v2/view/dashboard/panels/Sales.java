@@ -75,15 +75,19 @@ public class Sales extends javax.swing.JPanel {
                 if (indexSelected != -1) {
                     final var filaModelo = tblProductsSales.convertRowIndexToModel(indexSelected);
                     var quantityOnSale = new BigDecimal(model.getValueAt(filaModelo, 2).toString());
+                    // resta una unidad al total
                     quantityOnSale = quantityOnSale.subtract(BigDecimal.ONE);
-                    final var price = new BigDecimal(model.getValueAt(filaModelo, 4).toString());
+                    final var price = new BigDecimal(model.getValueAt(filaModelo, 3).toString());
                     totalSale = totalSale.subtract(price);
+                    // si la cantidad es 0 se elimina la fila
                     if (quantityOnSale.compareTo(BigDecimal.ZERO) == 0) {
                         model.removeRow(indexSelected);
                     } else {
+                        final var totalOnSale = quantityOnSale.multiply(price);
                         model.setValueAt(quantityOnSale, filaModelo, 2);
+                        model.setValueAt(totalOnSale, filaModelo, 4);
                     }
-                    GUICommons.setTextToField(lblTotal, String.format("Total: %s$", totalSale));
+                    GUICommons.setTextToField(lblTotal, String.format("Total: $%s", totalSale));
                     if (totalSale.compareTo(BigDecimal.ZERO) == 0) {
                         disableButtons();
                     }
@@ -117,7 +121,7 @@ public class Sales extends javax.swing.JPanel {
                                 BloSalesV2Utils.PRODUCT_INSUFFICIENT
                         );
                         totalSale = totalSale.add(productFound.getPrice());
-                        GUICommons.setTextToField(lblTotal, String.format("Total: %s$", totalSale));
+                        GUICommons.setTextToField(lblTotal, String.format("Total: $%s", totalSale));
                         // cantidad comprada col
                         model.setValueAt(quantitySale, filaModelo, 2);
                         //total
