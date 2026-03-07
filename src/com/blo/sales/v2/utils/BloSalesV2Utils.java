@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 /**
  * Minúsculas: á -> \u00e1 é -> \u00e9 í -> \u00ed ó -> \u00f3 ú -> \u00fa ñ ->
- * \u00f1 ü -> \u00fc
+ * \u00f1 ü -> \u00fc ñ -> \u00f1 Ñ -> \u00d1
  *
  * Mayúsculas: Á -> \u00c1 É -> \u00c9 Í -> \u00cd Ó -> \u00d3 Ú -> \u00da Ñ ->
  * \u00d1

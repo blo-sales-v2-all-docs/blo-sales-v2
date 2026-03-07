@@ -3,6 +3,7 @@ package com.blo.sales.v2.view;
 import com.blo.sales.v2.view.dashboard.DashboardRootFrm;
 import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.controller.impl.UserControllerImpl;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.CommonAlerts;
@@ -13,17 +14,20 @@ import com.blo.sales.v2.view.mappers.UserMapper;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.blo.sales.v2.translate.ITranslate;
 
-public class LoginFrm extends javax.swing.JFrame {
+public class LoginFrm extends javax.swing.JFrame implements ITranslate {
     
     private static final UserMapper userMapper = UserMapper.getInstance();
+    
     private static final LoggedInUserMapper loggedInUserMapper = LoggedInUserMapper.getInstance();
+    
     private static final IUserController userController = UserControllerImpl.getInstance();
-
+    
     public LoginFrm() {
         initComponents();
+        loadTargets();
         GUICommons.setDimensions(this);
-        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.VERSION);
     }
 
     @SuppressWarnings("unchecked")
@@ -31,20 +35,20 @@ public class LoginFrm extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         pwdUserpassword = new javax.swing.JPasswordField();
         lblVersion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Nombre de usuario");
+        lblUsername.setText("Nombre de usuario");
 
-        jLabel2.setText("Contraseña");
+        lblPassword.setText("Contrasenia");
 
-        btnLogin.setText("Iniciar sesión");
+        btnLogin.setText("Iniciar sesion");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -60,8 +64,8 @@ public class LoginFrm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(lblUsername)
+                            .addComponent(lblPassword))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -78,11 +82,11 @@ public class LoginFrm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(lblUsername)
                     .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblPassword)
                     .addComponent(pwdUserpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addComponent(btnLogin)
@@ -175,11 +179,19 @@ public class LoginFrm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblVersion;
     private javax.swing.JPasswordField pwdUserpassword;
     private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.VERSION);
+        GUICommons.setTextToButton(btnLogin, translate.get(KeysEnum.LOGIN_BTN_LOGN.getKey()));
+        GUICommons.setTextToField(lblPassword, translate.get(KeysEnum.LOGIN_LBL_PASSWROD.getKey()));
+        GUICommons.setTextToField(lblUsername, translate.get(KeysEnum.LOGIN_LBL_PASSWROD.getKey()));
+    }
 }

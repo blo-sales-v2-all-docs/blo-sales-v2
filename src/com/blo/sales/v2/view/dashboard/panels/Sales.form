@@ -81,7 +81,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnComplete">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Completo"/>
+            <Property name="text" type="java.lang.String" value="completo"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCompleteActionPerformed"/>
@@ -89,7 +89,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnDebtors">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Incompleto"/>
+            <Property name="text" type="java.lang.String" value="incompleto"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDebtorsActionPerformed"/>
@@ -141,7 +141,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblQuantity">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cantidad"/>
+            <Property name="text" type="java.lang.String" value="cantidad"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="nmbQuantity">
@@ -153,7 +153,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblBarCode">
           <Properties>
-            <Property name="text" type="java.lang.String" value="C&#xf3;digo de barras / nombre (F3)"/>
+            <Property name="text" type="java.lang.String" value="codigo de barras"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -299,6 +299,10 @@ public final class GUICommons {
         btn.setEnabled(true);
     }
     
+    public static void setTextToButton(JButton btn, String text) {
+        btn.setText(text);
+    }
+    
     /**
      * Envía dimensiones a un contenedor
      * @param content 
