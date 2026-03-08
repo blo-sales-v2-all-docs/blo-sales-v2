@@ -2,6 +2,8 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.plugins.writter.BloSalesV2WritterFile;
 import com.blo.sales.v2.plugins.writter.enums.ExtensionEnum;
+import com.blo.sales.v2.translate.ITranslate;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -9,7 +11,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 
-public class Console extends javax.swing.JPanel {
+public final class Console extends javax.swing.JPanel implements ITranslate {
     
     private static final GUILogger logger = GUILogger.getLogger(Console.class.getName());
 
@@ -33,7 +35,7 @@ public class Console extends javax.swing.JPanel {
         txtArea.setRows(5);
         scrllConsole.setViewportView(txtArea);
 
-        btnDownloadLogs.setText("Descargar logs");
+        btnDownloadLogs.setText("descargar logs");
         btnDownloadLogs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDownloadLogsActionPerformed(evt);
@@ -80,4 +82,9 @@ public class Console extends javax.swing.JPanel {
     private javax.swing.JScrollPane scrllConsole;
     private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToButton(btnDownloadLogs, translate.get(KeysEnum.CONSOLE_BTN_DOWNLOAD_LOGS.getKey()));
+    }
 }

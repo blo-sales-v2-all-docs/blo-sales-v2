@@ -3,6 +3,8 @@ package com.blo.sales.v2.view.dashboard.panels;
 import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.controller.impl.UserControllerImpl;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntNotes;
+import com.blo.sales.v2.translate.ITranslate;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.CommonAlerts;
@@ -17,7 +19,7 @@ import com.blo.sales.v2.view.pojos.enums.TypeNoteEnum;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
-public class Notes extends javax.swing.JPanel {
+public final class Notes extends javax.swing.JPanel implements ITranslate {
     
     private static final GUILogger logger = GUILogger.getLogger(Notes.class.getName());
     
@@ -45,7 +47,6 @@ public class Notes extends javax.swing.JPanel {
         GUICommons.addDoubleClickOnTable(tblNotes, item -> {
             openNoteDialog((long) item);
         });
-        GUICommons.setTextToField(areaInstrc, BloSalesV2Utils.NOTES_INSTRUCTIONS);
     }
     
     private void openNoteDialog(long idNote) {
@@ -105,7 +106,7 @@ public class Notes extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(areaNote);
 
-        btnSaveNow.setText("Guardar nota");
+        btnSaveNow.setText("guardar nota");
         btnSaveNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveNowActionPerformed(evt);
@@ -257,4 +258,10 @@ public class Notes extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tblNotes;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(areaInstrc, translate.get(KeysEnum.NOTES_LBL_INSTRUCTIONS.getKey()));
+        GUICommons.setTextToButton(btnSaveNow, translate.get(KeysEnum.NOTES_BTN_SAVE_NOTE.getKey()));
+    }
 }

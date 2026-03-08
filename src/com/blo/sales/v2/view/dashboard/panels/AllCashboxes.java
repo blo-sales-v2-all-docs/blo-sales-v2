@@ -2,6 +2,8 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.impl.CashboxControllerImpl;
+import com.blo.sales.v2.translate.ITranslate;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
@@ -15,7 +17,7 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
-public class AllCashboxes extends javax.swing.JPanel {
+public final class AllCashboxes extends javax.swing.JPanel implements ITranslate {
     
     private static final GUILogger logger = GUILogger.getLogger(AllCashboxes.class.getName());
     
@@ -105,11 +107,11 @@ public class AllCashboxes extends javax.swing.JPanel {
 
         jScrollPane2.setViewportView(lstActives);
 
-        lblActives.setText("Activos");
+        lblActives.setText("activos");
 
         jScrollPane3.setViewportView(lstCosts);
 
-        lblCosts.setText("Gastos");
+        lblCosts.setText("gastos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -159,4 +161,10 @@ public class AllCashboxes extends javax.swing.JPanel {
     private javax.swing.JList<String> lstCosts;
     private javax.swing.JTable tblCashboxes;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblActives, translate.get(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()));
+        GUICommons.setTextToField(lblCosts, translate.get(KeysEnum.CASHBOXES_LBL_COSTS.getKey()));
+    }
 }

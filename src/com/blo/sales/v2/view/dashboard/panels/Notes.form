@@ -101,7 +101,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnSaveNow">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar nota"/>
+            <Property name="text" type="java.lang.String" value="guardar nota"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveNowActionPerformed"/>

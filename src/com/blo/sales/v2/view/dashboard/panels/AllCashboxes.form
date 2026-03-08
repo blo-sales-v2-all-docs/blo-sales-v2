@@ -102,7 +102,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="lblActives">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Activos"/>
+        <Property name="text" type="java.lang.String" value="activos"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -126,7 +126,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="lblCosts">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Gastos"/>
+        <Property name="text" type="java.lang.String" value="gastos"/>
       </Properties>
     </Component>
   </SubComponents>

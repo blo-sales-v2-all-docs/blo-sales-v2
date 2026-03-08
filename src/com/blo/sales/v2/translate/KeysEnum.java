@@ -14,8 +14,17 @@ public enum KeysEnum {
     CATEGORIES_LBL_CATEGORY("categories.lbl.category"), CATEGORIES_LBL_DESCRIPTION("categories.lbl.description"), CATEGORIES_LBL_EDIT_CATEGORY("categories.lbl.edit-category"),
     // dialogos
     DLG_DEBTORS_BTN_REGISTER("dlg-debtors.btn-register"), DLG_DEBTORS_LBL_GIVE("dlg-debtors.lbl.give"), DLG_DEBTORS_LBL_GIVE_CASH("dlg-debtors.lbl.give-cash"),
+    // cashbox
+    CASHBOX_BTN_CLOSE_NOW("cashbox.btn.close-now"),
+    CASHBOXES_LBL_ACTIVES("cashboxes.lbl.actives"), CASHBOXES_LBL_COSTS("cashboxes.lbl.costs"),
+    // notes
+    NOTES_LBL_INSTRUCTIONS("notes.lbl.instructions"), NOTES_BTN_SAVE_NOTE("notes.btn.save-note"),
+    // debtors
+    DEBTORS_LBL_ADD_PAY("debtors.lbl.add-pay"), DEBTORS_BTN_PAY_ALL("debtors.btn.pay-all"), DEBTORS_LBL_DEBTOR_DEBT("debtors.lbl.debtor-debt"), DEBTORS_DLG_PAY_ALL("debtors.dlg.pay-all"),
+    // consolas
+    CONSOLE_BTN_DOWNLOAD_LOGS("console.btn.download-logs"),
     // commons
-    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before");
+    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now");
     
     private final String key;
 

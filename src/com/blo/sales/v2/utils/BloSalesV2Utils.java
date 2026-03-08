@@ -66,8 +66,6 @@ public final class BloSalesV2Utils {
     
     public static final String CATEGORY_PROTECTED = "Esta categor\u00eda est\u00e1 protegida";
     
-    public static final String NOTES_INSTRUCTIONS = "¡Importante! \nRecuerda que si tu nota se cargar\u00e1 como activo / pasivo \ndebes colocar la cantidad comenzando por $";
-    
     public static final String SQL_EXCEPTION_MESSAGE = "¡Ups! Algo sali\u00f3 mal. Por favor, inténtalo de nuevo más tarde.";
     
     public static final String REPORT_EXCEPTIONS = "¡Ups! Algo sali\u00f3 mal guardando archivo de reporte";
