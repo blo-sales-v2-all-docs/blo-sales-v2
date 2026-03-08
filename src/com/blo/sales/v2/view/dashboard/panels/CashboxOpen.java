@@ -47,6 +47,7 @@ public class CashboxOpen extends javax.swing.JPanel implements ITranslate {
     public CashboxOpen(PojoLoggedInUser userData) {
         this.userData = userData;
         initComponents();
+        loadTargets();
         try {
             loadDataAndCashbox();
             this.notes = mapperNotes.toOuter(userController.getNotesByUserId(userData.getIdUser()));
@@ -110,7 +111,7 @@ public class CashboxOpen extends javax.swing.JPanel implements ITranslate {
 
     private WrapperPojoNotes filterLst(TypeNoteEnum type) {
         final var out = new WrapperPojoNotes();
-        final var lst = notes.getNotes().stream().filter(n -> n.getTypeNote() == type).collect(Collectors.toList());
+        final var lst = notes.getNotes().stream().filter(n -> n.getTypeNote() == type && n.getNote().contains("$")).collect(Collectors.toList());
         out.setNotes(lst);
         return out;
     }
@@ -119,7 +120,7 @@ public class CashboxOpen extends javax.swing.JPanel implements ITranslate {
         if (openCashbox == null) {
             return;
         }
-        final var resp = CommonAlerts.showConfirmDialog("¿Importar desde notas rápidas?");
+        final var resp = CommonAlerts.showConfirmDialog(translate.get(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()));
         WrapperPojoNotes pasives = null;
         WrapperPojoNotes actives = null;
         if (resp) {
@@ -129,7 +130,7 @@ public class CashboxOpen extends javax.swing.JPanel implements ITranslate {
         
         final var cashboxDialog = new CashboxDialog<>(
             this,
-            "Cerrando caja de dinero",
+            translate.get(KeysEnum.CASHBOX_DLG_CLOSING_CASHBOX.getKey()),
             openCashbox,
             actives,
             pasives,

@@ -105,22 +105,22 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblamountOnCashbox">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Monto total de ventas"/>
+        <Property name="text" type="java.lang.String" value="monto total de ventas"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblAmount">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Monto"/>
+        <Property name="text" type="java.lang.String" value="monto"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblDescription">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Descripcion"/>
+        <Property name="text" type="java.lang.String" value="descripcion"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnContinue">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Continuar"/>
+        <Property name="text" type="java.lang.String" value="continuar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnContinueActionPerformed"/>
@@ -220,17 +220,17 @@
         </Container>
         <Component class="javax.swing.JLabel" name="lblActivesTotal">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Total activos"/>
+            <Property name="text" type="java.lang.String" value="total activos"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblPasivesTotal">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Total Pasivos"/>
+            <Property name="text" type="java.lang.String" value="total pasivos"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTotalToCashbox">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Total neto"/>
+            <Property name="text" type="java.lang.String" value="total neto"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSave">

@@ -1,5 +1,7 @@
 package com.blo.sales.v2.view.dialogs;
 
+import com.blo.sales.v2.translate.ITranslate;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUICommons;
@@ -12,7 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
-public class NoteDialog<T> extends javax.swing.JDialog {
+public final class NoteDialog<T> extends javax.swing.JDialog implements ITranslate {
     
     private static final String[] types_note = {"ACTIVO", "PASIVO", "OTRO"};
     
@@ -154,4 +156,10 @@ public class NoteDialog<T> extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cmbxTypeNote;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToButton(btnDeleteNote, translate.get(KeysEnum.DLG_NOTE_BTN_DELETE.getKey()));
+        GUICommons.setTextToButton(btnSaveChanges, translate.get(KeysEnum.COMMON_BTN_SAVE_CHANGES.getKey()));
+    }
 }

@@ -79,7 +79,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblFilter">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Filtrar"/>
+        <Property name="text" type="java.lang.String" value="filtrar"/>
       </Properties>
     </Component>
   </SubComponents>

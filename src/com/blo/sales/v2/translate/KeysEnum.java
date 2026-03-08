@@ -14,17 +14,20 @@ public enum KeysEnum {
     CATEGORIES_LBL_CATEGORY("categories.lbl.category"), CATEGORIES_LBL_DESCRIPTION("categories.lbl.description"), CATEGORIES_LBL_EDIT_CATEGORY("categories.lbl.edit-category"),
     // dialogos
     DLG_DEBTORS_BTN_REGISTER("dlg-debtors.btn-register"), DLG_DEBTORS_LBL_GIVE("dlg-debtors.lbl.give"), DLG_DEBTORS_LBL_GIVE_CASH("dlg-debtors.lbl.give-cash"),
+    DLG_SELECTOR("dlg-filter.lbl.filter"),
     // cashbox
-    CASHBOX_BTN_CLOSE_NOW("cashbox.btn.close-now"),
+    CASHBOX_BTN_CLOSE_NOW("cashbox.btn.close-now"), CASHBOX_DLG_IMPORT_FROM_NOTES("cashbox.dlg.import-from-notes"), CASHBOX_DLG_CLOSING_CASHBOX("cashbox.dlg.closing-cashbox"),
     CASHBOXES_LBL_ACTIVES("cashboxes.lbl.actives"), CASHBOXES_LBL_COSTS("cashboxes.lbl.costs"),
     // notes
-    NOTES_LBL_INSTRUCTIONS("notes.lbl.instructions"), NOTES_BTN_SAVE_NOTE("notes.btn.save-note"),
+    NOTES_LBL_INSTRUCTIONS("notes.lbl.instructions"), NOTES_BTN_SAVE_NOTE("notes.btn.save-note"), DLG_NOTE_BTN_DELETE("dlg-note.btn.delete"),
     // debtors
     DEBTORS_LBL_ADD_PAY("debtors.lbl.add-pay"), DEBTORS_BTN_PAY_ALL("debtors.btn.pay-all"), DEBTORS_LBL_DEBTOR_DEBT("debtors.lbl.debtor-debt"), DEBTORS_DLG_PAY_ALL("debtors.dlg.pay-all"),
     // consolas
     CONSOLE_BTN_DOWNLOAD_LOGS("console.btn.download-logs"),
+    // cashbox dialog
+    DLG_CASHBOX_LBL_TOTAL_AMOUNT("dlg-cashbox.lbl.total-amount"), DLG_CASHBOX_LBL_DESCRIPTION("dlg-cashbox.lbl.description"), DLG_CASHBOX_LBL_AMOUNT("dlg-cashbox.lbl.amount"), DLG_CASHBOX_LBL_TOTAL_ACTIVES("dlg-cashbox.lbl.total-actives"), DLG_CASHBOX_LBL_TOTAL_COSTS("dlg-cashbox.lbl.total-costs"), DLG_CASHBOX_LBL_NETO_TOTAL("dlg-cashbox.lbl.neto-total"),
     // commons
-    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now");
+    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now"), COMMON_BTN_CONTINUE("common.btn.continue"), COMMON_BTN_CLOSE("common.btn.close");
     
     private final String key;
 

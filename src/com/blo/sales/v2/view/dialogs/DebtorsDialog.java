@@ -42,6 +42,7 @@ public final class DebtorsDialog<T> extends javax.swing.JDialog implements ITran
         this.totalSale = totalSale;
         this.callback = callback;
         initComponents();
+        loadTargets();
         loadTitlesAndData();
         GUICommons.setTextToField(lblAmount, String.format(translate.get(KeysEnum.COMMON_CURRENCY_SYMBOL_BEFORE.getKey()), this.totalSale));
         GUICommons.disabledButton(btnRegister);
@@ -107,7 +108,7 @@ public final class DebtorsDialog<T> extends javax.swing.JDialog implements ITran
             }
         });
 
-        btnSaveRegister.setText("Guardar");
+        btnSaveRegister.setText("guardar");
         btnSaveRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveRegisterActionPerformed(evt);
