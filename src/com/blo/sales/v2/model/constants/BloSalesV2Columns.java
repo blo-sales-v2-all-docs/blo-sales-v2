@@ -102,4 +102,8 @@ public final class BloSalesV2Columns {
     
     public static final String REASON = "reason";
     
+    public static final String ID_COMPANY = "id_mobile_company";
+    
+    public static final String COMPANY = "company";
+    
 }

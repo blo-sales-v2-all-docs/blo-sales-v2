@@ -30,6 +30,8 @@ public enum KeysEnum {
     DLG_CASHBOX_LBL_TOTAL_AMOUNT("dlg-cashbox.lbl.total-amount"), DLG_CASHBOX_LBL_DESCRIPTION("dlg-cashbox.lbl.description"), DLG_CASHBOX_LBL_AMOUNT("dlg-cashbox.lbl.amount"), DLG_CASHBOX_LBL_TOTAL_ACTIVES("dlg-cashbox.lbl.total-actives"), DLG_CASHBOX_LBL_TOTAL_COSTS("dlg-cashbox.lbl.total-costs"), DLG_CASHBOX_LBL_NETO_TOTAL("dlg-cashbox.lbl.neto-total"),
     //sales report
     SALES_REPORT_LBL_INIT_DATE("sales-report.lbl.init-date"), SALES_REPORT_LBL_END_DATE("sales-report.lbl.end-date"), SALES_REPORT_BTN_FILTER_NOW("sales-report.btn.filter-now"), SALES_REPORT_BTN_DOWNLOAD_REPORT("sales-report.btn.download-report"),
+    // companies
+    MOBILE_COMPANIES_LBL_COMPANY_NAME("mobile-companies.lbl.company-name"),
     // commons
     COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now"), COMMON_BTN_CONTINUE("common.btn.continue"), COMMON_BTN_CLOSE("common.btn.close");
     

@@ -116,6 +116,21 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="itmTopUp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Recargas telef&#xf3;nicas"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="optMobileCompanies">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Compa&#xf1;&#xed;as"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optMobileCompaniesActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="itmProg">
           <Properties>
             <Property name="text" type="java.lang.String" value="Programacion"/>
@@ -193,7 +208,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="493" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="494" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

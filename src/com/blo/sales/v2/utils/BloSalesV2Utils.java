@@ -80,6 +80,8 @@ public final class BloSalesV2Utils {
     
     public static final String PRODUCT_IS_BY_KG = "No se puede agregar porque el producto es por kg";
     
+    public static final String ERROR_COMPANY_NOT_FOUND = "Compa\u00f1\u00eda no econtrada";
+    
     public static final long DEBTORS_PAYMENTS = 1;
     
     /** codigos de error */
@@ -122,6 +124,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_SALES_STOCK_EMPTY = "016";
     
     public static final String CODE_PATTERN_ERROR = "017";
+    
+    public static final String CODE_COMPANY_NOT_FOUND = "018";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     
