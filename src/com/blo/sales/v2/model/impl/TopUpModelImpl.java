@@ -9,7 +9,9 @@ import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.entities.MobileCompanyEntity;
 import com.blo.sales.v2.model.entities.TopUpEntity;
+import com.blo.sales.v2.model.entities.UserEntity;
 import com.blo.sales.v2.model.entities.WrapperTopUpsEntity;
+import com.blo.sales.v2.model.entities.enums.RolesEntityEnum;
 import com.blo.sales.v2.model.mapper.TopUpEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperTopUpsEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -132,14 +134,23 @@ public class TopUpModelImpl implements ITopUpModel {
             while(rs.next()) {
                 final var p = new TopUpEntity();
                 companyEntity = new MobileCompanyEntity();
-                companyEntity.setId_mobile_company(rs.getLong(BloSalesV2Columns.FK_MOBILE_COMPANY));
+                companyEntity.setId_mobile_company(rs.getLong(BloSalesV2Columns.ID_COMPANY));
+                companyEntity.setMobile_company(rs.getString(BloSalesV2Columns.COMPANY));
+                p.setFk_mobile_company(companyEntity);
                 
                 p.setAmount(rs.getBigDecimal(BloSalesV2Columns.AMOUNT));
                 p.setChecked(rs.getBoolean(BloSalesV2Columns.CHECKED));
-                p.setFk_mobile_company(companyEntity);
                 p.setId_top_up(rs.getLong(BloSalesV2Columns.ID_TOP_UP));
                 p.setPhone_number(rs.getString(BloSalesV2Columns.PHONE_NUMBER));
                 p.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
+                
+                // user
+                final var u = new UserEntity();
+                u.setId_user(rs.getLong(BloSalesV2Columns.ID_USER));
+                u.setRole(RolesEntityEnum.valueOf(rs.getString(BloSalesV2Columns.ROL)));
+                u.setUsername(rs.getString(BloSalesV2Columns.USER_NAME));
+                p.setFk_user(u);
+                
                 topUps.add(p);
             }
             logger.log(String.format("registros encontrados %s", String.valueOf(topUps.size())));

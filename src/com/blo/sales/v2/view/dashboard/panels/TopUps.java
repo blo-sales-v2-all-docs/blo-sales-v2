@@ -27,7 +27,7 @@ public final class TopUps extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(TopUps.class.getName());
     
-    private static final String[] titles = {"ID", "Número telefónico", "Monto", ""};
+    private static final String[] titles = {"ID", "Número telefónico", "Compañía", "Monto", "Usuario", "Timestamp"};
     
     private static final IMobileCompanyController mobileController = MobileCompanyControllerImpl.getInstance();
     
@@ -40,18 +40,17 @@ public final class TopUps extends AbstractDashboardBase {
     private static final WrapperPojoMobilesCompaniesMapper wrapperCompaniesMapper = WrapperPojoMobilesCompaniesMapper.getInstance();
     
     private static final PojoMobileCompanyMapper companyMapper = PojoMobileCompanyMapper.getInstance();
-    
-    private TopUpSearchStatusEnum searchFilter;
-    
+        
     private PojoLoggedInUser userData;
 
     public TopUps(PojoLoggedInUser userData) {
         this.userData = userData;
         initComponents();
+        GUICommons.loadTitleOnTable(tblResults, titles, false);
         loadTargets();
         retrieveCompanies();
         setTextToFilter();
-        this.searchFilter = TopUpSearchStatusEnum.ALL;
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -271,13 +270,14 @@ public final class TopUps extends AbstractDashboardBase {
                     findFirst().
                     orElse(TopUpSearchStatusEnum.ALL);
             final var topUpsFound = topUpsController.getTopUpsByStatus(TopUpSearchStatusIntEnum.valueOf(filterEnum.name()));
+            final var model = (DefaultTableModel) tblResults.getModel();
             if (topUpsFound.getTopUps() != null && !topUpsFound.getTopUps().isEmpty()) {
-                final var model = (DefaultTableModel) tblResults.getModel();
                 final var parsedTopUps = wrapperPojoTopUp.toOuter(topUpsFound);
                 for (final var top: parsedTopUps.getTopUps()) {
                     final Object[] row = {
                         top.getIdTopUp(),
                         top.getPhoneNumber(),
+                        top.getFkMobileCompany().getMobileCompany(),
                         top.getAmount(),
                         top.getFkUser().getUsername(),
                         top.getTimestamp()
@@ -285,6 +285,8 @@ public final class TopUps extends AbstractDashboardBase {
                     model.addRow(row);
                 }
                 tblResults.setModel(model);
+            } else {
+                model.setRowCount(0);
             }
         } catch (BloSalesV2Exception ex) {
             System.getLogger(TopUps.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
