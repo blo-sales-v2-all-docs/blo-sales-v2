@@ -306,6 +306,9 @@ public final class TopUps extends AbstractDashboardBase {
 
     private void btnCloseTopUpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseTopUpsActionPerformed
         try {
+            if (!CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.TOP_UPS_DLG_SURE_CLOSE_ALL.getKey()))) {
+                return;
+            }
             final var topUpsFound = topUpsController.getTopUpsByStatus(TopUpSearchStatusIntEnum.NO_CHECKED);
             if (topUpsFound.getTopUps() != null && !topUpsFound.getTopUps().isEmpty()) {
                 topUpsController.closeTopUps(topUpsFound);
