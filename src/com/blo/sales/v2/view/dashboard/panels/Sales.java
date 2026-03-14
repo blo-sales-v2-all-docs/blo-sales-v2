@@ -7,9 +7,11 @@ import com.blo.sales.v2.controller.impl.DebtorsControllerImpl;
 import com.blo.sales.v2.controller.impl.ProductsControllerImpl;
 import com.blo.sales.v2.controller.impl.SalesControllerImpl;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.utils.BloSalesV2UtilsEnum;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -32,7 +34,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
-public class Sales extends javax.swing.JPanel {
+public final class Sales extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Sales.class.getName());
     
@@ -59,9 +61,10 @@ public class Sales extends javax.swing.JPanel {
     private PojoLoggedInUser userData;
         
     public Sales(PojoLoggedInUser userData) {
+        initComponents();
+        loadTargets();
         this.userData = userData;
         totalSale = BigDecimal.ZERO;
-        initComponents();
         resetFields();
         disableButtons();
         try {
@@ -74,12 +77,62 @@ public class Sales extends javax.swing.JPanel {
                 final var indexSelected = tblProductsSales.getSelectedRow();
                 if (indexSelected != -1) {
                     final var filaModelo = tblProductsSales.convertRowIndexToModel(indexSelected);
-                    final var price = model.getValueAt(filaModelo, 4).toString();
-                    totalSale = totalSale.subtract(new BigDecimal(price));
-                    model.removeRow(indexSelected);
-                    GUICommons.setTextToField(lblTotal, "Total: $" + totalSale);
+                    var quantityOnSale = new BigDecimal(model.getValueAt(filaModelo, 2).toString());
+                    // resta una unidad al total
+                    quantityOnSale = quantityOnSale.subtract(BigDecimal.ONE);
+                    final var price = new BigDecimal(model.getValueAt(filaModelo, 3).toString());
+                    totalSale = totalSale.subtract(price);
+                    // si la cantidad es 0 se elimina la fila
+                    if (quantityOnSale.compareTo(BigDecimal.ZERO) == 0) {
+                        model.removeRow(indexSelected);
+                    } else {
+                        final var totalOnSale = quantityOnSale.multiply(price);
+                        model.setValueAt(quantityOnSale, filaModelo, 2);
+                        model.setValueAt(totalOnSale, filaModelo, 4);
+                    }
+                    GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
                     if (totalSale.compareTo(BigDecimal.ZERO) == 0) {
                         disableButtons();
+                    }
+                }
+            });
+            GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> {
+                final var model = (DefaultTableModel) tblProductsSales.getModel();
+                final var indexSelected = tblProductsSales.getSelectedRow();
+                if (indexSelected != -1) {
+                    final var filaModelo = tblProductsSales.convertRowIndexToModel(indexSelected);
+                    final var idProduct = Long.parseLong(model.getValueAt(filaModelo, 0).toString());
+                    final var productFound = products.stream().filter(p -> p.getIdProduct() == idProduct).findFirst().orElse(null);
+                    try {
+                        BloSalesV2Utils.validateRule(
+                                productFound == null,
+                                BloSalesV2Utils.CODE_PRODUCT_NOT_FOUND,
+                                BloSalesV2Utils.PRODUCT_NOT_FOUND
+                        );
+                        // se valida que no sea por kg
+                        if (productFound.isKg()) {
+                            CommonAlerts.showMessageDialog(BloSalesV2Utils.PRODUCT_IS_BY_KG);
+                            return;
+                        }
+                        // validar que existan productos suficientes
+                        var quantitySale = new BigDecimal(model.getValueAt(filaModelo, 2).toString());
+                        // se suma uno a la actual cantidad de producto
+                        quantitySale = quantitySale.add(BigDecimal.ONE);
+                        BloSalesV2Utils.validateRule(
+                                quantitySale.compareTo(productFound.getQuantity()) > 0,
+                                BloSalesV2Utils.CODE_PRODUCT_INSUFFICIENT,
+                                BloSalesV2Utils.PRODUCT_INSUFFICIENT
+                        );
+                        totalSale = totalSale.add(productFound.getPrice());
+                        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+                        // cantidad comprada col
+                        model.setValueAt(quantitySale, filaModelo, 2);
+                        //total
+                        final var totalProduct = productFound.getPrice().multiply(quantitySale);
+                        model.setValueAt(totalProduct, filaModelo, 4);
+                    } catch (BloSalesV2Exception ex) {
+                        logger.error(ex.getMessage());
+                        CommonAlerts.openError(ex.getMessage());
                     }
                 }
             });
@@ -98,6 +151,10 @@ public class Sales extends javax.swing.JPanel {
         pnlPay = new javax.swing.JPanel();
         btnComplete = new javax.swing.JButton();
         btnDebtors = new javax.swing.JButton();
+        pnlCalculator = new javax.swing.JPanel();
+        lblResult = new javax.swing.JLabel();
+        nmbCalcPay = new javax.swing.JTextField();
+        lblFastRest = new javax.swing.JLabel();
         pnlSearch = new javax.swing.JPanel();
         lblQuantity = new javax.swing.JLabel();
         nmbQuantity = new javax.swing.JTextField();
@@ -106,19 +163,55 @@ public class Sales extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProductsSales = new javax.swing.JTable();
 
-        btnComplete.setText("Completo");
+        btnComplete.setText("completo");
         btnComplete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompleteActionPerformed(evt);
             }
         });
 
-        btnDebtors.setText("Incompleto");
+        btnDebtors.setText("incompleto");
         btnDebtors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDebtorsActionPerformed(evt);
             }
         });
+
+        lblResult.setText("jLabel1");
+
+        nmbCalcPay.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nmbCalcPayKeyReleased(evt);
+            }
+        });
+
+        lblFastRest.setText("resta_rapida");
+
+        javax.swing.GroupLayout pnlCalculatorLayout = new javax.swing.GroupLayout(pnlCalculator);
+        pnlCalculator.setLayout(pnlCalculatorLayout);
+        pnlCalculatorLayout.setHorizontalGroup(
+            pnlCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCalculatorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFastRest, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addGroup(pnlCalculatorLayout.createSequentialGroup()
+                        .addComponent(nmbCalcPay, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblResult)))
+                .addContainerGap())
+        );
+        pnlCalculatorLayout.setVerticalGroup(
+            pnlCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCalculatorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblFastRest)
+                .addGap(18, 18, 18)
+                .addGroup(pnlCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(nmbCalcPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblResult))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout pnlPayLayout = new javax.swing.GroupLayout(pnlPay);
         pnlPay.setLayout(pnlPayLayout);
@@ -126,6 +219,8 @@ public class Sales extends javax.swing.JPanel {
             pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPayLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
                 .addComponent(btnComplete)
                 .addGap(18, 18, 18)
                 .addComponent(btnDebtors)
@@ -138,10 +233,14 @@ public class Sales extends javax.swing.JPanel {
                 .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnComplete)
                     .addComponent(btnDebtors))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPayLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        lblQuantity.setText("Cantidad");
+        lblQuantity.setText("cantidad");
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -149,7 +248,7 @@ public class Sales extends javax.swing.JPanel {
             }
         });
 
-        lblBarCode.setText("Código de barras / nombre (F3)");
+        lblBarCode.setText("codigo de barras");
 
         javax.swing.GroupLayout pnlSearchLayout = new javax.swing.GroupLayout(pnlSearch);
         pnlSearch.setLayout(pnlSearchLayout);
@@ -216,7 +315,7 @@ public class Sales extends javax.swing.JPanel {
                 .addGap(4, 4, 4)
                 .addComponent(pnlSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -247,7 +346,7 @@ public class Sales extends javax.swing.JPanel {
                /** abre un cuadro de dialogo */
                final var dialog = new SelectorDialog<>(
                     this,
-                    "Selecciona un busqueda manual de producto",
+                    getTranslateBy(KeysEnum.SALES_DLG_MANUAL_SEARCH.getKey()),
                     productsString,
                     item -> {
                         filterProduct(item, false);
@@ -263,7 +362,7 @@ public class Sales extends javax.swing.JPanel {
         try {
             salesController.registerSale(totalSale, getProductData(), this.userData.getIdUser());
             disableButtons();
-            GUICommons.setTextToField(lblTotal, "Total: 0");
+            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             totalSale = BigDecimal.ZERO;
             resetFields();
         } catch (BloSalesV2Exception ex) {
@@ -278,7 +377,7 @@ public class Sales extends javax.swing.JPanel {
             final var debtorsCoopy = wrapperDebtorsMapper.toOuter(debtorsController.getAllDebtors());
             final var debtorsDialog = new DebtorsDialog<>(
                 this,
-                "Deudores",
+                getTranslateBy(KeysEnum.SALES_DLG_DEBTORS.getKey()),
                 debtors.getDebtors(),
                 totalSale,
                 item -> {
@@ -324,6 +423,23 @@ public class Sales extends javax.swing.JPanel {
             CommonAlerts.openError(ex.getMessage());
         }
     }//GEN-LAST:event_btnDebtorsActionPerformed
+
+    private void nmbCalcPayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nmbCalcPayKeyReleased
+        try {
+            final var partialPay = GUICommons.getTextFromField(nmbCalcPay, false);
+            if (GUICommons.isEmptyFieldByKeyEvt(evt, partialPay.isBlank())) {
+                GUICommons.setTextToField(lblResult, String.valueOf(totalSale));
+            }
+            if (
+                    !partialPay.isBlank() &&
+                    BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.CURRENCY_REGEX, partialPay)
+                ) {
+                final var substract = totalSale.subtract(new BigDecimal(partialPay));
+                GUICommons.setTextToField(lblResult, String.valueOf(substract));
+            }
+        } catch(BloSalesV2Exception e) {
+        }
+    }//GEN-LAST:event_nmbCalcPayKeyReleased
     
     private void addItemToList() {
         try {
@@ -365,8 +481,8 @@ public class Sales extends javax.swing.JPanel {
             };
             model.addRow(productInfoData);
             GUICommons.setTextToField(txtSearch, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(lblTotal, "Total: $" + totalSale);
-            GUICommons.setTextToField(nmbQuantity, "1");
+            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+            GUICommons.setTextToField(nmbQuantity, BigDecimal.ONE);
             productFound = null;
             GUICommons.enabledButton(btnComplete);
             GUICommons.enabledButton(btnDebtors);
@@ -430,7 +546,7 @@ public class Sales extends javax.swing.JPanel {
             final var model = (DefaultTableModel) tblProductsSales.getModel();
             model.setRowCount(0);
             tblProductsSales.repaint();
-            GUICommons.setTextToField(lblTotal, "0");
+            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             retrieveProducts();
         } catch (BloSalesV2Exception ex) {
             Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
@@ -447,12 +563,27 @@ public class Sales extends javax.swing.JPanel {
     private javax.swing.JButton btnDebtors;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBarCode;
+    private javax.swing.JLabel lblFastRest;
     private javax.swing.JLabel lblQuantity;
+    private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JTextField nmbCalcPay;
     private javax.swing.JTextField nmbQuantity;
+    private javax.swing.JPanel pnlCalculator;
     private javax.swing.JPanel pnlPay;
     private javax.swing.JPanel pnlSearch;
     private javax.swing.JTable tblProductsSales;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblQuantity, getTranslateBy(KeysEnum.SALES_LBL_QUANTITY.getKey()));
+        GUICommons.setTextToField(lblBarCode, getTranslateBy(KeysEnum.SALES_LBL_BAR_CODE.getKey()));
+        GUICommons.setTextToButton(btnComplete, getTranslateBy(KeysEnum.SALES_BTN_COMPLETE.getKey()));
+        GUICommons.setTextToButton(btnDebtors, getTranslateBy(KeysEnum.SALES_BTN_NO_COMPLETE.getKey()));
+        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), BigDecimal.ZERO));
+        GUICommons.setTextToField(lblResult, BigDecimal.ZERO);
+        GUICommons.setTextToField(lblFastRest, getTranslateBy(KeysEnum.SALES_LBL_FAST_REST.getKey()));
+    }
 }

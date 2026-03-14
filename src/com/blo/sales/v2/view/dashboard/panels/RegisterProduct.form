@@ -19,21 +19,18 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="lblProductName" max="32767" attributes="0"/>
-                          <Component id="lblBarCode" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                      <Component id="txtBarCode" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblQuantity" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="lblProductName" max="32767" attributes="0"/>
+                      <Component id="lblBarCode" max="32767" attributes="0"/>
                   </Group>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="txtBarCode" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="txtProductName" alignment="1" min="-2" pref="624" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblQuantity" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="nmbQuantity" min="-2" pref="90" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="lblPrice" min="-2" max="-2" attributes="0"/>
@@ -46,21 +43,16 @@
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                               <Component id="lstMarks" min="-2" pref="143" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="txtProductName" min="-2" pref="622" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace pref="59" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace pref="46" max="32767" attributes="0"/>
-                              <Component id="btnSave" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="chkbxItsKg" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="chkbxItsKg" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSave" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -90,10 +82,10 @@
                       <Component id="lblSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="nmbSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lstMarks" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="btnSave" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="239" max="32767" attributes="0"/>
+              <EmptySpace pref="221" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -106,12 +98,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblBarCode">
       <Properties>
-        <Property name="text" type="java.lang.String" value="C&#xf3;digo de barras"/>
+        <Property name="text" type="java.lang.String" value="codigo de barras"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblProductName">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nombre"/>
+        <Property name="text" type="java.lang.String" value="nombre"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtProductName">
@@ -121,7 +113,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblQuantity">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cantidad en existencia"/>
+        <Property name="text" type="java.lang.String" value="cantidad en existencia"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nmbQuantity">
@@ -131,7 +123,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblPrice">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Precio"/>
+        <Property name="text" type="java.lang.String" value="precio"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nmbPrice">
@@ -141,7 +133,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblSaleCost">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Costo de venta"/>
+        <Property name="text" type="java.lang.String" value="costo de venta"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nmbSaleCost">
@@ -151,12 +143,12 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="chkbxItsKg">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#xbf;Por kg?"/>
+        <Property name="text" type="java.lang.String" value="por kg"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnSave">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar"/>
+        <Property name="text" type="java.lang.String" value="guardar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>

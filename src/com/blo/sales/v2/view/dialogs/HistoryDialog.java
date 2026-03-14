@@ -1,21 +1,25 @@
 package com.blo.sales.v2.view.dialogs;
 
+import com.blo.sales.v2.translate.KeysEnum;
+import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.pojos.WrapperPojoMovementsDetail;
 import java.awt.Component;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-public class HistoryDialog extends javax.swing.JDialog {
+public final class HistoryDialog extends AbstractDialogBase {
     
     private static final String[] titles = {"ID Movimiento", "Tipo de movimiento", "Razón de movimiento", "Producto", "Cantidad", "Timestamp", "Usuario"};
 
     private WrapperPojoMovementsDetail history;
+    
     public HistoryDialog(Component parent, String title, WrapperPojoMovementsDetail history) {
         super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
         this.history = history;
         initComponents();
         loadData();
+        loadTargets();
     }
     
     private void loadData() {
@@ -101,4 +105,9 @@ public class HistoryDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblData;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToButton(btnClose, getTranslateBy(KeysEnum.COMMON_BTN_CLOSE.getKey()));
+    }
 }

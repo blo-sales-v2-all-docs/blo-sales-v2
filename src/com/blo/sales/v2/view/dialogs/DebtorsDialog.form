@@ -149,7 +149,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblPartialPay">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Dej&#xf3;"/>
+                <Property name="text" type="java.lang.String" value="dejo"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtPartialPay">
@@ -159,7 +159,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnSaveRegister">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Guardar"/>
+                <Property name="text" type="java.lang.String" value="guardar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveRegisterActionPerformed"/>
@@ -169,7 +169,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnRegister">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Registrar"/>
+            <Property name="text" type="java.lang.String" value="registrar"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegisterActionPerformed"/>

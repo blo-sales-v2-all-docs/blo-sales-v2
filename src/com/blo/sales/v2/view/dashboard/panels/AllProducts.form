@@ -22,7 +22,8 @@
                   <Component id="jScrollPane1" pref="989" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="txtSearcher" min="-2" pref="257" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnDownloadStock" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="pnlManageProduct" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -34,7 +35,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtSearcher" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtSearcher" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnDownloadStock" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="303" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -126,7 +130,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="474" max="32767" attributes="0"/>
+                  <EmptySpace pref="467" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -196,7 +200,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSave">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar cambios"/>
+            <Property name="text" type="java.lang.String" value="guardar_cambios"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
@@ -204,7 +208,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnCancel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancelar"/>
+            <Property name="text" type="java.lang.String" value="cancelar"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
@@ -228,32 +232,32 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblProducto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Producto"/>
+            <Property name="text" type="java.lang.String" value="producto"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblQuantity">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cantidad en existencia"/>
+            <Property name="text" type="java.lang.String" value="cantidad_en_existencia"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblCostOfSale">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Costo de venta"/>
+            <Property name="text" type="java.lang.String" value="costo_de_venta"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblBarCode">
           <Properties>
-            <Property name="text" type="java.lang.String" value="C&#xf3;digo de barras"/>
+            <Property name="text" type="java.lang.String" value="codigo_de_barras"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblPrice">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Precio"/>
+            <Property name="text" type="java.lang.String" value="precio"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnGetEvolution">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Evolucion de costos"/>
+            <Property name="text" type="java.lang.String" value="evolucion_de_costos"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGetEvolutionActionPerformed"/>
@@ -261,7 +265,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnMovements">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Movimientos"/>
+            <Property name="text" type="java.lang.String" value="movimientos"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMovementsActionPerformed"/>
@@ -269,5 +273,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnDownloadStock">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="descargar_inventario_complet"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDownloadStockActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

@@ -3,9 +3,11 @@ package com.blo.sales.v2.model.mapper;
 import com.blo.sales.v2.controller.pojos.PojoIntLoggedInUser;
 import com.blo.sales.v2.controller.pojos.enums.RolesIntEnum;
 import com.blo.sales.v2.model.entities.UserEntity;
+import com.blo.sales.v2.model.entities.enums.RolesEntityEnum;
+import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
 
-public class UserLoggedEntityMapper implements IToOuter<UserEntity, PojoIntLoggedInUser> {
+public class UserLoggedEntityMapper implements IToOuter<UserEntity, PojoIntLoggedInUser>, IToInner<UserEntity, PojoIntLoggedInUser> {
     
     public static UserLoggedEntityMapper instance;
     
@@ -28,6 +30,18 @@ public class UserLoggedEntityMapper implements IToOuter<UserEntity, PojoIntLogge
         out.setRole(RolesIntEnum.valueOf(inner.getRole().name()));
         out.setUsername(inner.getUsername());
         return out;
+    }
+
+    @Override
+    public UserEntity toInner(PojoIntLoggedInUser outer) {
+        if (outer == null) {
+            return null;
+        }
+        final var inner = new UserEntity();
+        inner.setId_user(outer.getIdUser());
+        inner.setRole(RolesEntityEnum.valueOf(outer.getRole().name()));
+        inner.setUsername(outer.getUsername());
+        return inner;
     }
 
 }

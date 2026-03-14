@@ -3,7 +3,9 @@ package com.blo.sales.v2.view.dashboard.panels;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.impl.SalesControllerImpl;
 import com.blo.sales.v2.controller.pojos.enums.SalesStatusIntEnum;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
-public class SalesToday extends javax.swing.JPanel {
+public final class SalesToday extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesToday.class.getName());
     
@@ -29,7 +31,7 @@ public class SalesToday extends javax.swing.JPanel {
         initComponents();
         loadData();
         GUICommons.addDoubleClickOnTable(tblSummary, id -> {
-            final var deletedAccept = CommonAlerts.showConfirmDialog("Está por cancelar esta venta. \n ¿Continuar?");
+            final var deletedAccept = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.SALES_TD_DLG_CANCEL_SALE.getKey()));
             if (deletedAccept) {
                 final var rowSelected = tblSummary.getSelectedRow();
                 if (rowSelected != -1) {
@@ -37,7 +39,7 @@ public class SalesToday extends javax.swing.JPanel {
                         final var model = tblSummary.getModel();
                         final var idSale = Long.parseLong(model.getValueAt(rowSelected, 0).toString());
                         final var idProduct = Long.parseLong(model.getValueAt(rowSelected, 1).toString());
-                        final var message = CommonAlerts.showMessageDialog("Por favor escribe el motivo de la baja");
+                        final var message = CommonAlerts.showMessageDialog(getTranslateBy(KeysEnum.SALES_TD_DLG_REASON_CANCEL.getKey()));
                         salesController.deleteSaleProduct(userData.getIdUser(), idSale, idProduct, message);
                         loadData();
                     } catch (BloSalesV2Exception ex) {
@@ -52,7 +54,7 @@ public class SalesToday extends javax.swing.JPanel {
         try {
             final var salesToday = mapper.toOuter(salesController.retrieveSalesByStatus(SalesStatusIntEnum.CLOSE));
             final var total = getTotal(salesToday);
-            GUICommons.setTextToField(lblTotal, "Total: $" + total);
+            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), total));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage());
@@ -151,4 +153,9 @@ public class SalesToday extends javax.swing.JPanel {
     private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblSummary;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

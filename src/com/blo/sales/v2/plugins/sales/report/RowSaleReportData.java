@@ -19,6 +19,8 @@ public class RowSaleReportData {
     private BigDecimal profit;
     
     private String timestamp;
+    
+    private boolean byKg;
 
     public long getIdProduct() {
         return idProduct;
@@ -82,6 +84,14 @@ public class RowSaleReportData {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isByKg() {
+        return byKg;
+    }
+
+    public void setByKg(boolean byKg) {
+        this.byKg = byKg;
     }
 
     @Override

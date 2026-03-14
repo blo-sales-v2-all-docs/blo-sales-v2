@@ -108,4 +108,22 @@ public final class BloSalesV2Queries {
     public static final String RETRIEVE_STOCK_PRICE_HISTORY = "SELECT sph.id_stock_price_history, sph.timestamp, s.product, ph.price, ph.cost_of_sale FROM stock_prices_history sph INNER JOIN stock s ON sph.fk_product = s.id_product INNER JOIN prices_history ph ON ph.id_price_history = sph.fk_price_history WHERE s.id_product = ?";
     
     public static final String INSERT_SALE_DELETED_DETAIL = "INSERT INTO sale_deleted_detail(fk_sale_product, fk_user, reason, timestamp) VALUES (?, ?, ?, ?)";
+    
+    /** compañia telefonica */
+    public static final String INSERT_MOBILE_COMPANY = "INSERT INTO mobile_company(company) VALUES (?)";
+    
+    public static final String RETRIEVE_ALL_MOBILES_COMPANIES = "SELECT id_mobile_company, company FROM mobile_company";
+    
+    public static final String RETRIEVE_MOBILE_COMPANY_BY_ID = "SELECT id_mobile_company, company FROM mobile_company WHERE id_mobile_company = ?";
+    
+    public static final String UPDATE_MOBILE_COMPANY = "UPDATE mobile_company SET company = ? WHERE id_mobile_company = ?";
+    
+    /** recargas telefonicas */
+    public static final String INSERT_TOP_UP = "INSERT INTO top_up(fk_user, fk_mobile_company, amount, checked, phone_number, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+    
+    public static final String UPDATE_TP_UP = "UPDATE top_up SET fk_user = ?, fk_mobile_company = ?, amount = ?, checked = ?, phone_number = ?, timestamp = ? WHERE id_top_up = ?";
+    
+    public static final String SELECT_TOP_UPS_BY_STATUS = "SELECT id_top_up, fk_user, fk_mobile_company, amount, checked, phone_number, timestamp, username, id_user, rol, id_mobile_company, company FROM top_up INNER JOIN users ON top_up.fk_user = users.id_user INNER JOIN mobile_company ON mobile_company.id_mobile_company = top_up.fk_mobile_company WHERE top_up.checked = ?";
+    
+    public static final String SELECT_ALL_TOP_UP = "SELECT id_top_up, fk_user, fk_mobile_company, amount, checked, phone_number, timestamp, username, id_user, rol, id_mobile_company, company FROM top_up INNER JOIN users ON top_up.fk_user = users.id_user INNER JOIN mobile_company ON mobile_company.id_mobile_company = top_up.fk_mobile_company";
 }

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 /**
  * Minúsculas: á -> \u00e1 é -> \u00e9 í -> \u00ed ó -> \u00f3 ú -> \u00fa ñ ->
- * \u00f1 ü -> \u00fc
+ * \u00f1 ü -> \u00fc ñ -> \u00f1 Ñ -> \u00d1
  *
  * Mayúsculas: Á -> \u00c1 É -> \u00c9 Í -> \u00cd Ó -> \u00d3 Ú -> \u00da Ñ ->
  * \u00d1
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public final class BloSalesV2Utils {
     
-    public static final String VERSION = "v2.5.9-RELEASE";
+    public static final String VERSION = "v2.6.0-RELEASE";
     
     /** cadena vacia */
     public static final String EMPTY_STRING = "";
@@ -66,8 +66,6 @@ public final class BloSalesV2Utils {
     
     public static final String CATEGORY_PROTECTED = "Esta categor\u00eda est\u00e1 protegida";
     
-    public static final String NOTES_INSTRUCTIONS = "¡Importante! \nRecuerda que si tu nota se cargar\u00e1 como activo / pasivo \ndebes colocar la cantidad comenzando por $";
-    
     public static final String SQL_EXCEPTION_MESSAGE = "¡Ups! Algo sali\u00f3 mal. Por favor, inténtalo de nuevo más tarde.";
     
     public static final String REPORT_EXCEPTIONS = "¡Ups! Algo sali\u00f3 mal guardando archivo de reporte";
@@ -79,6 +77,12 @@ public final class BloSalesV2Utils {
     public static final String ERROR_PATTERN = "¡Ups! El valor ingresado no es v\u00e1lido.";
     
     public static final String ERROR_IN_DIGITS = "No se pueden emplear m\u00e1s de 3 digitos en decimales";
+    
+    public static final String PRODUCT_IS_BY_KG = "No se puede agregar porque el producto es por kg";
+    
+    public static final String ERROR_COMPANY_NOT_FOUND = "Compa\u00f1\u00eda no econtrada";
+    
+    public static final String ERROR_INVALID_PHONE_NUMBER = "N\u00famero telef\u00f3nico no v\u00e1lido";
     
     public static final long DEBTORS_PAYMENTS = 1;
     
@@ -122,6 +126,10 @@ public final class BloSalesV2Utils {
     public static final String CODE_SALES_STOCK_EMPTY = "016";
     
     public static final String CODE_PATTERN_ERROR = "017";
+    
+    public static final String CODE_COMPANY_NOT_FOUND = "018";
+    
+    public static final String CODE_INVALID_PHONE_NUMBER = "019";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

@@ -97,6 +97,17 @@ public class SalesControllerImpl implements ISalesController {
         final var saleSaved = saleModel.registerSale(sale);
         for (final var p: products) {
             final var productFound = filterProductById(productsFound, p.getIdProduct());
+            // registro de movimiento previo a resta
+            final var movementBef = new PojoIntMovement();
+            movementBef.setFk_product(p.getIdProduct());
+            movementBef.setFk_user(idUser);
+            movementBef.setQuantity(productFound.getQuantity());
+            movementBef.setReason(ReasonsEntityEnum.SALE);
+            movementBef.setTimestamp(timestamp);
+            movementBef.setType(TypesEntityEnum.NOT_MODIFIED);
+            historyController.registerMovement(movementBef);
+            logger.log(String.format("registro de movimiento previo a resta %s", movementBef));
+            
             // registro de movimiento
             final var movement = new PojoIntMovement();
             movement.setFk_product(p.getIdProduct());
@@ -254,6 +265,27 @@ public class SalesControllerImpl implements ISalesController {
                 BloSalesV2Utils.ERROR_PRODUCT_NOT_FOUND
         );
         final var timestamp = BloSalesV2Utils.getTimestamp();
+        // registro previo antes de movimientos
+        final var movementBef = new PojoIntMovement();
+        movementBef.setFk_product(productFound.getIdProduct());
+        movementBef.setFk_user(idUser);
+        movementBef.setQuantity(productFound.getQuantity());
+        movementBef.setReason(ReasonsEntityEnum.DEVOLUTION);
+        movementBef.setTimestamp(BloSalesV2Utils.getTimestamp());
+        movementBef.setType(TypesEntityEnum.NOT_MODIFIED);
+        historyController.registerMovement(movementBef);
+        logger.log(String.format("movimiento registrado %s", movementBef.toString()));
+        
+        // registrar los productos que llegan al stock
+        final var movement = new PojoIntMovement();
+        movement.setFk_product(productFound.getIdProduct());
+        movement.setFk_user(idUser);
+        movement.setQuantity(relationFound.getQuantityOnSale());
+        movement.setReason(ReasonsEntityEnum.DEVOLUTION);
+        movement.setTimestamp(BloSalesV2Utils.getTimestamp());
+        movement.setType(TypesEntityEnum.INPUT);
+        historyController.registerMovement(movement);
+        logger.log(String.format("movimiento registrado %s", movement.toString()));
         
         // agregar el producto al stock
         var productQuantityOnSale = relationFound.getQuantityOnSale();

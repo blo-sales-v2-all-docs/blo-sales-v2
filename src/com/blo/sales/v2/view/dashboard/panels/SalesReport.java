@@ -3,7 +3,9 @@ package com.blo.sales.v2.view.dashboard.panels;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.impl.SalesControllerImpl;
 import com.blo.sales.v2.plugins.sales.report.BloSalesV2SalesReportPlugin;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -12,14 +14,12 @@ import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
 import com.blo.sales.v2.view.pojos.WrapperPojoSalesAndStock;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-public class SalesReport extends javax.swing.JPanel {
+public final class SalesReport extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesReport.class.getName());
     
@@ -31,6 +31,7 @@ public class SalesReport extends javax.swing.JPanel {
 
     public SalesReport() {
         initComponents();
+        loadTargets();
         retrieveData();
     }
     
@@ -59,11 +60,11 @@ public class SalesReport extends javax.swing.JPanel {
         lblTotalBruto = new javax.swing.JLabel();
         btnDownloadReport = new javax.swing.JButton();
 
-        lblInit.setText("Fecha inicio");
+        lblInit.setText("fecha_inicio");
 
-        lblEnd.setText("Fecha fin");
+        lblEnd.setText("fecha_fin");
 
-        btnFilterNow.setText("Filtrar ahora");
+        btnFilterNow.setText("filtrar_ahora");
         btnFilterNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFilterNowActionPerformed(evt);
@@ -83,7 +84,7 @@ public class SalesReport extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblSales);
 
-        btnDownloadReport.setText("Descargar reporte");
+        btnDownloadReport.setText("descargar_reporte");
         btnDownloadReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDownloadReportActionPerformed(evt);
@@ -285,4 +286,12 @@ public class SalesReport extends javax.swing.JPanel {
     private javax.swing.JLabel lblTotalBruto;
     private javax.swing.JTable tblSales;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblInit, getTranslateBy(KeysEnum.SALES_REPORT_LBL_INIT_DATE.getKey()));
+        GUICommons.setTextToField(lblEnd, getTranslateBy(KeysEnum.SALES_REPORT_LBL_END_DATE.getKey()));
+        GUICommons.setTextToButton(btnFilterNow, getTranslateBy(KeysEnum.SALES_REPORT_BTN_FILTER_NOW.getKey()));
+        GUICommons.setTextToButton(btnDownloadReport, getTranslateBy(KeysEnum.SALES_REPORT_BTN_DOWNLOAD_REPORT.getKey()));
+    }
 }

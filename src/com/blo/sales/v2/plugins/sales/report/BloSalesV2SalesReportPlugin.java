@@ -1,24 +1,19 @@
 package com.blo.sales.v2.plugins.sales.report;
 
-import com.blo.sales.v2.plugins.writter.BloSalesV2WritterFile;
-import com.blo.sales.v2.plugins.writter.enums.ExtensionEnum;
+import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVPlugin;
+import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVCols;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
 import com.blo.sales.v2.view.pojos.WrapperPojoSalesAndStock;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public final class BloSalesV2SalesReportPlugin {
-    
-    private static final String REPORT_EXCEPTION_CODE = "P-R001";
     
     private static final int PAYMENTS = 1;
     
@@ -64,6 +59,7 @@ public final class BloSalesV2SalesReportPlugin {
                 r.setTotalOnSale(item.getTotalOnSale());
                 r.setPrice(item.getPrice());
                 r.setCostOfSale(item.getCostOfSale());
+                r.setByKg(item.isKg());
                 // precio total del producto en la venta
                 //final var productTotalPrice = item.getProductTotalOnSale();
                 //priceSum = productTotalPrice.add(priceSum);
@@ -85,39 +81,32 @@ public final class BloSalesV2SalesReportPlugin {
             rowData.setRows(rows);
             rowsData.add(rowData);
         }
-        
-        try {
-            BloSalesV2WritterFile.saveFile(createStringFromArray(rowsData), ExtensionEnum.TXT);
-        } catch (IOException ex) {
-            Logger.getLogger(BloSalesV2SalesReportPlugin.class.getName()).log(Level.SEVERE, null, ex);
-            throw new BloSalesV2Exception(REPORT_EXCEPTION_CODE, ex.getMessage());
-        }
+               
+        final String[] headers = {"ID Venta", "Producto", "¿Por kg?", "Cantidad en venta", "Precio", "Total", "Costo de venta", "Ganancia"};
+        BloSalesV2CSVPlugin.exportFile(headers, createStringFromArray(rowsData));
     }
     
-    private static String createStringFromArray(List<RowSaleData> lst) {
-        final var str = new StringBuilder();
-        var totalProfit = BigDecimal.ZERO;
+    private static BloSalesV2CSVCols createStringFromArray(List<RowSaleData> lst) {
+        final var rowsWrapper = new BloSalesV2CSVCols();
+        final var elements = new ArrayList<Object[]>();
         for (final var item: lst) {
-            str.append("Venta: " );
-            str.append(item.getIdSale());
-            str.append("\n");
-            str.append("--------------------------------------------------------------------------------------------------------------------------------------------");
-            str.append("\n");
+            final var idSale = item.getIdSale();
             for (final var prd: item.getRows()) {
-                str.append(prd.toString());
-                str.append("\n");
+                final Object[] col = {
+                    idSale,
+                    prd.getProduct(),
+                    prd.isByKg(),
+                    prd.getQuantityOnSale(),
+                    prd.getPrice(),
+                    prd.getTotalOnSale(),
+                    prd.getCostOfSale(),
+                    prd.getProfit()
+                };
+                elements.add(col);
             }
-            str.append("--------------------------------------------------------------------------------------------------------------------------------------------");
-            str.append("\n");
-            str.append("Total: ");
-            str.append(item.getProfitOnSale().setScale(2, RoundingMode.HALF_UP));
-            str.append("\n");
-            str.append("\n");
-            totalProfit = totalProfit.add(item.getProfitOnSale()).setScale(2, RoundingMode.HALF_UP);
         }
-        str.append("Ganancia: $");
-        str.append(totalProfit.setScale(2, RoundingMode.HALF_UP));
-        return str.toString();
+        rowsWrapper.setCols(elements);
+        return rowsWrapper;
     }
     
 }

@@ -2,8 +2,10 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.impl.DebtorsControllerImpl;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
-public class Debtors extends javax.swing.JPanel {
+public final class Debtors extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Debtors.class.getName());
     
@@ -33,6 +35,8 @@ public class Debtors extends javax.swing.JPanel {
     public Debtors(PojoLoggedInUser userData) {
         this.userData = userData;
         initComponents();
+        loadTargets();
+        disabledButtons();
         try {
             final var debtorsFromDB = retrieveDebtorsDetails();
             loadDataAndTitles(debtorsFromDB);
@@ -47,7 +51,7 @@ public class Debtors extends javax.swing.JPanel {
                     debtorSelected = debtorDetail.get(0);
                     areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
                     GUICommons.setTextToField(txtName, debtorSelected.getName());
-                    GUICommons.setTextToField(lblDebt, "debe: $" + debtorSelected.getDebt());
+                    GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
                     Arrays.stream(debtorSelected.getPayments().split(BloSalesV2Utils.SEPARATOR_PAYMENTS)).forEach(p -> {
                         areaPayments.append(p);
                         areaPayments.append("\n");
@@ -55,6 +59,7 @@ public class Debtors extends javax.swing.JPanel {
                     final var model = new DefaultListModel<String>();
                     debtorDetail.forEach(d -> model.addElement(d.getProduct() + " [" + BloSalesV2Utils.parserTimeStamp(d.getTimestamp()) + "]"));
                     lstProducts.setModel(model);
+                    enabledButtons();
                 }
             });
         } catch (BloSalesV2Exception ex) {
@@ -136,16 +141,16 @@ public class Debtors extends javax.swing.JPanel {
             }
         });
 
-        btnPayall.setText("Pagar todo");
+        btnPayall.setText("pagar todo");
         btnPayall.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPayallActionPerformed(evt);
             }
         });
 
-        lblAddPartialPay.setText("Abonar");
+        lblAddPartialPay.setText("abonar");
 
-        btnSave.setText("Guardar");
+        btnSave.setText("guardar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -245,16 +250,10 @@ public class Debtors extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            final var dbt = GUICommons.getTextFromField(lblDebt, true);
-            final var amount = new BigDecimal(dbt.substring(dbt.lastIndexOf("$") + 1));
-            var payment = GUICommons.getNumberFromJText(nmbPay, GUICommons.DIGITS_OF_CURRENCY);
-            if (payment.compareTo(amount) >= 0) {
-                // se realiza el pago completo
-                payment = debtorSelected.getDebt();
-            }
+            final var payment = GUICommons.getNumberFromJText(nmbPay, GUICommons.DIGITS_OF_CURRENCY);
             debtors.addPayment(payment, userData.getIdUser(), debtorSelected.getIdDebtor());
             loadDataAndTitles(retrieveDebtorsDetails());
-            debtorSelected = null;
+            disabledButtons();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage());
@@ -265,13 +264,13 @@ public class Debtors extends javax.swing.JPanel {
         try {
             final var partialPay = GUICommons.getTextFromField(nmbPay, false);
             if (GUICommons.isEmptyFieldByKeyEvt(evt, partialPay.isBlank())) {
-                GUICommons.setTextToField(lblDebt, "debe: $" + debtorSelected.getDebt());
+                GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
             }
             if (
                     !partialPay.isBlank() &&
                     BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.CURRENCY_REGEX, partialPay)
                 ) {
-                GUICommons.setTextToField(lblDebt, "debe: $" + (debtorSelected.getDebt().subtract(new BigDecimal(partialPay))));
+                GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), (debtorSelected.getDebt().subtract(new BigDecimal(partialPay)))));
             }
         } catch(BloSalesV2Exception e) {
         }
@@ -279,14 +278,10 @@ public class Debtors extends javax.swing.JPanel {
 
     private void btnPayallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayallActionPerformed
         try {
-            if (CommonAlerts.showConfirmDialog("¿Seguro que deseas pagar toda la cuenta?")) {
+            if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()))) {
                 debtors.addPayment(debtorSelected.getDebt(), userData.getIdUser(), debtorSelected.getIdDebtor());
                 loadDataAndTitles(retrieveDebtorsDetails());
-                debtorSelected = null;
-                GUICommons.setTextToField(txtName, BloSalesV2Utils.EMPTY_STRING);
-                GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
-                GUICommons.setTextToField(areaPayments, BloSalesV2Utils.EMPTY_STRING);
-                GUICommons.setTextToField(lstProducts);
+                disabledButtons();
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -294,6 +289,22 @@ public class Debtors extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnPayallActionPerformed
 
+    private void disabledButtons() {
+        debtorSelected = null;
+        GUICommons.disabledButton(btnSave);
+        GUICommons.disabledButton(btnPayall);
+        GUICommons.setTextToField(txtName, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(areaPayments, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(lstProducts);
+        GUICommons.setTextToField(lblDebt, BloSalesV2Utils.EMPTY_STRING);
+    }
+    
+    private void enabledButtons() {
+        GUICommons.enabledButton(btnSave);
+        GUICommons.enabledButton(btnPayall);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaPayments;
     private javax.swing.JButton btnPayall;
@@ -310,4 +321,11 @@ public class Debtors extends javax.swing.JPanel {
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtSearchDebtor;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblAddPartialPay, getTranslateBy(KeysEnum.DEBTORS_LBL_ADD_PAY.getKey()));
+        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
+        GUICommons.setTextToButton(btnPayall, getTranslateBy(KeysEnum.DEBTORS_BTN_PAY_ALL.getKey()));
+    }
 }

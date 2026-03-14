@@ -1,7 +1,9 @@
 package com.blo.sales.v2.view.dialogs;
 
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.pojos.PojoActiveCost;
 import com.blo.sales.v2.view.pojos.PojoCashbox;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
-public class CashboxDialog<T> extends javax.swing.JDialog {
+public final class CashboxDialog<T> extends AbstractDialogBase {
     
     private List<PojoActiveCost> lstCosts;
         
@@ -50,6 +52,7 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
     ) {
         super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
         initComponents();
+        loadTargets();
         this.callback = callback;
         this.actives = actives;
         this.pasives = pasives;
@@ -60,7 +63,8 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
         totalActives = BigDecimal.ZERO;
         totalPasives = BigDecimal.ZERO;
         totalActivesCosts = cashboxData.getAmount();
-        GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + cashboxData.getAmount());
+        //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + cashboxData.getAmount());
+        GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), cashboxData.getAmount()));
         setInfoFromNotes();
         // lista de activos
         GUICommons.addDoubleClickOnListEvt(lstActives, item -> {
@@ -73,13 +77,15 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
                     final var amount = new BigDecimal(props.get(2).split("=")[1].trim());
                     // resta en la cuenta de activos
                     totalActives = totalActives.subtract(amount);
-                    GUICommons.setTextToField(lblActivesTotal, "Total activos: " + totalActives);
+                    //GUICommons.setTextToField(lblActivesTotal, "Total activos: " + totalActives);
+                    GUICommons.setTextToField(lblActivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_ACTIVES.getKey()), totalActives));
                     // se elimina del arreglo y de la lista
                     lstCosts.removeIf(i -> i.toString().equals(item));
                     modelActives.remove(indexSelected);
                     // se resta al total de activos a neto
                     totalActivesCosts = totalActivesCosts.subtract(amount);
-                    GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+                    //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+                    GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
                 }
         });
         // lista de pasivos
@@ -93,13 +99,15 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
                     final var amount = new BigDecimal(props.get(2).split("=")[1].trim());
                     // resta en la cuenta de activos
                     totalPasives = totalPasives.subtract(amount);
-                    GUICommons.setTextToField(lblPasivesTotal, "Total costos: " + totalPasives);
+                    //GUICommons.setTextToField(lblPasivesTotal, "Total costos: " + totalPasives);
+                    GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), totalPasives));
                     // se elimina del arreglo y de la lista
                     lstCosts.removeIf(i -> i.toString().equals(item));
                     modelPasives.remove(indexSelected);
                     // se resta al total de activos a neto
                     totalActivesCosts = totalActivesCosts.add(amount);
-                    GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+                    //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+                    GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
                 }
         });
     }
@@ -129,13 +137,13 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
 
         cmbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Activo", "2 Gasto" }));
 
-        lblamountOnCashbox.setText("Monto total de ventas");
+        lblamountOnCashbox.setText("monto total de ventas");
 
-        lblAmount.setText("Monto");
+        lblAmount.setText("monto");
 
-        lblDescription.setText("Descripcion");
+        lblDescription.setText("descripcion");
 
-        btnContinue.setText("Continuar");
+        btnContinue.setText("continuar");
         btnContinue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnContinueActionPerformed(evt);
@@ -146,11 +154,11 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
 
         jScrollPane2.setViewportView(lstPasives);
 
-        lblActivesTotal.setText("Total activos");
+        lblActivesTotal.setText("total activos");
 
-        lblPasivesTotal.setText("Total Pasivos");
+        lblPasivesTotal.setText("total pasivos");
 
-        lblTotalToCashbox.setText("Total neto");
+        lblTotalToCashbox.setText("total neto");
 
         btnSave.setText("Guardar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -281,7 +289,8 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
             dataNewCashbox.setTotalPasives(totalPasives);
             dataNewCashbox.setTotalAmountInCashbox(totalActivesCosts);
             
-            GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+            //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+            GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
             GUICommons.setTextToField(txtCategoryName, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(nmbAmount, BloSalesV2Utils.EMPTY_STRING);
         } catch (BloSalesV2Exception ex) {
@@ -308,7 +317,8 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
         dataNewCashbox.setTotalActives(totalActives);
         dataNewCashbox.setTotalPasives(totalPasives);
         dataNewCashbox.setTotalAmountInCashbox(totalActivesCosts);
-        GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+        //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
+        GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
     }
     
     /**
@@ -320,7 +330,8 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
         modelActives.addElement(data.toString());
         lstActives.setModel(modelActives);
         totalActives = totalActives.add(amount);
-        GUICommons.setTextToField(lblActivesTotal, "Total activos: " + totalActives);
+        //GUICommons.setTextToField(lblActivesTotal, "Total activos: " + totalActives);
+        GUICommons.setTextToField(lblActivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_ACTIVES.getKey()), totalActives));
         totalActivesCosts = totalActivesCosts.add(amount);
     }
     
@@ -333,7 +344,8 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
         modelPasives.addElement(data.toString());
         lstPasives.setModel(modelPasives);
         totalPasives = totalPasives.add(amount);
-        GUICommons.setTextToField(lblPasivesTotal, "Total pasivos: " + totalPasives);
+//        GUICommons.setTextToField(lblPasivesTotal, "Total pasivos: " + totalPasives);
+        GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), totalPasives));
         totalActivesCosts = totalActivesCosts.subtract(amount);
     }
     
@@ -385,4 +397,16 @@ public class CashboxDialog<T> extends javax.swing.JDialog {
     private javax.swing.JTextField nmbAmount;
     private javax.swing.JTextField txtCategoryName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblamountOnCashbox, getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_AMOUNT.getKey()));
+        GUICommons.setTextToField(lblDescription, getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_DESCRIPTION.getKey()));
+        GUICommons.setTextToField(lblAmount, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_AMOUNT.getKey()), BigDecimal.ZERO));
+        GUICommons.setTextToButton(btnContinue, getTranslateBy(KeysEnum.COMMON_BTN_CONTINUE.getKey()));
+        GUICommons.setTextToField(lblActivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_ACTIVES.getKey()), BigDecimal.ZERO));
+        GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), BigDecimal.ZERO));
+        GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), BigDecimal.ZERO));
+        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
+    }
 }

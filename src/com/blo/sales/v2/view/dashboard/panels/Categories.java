@@ -2,8 +2,10 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.ICategoriesController;
 import com.blo.sales.v2.controller.impl.CategoriesControllerImpl;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -13,7 +15,7 @@ import com.blo.sales.v2.view.pojos.PojoCategory;
 import com.blo.sales.v2.view.pojos.WrapperPojoCategories;
 import javax.swing.DefaultListModel;
 
-public class Categories extends javax.swing.JPanel {
+public final class Categories extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Categories.class.getName());
     
@@ -28,6 +30,7 @@ public class Categories extends javax.swing.JPanel {
 
     public Categories() {
         initComponents();
+        loadTargets();
         loadCategories();
         content.setVisible(false);
         lblIdCategory.setVisible(false);
@@ -84,32 +87,32 @@ public class Categories extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(lstCategories);
 
-        lblCategoryName.setText("Categoria");
+        lblCategoryName.setText("categoria");
 
-        lblDescription.setText("Descripcion");
+        lblDescription.setText("descripcion");
 
-        btnSave.setText("Guardar");
+        btnSave.setText("guardar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
             }
         });
 
-        btnSaveChanges.setText("Guardar cambios");
+        btnSaveChanges.setText("guardar cambios");
         btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveChangesActionPerformed(evt);
             }
         });
 
-        btnCancel.setText("Cancelar");
+        btnCancel.setText("cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
 
-        lblEditCategory.setText("Editar una categoria");
+        lblEditCategory.setText("editar una categoria");
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
@@ -119,16 +122,19 @@ public class Categories extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addComponent(btnCancel)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSaveChanges))
-                    .addComponent(txtEditDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEditName, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEditDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEditName, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(contentLayout.createSequentialGroup()
+                                .addComponent(lblEditCategory)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblIdCategory)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addComponent(lblEditCategory)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblIdCategory)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnSaveChanges)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCancel)))
+                .addContainerGap())
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,7 +174,7 @@ public class Categories extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -275,4 +281,14 @@ public class Categories extends javax.swing.JPanel {
     private javax.swing.JTextField txtEditName;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblCategoryName, getTranslateBy(KeysEnum.CATEGORIES_LBL_CATEGORY.getKey()));
+        GUICommons.setTextToField(lblDescription, getTranslateBy(KeysEnum.CATEGORIES_LBL_DESCRIPTION.getKey()));
+        GUICommons.setTextToButton(btnSaveChanges, getTranslateBy(KeysEnum.COMMON_BTN_SAVE_CHANGES.getKey()));
+        GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
+        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
+        GUICommons.setTextToField(lblEditCategory, getTranslateBy(KeysEnum.CATEGORIES_LBL_EDIT_CATEGORY.getKey()));
+    }
 }

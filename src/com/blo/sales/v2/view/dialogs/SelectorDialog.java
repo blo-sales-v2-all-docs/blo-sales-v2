@@ -1,5 +1,7 @@
 package com.blo.sales.v2.view.dialogs;
 
+import com.blo.sales.v2.translate.KeysEnum;
+import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.GUICommons;
 import java.awt.Component;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.function.Consumer;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
-public class SelectorDialog<T> extends javax.swing.JDialog {
+public final class SelectorDialog<T> extends AbstractDialogBase {
     
     private List<T> items;
     
@@ -17,6 +19,7 @@ public class SelectorDialog<T> extends javax.swing.JDialog {
         super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
         this.items = items;
         initComponents();
+        loadTargets();
         modeloLista = new DefaultListModel<>();
         loadData();
         lstMain.setModel(modeloLista);
@@ -45,7 +48,7 @@ public class SelectorDialog<T> extends javax.swing.JDialog {
             }
         });
 
-        lblFilter.setText("Filtrar");
+        lblFilter.setText("filtrar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,4 +107,9 @@ public class SelectorDialog<T> extends javax.swing.JDialog {
     private javax.swing.JList<String> lstMain;
     private javax.swing.JTextField txtSearchTerm;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblFilter, getTranslateBy(KeysEnum.DLG_SELECTOR.getKey()));
+    }
 }

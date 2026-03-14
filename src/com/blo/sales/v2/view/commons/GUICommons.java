@@ -5,15 +5,19 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import static com.blo.sales.v2.utils.BloSalesV2Utils.validateRule;
 import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.function.Consumer;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -23,6 +27,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -101,18 +106,32 @@ public final class GUICommons {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                    final var fila = table.getSelectedRow();
+                    actionHandler(table, action);
+                    /*final var fila = table.getSelectedRow();
                     if (fila != -1) {
-                        // ¡Importante! Convertir el índice por si la tabla está filtrada
+                        // Convertir el índice por si la tabla está filtrada
                         final var filaModelo = table.convertRowIndexToModel(fila);
                         // Recuperar el ID (suponiendo que está en la columna 0)
                         T id = (T) table.getModel().getValueAt(filaModelo, 0);
                         action.accept(id);
-                    }
+                    }*/
                 }
             }
         });
 
+    }
+    
+    public static <T> void addKeyEventOnTable(JTable table, int keyCode, Consumer<T> action) {
+        table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+         .put(KeyStroke.getKeyStroke(keyCode, 0), action);
+        
+        table.getActionMap().put(action, new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Aquí la fila seleccionada SIGUE siendo la correcta
+            actionHandler(table, action);
+        }
+    });
     }
     
     /**
@@ -178,8 +197,8 @@ public final class GUICommons {
      * @param field
      * @param txt 
      */
-    public static void setTextToField(JLabel field, String txt) {
-        field.setText(txt);
+    public static void setTextToField(JLabel field, Object txt) {
+        field.setText(String.valueOf(txt));
     }
     
     /**
@@ -187,16 +206,20 @@ public final class GUICommons {
      * @param field
      * @param txt 
      */
-    public static void setTextToField(JTextField field, String txt) {
-        field.setText(txt);
+    public static void setTextToField(JTextField field, Object txt) {
+        field.setText(String.valueOf(txt));
     }
     
-    public static void setTextToField(JTextArea field, String txt) {
-        field.setText(txt);
+    public static void setTextToField(JTextArea field, Object txt) {
+        field.setText(String.valueOf(txt));
     }
     
     public static void setTextToField(JList field) {
         field.setListData(new String[0]);
+    }
+    
+    public static void setTextToCheckbox(JCheckBox field, String txt) {
+        field.setText(String.valueOf(txt));
     }
 
     /**
@@ -280,6 +303,10 @@ public final class GUICommons {
         btn.setEnabled(true);
     }
     
+    public static void setTextToButton(JButton btn, Object text) {
+        btn.setText(String.valueOf(text));
+    }
+    
     /**
      * Envía dimensiones a un contenedor
      * @param content 
@@ -356,6 +383,46 @@ public final class GUICommons {
             sorter.setRowFilter(RowFilter.regexFilter(regex + filter));
         } else {
             tbl.setRowSorter(null);
+        }
+    }
+    
+    public static void hiddenPanel(JPanel pnl) {
+        pnl.setVisible(false);
+    }
+    
+    public static void showPanel(JPanel pnl) {
+        pnl.setVisible(true);
+    }
+    
+    public static void hiddenElement(JButton btn) {
+        btn.setVisible(false);
+    }
+    
+    public static void showElement(JButton btn) {
+        btn.setVisible(true);
+    }
+    
+    public static void disabledElement(JComboBox<String> cmbx) {
+        cmbx.setEnabled(false);
+    }
+    
+    public static void enabledElement(JComboBox<String> cmbx) {
+        cmbx.setEnabled(true);
+    }
+    /**
+     * Gestor de eventos cuando se realiza la accion que se disparar por doble clic / key
+     * @param <T>
+     * @param table
+     * @param action 
+     */
+    private static <T> void actionHandler(JTable table, Consumer<T> action) {
+        final var fila = table.getSelectedRow();
+        if (fila != -1) {
+            // Convertir el índice por si la tabla está filtrada
+            final var filaModelo = table.convertRowIndexToModel(fila);
+            // Recuperar el ID (suponiendo que está en la columna 0)
+            T id = (T) table.getModel().getValueAt(filaModelo, 0);
+            action.accept(id);
         }
     }
 }

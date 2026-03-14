@@ -4,8 +4,10 @@ import com.blo.sales.v2.controller.ICategoriesController;
 import com.blo.sales.v2.controller.IProductsController;
 import com.blo.sales.v2.controller.impl.CategoriesControllerImpl;
 import com.blo.sales.v2.controller.impl.ProductsControllerImpl;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -17,7 +19,7 @@ import com.blo.sales.v2.view.utils.handler.ManagementProductStoreHandler;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
-public class RegisterProduct extends javax.swing.JPanel {
+public final class RegisterProduct extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(RegisterProduct.class.getName());
     
@@ -32,6 +34,7 @@ public class RegisterProduct extends javax.swing.JPanel {
     public RegisterProduct() {
         initComponents();
         loadDataForm();
+        loadTargets();
         try {
             loadCategories();
         } catch (BloSalesV2Exception ex) {
@@ -64,9 +67,9 @@ public class RegisterProduct extends javax.swing.JPanel {
             }
         });
 
-        lblBarCode.setText("Código de barras");
+        lblBarCode.setText("codigo de barras");
 
-        lblProductName.setText("Nombre");
+        lblProductName.setText("nombre");
 
         txtProductName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -74,7 +77,7 @@ public class RegisterProduct extends javax.swing.JPanel {
             }
         });
 
-        lblQuantity.setText("Cantidad en existencia");
+        lblQuantity.setText("cantidad en existencia");
 
         nmbQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -82,7 +85,7 @@ public class RegisterProduct extends javax.swing.JPanel {
             }
         });
 
-        lblPrice.setText("Precio");
+        lblPrice.setText("precio");
 
         nmbPrice.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -90,7 +93,7 @@ public class RegisterProduct extends javax.swing.JPanel {
             }
         });
 
-        lblSaleCost.setText("Costo de venta");
+        lblSaleCost.setText("costo de venta");
 
         nmbSaleCost.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -98,9 +101,9 @@ public class RegisterProduct extends javax.swing.JPanel {
             }
         });
 
-        chkbxItsKg.setText("¿Por kg?");
+        chkbxItsKg.setText("por kg");
 
-        btnSave.setText("Guardar");
+        btnSave.setText("guardar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -114,19 +117,16 @@ public class RegisterProduct extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblQuantity)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblProductName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblBarCode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtBarCode)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblProductName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblBarCode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(47, 47, 47)
-                        .addComponent(txtBarCode)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(lblQuantity)
-                                .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(nmbQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPrice)
@@ -137,16 +137,13 @@ public class RegisterProduct extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(nmbSaleCost, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
-                                .addComponent(lstMarks, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lstMarks, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                                .addComponent(btnSave)
-                                .addGap(15, 15, 15))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(chkbxItsKg)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                            .addComponent(chkbxItsKg, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSave, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,9 +167,9 @@ public class RegisterProduct extends javax.swing.JPanel {
                         .addComponent(nmbPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblSaleCost)
                         .addComponent(nmbSaleCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lstMarks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSave)))
-                .addContainerGap(239, Short.MAX_VALUE))
+                        .addComponent(lstMarks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSave))
+                .addContainerGap(221, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -281,4 +278,15 @@ public class RegisterProduct extends javax.swing.JPanel {
     private javax.swing.JTextField txtBarCode;
     private javax.swing.JTextField txtProductName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblBarCode, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_BAR_CODE.getKey()));
+        GUICommons.setTextToField(lblProductName, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_NAME.getKey()));
+        GUICommons.setTextToField(lblQuantity, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_QUANTITY.getKey()));
+        GUICommons.setTextToField(lblPrice, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_PRICE.getKey()));
+        GUICommons.setTextToField(lblSaleCost, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_COST_OF_SALE.getKey()));
+        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
+        GUICommons.setTextToCheckbox(chkbxItsKg, getTranslateBy(KeysEnum.REGISTER_PRODUCT_BY_KG.getKey()));
+    }
 }

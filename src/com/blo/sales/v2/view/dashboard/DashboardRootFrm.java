@@ -8,11 +8,13 @@ import com.blo.sales.v2.view.dashboard.panels.CashboxOpen;
 import com.blo.sales.v2.view.dashboard.panels.Categories;
 import com.blo.sales.v2.view.dashboard.panels.Console;
 import com.blo.sales.v2.view.dashboard.panels.Debtors;
+import com.blo.sales.v2.view.dashboard.panels.MobileCompanies;
 import com.blo.sales.v2.view.dashboard.panels.Notes;
 import com.blo.sales.v2.view.dashboard.panels.RegisterProduct;
 import com.blo.sales.v2.view.dashboard.panels.Sales;
 import com.blo.sales.v2.view.dashboard.panels.SalesReport;
 import com.blo.sales.v2.view.dashboard.panels.SalesToday;
+import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 
 public class DashboardRootFrm extends javax.swing.JFrame {
@@ -50,6 +52,10 @@ public class DashboardRootFrm extends javax.swing.JFrame {
         optSalesReport = new javax.swing.JMenuItem();
         optNotes = new javax.swing.JMenuItem();
         optDebtors = new javax.swing.JMenuItem();
+        itmTopUp = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        optTopUps = new javax.swing.JMenuItem();
+        optMobileCompanies = new javax.swing.JMenuItem();
         itmProg = new javax.swing.JMenu();
         optConsole = new javax.swing.JMenuItem();
 
@@ -63,7 +69,7 @@ public class DashboardRootFrm extends javax.swing.JFrame {
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 493, Short.MAX_VALUE)
+            .addGap(0, 494, Short.MAX_VALUE)
         );
 
         itmSales.setText("Ventas");
@@ -164,6 +170,30 @@ public class DashboardRootFrm extends javax.swing.JFrame {
 
         mnuBar.add(itmAdmon);
 
+        itmTopUp.setText("Pagos de servicios");
+
+        jMenu1.setText("Recargas");
+
+        optTopUps.setText("Panel");
+        optTopUps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optTopUpsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(optTopUps);
+
+        optMobileCompanies.setText("Compañías");
+        optMobileCompanies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optMobileCompaniesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(optMobileCompanies);
+
+        itmTopUp.add(jMenu1);
+
+        mnuBar.add(itmTopUp);
+
         itmProg.setText("Programacion");
 
         optConsole.setText("Consola");
@@ -248,6 +278,14 @@ public class DashboardRootFrm extends javax.swing.JFrame {
     private void optSalesReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optSalesReportActionPerformed
         GUICommons.showPanel(content, new SalesReport());
     }//GEN-LAST:event_optSalesReportActionPerformed
+
+    private void optMobileCompaniesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optMobileCompaniesActionPerformed
+        GUICommons.showPanel(content, new MobileCompanies());
+    }//GEN-LAST:event_optMobileCompaniesActionPerformed
+
+    private void optTopUpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optTopUpsActionPerformed
+        GUICommons.showPanel(content, new TopUps(userData));
+    }//GEN-LAST:event_optTopUpsActionPerformed
     
     private void openAllProducts() {
         GUICommons.showPanel(content, new AllProducts(userData));
@@ -260,6 +298,8 @@ public class DashboardRootFrm extends javax.swing.JFrame {
     private javax.swing.JMenu itmProg;
     private javax.swing.JMenu itmSales;
     private javax.swing.JMenu itmStock;
+    private javax.swing.JMenu itmTopUp;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lblVersion;
     private javax.swing.JMenuBar mnuBar;
@@ -268,11 +308,13 @@ public class DashboardRootFrm extends javax.swing.JFrame {
     private javax.swing.JMenuItem optCategory;
     private javax.swing.JMenuItem optConsole;
     private javax.swing.JMenuItem optDebtors;
+    private javax.swing.JMenuItem optMobileCompanies;
     private javax.swing.JMenuItem optNotes;
     private javax.swing.JMenuItem optOpoenCashbox;
     private javax.swing.JMenuItem optRegister;
     private javax.swing.JMenuItem optSalesReport;
     private javax.swing.JMenuItem optStock;
+    private javax.swing.JMenuItem optTopUps;
     private javax.swing.JMenuItem optViewSales;
     private javax.swing.JPopupMenu.Separator sprt01;
     // End of variables declaration//GEN-END:variables

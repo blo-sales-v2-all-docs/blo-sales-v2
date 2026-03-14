@@ -104,19 +104,19 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblInit">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Fecha inicio"/>
+            <Property name="text" type="java.lang.String" value="fecha_inicio"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblEnd">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Fecha fin"/>
+            <Property name="text" type="java.lang.String" value="fecha_fin"/>
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dtChooserEnd">
         </Component>
         <Component class="javax.swing.JButton" name="btnFilterNow">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Filtrar ahora"/>
+            <Property name="text" type="java.lang.String" value="filtrar_ahora"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFilterNowActionPerformed"/>
@@ -147,7 +147,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnDownloadReport">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Descargar reporte"/>
+            <Property name="text" type="java.lang.String" value="descargar_reporte"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDownloadReportActionPerformed"/>

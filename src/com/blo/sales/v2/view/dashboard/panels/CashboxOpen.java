@@ -4,7 +4,9 @@ import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.controller.impl.CashboxControllerImpl;
 import com.blo.sales.v2.controller.impl.UserControllerImpl;
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -22,7 +24,7 @@ import com.blo.sales.v2.view.pojos.enums.TypeNoteEnum;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
-public class CashboxOpen extends javax.swing.JPanel {
+public final class CashboxOpen extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxOpen.class.getName());
     
@@ -45,6 +47,7 @@ public class CashboxOpen extends javax.swing.JPanel {
     public CashboxOpen(PojoLoggedInUser userData) {
         this.userData = userData;
         initComponents();
+        loadTargets();
         try {
             loadDataAndCashbox();
             this.notes = mapperNotes.toOuter(userController.getNotesByUserId(userData.getIdUser()));
@@ -75,7 +78,7 @@ public class CashboxOpen extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblCashboxes);
 
-        btnCloseNow.setText("Cerrar ahora");
+        btnCloseNow.setText("cerrar ahora");
         btnCloseNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseNowActionPerformed(evt);
@@ -108,7 +111,7 @@ public class CashboxOpen extends javax.swing.JPanel {
 
     private WrapperPojoNotes filterLst(TypeNoteEnum type) {
         final var out = new WrapperPojoNotes();
-        final var lst = notes.getNotes().stream().filter(n -> n.getTypeNote() == type).collect(Collectors.toList());
+        final var lst = notes.getNotes().stream().filter(n -> n.getTypeNote() == type && n.getNote().contains("$")).collect(Collectors.toList());
         out.setNotes(lst);
         return out;
     }
@@ -117,7 +120,7 @@ public class CashboxOpen extends javax.swing.JPanel {
         if (openCashbox == null) {
             return;
         }
-        final var resp = CommonAlerts.showConfirmDialog("¿Importar desde notas rápidas?");
+        final var resp = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()));
         WrapperPojoNotes pasives = null;
         WrapperPojoNotes actives = null;
         if (resp) {
@@ -127,7 +130,7 @@ public class CashboxOpen extends javax.swing.JPanel {
         
         final var cashboxDialog = new CashboxDialog<>(
             this,
-            "Cerrando caja de dinero",
+            getTranslateBy(KeysEnum.CASHBOX_DLG_CLOSING_CASHBOX.getKey()),
             openCashbox,
             actives,
             pasives,
@@ -173,4 +176,9 @@ public class CashboxOpen extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblCashboxes;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToButton(btnCloseNow, getTranslateBy(KeysEnum.CASHBOX_BTN_CLOSE_NOW.getKey()));
+    }
 }
