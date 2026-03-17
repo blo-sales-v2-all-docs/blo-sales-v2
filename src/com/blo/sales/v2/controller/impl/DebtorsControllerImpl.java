@@ -20,7 +20,7 @@ public class DebtorsControllerImpl implements IDebtorsController {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsControllerImpl.class.getName());
     
-    private static final long ID_PRODUCT_PAY = 1;
+    private static final long ID_PRODUCT_PAY = 1; // actualizar
     
     private static final IDebtorsModel model = DebtorsModelImpl.getInstance();
     

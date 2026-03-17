@@ -27,6 +27,8 @@ public final class BloSalesV2Utils {
     
     public static final String SEPARATOR_PAYMENTS = ",";
     
+    public static final String TIMESTAMP = "TIMESTAMP";
+    
     public static final String INVALID_TEXT = "Texto no v\u00e1lido";
     
     /** constante para error en guardado */

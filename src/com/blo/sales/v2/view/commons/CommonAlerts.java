@@ -23,7 +23,7 @@ public final class CommonAlerts {
      * @return 
      */
     public static boolean showConfirmDialog(String msg) {
-        final var rsp = JOptionPane.showConfirmDialog(null, msg);
+        final var rsp = JOptionPane.showConfirmDialog(null, msg, "Cuidado", JOptionPane.CANCEL_OPTION);
         return rsp == JOptionPane.YES_OPTION;
     }
     
@@ -34,7 +34,7 @@ public final class CommonAlerts {
      * @throws BloSalesV2Exception 
      */
     public static String showMessageDialog(String msg) throws BloSalesV2Exception {
-        final var mess = JOptionPane.showInputDialog(null, msg);
+        final var mess = JOptionPane.showInputDialog(null, msg, "Por favor acompleta");
         BloSalesV2Utils.validateRule(mess.trim().isBlank(), BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.INVALID_TEXT);
         return mess.trim();
     }

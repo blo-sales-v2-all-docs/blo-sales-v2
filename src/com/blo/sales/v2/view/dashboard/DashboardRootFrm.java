@@ -22,7 +22,7 @@ import java.awt.BorderLayout;
 
 public class DashboardRootFrm extends AbstractFrameBase {
     
-    private PojoLoggedInUser userData;
+    private final PojoLoggedInUser userData;
     
     public DashboardRootFrm(PojoLoggedInUser userData) {
         this.userData = userData;
@@ -248,11 +248,12 @@ public class DashboardRootFrm extends AbstractFrameBase {
     }//GEN-LAST:event_optRegisterActionPerformed
 
     private void optCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optCategoryActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey());
         GUICommons.showPanel(content, new Categories());
     }//GEN-LAST:event_optCategoryActionPerformed
 
     private void optStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optStockActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_VIEW_SALES_TODAY.getKey());
+        loadTitle(KeysEnum.DASHBOARD_TITLES_VIEW_ALL_PRODUCTS.getKey());
         GUICommons.showPanel(content, new AllProducts(userData));
     }//GEN-LAST:event_optStockActionPerformed
 
@@ -262,14 +263,17 @@ public class DashboardRootFrm extends AbstractFrameBase {
     }//GEN-LAST:event_optAddSaleActionPerformed
 
     private void optConsoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optConsoleActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_CONSOLE.getKey());
         GUICommons.showPanel(content, new Console());
     }//GEN-LAST:event_optConsoleActionPerformed
 
     private void optDebtorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optDebtorsActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_DEBTORS.getKey());
         GUICommons.showPanel(content, new Debtors(userData));
     }//GEN-LAST:event_optDebtorsActionPerformed
 
     private void optOpoenCashboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optOpoenCashboxActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_OPEN_CASHBOX.getKey());
         GUICommons.showPanel(content, new CashboxOpen(userData));
     }//GEN-LAST:event_optOpoenCashboxActionPerformed
 
@@ -279,22 +283,27 @@ public class DashboardRootFrm extends AbstractFrameBase {
     }//GEN-LAST:event_optViewSalesActionPerformed
 
     private void optAllCashboxesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAllCashboxesActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_ALL_CASHBOXES.getKey());
         GUICommons.showPanel(content, new AllCashboxes());
     }//GEN-LAST:event_optAllCashboxesActionPerformed
 
     private void optNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optNotesActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_FAST_NOTES.getKey());
         GUICommons.showPanel(content, new Notes(userData));
     }//GEN-LAST:event_optNotesActionPerformed
 
     private void optSalesReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optSalesReportActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_ALL_SALES.getKey());
         GUICommons.showPanel(content, new SalesReport());
     }//GEN-LAST:event_optSalesReportActionPerformed
 
     private void optMobileCompaniesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optMobileCompaniesActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_MOBILE_COMPANIES.getKey());
         GUICommons.showPanel(content, new MobileCompanies());
     }//GEN-LAST:event_optMobileCompaniesActionPerformed
 
     private void optTopUpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optTopUpsActionPerformed
+        loadTitle(KeysEnum.DASHBOARD_TITLES_TOP_UPS.getKey());
         GUICommons.showPanel(content, new TopUps(userData));
     }//GEN-LAST:event_optTopUpsActionPerformed
         
@@ -328,6 +337,6 @@ public class DashboardRootFrm extends AbstractFrameBase {
 
     @Override
     public void loadTargets() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -37,7 +37,7 @@ public enum KeysEnum {
     // Recargas telefonicas
     TOP_UP_LBL_COMPANY_PHONE("top-ups.lbl.company-phone"), TOP_UP_LBL_PHONE_NUMBER("top-ups.lbl.phone-number"), TOP_UPS_LBL_AMOUNT("top-ups.lbl.amount"), TOP_UPS_BTN_APPLY_FILTER("top-ups.btn.apply-filter"), TOP_UPS_BTN_CLOSE_NOW("top-ups.btn.close-now"), TOP_UPS_DLG_SURE_CLOSE_ALL("top-ups.dlg.sure-close-all"),
     // dashboard
-    DASHBOARD_TITLES_REGISTER_SALE("dashboard.titles.register-sale"), DASHBOARD_TITLES_LOGIN("dashboard.titles.login"), DASHBOARD_TITLES_VIEW_SALES_TODAY("dashboard.titles.view-sales-today"), DASHBOARD_TITLES_REGISTER_PRODUCT("dashboard.titles.register-product");
+    DASHBOARD_TITLES_REGISTER_SALE("dashboard.titles.register-sale"), DASHBOARD_TITLES_LOGIN("dashboard.titles.login"), DASHBOARD_TITLES_VIEW_SALES_TODAY("dashboard.titles.view-sales-today"), DASHBOARD_TITLES_REGISTER_PRODUCT("dashboard.titles.register-product"), DASHBOARD_TITLES_CATEGORIES("dashboard.titles.categories"), DASHBOARD_TITLES_CONSOLE("dashboard.titles.console"), DASHBOARD_TITLES_DEBTORS("dashboard.titles.debtors"), DASHBOARD_TITLES_VIEW_ALL_PRODUCTS("dashboard.titles.view-all-products"), DASHBOARD_TITLES_FAST_NOTES("dashboard.titles.fast-notes"), DASHBOARD_TITLES_ALL_SALES("dashboard.titles.all-sales"), DASHBOARD_TITLES_ALL_CASHBOXES("dashboard.titles.all-cashboxes"), DASHBOARD_TITLES_OPEN_CASHBOX("dashboard.titles.open-cashbox"), DASHBOARD_TITLES_TOP_UPS("dashboard.titles.top-ups"), DASHBOARD_TITLES_MOBILE_COMPANIES("dashboard.titles.mobile-companies");
     
     private final String key;
 
