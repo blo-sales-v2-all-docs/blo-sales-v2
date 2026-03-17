@@ -79,16 +79,21 @@ public final class Sales extends AbstractDashboardBase {
                     final var filaModelo = tblProductsSales.convertRowIndexToModel(indexSelected);
                     var quantityOnSale = new BigDecimal(model.getValueAt(filaModelo, 2).toString());
                     // resta una unidad al total
-                    quantityOnSale = quantityOnSale.subtract(BigDecimal.ONE);
+                    final var productFound = products.stream().filter(p -> p.getIdProduct() == Long.parseLong(String.valueOf(id))).findFirst().orElse(null);
                     final var price = new BigDecimal(model.getValueAt(filaModelo, 3).toString());
                     totalSale = totalSale.subtract(price);
-                    // si la cantidad es 0 se elimina la fila
-                    if (quantityOnSale.compareTo(BigDecimal.ZERO) == 0) {
-                        model.removeRow(indexSelected);
+                    if (!productFound.isKg()) {
+                        quantityOnSale = quantityOnSale.subtract(BigDecimal.ONE);
+                        // si la cantidad es 0 se elimina la fila
+                        if (quantityOnSale.compareTo(BigDecimal.ZERO) == 0) {
+                            model.removeRow(indexSelected);
+                        } else {
+                            final var totalOnSale = quantityOnSale.multiply(price);
+                            model.setValueAt(quantityOnSale, filaModelo, 2);
+                            model.setValueAt(totalOnSale, filaModelo, 4);
+                        }
                     } else {
-                        final var totalOnSale = quantityOnSale.multiply(price);
-                        model.setValueAt(quantityOnSale, filaModelo, 2);
-                        model.setValueAt(totalOnSale, filaModelo, 4);
+                        model.removeRow(indexSelected);
                     }
                     GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
                     if (totalSale.compareTo(BigDecimal.ZERO) == 0) {
@@ -221,22 +226,21 @@ public final class Sales extends AbstractDashboardBase {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
-                .addComponent(btnComplete)
-                .addGap(18, 18, 18)
                 .addComponent(btnDebtors)
+                .addGap(18, 18, 18)
+                .addComponent(btnComplete)
                 .addContainerGap())
         );
         pnlPayLayout.setVerticalGroup(
             pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPayLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnComplete)
-                    .addComponent(btnDebtors))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPayLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnComplete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPayLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDebtors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -292,6 +296,7 @@ public final class Sales extends AbstractDashboardBase {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblProductsSales.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane2.setViewportView(tblProductsSales);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -547,6 +552,7 @@ public final class Sales extends AbstractDashboardBase {
             model.setRowCount(0);
             tblProductsSales.repaint();
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
+            GUICommons.setTextToField(lblResult, totalSale);
             retrieveProducts();
         } catch (BloSalesV2Exception ex) {
             Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);

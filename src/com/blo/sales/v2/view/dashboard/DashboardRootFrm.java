@@ -16,6 +16,7 @@ import com.blo.sales.v2.view.dashboard.panels.SalesReport;
 import com.blo.sales.v2.view.dashboard.panels.SalesToday;
 import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
+import java.awt.BorderLayout;
 
 public class DashboardRootFrm extends javax.swing.JFrame {
     
@@ -24,9 +25,11 @@ public class DashboardRootFrm extends javax.swing.JFrame {
     public DashboardRootFrm(PojoLoggedInUser userData) {
         this.userData = userData;
         initComponents();
-        GUICommons.allWindow(this);
+        content.setLayout(new BorderLayout());
         GUICommons.showPanel(content, new Sales(userData));
+        GUICommons.allWindow(this);
         GUICommons.setTextToField(lblVersion, BloSalesV2Utils.VERSION);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -71,6 +74,8 @@ public class DashboardRootFrm extends javax.swing.JFrame {
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 494, Short.MAX_VALUE)
         );
+
+        lblVersion.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
 
         itmSales.setText("Ventas");
 
