@@ -20,7 +20,9 @@ public class DebtorsControllerImpl implements IDebtorsController {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsControllerImpl.class.getName());
     
-    private static final long ID_PRODUCT_PAY = 1;
+    //private static final long ID_PRODUCT_PAY = 1; // actualizar
+    
+    private static final String RELEASE = "RELEASE";
     
     private static final IDebtorsModel model = DebtorsModelImpl.getInstance();
     
@@ -69,9 +71,9 @@ public class DebtorsControllerImpl implements IDebtorsController {
         
         BloSalesV2Utils.validateRule(debtorFound == null, BloSalesV2Utils.CODE_DEBTOR_NOT_FOUND, BloSalesV2Utils.DEBTOR_NOT_FOUND);
         
-        logger.log("deudor encontrado " + debtorFound.toString());
+        logger.log(String.format("deudor encontrado %s", debtorFound.toString()));
         // se registra como venta
-        final var productPay = productsController.getProductById(ID_PRODUCT_PAY);
+        final var productPay = productsController.getProductById(getIdPaymentProduct());
         final var productsLst = new ArrayList<PojoIntSaleProductData>();
         final var item = new PojoIntSaleProductData();
         item.setIdProduct(productPay.getIdProduct());
@@ -84,7 +86,7 @@ public class DebtorsControllerImpl implements IDebtorsController {
         if (pay.compareTo(debtorFound.getDebt()) < 0) {
             logger.log("pago es menor que la deuda");
             final var amount = debtorFound.getDebt().subtract(pay);
-            logger.log("nuevo monto " + amount);
+            logger.log(String.format("nuevo monto ", amount));
             final var payments = BloSalesV2Utils.getPartialPayment(pay);
             debtorFound.setPayments(debtorFound.getPayments() + payments);
             debtorFound.setDebt(amount);
@@ -109,4 +111,10 @@ public class DebtorsControllerImpl implements IDebtorsController {
         model.deleteDebtor(idDebtor);
     }
 
+     private long getIdPaymentProduct() {
+        if (BloSalesV2Utils.VERSION.lastIndexOf(RELEASE) == 7) {
+            return 1L;
+        }
+        return 1000L;
+    }
 }

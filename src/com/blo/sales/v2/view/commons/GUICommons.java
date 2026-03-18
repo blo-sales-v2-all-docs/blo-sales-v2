@@ -5,8 +5,9 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import static com.blo.sales.v2.utils.BloSalesV2Utils.validateRule;
 import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,7 +22,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
@@ -54,18 +54,29 @@ public final class GUICommons {
     private static final int WIDTH = 700;
     
     private static final int HEIGHT = 500;
+    
+    private static final Color PROFESSIONAL_BLUE = new Color(52, 152, 219);
+    
+    private static final Color CONTRAST_ORANGE = new Color(230, 126, 34);
+    
+    private static final Font FONT_SEGOE_UI_BOLD_14 = new Font("Segoe UI", Font.BOLD, 14);
 
     private GUICommons() {
     }
-
+    
+    public static void showPanel(AbstractFrameBase parent, JPanel container, AbstractDashboardBase content) {
+        parent.setTitle(parent.getTranslateBy(content.getTitle()));
+        openPanel(container, content);
+    }
+    
     /**
      * abre un nuevo panel, limpia el contenedor para librerar memoria
      *
      * @param content - contenedor donde se dibujara el siguiente panel
      * @param p - contenido
      */
-    public static void showPanel(JPanel content, JPanel p) {
-        p.setSize(1000, 600); // Ajusta al tamaño de tu contenedor
+    private static void openPanel(JPanel content, JPanel p) {
+        p.setSize(1300, 600); // Ajusta al tamaño de tu contenedor
         p.setLocation(0, 0);
         content.removeAll(); // Limpia el panel principal
         content.add(p, BorderLayout.CENTER); // Agrega el nuevo formulario
@@ -409,6 +420,21 @@ public final class GUICommons {
     public static void enabledElement(JComboBox<String> cmbx) {
         cmbx.setEnabled(true);
     }
+    
+    public static void convertMainButton(JButton button) {
+        button.setBackground(PROFESSIONAL_BLUE); // Azul profesional
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(FONT_SEGOE_UI_BOLD_14);
+    }
+    
+    public static void convertSecondaryButton(JButton button) {
+        button.setBackground(CONTRAST_ORANGE); // Azul profesional
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(FONT_SEGOE_UI_BOLD_14);
+    }
+    
     /**
      * Gestor de eventos cuando se realiza la accion que se disparar por doble clic / key
      * @param <T>

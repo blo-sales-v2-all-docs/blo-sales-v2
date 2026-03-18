@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public final class BloSalesV2Utils {
     
-    public static final String VERSION = "v2.6.1-RELEASE";
+    public static final String VERSION = "v2.6.2-RELEASE";
     
     /** cadena vacia */
     public static final String EMPTY_STRING = "";
@@ -26,6 +26,8 @@ public final class BloSalesV2Utils {
     public static final String CURRENCY_REGEX = "^\\d*(\\.\\d{1,2})?$";
     
     public static final String SEPARATOR_PAYMENTS = ",";
+    
+    public static final String TIMESTAMP = "TIMESTAMP";
     
     public static final String INVALID_TEXT = "Texto no v\u00e1lido";
     

@@ -33,7 +33,7 @@ public final class HistoryDialog extends AbstractDialogBase {
                     c.getReason().name(),
                     c.getProduct(),
                     c.getQuantity(),
-                    c.getTimestamp(),
+                    parserTimestamp(c.getTimestamp()),
                     c.getUsername()
                 };
                 model.addRow(row);

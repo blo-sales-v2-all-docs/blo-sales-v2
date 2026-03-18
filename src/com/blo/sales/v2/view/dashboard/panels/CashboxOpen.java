@@ -44,16 +44,17 @@ public final class CashboxOpen extends AbstractDashboardBase {
     
     private WrapperPojoNotes notes;
     
-    public CashboxOpen(PojoLoggedInUser userData) {
-        this.userData = userData;
-        initComponents();
-        loadTargets();
+    public CashboxOpen(PojoLoggedInUser userData, String key) {
+        super(key);
         try {
+            this.userData = userData;
+            initComponents();
+            loadTargets();
             loadDataAndCashbox();
             this.notes = mapperNotes.toOuter(userController.getNotesByUserId(userData.getIdUser()));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
         
@@ -78,7 +79,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
         ));
         jScrollPane1.setViewportView(tblCashboxes);
 
-        btnCloseNow.setText("cerrar ahora");
+        btnCloseNow.setText("cerrar_ahora");
         btnCloseNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseNowActionPerformed(evt);
@@ -92,7 +93,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1288, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnCloseNow)))
@@ -104,8 +105,8 @@ public final class CashboxOpen extends AbstractDashboardBase {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnCloseNow)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnCloseNow, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(400, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -120,7 +121,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
         if (openCashbox == null) {
             return;
         }
-        final var resp = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()));
+        final var resp = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()));
         WrapperPojoNotes pasives = null;
         WrapperPojoNotes actives = null;
         if (resp) {
@@ -145,7 +146,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
                     }
                 } catch (BloSalesV2Exception ex) {
                     logger.error(ex.getMessage());
-                    CommonAlerts.openError(ex.getMessage());
+                    CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                 }
             }
         );
@@ -165,7 +166,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
                 cashbox.getIdCashbox(),
                 cashbox.getAmount(),
                 cashbox.getUserFrom(),
-                cashbox.getTimestamp()
+                parserTimestamp(cashbox.getTimestamp())
             };
             model.addRow(row);
         }

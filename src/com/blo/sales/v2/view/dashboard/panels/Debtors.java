@@ -32,39 +32,19 @@ public final class Debtors extends AbstractDashboardBase {
     /** deudor seleccionado para hacer operaciones */
     private PojoDebtorDetail debtorSelected;
     
-    public Debtors(PojoLoggedInUser userData) {
-        this.userData = userData;
-        initComponents();
-        loadTargets();
-        disabledButtons();
+    public Debtors(PojoLoggedInUser userData, String key) {
+        super(key);
         try {
-            final var debtorsFromDB = retrieveDebtorsDetails();
-            loadDataAndTitles(debtorsFromDB);
+            this.userData = userData;
+            initComponents();
+            loadTargets();
+            disabledButtons();
+            loadDataAndTitles();
             //initFilter();
-            GUICommons.addDoubleClickOnTable(tblDebtors, item -> {
-                final var debtorDetail = 
-                        debtorsFromDB.getDebtors().stream().
-                            filter(d -> d.getIdDebtor() == Long.parseLong(item + ""))
-                            .collect(Collectors.toList());
-                GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
-                if (debtorDetail != null && !debtorDetail.isEmpty()) {
-                    debtorSelected = debtorDetail.get(0);
-                    areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
-                    GUICommons.setTextToField(txtName, debtorSelected.getName());
-                    GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
-                    Arrays.stream(debtorSelected.getPayments().split(BloSalesV2Utils.SEPARATOR_PAYMENTS)).forEach(p -> {
-                        areaPayments.append(p);
-                        areaPayments.append("\n");
-                    });
-                    final var model = new DefaultListModel<String>();
-                    debtorDetail.forEach(d -> model.addElement(d.getProduct() + " [" + BloSalesV2Utils.parserTimeStamp(d.getTimestamp()) + "]"));
-                    lstProducts.setModel(model);
-                    enabledButtons();
-                }
-            });
+            GUICommons.addDoubleClickOnTable(tblDebtors, item -> selectADebtor((long) item));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     
@@ -72,12 +52,13 @@ public final class Debtors extends AbstractDashboardBase {
         return debtorsDetailsMapper.toOuter(debtors.getDebtorsDetails());
     }
     
-    private void loadDataAndTitles(WrapperPojoDebtorsDetails debtors) throws BloSalesV2Exception {
+    private void loadDataAndTitles() throws BloSalesV2Exception {
         final String[] titles = {"ID", "Nombre", "Debe", "Timestamp"};
         GUICommons.loadTitleOnTable(tblDebtors, titles, false);
+        final var allDebtors = retrieveDebtorsDetails();
         final var model = (DefaultTableModel) tblDebtors.getModel();
-        if (debtors.getDebtors() != null && !debtors.getDebtors().isEmpty()) {
-            final var debtorsFilter = debtors.getDebtors().stream().collect(Collectors.toMap(
+        if (allDebtors.getDebtors() != null && !allDebtors.getDebtors().isEmpty()) {
+            final var debtorsFilter = allDebtors.getDebtors().stream().collect(Collectors.toMap(
                     PojoDebtorDetail::getName, // Clave para identificar duplicados
                     obj -> obj,// El objeto en sí
                     (existente, reemplazo) -> existente // Si hay duplicado, se queda con el primero
@@ -90,7 +71,7 @@ public final class Debtors extends AbstractDashboardBase {
                     d.getIdDebtor(),
                     d.getName(),
                     d.getDebt(),
-                    d.getTimestamp()
+                    parserTimestamp(d.getTimestamp())
                 };
                 model.addRow(row);
             }
@@ -165,38 +146,33 @@ public final class Debtors extends AbstractDashboardBase {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblAddPartialPay)
-                        .addGap(307, 307, 307))
+                        .addComponent(btnSave)
+                        .addGap(192, 192, 192)
+                        .addComponent(btnPayall))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnPayall))
-                            .addComponent(nmbPay, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nmbPay, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAddPartialPay))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDebt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(lblDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(lblAddPartialPay)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(nmbPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPayall)
-                    .addComponent(btnSave))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPayall, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         areaPayments.setEditable(false);
@@ -217,13 +193,13 @@ public final class Debtors extends AbstractDashboardBase {
                         .addComponent(txtSearchDebtor, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 870, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(59, 59, 59))))
+                            .addComponent(jScrollPane3)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(11, 11, 11))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,15 +207,15 @@ public final class Debtors extends AbstractDashboardBase {
                 .addContainerGap()
                 .addComponent(txtSearchDebtor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -252,11 +228,11 @@ public final class Debtors extends AbstractDashboardBase {
         try {
             final var payment = GUICommons.getNumberFromJText(nmbPay, GUICommons.DIGITS_OF_CURRENCY);
             debtors.addPayment(payment, userData.getIdUser(), debtorSelected.getIdDebtor());
-            loadDataAndTitles(retrieveDebtorsDetails());
+            loadDataAndTitles();
             disabledButtons();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -272,20 +248,19 @@ public final class Debtors extends AbstractDashboardBase {
                 ) {
                 GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), (debtorSelected.getDebt().subtract(new BigDecimal(partialPay)))));
             }
-        } catch(BloSalesV2Exception e) {
-        }
+        } catch(BloSalesV2Exception e) { }
     }//GEN-LAST:event_nmbPayKeyReleased
 
     private void btnPayallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayallActionPerformed
         try {
-            if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()))) {
+            if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
                 debtors.addPayment(debtorSelected.getDebt(), userData.getIdUser(), debtorSelected.getIdDebtor());
-                loadDataAndTitles(retrieveDebtorsDetails());
+                loadDataAndTitles();
                 disabledButtons();
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnPayallActionPerformed
 
@@ -303,6 +278,34 @@ public final class Debtors extends AbstractDashboardBase {
     private void enabledButtons() {
         GUICommons.enabledButton(btnSave);
         GUICommons.enabledButton(btnPayall);
+    }
+    
+    private void selectADebtor(long idDebtor) {
+        try {
+            final var debtorDetail = retrieveDebtorsDetails().getDebtors().stream().
+                    filter(d -> d.getIdDebtor() == idDebtor)
+                    .collect(Collectors.toList());
+        
+            GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
+            if (debtorDetail != null && !debtorDetail.isEmpty()) {
+                debtorSelected = debtorDetail.get(0);
+                areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
+                GUICommons.setTextToField(txtName, debtorSelected.getName());
+                GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
+                Arrays.stream(debtorSelected.getPayments().split(BloSalesV2Utils.SEPARATOR_PAYMENTS)).forEach(p -> {
+                    final var arrayTimes = p.split(BloSalesV2Utils.TIMESTAMP);
+                    final var pay = arrayTimes[0];
+                    final var timestamp = parserTimestamp(arrayTimes[1]);
+                    areaPayments.append(String.format("%s - %s \n", pay, timestamp));
+                });
+                final var model = new DefaultListModel<String>();
+                debtorDetail.forEach(d -> model.addElement(String.format("%s - %s [%s]", d.getQuantitySale(), d.getProduct(), parserTimestamp(d.getTimestamp()))));
+                lstProducts.setModel(model);
+                enabledButtons();
+            }
+        } catch (BloSalesV2Exception ex) {
+            System.getLogger(Debtors.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

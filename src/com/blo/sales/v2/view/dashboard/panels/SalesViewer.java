@@ -213,7 +213,7 @@ public class SalesViewer extends javax.swing.JPanel {
             if (selectedIndex == 0 && !todayLoaded) { // Pestaña "pnlToday"
                 final var salesToday = mapper.toOuter(salesController.retrieveSalesByStatus(SalesStatusIntEnum.CLOSE));
                 final var total = loadData(salesToday, tblSalesToday);
-                GUICommons.setTextToField(lblTotalToday, "Total hoy: $" + total);
+                GUICommons.setTextToField(lblTotalToday, String.format("Total hoy: $%s", total));
                 todayLoaded = true;
             } else if (selectedIndex == 1 && !allSalesLoaded) { // Pestaña "jPanel2"
                 final var allSales = mapper.toOuter(salesController.retrieveAllSalesDetail());
@@ -222,7 +222,7 @@ public class SalesViewer extends javax.swing.JPanel {
             }
         } catch (BloSalesV2Exception ex) {
             Logger.getLogger(SalesViewer.class.getName()).log(Level.SEVERE, null, ex);
-            CommonAlerts.openError(ex.getMessage());
+            //CommonAlerts.openError(ex.getMessage());
         } 
     }//GEN-LAST:event_jTabbedPane1StateChanged
 

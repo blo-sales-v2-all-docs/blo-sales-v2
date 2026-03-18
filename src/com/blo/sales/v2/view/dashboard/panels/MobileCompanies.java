@@ -29,7 +29,8 @@ public final class MobileCompanies extends AbstractDashboardBase {
     
     private WrapperPojoMobilesCompanies companies;
     
-    public MobileCompanies() {
+    public MobileCompanies(String key) {
+        super(key);
         initComponents();
         loadTargets();
         handlerLockButtons(true);
@@ -125,7 +126,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1064, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(pnlCompanyCntrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -137,7 +138,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(pnlCompanyCntrl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -155,7 +156,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             refreshTable();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -169,7 +170,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             handlerLockButtons(false);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_txtCompanyNameKeyReleased
 
@@ -222,7 +223,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             companies = wrapperCompaniesMapper.toOuter(mobileController.getMobilesCompanies());
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     

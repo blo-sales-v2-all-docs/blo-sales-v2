@@ -25,9 +25,10 @@ public final class AllCashboxes extends AbstractDashboardBase {
     
     private static final WrapperPojoCashboxesDetailsMapper mapper = WrapperPojoCashboxesDetailsMapper.getInstance();
 
-    public AllCashboxes() {
-        initComponents();
+    public AllCashboxes(String key) {
+        super(key);
         try {
+            initComponents();
             final var cashboxes = mapper.toOuter(controller.getCashboxesDetail());
             if (cashboxes.getCashboxesInfo() != null && !cashboxes.getCashboxesInfo().isEmpty()) {
                 cashboxesOnTable(cashboxes);
@@ -59,7 +60,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
         
     }
@@ -85,7 +86,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     c.getIdCashbox(),
                     c.getAmount(),
                     c.getStatus().name(),
-                    c.getTimestamp()
+                    parserTimestamp(c.getTimestamp())
                 };
                 model.addRow(row);
             });
@@ -132,17 +133,15 @@ public final class AllCashboxes extends AbstractDashboardBase {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1288, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblActives))
-                        .addGap(18, 18, 18)
+                            .addComponent(lblActives)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblCosts)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3))))
+                            .addComponent(lblCosts)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -156,7 +155,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     .addComponent(lblCosts))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
