@@ -43,7 +43,7 @@ public final class SalesToday extends AbstractDashboardBase {
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), total));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     
@@ -93,7 +93,7 @@ public final class SalesToday extends AbstractDashboardBase {
      * @param idSale 
      */
     private void removeSale(long idSale) {
-        final var deletedAccept = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.SALES_TD_DLG_CANCEL_SALE.getKey()));
+        final var deletedAccept = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.SALES_TD_DLG_CANCEL_SALE.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()));
         if (deletedAccept) {
             final var rowSelected = tblSummary.getSelectedRow();
             if (rowSelected != -1) {
@@ -104,7 +104,8 @@ public final class SalesToday extends AbstractDashboardBase {
                     salesController.deleteSaleProduct(this.userData.getIdUser(), idSale, idProduct, message);
                     loadData();
                 } catch (BloSalesV2Exception ex) {
-                    CommonAlerts.openError(ex.getMessage());
+                    logger.error(ex.getMessage());
+                    CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                 }
             }
         }

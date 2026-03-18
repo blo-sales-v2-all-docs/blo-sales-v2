@@ -137,7 +137,7 @@ public final class LoginFrm extends AbstractFrameBase {
 
         } catch (BloSalesV2Exception ex) {
             Logger.getLogger(LoginFrm.class.getName()).log(Level.SEVERE, null, ex);
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

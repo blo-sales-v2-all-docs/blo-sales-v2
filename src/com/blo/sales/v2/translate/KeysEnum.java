@@ -33,7 +33,7 @@ public enum KeysEnum {
     // companies
     MOBILE_COMPANIES_LBL_COMPANY_NAME("mobile-companies.lbl.company-name"),
     // commons
-    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now"), COMMON_BTN_CONTINUE("common.btn.continue"), COMMON_BTN_CLOSE("common.btn.close"),
+    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now"), COMMON_BTN_CONTINUE("common.btn.continue"), COMMON_BTN_CLOSE("common.btn.close"), COMMON_ALERT_ERROR("common.alert.error"), COMMON_ALERT_WARNING("common.alert.warning"),
     // Recargas telefonicas
     TOP_UP_LBL_COMPANY_PHONE("top-ups.lbl.company-phone"), TOP_UP_LBL_PHONE_NUMBER("top-ups.lbl.phone-number"), TOP_UPS_LBL_AMOUNT("top-ups.lbl.amount"), TOP_UPS_BTN_APPLY_FILTER("top-ups.btn.apply-filter"), TOP_UPS_BTN_CLOSE_NOW("top-ups.btn.close-now"), TOP_UPS_DLG_SURE_CLOSE_ALL("top-ups.dlg.sure-close-all"),
     // dashboard

@@ -222,7 +222,7 @@ public class SalesViewer extends javax.swing.JPanel {
             }
         } catch (BloSalesV2Exception ex) {
             Logger.getLogger(SalesViewer.class.getName()).log(Level.SEVERE, null, ex);
-            CommonAlerts.openError(ex.getMessage());
+            //CommonAlerts.openError(ex.getMessage());
         } 
     }//GEN-LAST:event_jTabbedPane1StateChanged
 

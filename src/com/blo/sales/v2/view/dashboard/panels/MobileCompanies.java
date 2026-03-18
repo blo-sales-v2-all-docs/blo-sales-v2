@@ -155,7 +155,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             refreshTable();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -169,7 +169,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             handlerLockButtons(false);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_txtCompanyNameKeyReleased
 
@@ -222,7 +222,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             companies = wrapperCompaniesMapper.toOuter(mobileController.getMobilesCompanies());
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     

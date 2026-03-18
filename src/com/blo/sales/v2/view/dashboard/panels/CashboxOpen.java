@@ -45,15 +45,15 @@ public final class CashboxOpen extends AbstractDashboardBase {
     private WrapperPojoNotes notes;
     
     public CashboxOpen(PojoLoggedInUser userData) {
-        this.userData = userData;
-        initComponents();
-        loadTargets();
         try {
+            this.userData = userData;
+            initComponents();
+            loadTargets();
             loadDataAndCashbox();
             this.notes = mapperNotes.toOuter(userController.getNotesByUserId(userData.getIdUser()));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
         
@@ -120,7 +120,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
         if (openCashbox == null) {
             return;
         }
-        final var resp = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()));
+        final var resp = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()));
         WrapperPojoNotes pasives = null;
         WrapperPojoNotes actives = null;
         if (resp) {
@@ -145,7 +145,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
                     }
                 } catch (BloSalesV2Exception ex) {
                     logger.error(ex.getMessage());
-                    CommonAlerts.openError(ex.getMessage());
+                    CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                 }
             }
         );

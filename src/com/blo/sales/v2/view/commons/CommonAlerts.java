@@ -12,8 +12,12 @@ public final class CommonAlerts {
      * Muestra un panel de error
      * @param msg 
      */
-    public static void openError(String msg) {
-        JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    public static void openError(String msg, String title) {
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public static void openWarning(String msg, String title) {
+        JOptionPane.showConfirmDialog(null, msg, title, JOptionPane.WARNING_MESSAGE);
     }
     
     
@@ -22,8 +26,8 @@ public final class CommonAlerts {
      * @param msg
      * @return 
      */
-    public static boolean showConfirmDialog(String msg) {
-        final var rsp = JOptionPane.showConfirmDialog(null, msg, "Cuidado", JOptionPane.CANCEL_OPTION);
+    public static boolean showConfirmDialog(String msg, String title) {
+        final var rsp = JOptionPane.showConfirmDialog(null, msg, title, JOptionPane.OK_CANCEL_OPTION);
         return rsp == JOptionPane.YES_OPTION;
     }
     

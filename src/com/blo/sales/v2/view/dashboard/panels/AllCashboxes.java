@@ -26,8 +26,8 @@ public final class AllCashboxes extends AbstractDashboardBase {
     private static final WrapperPojoCashboxesDetailsMapper mapper = WrapperPojoCashboxesDetailsMapper.getInstance();
 
     public AllCashboxes() {
-        initComponents();
         try {
+            initComponents();
             final var cashboxes = mapper.toOuter(controller.getCashboxesDetail());
             if (cashboxes.getCashboxesInfo() != null && !cashboxes.getCashboxesInfo().isEmpty()) {
                 cashboxesOnTable(cashboxes);
@@ -59,7 +59,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
         
     }

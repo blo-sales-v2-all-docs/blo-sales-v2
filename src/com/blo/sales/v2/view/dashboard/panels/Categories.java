@@ -34,35 +34,33 @@ public final class Categories extends AbstractDashboardBase {
         loadCategories();
         content.setVisible(false);
         lblIdCategory.setVisible(false);
-        GUICommons.addDoubleClickOnListEvt(lstCategories, item -> {
-            try {
-                setData(item);
-            } catch (BloSalesV2Exception ex) {
-                logger.error(ex.getMessage());
-                CommonAlerts.openError(ex.getMessage());
-            }
-        });
+        GUICommons.addDoubleClickOnListEvt(lstCategories, item -> setData(item));
     }
     
-    private void setData(String item) throws BloSalesV2Exception {
-        content.setVisible(true);
-        final var idSep = item.split(" +");
-        // valida que exista un id
-        BloSalesV2Utils.validateRule(
-                idSep.length == 0 || idSep[0].trim().isBlank(),
-                BloSalesV2Utils.CODE_CATEGORY_NOT_SELECTED,
-                BloSalesV2Utils.CATEGORY_NOT_SELECTED);
-        final var id = idSep[0].trim();
-        // filtro de categorias
-        final var itemFound = 
+    private void setData(String item) {
+        try {
+            content.setVisible(true);
+            final var idSep = item.split(" +");
+            // valida que exista un id
+            BloSalesV2Utils.validateRule(
+                    idSep.length == 0 || idSep[0].trim().isBlank(),
+                    BloSalesV2Utils.CODE_CATEGORY_NOT_SELECTED,
+                    BloSalesV2Utils.CATEGORY_NOT_SELECTED);
+        
+            final var id = idSep[0].trim();
+            // filtro de categorias
+            final var itemFound = 
                 categoriesGlobal.getCategories().stream().filter(c -> c.getIdCategory() == Long.parseLong(id)).
                 findFirst().orElse(null);
-        if (itemFound != null) {
-            GUICommons.setTextToField(txtEditName, itemFound.getCategory());
-            GUICommons.setTextToField(txtEditDescription, itemFound.getDescription());
-            GUICommons.setTextToField(lblIdCategory, id);
+            if (itemFound != null) {
+                GUICommons.setTextToField(txtEditName, itemFound.getCategory());
+                GUICommons.setTextToField(txtEditDescription, itemFound.getDescription());
+                GUICommons.setTextToField(lblIdCategory, id);
+            }
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
-        
         
     }
     
@@ -218,7 +216,7 @@ public final class Categories extends AbstractDashboardBase {
             GUICommons.setTextToField(txtDescription, BloSalesV2Utils.EMPTY_STRING);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -242,7 +240,7 @@ public final class Categories extends AbstractDashboardBase {
             btnCancelActionPerformed(evt);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
@@ -260,7 +258,7 @@ public final class Categories extends AbstractDashboardBase {
             lstCategories.setModel(model);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
         
     }

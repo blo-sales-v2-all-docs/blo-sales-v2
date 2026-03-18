@@ -16,76 +16,80 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblQuantity" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="lblProductName" max="32767" attributes="0"/>
-                      <Component id="lblBarCode" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="btnSave" min="-2" max="-2" attributes="0"/>
                   </Group>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtBarCode" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblBarCode" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                              <Component id="txtBarCode" min="-2" pref="302" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblQuantity" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="nmbQuantity" min="-2" pref="90" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="lblPrice" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="nmbPrice" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lblSaleCost" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="nmbSaleCost" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                              <Component id="lstMarks" min="-2" pref="143" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="txtProductName" min="-2" pref="622" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="59" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="chkbxItsKg" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnSave" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSaleCost" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblProductName" min="-2" pref="117" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="nmbSaleCost" min="-2" pref="90" max="-2" attributes="0"/>
+                              <EmptySpace pref="100" max="32767" attributes="0"/>
+                              <Component id="lstMarks" min="-2" pref="160" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="txtProductName" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="chkbxItsKg" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="330" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="txtBarCode" min="-2" max="-2" attributes="0"/>
                   <Component id="lblBarCode" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblProductName" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblProductName" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtProductName" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="chkbxItsKg" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblQuantity" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="nmbQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="nmbPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="nmbSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lstMarks" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="btnSave" alignment="0" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nmbQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nmbPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nmbSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lstMarks" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="221" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnSave" min="-2" pref="50" max="-2" attributes="0"/>
+              <EmptySpace pref="196" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -98,7 +102,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblBarCode">
       <Properties>
-        <Property name="text" type="java.lang.String" value="codigo de barras"/>
+        <Property name="text" type="java.lang.String" value="codigo_de_barras"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblProductName">
@@ -113,7 +117,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblQuantity">
       <Properties>
-        <Property name="text" type="java.lang.String" value="cantidad en existencia"/>
+        <Property name="text" type="java.lang.String" value="cantidad_en_existencia"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nmbQuantity">
@@ -133,7 +137,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblSaleCost">
       <Properties>
-        <Property name="text" type="java.lang.String" value="costo de venta"/>
+        <Property name="text" type="java.lang.String" value="costo_de_venta"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nmbSaleCost">

@@ -33,23 +33,17 @@ public final class Debtors extends AbstractDashboardBase {
     private PojoDebtorDetail debtorSelected;
     
     public Debtors(PojoLoggedInUser userData) {
-        this.userData = userData;
-        initComponents();
-        loadTargets();
-        disabledButtons();
         try {
+            this.userData = userData;
+            initComponents();
+            loadTargets();
+            disabledButtons();
             loadDataAndTitles();
             //initFilter();
-            GUICommons.addDoubleClickOnTable(tblDebtors, item -> {
-                try {
-                    selectADebtor(String.valueOf(item));
-                } catch (BloSalesV2Exception ex) {
-                    System.getLogger(Debtors.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
-            });
+            GUICommons.addDoubleClickOnTable(tblDebtors, item -> selectADebtor((long) item));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     
@@ -237,7 +231,7 @@ public final class Debtors extends AbstractDashboardBase {
             disabledButtons();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -253,20 +247,19 @@ public final class Debtors extends AbstractDashboardBase {
                 ) {
                 GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), (debtorSelected.getDebt().subtract(new BigDecimal(partialPay)))));
             }
-        } catch(BloSalesV2Exception e) {
-        }
+        } catch(BloSalesV2Exception e) { }
     }//GEN-LAST:event_nmbPayKeyReleased
 
     private void btnPayallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayallActionPerformed
         try {
-            if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()))) {
+            if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
                 debtors.addPayment(debtorSelected.getDebt(), userData.getIdUser(), debtorSelected.getIdDebtor());
                 loadDataAndTitles();
                 disabledButtons();
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnPayallActionPerformed
 
@@ -286,27 +279,31 @@ public final class Debtors extends AbstractDashboardBase {
         GUICommons.enabledButton(btnPayall);
     }
     
-    private void selectADebtor(String idDebtor) throws BloSalesV2Exception {
-        final var debtorDetail = 
-                retrieveDebtorsDetails().getDebtors().stream().
-                    filter(d -> d.getIdDebtor() == Long.parseLong(idDebtor))
+    private void selectADebtor(long idDebtor) {
+        try {
+            final var debtorDetail = retrieveDebtorsDetails().getDebtors().stream().
+                    filter(d -> d.getIdDebtor() == idDebtor)
                     .collect(Collectors.toList());
-        GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
-        if (debtorDetail != null && !debtorDetail.isEmpty()) {
-            debtorSelected = debtorDetail.get(0);
-            areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(txtName, debtorSelected.getName());
-            GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
-            Arrays.stream(debtorSelected.getPayments().split(BloSalesV2Utils.SEPARATOR_PAYMENTS)).forEach(p -> {
-                final var arrayTimes = p.split(BloSalesV2Utils.TIMESTAMP);
-                final var pay = arrayTimes[0];
-                final var timestamp = parserTimestamp(arrayTimes[1]);
-                areaPayments.append(String.format("%s - %s \n", pay, timestamp));
-            });
-            final var model = new DefaultListModel<String>();
-            debtorDetail.forEach(d -> model.addElement(String.format("%s - %s [%s]", d.getQuantitySale(), d.getProduct(), parserTimestamp(d.getTimestamp()))));
-            lstProducts.setModel(model);
-            enabledButtons();
+        
+            GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
+            if (debtorDetail != null && !debtorDetail.isEmpty()) {
+                debtorSelected = debtorDetail.get(0);
+                areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
+                GUICommons.setTextToField(txtName, debtorSelected.getName());
+                GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
+                Arrays.stream(debtorSelected.getPayments().split(BloSalesV2Utils.SEPARATOR_PAYMENTS)).forEach(p -> {
+                    final var arrayTimes = p.split(BloSalesV2Utils.TIMESTAMP);
+                    final var pay = arrayTimes[0];
+                    final var timestamp = parserTimestamp(arrayTimes[1]);
+                    areaPayments.append(String.format("%s - %s \n", pay, timestamp));
+                });
+                final var model = new DefaultListModel<String>();
+                debtorDetail.forEach(d -> model.addElement(String.format("%s - %s [%s]", d.getQuantitySale(), d.getProduct(), parserTimestamp(d.getTimestamp()))));
+                lstProducts.setModel(model);
+                enabledButtons();
+            }
+        } catch (BloSalesV2Exception ex) {
+            System.getLogger(Debtors.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
     

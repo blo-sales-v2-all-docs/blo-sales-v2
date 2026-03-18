@@ -75,7 +75,7 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
         txtSearch.requestFocusInWindow();
     }
@@ -274,7 +274,7 @@ public final class Sales extends AbstractDashboardBase {
                 }
             } catch (BloSalesV2Exception ex) {
                 logger.error(ex.getMessage());
-                CommonAlerts.openError(ex.getMessage());
+                CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
             }
             
         }
@@ -306,7 +306,7 @@ public final class Sales extends AbstractDashboardBase {
             resetFields();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnCompleteActionPerformed
 
@@ -353,13 +353,13 @@ public final class Sales extends AbstractDashboardBase {
                         totalSale = BigDecimal.ZERO;
                     } catch (BloSalesV2Exception ex) {
                         logger.error(ex.getMessage());
-                        CommonAlerts.openError(ex.getMessage());
+                        CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                     }
                 });
             debtorsDialog.setVisible(true);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnDebtorsActionPerformed
 
@@ -427,7 +427,7 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.enabledButton(btnDebtors);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     /**
@@ -489,7 +489,8 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.setTextToField(lblResult, totalSale);
             retrieveProducts();
         } catch (BloSalesV2Exception ex) {
-            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     
@@ -529,7 +530,7 @@ public final class Sales extends AbstractDashboardBase {
                 model.setValueAt(totalProduct, filaModelo, 4);
             } catch (BloSalesV2Exception ex) {
                 logger.error(ex.getMessage());
-                CommonAlerts.openError(ex.getMessage());
+                CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
             }
         }
     }

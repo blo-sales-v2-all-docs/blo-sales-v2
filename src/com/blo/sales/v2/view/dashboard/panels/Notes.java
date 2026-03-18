@@ -45,9 +45,7 @@ public final class Notes extends AbstractDashboardBase {
         GUICommons.loadTitleOnTable(tblNotes, titles, false);
         loadTypesNotes();
         retrieveNotes();
-        GUICommons.addDoubleClickOnTable(tblNotes, item -> {
-            openNoteDialog((long) item);
-        });
+        GUICommons.addDoubleClickOnTable(tblNotes, item -> openNoteDialog((long) item));
     }
     
     private void openNoteDialog(long idNote) {
@@ -69,7 +67,7 @@ public final class Notes extends AbstractDashboardBase {
                     retrieveNotes();
                 } catch(BloSalesV2Exception e) {
                     logger.error(e.getMessage());
-                    CommonAlerts.openError(e.getMessage());
+                    CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                 }
             }
         );
@@ -195,7 +193,7 @@ public final class Notes extends AbstractDashboardBase {
             GUICommons.enabledButton(btnSaveNow);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_areaNoteKeyReleased
 
@@ -220,7 +218,7 @@ public final class Notes extends AbstractDashboardBase {
             retrieveNotes();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveNowActionPerformed
 
@@ -244,7 +242,7 @@ public final class Notes extends AbstractDashboardBase {
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     

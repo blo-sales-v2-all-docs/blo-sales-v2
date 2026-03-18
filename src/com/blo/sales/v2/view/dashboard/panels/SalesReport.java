@@ -41,7 +41,7 @@ public final class SalesReport extends AbstractDashboardBase {
             getTotal(allSales);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
 
@@ -176,6 +176,8 @@ public final class SalesReport extends AbstractDashboardBase {
             parserTableToLst(model);
             BloSalesV2SalesReportPlugin.createReport(parserTableToLst(model), new BigDecimal(total));
         } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnDownloadReportActionPerformed
 

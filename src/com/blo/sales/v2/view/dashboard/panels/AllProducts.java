@@ -35,7 +35,6 @@ import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.blo.sales.v2.view.pojos.enums.TypesEnum;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public final class AllProducts extends AbstractDashboardBase {
@@ -73,7 +72,6 @@ public final class AllProducts extends AbstractDashboardBase {
         initComponents();
         loadTargets();
         lblIdProduct.setVisible(false);
-
         loadTitlesAndData();
         initPanelManagement();
     }
@@ -293,7 +291,7 @@ public final class AllProducts extends AbstractDashboardBase {
             GUICommons.addFilter(tblProducts, "(?i)", filter);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
         
     }//GEN-LAST:event_txtSearcherKeyReleased
@@ -345,7 +343,7 @@ public final class AllProducts extends AbstractDashboardBase {
             initPanelManagement();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -364,7 +362,7 @@ public final class AllProducts extends AbstractDashboardBase {
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
         
     }//GEN-LAST:event_nmbQuantityKeyReleased
@@ -377,11 +375,11 @@ public final class AllProducts extends AbstractDashboardBase {
                 final var dialog = new PricesEvolutionDialog(this, true, evolution);
                 dialog.setVisible(true);
             } else {
-                CommonAlerts.openError(BloSalesV2Utils.NOT_PRICES_HISTORY);
+                CommonAlerts.openWarning(BloSalesV2Utils.NOT_PRICES_HISTORY, getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
             }
         } catch (BloSalesV2Exception e) {
             logger.error(e.getMessage());
-            CommonAlerts.openError(e.getMessage());
+            CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnGetEvolutionActionPerformed
 
@@ -394,10 +392,10 @@ public final class AllProducts extends AbstractDashboardBase {
                 historyDialog.setVisible(true);
                 return;
             }
-            CommonAlerts.openError(String.format(getTranslateBy(KeysEnum.STOCK_DLG_NOT_MOVEMENTS.getKey()), idProduct));
+            CommonAlerts.openError(String.format(getTranslateBy(KeysEnum.STOCK_DLG_NOT_MOVEMENTS.getKey()), idProduct), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         } catch (BloSalesV2Exception e) {
             logger.error(e.getMessage());
-            CommonAlerts.openError(e.getMessage());
+            CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnMovementsActionPerformed
 
@@ -471,7 +469,7 @@ public final class AllProducts extends AbstractDashboardBase {
             });
         } catch (final BloSalesV2Exception e) {
             logger.error(e.getMessage());
-            CommonAlerts.openError(e.getMessage());
+            CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     
