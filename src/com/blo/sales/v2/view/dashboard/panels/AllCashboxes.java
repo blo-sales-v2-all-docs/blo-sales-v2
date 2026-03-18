@@ -85,7 +85,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     c.getIdCashbox(),
                     c.getAmount(),
                     c.getStatus().name(),
-                    c.getTimestamp()
+                    parserTimestamp(c.getTimestamp())
                 };
                 model.addRow(row);
             });

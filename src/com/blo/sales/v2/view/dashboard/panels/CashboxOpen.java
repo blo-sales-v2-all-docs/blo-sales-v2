@@ -165,7 +165,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
                 cashbox.getIdCashbox(),
                 cashbox.getAmount(),
                 cashbox.getUserFrom(),
-                cashbox.getTimestamp()
+                parserTimestamp(cashbox.getTimestamp())
             };
             model.addRow(row);
         }

@@ -5,6 +5,8 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import static com.blo.sales.v2.utils.BloSalesV2Utils.validateRule;
 import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -54,6 +56,12 @@ public final class GUICommons {
     private static final int WIDTH = 700;
     
     private static final int HEIGHT = 500;
+    
+    private static final Color PROFESSIONAL_BLUE = new Color(52, 152, 219);
+    
+    private static final Color CONTRAST_ORANGE = new Color(230, 126, 34);
+    
+    private static final Font FONT_SEGOE_UI_BOLD_14 = new Font("Segoe UI", Font.BOLD, 14);
 
     private GUICommons() {
     }
@@ -409,6 +417,21 @@ public final class GUICommons {
     public static void enabledElement(JComboBox<String> cmbx) {
         cmbx.setEnabled(true);
     }
+    
+    public static void convertMainButton(JButton button) {
+        button.setBackground(PROFESSIONAL_BLUE); // Azul profesional
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(FONT_SEGOE_UI_BOLD_14);
+    }
+    
+    public static void convertSecondaryButton(JButton button) {
+        button.setBackground(CONTRAST_ORANGE); // Azul profesional
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(FONT_SEGOE_UI_BOLD_14);
+    }
+    
     /**
      * Gestor de eventos cuando se realiza la accion que se disparar por doble clic / key
      * @param <T>

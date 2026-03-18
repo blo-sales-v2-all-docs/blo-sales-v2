@@ -12,11 +12,12 @@ import com.blo.sales.v2.view.pojos.PojoUser;
 import com.blo.sales.v2.view.mappers.LoggedInUserMapper;
 import com.blo.sales.v2.view.mappers.UserMapper;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import com.blo.sales.v2.view.commons.AbstractFrameBase;
+import com.blo.sales.v2.view.commons.GUILogger;
 
 public final class LoginFrm extends AbstractFrameBase {
+    
+    private static final GUILogger logger = GUILogger.getLogger(LoginFrm.class.getName());
     
     private static final UserMapper userMapper = UserMapper.getInstance();
     
@@ -26,6 +27,7 @@ public final class LoginFrm extends AbstractFrameBase {
     
     public LoginFrm() {
         initComponents();
+        GUICommons.convertMainButton(btnLogin);
         loadTargets();
         loadTitle(KeysEnum.DASHBOARD_TITLES_LOGIN.getKey());
         setLocationRelativeTo(null); 
@@ -46,6 +48,8 @@ public final class LoginFrm extends AbstractFrameBase {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         lblUsername.setText("nombre_de_usuario");
 
         lblPassword.setText("contrasenia");
@@ -64,14 +68,16 @@ public final class LoginFrm extends AbstractFrameBase {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblUsername)
                             .addComponent(lblPassword))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pwdUserpassword, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                            .addComponent(pwdUserpassword, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                             .addComponent(txtUserName))))
                 .addContainerGap())
         );
@@ -87,8 +93,8 @@ public final class LoginFrm extends AbstractFrameBase {
                     .addComponent(lblPassword)
                     .addComponent(pwdUserpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnLogin)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         lblVersion.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
@@ -98,12 +104,13 @@ public final class LoginFrm extends AbstractFrameBase {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(439, Short.MAX_VALUE)
+                .addComponent(lblVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +143,7 @@ public final class LoginFrm extends AbstractFrameBase {
             }
 
         } catch (BloSalesV2Exception ex) {
-            Logger.getLogger(LoginFrm.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnLoginActionPerformed

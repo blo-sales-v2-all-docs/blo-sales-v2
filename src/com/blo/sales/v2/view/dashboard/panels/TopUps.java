@@ -299,7 +299,7 @@ public final class TopUps extends AbstractDashboardBase {
                         top.getFkMobileCompany().getMobileCompany(),
                         top.getAmount(),
                         top.getFkUser().getUsername(),
-                        top.getTimestamp()
+                        parserTimestamp(top.getTimestamp())
                     };
                     model.addRow(row);
                 }
