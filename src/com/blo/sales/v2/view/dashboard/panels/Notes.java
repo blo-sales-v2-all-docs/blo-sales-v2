@@ -35,9 +35,10 @@ public final class Notes extends AbstractDashboardBase {
     
     private WrapperPojoIntNotes notes;
     
-    private PojoLoggedInUser userData;
+    private final PojoLoggedInUser userData;
 
-    public Notes(PojoLoggedInUser userData) {
+    public Notes(PojoLoggedInUser userData, String key) {
+        super(key);
         this.userData = userData;
         initComponents();
         loadTargets();

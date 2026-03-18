@@ -29,7 +29,8 @@ public final class SalesToday extends AbstractDashboardBase {
     
     private final PojoLoggedInUser userData;
     
-    public SalesToday(PojoLoggedInUser userData) {
+    public SalesToday(PojoLoggedInUser userData, String key) {
+        super(key);
         this.userData = userData;
         initComponents();
         loadData();

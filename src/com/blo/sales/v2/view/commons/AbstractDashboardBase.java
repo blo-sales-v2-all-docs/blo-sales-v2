@@ -11,15 +11,27 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     
     private static final String DATE_FORMAT = "EEEE d 'de' MMMM 'a las' HH:mm";
     
+    private final String title;
+    
+    public abstract void loadTargets();
+    
+    public AbstractDashboardBase(String title) {
+        this.title = title;
+    }
+    
     public String getTranslateBy(String key) {
         return translate.get(key);
     }
-    
-    public abstract void loadTargets();
     
     public String parserTimestamp(String timestamp) {
         final var time = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         final var formateador = DateTimeFormatter.ofPattern(DATE_FORMAT, new Locale("es", "ES"));
         return time.format(formateador);
     }
+
+    public String getTitle() {
+        return title;
+    }
+    
+    
 }

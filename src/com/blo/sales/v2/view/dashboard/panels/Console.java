@@ -15,7 +15,8 @@ public final class Console extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Console.class.getName());
 
-    public Console() {
+    public Console(String key) {
+        super(key);
         initComponents();
         loadTargets();
         txtArea.setBackground(Color.BLACK);

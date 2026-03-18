@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,7 +22,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
@@ -65,14 +63,19 @@ public final class GUICommons {
 
     private GUICommons() {
     }
-
+    
+    public static void showPanel(AbstractFrameBase parent, JPanel container, AbstractDashboardBase content) {
+        parent.setTitle(parent.getTranslateBy(content.getTitle()));
+        openPanel(container, content);
+    }
+    
     /**
      * abre un nuevo panel, limpia el contenedor para librerar memoria
      *
      * @param content - contenedor donde se dibujara el siguiente panel
      * @param p - contenido
      */
-    public static void showPanel(JPanel content, JPanel p) {
+    private static void openPanel(JPanel content, JPanel p) {
         p.setSize(1000, 600); // Ajusta al tamaño de tu contenedor
         p.setLocation(0, 0);
         content.removeAll(); // Limpia el panel principal

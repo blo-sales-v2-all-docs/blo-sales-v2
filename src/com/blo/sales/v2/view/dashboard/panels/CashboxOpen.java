@@ -44,7 +44,8 @@ public final class CashboxOpen extends AbstractDashboardBase {
     
     private WrapperPojoNotes notes;
     
-    public CashboxOpen(PojoLoggedInUser userData) {
+    public CashboxOpen(PojoLoggedInUser userData, String key) {
+        super(key);
         try {
             this.userData = userData;
             initComponents();

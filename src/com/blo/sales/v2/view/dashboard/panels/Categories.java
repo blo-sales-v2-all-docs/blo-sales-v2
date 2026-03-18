@@ -28,7 +28,8 @@ public final class Categories extends AbstractDashboardBase {
     /** Variable global para almacenar categorias y usarla en cualquer metodo */
     private WrapperPojoCategories categoriesGlobal;
 
-    public Categories() {
+    public Categories(String key) {
+        super(key);
         initComponents();
         loadTargets();
         loadCategories();

@@ -29,7 +29,8 @@ public final class MobileCompanies extends AbstractDashboardBase {
     
     private WrapperPojoMobilesCompanies companies;
     
-    public MobileCompanies() {
+    public MobileCompanies(String key) {
+        super(key);
         initComponents();
         loadTargets();
         handlerLockButtons(true);

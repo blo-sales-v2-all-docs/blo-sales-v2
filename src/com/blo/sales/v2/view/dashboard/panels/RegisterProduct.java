@@ -31,7 +31,8 @@ public final class RegisterProduct extends AbstractDashboardBase {
     
     private static final WrapperPojoCategoriesMapper categoriesMapper = WrapperPojoCategoriesMapper.getInstance();
 
-    public RegisterProduct() {
+    public RegisterProduct(String key) {
+        super(key);
         try {
             initComponents();
             loadDataForm();

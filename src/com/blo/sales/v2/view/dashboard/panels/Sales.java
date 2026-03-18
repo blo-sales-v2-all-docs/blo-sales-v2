@@ -60,7 +60,8 @@ public final class Sales extends AbstractDashboardBase {
     
     private PojoLoggedInUser userData;
         
-    public Sales(PojoLoggedInUser userData) {
+    public Sales(PojoLoggedInUser userData, String title) {
+        super(title);
         try {
             initComponents();
             loadTargets();

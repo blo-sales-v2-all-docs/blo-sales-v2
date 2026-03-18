@@ -66,9 +66,10 @@ public final class AllProducts extends AbstractDashboardBase {
     
     private BigDecimal currentQuantity;
     
-    private PojoLoggedInUser userData;
+    private final PojoLoggedInUser userData;
     
-    public AllProducts(PojoLoggedInUser userData) {
+    public AllProducts(PojoLoggedInUser userData, String key) {
+        super(key);
         this.userData = userData;
         initComponents();
         loadTargets();

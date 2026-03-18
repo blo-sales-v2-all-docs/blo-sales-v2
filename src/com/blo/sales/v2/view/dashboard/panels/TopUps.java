@@ -43,7 +43,8 @@ public final class TopUps extends AbstractDashboardBase {
             
     private PojoLoggedInUser userData;
 
-    public TopUps(PojoLoggedInUser userData) {
+    public TopUps(PojoLoggedInUser userData, String key) {
+        super(key);
         this.userData = userData;
         topUpsTotal = BigDecimal.ZERO;
         initComponents();

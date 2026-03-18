@@ -29,7 +29,8 @@ public final class SalesReport extends AbstractDashboardBase {
     
     private static final String[] titles = {"ID venta", "ID producto", "Producto", "Cantidad vendida", "Precio unidad", "Costo de venta", "Precio en venta", "Total", "Timestamp", "¿Por kg?"};
 
-    public SalesReport() {
+    public SalesReport(String key) {
+        super(key);
         initComponents();
         loadTargets();
         retrieveData();

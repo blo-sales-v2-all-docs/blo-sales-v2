@@ -32,7 +32,8 @@ public final class Debtors extends AbstractDashboardBase {
     /** deudor seleccionado para hacer operaciones */
     private PojoDebtorDetail debtorSelected;
     
-    public Debtors(PojoLoggedInUser userData) {
+    public Debtors(PojoLoggedInUser userData, String key) {
+        super(key);
         try {
             this.userData = userData;
             initComponents();

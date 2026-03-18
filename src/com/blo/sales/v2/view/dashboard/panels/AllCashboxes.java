@@ -25,7 +25,8 @@ public final class AllCashboxes extends AbstractDashboardBase {
     
     private static final WrapperPojoCashboxesDetailsMapper mapper = WrapperPojoCashboxesDetailsMapper.getInstance();
 
-    public AllCashboxes() {
+    public AllCashboxes(String key) {
+        super(key);
         try {
             initComponents();
             final var cashboxes = mapper.toOuter(controller.getCashboxesDetail());

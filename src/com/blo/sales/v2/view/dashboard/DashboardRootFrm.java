@@ -20,7 +20,7 @@ import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 import java.awt.BorderLayout;
 
-public class DashboardRootFrm extends AbstractFrameBase {
+public final class DashboardRootFrm extends AbstractFrameBase {
     
     private final PojoLoggedInUser userData;
     
@@ -28,8 +28,8 @@ public class DashboardRootFrm extends AbstractFrameBase {
         this.userData = userData;
         initComponents();
         content.setLayout(new BorderLayout());
-        loadTitle(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey());
-        GUICommons.showPanel(content, new Sales(userData));
+        setTitle(getTranslateBy(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
+        GUICommons.showPanel(this, content, new Sales(userData, KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
         GUICommons.allWindow(this);
         GUICommons.setTextToField(lblVersion, BloSalesV2Utils.VERSION);
         
@@ -242,69 +242,95 @@ public class DashboardRootFrm extends AbstractFrameBase {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private RegisterProduct registerProduct;
+    
+    private Categories categories;
+    
+    private AllProducts allProducts;
+    
+    private Sales sales;
+    
+    private Console console;
+    
+    private Debtors debtors;
+    
+    private CashboxOpen cashboxOpen;
+    
+    private SalesToday salesToday;
+    
+    private AllCashboxes allCashboxes;
+    
+    private Notes notes;
+    
+    private SalesReport salesReport;
+    
+    private MobileCompanies mobileCompanies;
+    
+    private TopUps topUps;
+    
     private void optRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optRegisterActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_REGISTER_PRODUCT.getKey());
-        GUICommons.showPanel(content, new RegisterProduct());
+      registerProduct = new RegisterProduct(KeysEnum.DASHBOARD_TITLES_REGISTER_PRODUCT.getKey());
+      GUICommons.showPanel(this, content, registerProduct);
     }//GEN-LAST:event_optRegisterActionPerformed
 
     private void optCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optCategoryActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey());
-        GUICommons.showPanel(content, new Categories());
+        categories = new Categories(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey());
+        GUICommons.showPanel(this, content, categories);
     }//GEN-LAST:event_optCategoryActionPerformed
 
     private void optStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optStockActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_VIEW_ALL_PRODUCTS.getKey());
-        GUICommons.showPanel(content, new AllProducts(userData));
+        allProducts = new AllProducts(userData, KeysEnum.DASHBOARD_TITLES_VIEW_ALL_PRODUCTS.getKey());
+        GUICommons.showPanel(this, content, allProducts);
     }//GEN-LAST:event_optStockActionPerformed
 
     private void optAddSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAddSaleActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey());
-        GUICommons.showPanel(content, new Sales(userData));
+        sales = new Sales(userData, KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey());
+        GUICommons.showPanel(this, content, sales);
     }//GEN-LAST:event_optAddSaleActionPerformed
 
     private void optConsoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optConsoleActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_CONSOLE.getKey());
-        GUICommons.showPanel(content, new Console());
+        console = new Console(KeysEnum.DASHBOARD_TITLES_CONSOLE.getKey());
+        GUICommons.showPanel(this, content, console);
     }//GEN-LAST:event_optConsoleActionPerformed
 
     private void optDebtorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optDebtorsActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_DEBTORS.getKey());
-        GUICommons.showPanel(content, new Debtors(userData));
+        debtors = new Debtors(userData, KeysEnum.DASHBOARD_TITLES_DEBTORS.getKey());
+        GUICommons.showPanel(this, content, debtors);
     }//GEN-LAST:event_optDebtorsActionPerformed
 
     private void optOpoenCashboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optOpoenCashboxActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_OPEN_CASHBOX.getKey());
-        GUICommons.showPanel(content, new CashboxOpen(userData));
+        cashboxOpen = new CashboxOpen(userData, KeysEnum.DASHBOARD_TITLES_OPEN_CASHBOX.getKey());
+        GUICommons.showPanel(this, content, cashboxOpen);
     }//GEN-LAST:event_optOpoenCashboxActionPerformed
 
     private void optViewSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optViewSalesActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_VIEW_SALES_TODAY.getKey());
-        GUICommons.showPanel(content, new SalesToday(userData));
+        salesToday = new SalesToday(userData, KeysEnum.DASHBOARD_TITLES_VIEW_SALES_TODAY.getKey());
+        GUICommons.showPanel(this, content, salesToday);
     }//GEN-LAST:event_optViewSalesActionPerformed
 
     private void optAllCashboxesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAllCashboxesActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_ALL_CASHBOXES.getKey());
-        GUICommons.showPanel(content, new AllCashboxes());
+        allCashboxes = new AllCashboxes(KeysEnum.DASHBOARD_TITLES_ALL_CASHBOXES.getKey());
+        GUICommons.showPanel(this, content, allCashboxes);
     }//GEN-LAST:event_optAllCashboxesActionPerformed
 
     private void optNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optNotesActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_FAST_NOTES.getKey());
-        GUICommons.showPanel(content, new Notes(userData));
+        notes = new Notes(userData, KeysEnum.DASHBOARD_TITLES_FAST_NOTES.getKey());
+        GUICommons.showPanel(this, content, notes);
     }//GEN-LAST:event_optNotesActionPerformed
 
     private void optSalesReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optSalesReportActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_ALL_SALES.getKey());
-        GUICommons.showPanel(content, new SalesReport());
+        salesReport = new SalesReport(KeysEnum.DASHBOARD_TITLES_ALL_SALES.getKey());
+        GUICommons.showPanel(this, content, salesReport);
     }//GEN-LAST:event_optSalesReportActionPerformed
 
     private void optMobileCompaniesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optMobileCompaniesActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_MOBILE_COMPANIES.getKey());
-        GUICommons.showPanel(content, new MobileCompanies());
+        mobileCompanies = new MobileCompanies(KeysEnum.DASHBOARD_TITLES_MOBILE_COMPANIES.getKey());
+        GUICommons.showPanel(this, content, mobileCompanies);
     }//GEN-LAST:event_optMobileCompaniesActionPerformed
 
     private void optTopUpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optTopUpsActionPerformed
-        loadTitle(KeysEnum.DASHBOARD_TITLES_TOP_UPS.getKey());
-        GUICommons.showPanel(content, new TopUps(userData));
+        topUps = new TopUps(userData, KeysEnum.DASHBOARD_TITLES_TOP_UPS.getKey());
+        GUICommons.showPanel(this, content, topUps);
     }//GEN-LAST:event_optTopUpsActionPerformed
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
