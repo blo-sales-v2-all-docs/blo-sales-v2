@@ -306,7 +306,8 @@ public final class Debtors extends AbstractDashboardBase {
                 enabledButtons();
             }
         } catch (BloSalesV2Exception ex) {
-            System.getLogger(Debtors.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
     
