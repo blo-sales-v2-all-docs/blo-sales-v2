@@ -72,7 +72,6 @@ public final class MobileCompanies extends AbstractDashboardBase {
 
         lblCompanyNam.setText("company_name");
 
-        btnSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSave.setText("guardar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,7 +79,6 @@ public final class MobileCompanies extends AbstractDashboardBase {
             }
         });
 
-        btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancel.setText("cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,7 +138,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(pnlCompanyCntrl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
