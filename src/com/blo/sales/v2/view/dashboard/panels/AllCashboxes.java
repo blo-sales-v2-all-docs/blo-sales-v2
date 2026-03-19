@@ -27,45 +27,40 @@ public final class AllCashboxes extends AbstractDashboardBase {
 
     public AllCashboxes(String key) {
         super(key);
+        initComponents();
+        loadCashboxData();
+    }
+    
+    private void loadCashboxData() {
         try {
-            initComponents();
             final var cashboxes = mapper.toOuter(controller.getCashboxesDetail());
             if (cashboxes.getCashboxesInfo() != null && !cashboxes.getCashboxesInfo().isEmpty()) {
                 cashboxesOnTable(cashboxes);
-                GUICommons.addDoubleClickOnTable(tblCashboxes, id -> {
-                    final var cashboxFound = 
-                            cashboxes.getCashboxesInfo().stream().filter(c -> c.getIdCashbox() == (long) id).collect(Collectors.toList());
-                    
-                    final var modeloListaActivos = new DefaultListModel<String>();
-                    final var modeloListaPaivos = new DefaultListModel<String>();
-                    final var elemntBaseStr = "%s$:%s ";
-                    getActivesFilters(cashboxFound, ActivesCostsEnum.ACTIVO).forEach(i -> 
-                            modeloListaActivos.addElement(
-                                String.format(elemntBaseStr, i.getConcept(), i.getAmount())
-                            )
-                    );
-                    getActivesFilters(cashboxFound, ActivesCostsEnum.PASIVO).forEach(i -> 
-                            modeloListaActivos.addElement(
-                                String.format(elemntBaseStr, i.getConcept(), i.getAmount())
-                            )
-                    );
-                    /*getActivesFilters(cashboxFound, ActivesCostsEnum.ACTIVO).
-                            forEach(i -> modeloListaActivos.addElement(i.getConcept() + "$: " + i.getConceptAmount()));
-                    getActivesFilters(cashboxFound, ActivesCostsEnum.PASIVO).
-                            forEach(i -> modeloListaPaivos.addElement(i.getConcept() + "$: " + i.getConceptAmount()));
-*/
-                    lstActives.setModel(modeloListaActivos);
-                    lstCosts.setModel(modeloListaPaivos);
+                GUICommons.addDoubleClickOnTable(tblCashboxes, (Long id) -> {
+                    final var cashboxFound = cashboxes.getCashboxesInfo().stream().
+                        filter(c -> c.getIdCashbox() == id).collect(Collectors.toList());
+                    if (cashboxFound != null) {
+                        final var modelActives = new DefaultListModel<String>();
+                        final var modelCosts = new DefaultListModel<String>();
+                        final var baseStr = "%s$:%s ";
+                        getElementsByFilter(cashboxFound, ActivesCostsEnum.ACTIVO).forEach(e -> {
+                            modelActives.addElement(String.format(baseStr, e.getConcept(), e.getAmount()));
+                        });
+                        lstActives.setModel(modelActives);
+                        getElementsByFilter(cashboxFound, ActivesCostsEnum.PASIVO).forEach(e -> {
+                            modelCosts.addElement(String.format(baseStr, e.getConcept(), e.getAmount()));
+                        });
+                        lstCosts.setModel(modelCosts);
+                    }
                 });
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
-        
     }
     
-    private List<PojoCashboxDetail> getActivesFilters(List<PojoCashboxDetail> lst, ActivesCostsEnum type) {
+    private List<PojoCashboxDetail> getElementsByFilter(List<PojoCashboxDetail> lst, ActivesCostsEnum type) {
         return lst.stream().filter(c -> c.getType().compareTo(type) == 0).collect(Collectors.toList());
     }
     

@@ -16,8 +16,13 @@ public final class CommonAlerts {
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
     }
     
+    /**
+     * Muestra un panel de advertencia
+     * @param msg
+     * @param title 
+     */
     public static void openWarning(String msg, String title) {
-        JOptionPane.showConfirmDialog(null, msg, title, JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.WARNING_MESSAGE);
     }
     
     

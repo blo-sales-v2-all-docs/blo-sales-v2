@@ -103,6 +103,7 @@ public final class Sales extends AbstractDashboardBase {
 
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
+        btnComplete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnComplete.setText("completo");
         btnComplete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +111,7 @@ public final class Sales extends AbstractDashboardBase {
             }
         });
 
+        btnDebtors.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDebtors.setText("incompleto");
         btnDebtors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -510,7 +512,7 @@ public final class Sales extends AbstractDashboardBase {
                 );
                 // se valida que no sea por kg
                 if (productFound.isKg()) {
-                    CommonAlerts.showMessageDialog(BloSalesV2Utils.PRODUCT_IS_BY_KG);
+                    CommonAlerts.openWarning(BloSalesV2Utils.PRODUCT_IS_BY_KG, getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()));
                     return;
                 }
                 // validar que existan productos suficientes
