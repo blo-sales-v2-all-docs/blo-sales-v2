@@ -348,10 +348,23 @@ public final class AllProducts extends AbstractDashboardBase {
                 return;
             }
             final var quantity = new BigDecimal(tmpQuantity.trim());
-            /** desactiva el combo si se modifico pero la cantidad es la misma */
-            if (currentQuantity.compareTo(quantity) == 0) {
+            final var quantityCompared = currentQuantity.compareTo(quantity);
+            logger.log(String.format("Current quantity %s tmpQuantity %s result %s", currentQuantity, tmpQuantity, quantityCompared));
+            if (quantityCompared == 0) {
                 lstReason.setVisible(false);
             }
+            if (quantityCompared == 1) {
+                System.out.println("Menor");
+            }
+            if (quantityCompared == -1) {
+                System.out.println("Mayor");
+            }
+            /** desactiva el combo si se modifico pero la cantidad es la misma */
+            //if (currentQuantity.compareTo(quantity) == 0) {
+                //lstReason.setVisible(false);
+            //}
+            /** si la nueva cantidad es mayor puede ser reabastecimiento */
+            /** si la nueva cantidad es menor puede ser perdido o vendido */
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
