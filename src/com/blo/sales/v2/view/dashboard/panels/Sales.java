@@ -548,9 +548,9 @@ public final class Sales extends AbstractDashboardBase {
             var quantityOnSale = new BigDecimal(model.getValueAt(filaModelo, 2).toString());
             // resta una unidad al total
             final var productFound = products.stream().filter(p -> p.getIdProduct() == id).findFirst().orElse(null);
-            final var price = new BigDecimal(model.getValueAt(filaModelo, 3).toString());
-            totalSale = totalSale.subtract(price);
             if (!productFound.isKg()) {
+                final var price = new BigDecimal(model.getValueAt(filaModelo, 3).toString());
+                totalSale = totalSale.subtract(price);
                 quantityOnSale = quantityOnSale.subtract(BigDecimal.ONE);
                 // si la cantidad es 0 se elimina la fila
                 if (quantityOnSale.compareTo(BigDecimal.ZERO) == 0) {
@@ -561,6 +561,9 @@ public final class Sales extends AbstractDashboardBase {
                     model.setValueAt(totalOnSale, filaModelo, 4);
                 }
             } else {
+                // recuperar cantidad comprada
+                final var kgSold = new BigDecimal(model.getValueAt(filaModelo, 4).toString());
+                totalSale = totalSale.subtract(kgSold);
                 model.removeRow(indexSelected);
             }
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
