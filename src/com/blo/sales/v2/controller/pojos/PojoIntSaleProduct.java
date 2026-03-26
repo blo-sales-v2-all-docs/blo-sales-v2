@@ -86,7 +86,18 @@ public class PojoIntSaleProduct {
 
     @Override
     public String toString() {
-        return "PojoIntSaleProduct{" + "idSaleProduct=" + idSaleProduct + ", fkSale=" + fkSale + ", fkProduct=" + fkProduct + ", quantityOnSale=" + quantityOnSale + ", totalOnSale=" + totalOnSale + ", productoTotalOnSale=" + productTotalOnSale + ", timestap=" + timestap + ", isLive=" + isLive + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntSaleProduct{");
+        sb.append("idSaleProduct=").append(idSaleProduct);
+        sb.append(", fkSale=").append(fkSale);
+        sb.append(", fkProduct=").append(fkProduct);
+        sb.append(", quantityOnSale=").append(quantityOnSale);
+        sb.append(", totalOnSale=").append(totalOnSale);
+        sb.append(", productTotalOnSale=").append(productTotalOnSale);
+        sb.append(", timestap=").append(timestap);
+        sb.append(", isLive=").append(isLive);
+        sb.append('}');
+        return sb.toString();
     }
     
 }

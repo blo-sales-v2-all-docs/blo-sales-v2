@@ -84,4 +84,20 @@ public class PojoIntDebtorDetail {
         this.timestamp = timestamp;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntDebtorDetail{");
+        sb.append("idDebtor=").append(idDebtor);
+        sb.append(", name=").append(name);
+        sb.append(", debt=").append(debt);
+        sb.append(", payments=").append(payments);
+        sb.append(", product=").append(product);
+        sb.append(", quantitySale=").append(quantitySale);
+        sb.append(", totalOnSale=").append(totalOnSale);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }

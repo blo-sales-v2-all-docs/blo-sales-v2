@@ -76,6 +76,17 @@ public class PojoIntTopUp {
 
     @Override
     public String toString() {
-        return "PojoIntTopUp{" + "idTopUp=" + idTopUp + ", fkUser=" + fkUser + ", fkMobileCompany=" + fkMobileCompany + ", amount=" + amount + ", checked=" + checked + ", phoneNumber=" + phoneNumber + ", timestamp=" + timestamp + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntTopUp{");
+        sb.append("idTopUp=").append(idTopUp);
+        sb.append(", fkUser=").append(fkUser);
+        sb.append(", fkMobileCompany=").append(fkMobileCompany);
+        sb.append(", amount=").append(amount);
+        sb.append(", checked=").append(checked);
+        sb.append(", phoneNumber=").append(phoneNumber);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
     }
+
 }

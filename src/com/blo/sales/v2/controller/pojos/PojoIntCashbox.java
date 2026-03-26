@@ -67,6 +67,16 @@ public class PojoIntCashbox {
 
     @Override
     public String toString() {
-        return "PojoIntCashbox{" + "idCashbox=" + idCashbox + ", fkUser=" + fkUser + ", timestamp=" + timestamp + ", amount=" + amount + ", status=" + status + ", userFrom=" + userFrom + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntCashbox{");
+        sb.append("idCashbox=").append(idCashbox);
+        sb.append(", fkUser=").append(fkUser);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append(", amount=").append(amount);
+        sb.append(", status=").append(status);
+        sb.append(", userFrom=").append(userFrom);
+        sb.append('}');
+        return sb.toString();
     }
+
 }

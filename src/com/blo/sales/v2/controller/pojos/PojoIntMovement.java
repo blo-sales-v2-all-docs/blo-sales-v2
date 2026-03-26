@@ -78,7 +78,18 @@ public class PojoIntMovement {
 
     @Override
     public String toString() {
-        return "PojoIntMovement{" + "id_movement=" + id_movement + ", fk_product=" + fk_product + ", fk_user=" + fk_user + ", type=" + type + ", quantity=" + quantity + ", reason=" + reason + ", timestamp=" + timestamp + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntMovement{");
+        sb.append("id_movement=").append(id_movement);
+        sb.append(", fk_product=").append(fk_product);
+        sb.append(", fk_user=").append(fk_user);
+        sb.append(", type=").append(type);
+        sb.append(", quantity=").append(quantity);
+        sb.append(", reason=").append(reason);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
     }
+
     
 }
