@@ -12,6 +12,7 @@ import com.blo.sales.v2.view.mappers.WrapperPojoCashboxesDetailsMapper;
 import com.blo.sales.v2.view.pojos.PojoCashboxDetail;
 import com.blo.sales.v2.view.pojos.WrapperPojoCashboxesDetails;
 import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
@@ -42,13 +43,13 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     if (cashboxFound != null) {
                         final var modelActives = new DefaultListModel<String>();
                         final var modelCosts = new DefaultListModel<String>();
-                        final var baseStr = "%s$:%s ";
+                        final var baseStr = "%s=$%s";
                         getElementsByFilter(cashboxFound, ActivesCostsEnum.ACTIVO).forEach(e -> {
-                            modelActives.addElement(String.format(baseStr, e.getConcept(), e.getAmount()));
+                            modelActives.addElement(String.format(baseStr, e.getConcept(), e.getConceptAmount()));
                         });
                         lstActives.setModel(modelActives);
                         getElementsByFilter(cashboxFound, ActivesCostsEnum.PASIVO).forEach(e -> {
-                            modelCosts.addElement(String.format(baseStr, e.getConcept(), e.getAmount()));
+                            modelCosts.addElement(String.format(baseStr, e.getConcept(), e.getConceptAmount()));
                         });
                         lstCosts.setModel(modelCosts);
                     }
@@ -72,8 +73,8 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     obj -> obj,
                     (existente, reemplazo) -> existente
             )).values()
-                    .stream()
-                    .collect(Collectors.toList());
+            .stream()
+            .collect(Collectors.toList());
             final var model = (DefaultTableModel) tblCashboxes.getModel();
             model.setRowCount(0);
             cashboxesFilter.forEach(c -> {
