@@ -32,6 +32,7 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -339,6 +340,21 @@ public class SalesControllerImpl implements ISalesController {
             }
         }
         return salesDeletedController.addSaleDeletedDetail(output);
+    }
+    
+    @Override
+    public PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception {
+        // recuperar datos de la comision
+        final var comissionData = productsController.getProductById(BloSalesV2Utils.getTopUpIdComission());
+        final var productsInfo = new ArrayList<PojoIntSaleProductData>();
+        final var item = new PojoIntSaleProductData();
+        item.setIdProduct(BloSalesV2Utils.getIdPaymentProduct());
+        item.setPrice(comissionData.getPrice());
+        item.setProductBuyTotal(BigDecimal.ONE);
+        item.setQuantityOnSale(BigDecimal.ZERO);
+        productsInfo.add(item);
+        logger.log(String.format("guardando la comision [%s]", String.valueOf(item)));
+        return registerSale(comissionData.getPrice(), productsInfo, idUser);
     }
     
     /**

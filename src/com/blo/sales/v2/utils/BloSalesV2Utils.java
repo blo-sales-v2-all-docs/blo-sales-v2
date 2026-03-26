@@ -15,7 +15,9 @@ import java.util.regex.Pattern;
  */
 public final class BloSalesV2Utils {
     
-    public static final String VERSION = "v2.6.6-SNAPSHOT";
+    public static final String VERSION = "v2.6.7-SNAPSHOT";
+    
+    private static final String RELEASE = "RELEASE";
     
     /** cadena vacia */
     public static final String EMPTY_STRING = "";
@@ -192,12 +194,22 @@ public final class BloSalesV2Utils {
         final var onlyDate = fullDateTime.toLocalDate();
         return onlyDate.toString();
     }
+ 
+    /**
+     * recupera el id de la venta de acuerdo a version SNAPSHOT / RELEASE
+     * @return 
+     */
+    public static long getIdPaymentProduct() {
+        if (BloSalesV2Utils.VERSION.lastIndexOf(RELEASE) == 7) {
+            return 1L;
+        }
+        return 1000L;
+    }
     
+    public static long getTopUpIdComission() {
+        if (BloSalesV2Utils.VERSION.lastIndexOf(RELEASE) == 7) {
+            return 494L;
+        }
+        return 1016L;
+    }
 }
-
-
-
-
-
-
-

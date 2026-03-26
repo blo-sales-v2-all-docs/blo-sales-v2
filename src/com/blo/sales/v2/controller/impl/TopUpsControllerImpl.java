@@ -1,6 +1,7 @@
 package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.IMobileCompanyController;
+import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.ITopUpsController;
 import com.blo.sales.v2.controller.pojos.PojoIntTopUp;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntTopUp;
@@ -18,6 +19,8 @@ public class TopUpsControllerImpl implements ITopUpsController {
     private static final ITopUpModel model = TopUpModelImpl.getInstance();
     
     private static final IMobileCompanyController mobileCompanyController = MobileCompanyControllerImpl.getInstance();
+    
+    private static final ISalesController salesController = SalesControllerImpl.getInstance();
     
     private static TopUpsControllerImpl instance;
     
@@ -37,6 +40,9 @@ public class TopUpsControllerImpl implements ITopUpsController {
         logger.log(String.format("Compania encontrada %s", String.valueOf(companyFound)));
         BloSalesV2Utils.validateRule(companyFound == null, BloSalesV2Utils.CODE_COMPANY_NOT_FOUND, BloSalesV2Utils.ERROR_COMPANY_NOT_FOUND);
         data.setFkMobileCompany(companyFound);
+        // guardando comision
+        salesController.registerTopUpComission(data.getFkUser().getIdUser());
+        logger.log("comision guardada");
         return model.addTopUp(data);
     }
 
@@ -58,5 +64,4 @@ public class TopUpsControllerImpl implements ITopUpsController {
         logger.log(String.format("buscando recargas por estatus %s", String.valueOf(status)));
         return model.getTopUpsByStatus(status);
     }
-    
 }

@@ -287,7 +287,7 @@ public final class Categories extends AbstractDashboardBase {
         GUICommons.setTextToField(lblCategoryName, getTranslateBy(KeysEnum.CATEGORIES_LBL_CATEGORY.getKey()));
         GUICommons.setTextToField(lblDescription, getTranslateBy(KeysEnum.CATEGORIES_LBL_DESCRIPTION.getKey()));
         GUICommons.setTextToButton(btnSaveChanges, getTranslateBy(KeysEnum.COMMON_BTN_SAVE_CHANGES.getKey()));
-        GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
+        GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_CANCEL.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToField(lblEditCategory, getTranslateBy(KeysEnum.CATEGORIES_LBL_EDIT_CATEGORY.getKey()));
     }

@@ -15,6 +15,8 @@ public interface ISalesController {
     
     PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo,long idUser) throws BloSalesV2Exception;
     
+    PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception;
+    
     PojoIntDebtor registerSaleWithNewDebtor(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo,long idUser, PojoIntDebtor debtorData) throws BloSalesV2Exception;
     
     PojoIntDebtor registerSaleWithDebtor(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, BigDecimal partialPay, String partialPayments, long idUser, long idDebtor) throws BloSalesV2Exception;

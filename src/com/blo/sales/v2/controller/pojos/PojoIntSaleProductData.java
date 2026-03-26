@@ -44,5 +44,10 @@ public class PojoIntSaleProductData {
     public void setProductBuyTotal(BigDecimal productBuyTotal) {
         this.productBuyTotal = productBuyTotal;
     }
+
+    @Override
+    public String toString() {
+        return "PojoIntSaleProductData{" + "idProduct=" + idProduct + ", quantityOnSale=" + quantityOnSale + ", price=" + price + ", productBuyTotal=" + productBuyTotal + '}';
+    }
     
 }

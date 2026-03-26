@@ -32,6 +32,7 @@ public final class GUILogger {
         Logger.getLogger(className).log(Level.SEVERE, _str);
     }
     
+    @Deprecated(forRemoval = true, since = "2.7.0")
     public void log(String str) {
         final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
         row.append(_str);

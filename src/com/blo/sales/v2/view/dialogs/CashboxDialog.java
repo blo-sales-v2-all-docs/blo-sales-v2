@@ -70,11 +70,9 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         GUICommons.addDoubleClickOnListEvt(lstActives, item -> {
             final var indexSelected = lstActives.getSelectedIndex();
             if (indexSelected != -1) {
-                    final var props = Arrays.asList(item.split(",")).stream().
-                            map(i -> i.trim()).
-                            collect(Collectors.toCollection(ArrayList::new));
+                    final var props = item.split(",");
                     // formato de item: item 0, concepto=Cuenta de ayer, monto=750, tipo=ACTIVO, completo=false
-                    final var amount = new BigDecimal(props.get(2).split("=")[1].trim());
+                    final var amount = new BigDecimal(props[2].split("=")[1].trim());
                     // resta en la cuenta de activos
                     totalActives = totalActives.subtract(amount);
                     //GUICommons.setTextToField(lblActivesTotal, "Total activos: " + totalActives);
@@ -297,6 +295,7 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         }
     }//GEN-LAST:event_btnContinueActionPerformed
 
+    // carga los datos de una nota en los campos de texto
     private void setInfoFromNotes() {
         if (actives != null) {
             // hay activos
@@ -372,6 +371,11 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
      */
     private PojoActiveCost createItem(BigDecimal amount, String concept, ActivesCostsEnum type) {
         final var out = new PojoActiveCost();
+        // elimina el monto del concepto
+        if (concept.contains("$")) {
+            final var lastIndexOf = concept.lastIndexOf("$");
+            concept = concept.substring(0, lastIndexOf).trim();
+        }
         out.setAmount(amount);
         out.setComplete(false);
         out.setConcept(concept);
