@@ -77,6 +77,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
             .collect(Collectors.toList());
             final var model = (DefaultTableModel) tblCashboxes.getModel();
             model.setRowCount(0);
+            cashboxesFilter.sort(Comparator.comparing(PojoCashboxDetail::getIdCashbox).reversed());
             cashboxesFilter.forEach(c -> {
                 final Object[] row = {
                     c.getIdCashbox(),

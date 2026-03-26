@@ -14,6 +14,7 @@ import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
 import com.blo.sales.v2.view.pojos.WrapperPojoSalesAndStock;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
@@ -55,6 +56,7 @@ public final class SalesToday extends AbstractDashboardBase {
         }
         final var model = (DefaultTableModel) tblSummary.getModel();
         model.setRowCount(0);
+        wrapper.getSalesDetail().sort(Comparator.comparing(PojoSaleAndProduct::getIdSale).reversed());
         wrapper.getSalesDetail().forEach(d -> {
                 final Object[] row = {
                     d.getIdSale(),
