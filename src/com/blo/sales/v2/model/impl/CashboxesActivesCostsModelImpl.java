@@ -35,7 +35,7 @@ public class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsMod
     public PojoIntCashboxesActivesCosts addRelationship(PojoIntCashboxesActivesCosts data) throws BloSalesV2Exception {
         try {
             DBConnection.disableAutocommit();
-            logger.log("guardando " + data.toString());
+            logger.info("guardando %s", String.valueOf(data));
             final var dataInner = mapper.toInner(data);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_CASHBOXES_ACTIVE_COSTS, Statement.RETURN_GENERATED_KEYS);
@@ -51,7 +51,7 @@ public class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsMod
                 dataInner.setId_cashboxes_actives_costs(rs.getLong(1));
                 DBConnection.doCommit();
             }
-            logger.log("registro guardado ");
+            logger.info("registro guardado ");
             return mapper.toOuter(dataInner);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

@@ -50,7 +50,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public PojoIntSale registerSale(PojoIntSale sale) throws BloSalesV2Exception {
         try {
-            logger.log("se comienza a registrar venta");
+            logger.info("se comienza a registrar venta");
             final var innerSale = saleMapper.toInner(sale);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_SALE, Statement.RETURN_GENERATED_KEYS);
@@ -66,7 +66,7 @@ public class SalesModelImpl implements ISalesModel {
                 innerSale.setId_sale(rs.getLong(1));
             }
             DBConnection.doCommit();
-            logger.log("venta registrada " + innerSale.toString());
+            logger.info("venta registrada %s", String.valueOf(innerSale));
             return saleMapper.toOuter(innerSale);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -85,7 +85,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public WrapperPojoIntSalesAndStock retrieveAllSalesDetail() throws BloSalesV2Exception {
          try {
-            logger.log("recuperando relacion ventas y productos");
+            logger.info("recuperando relacion ventas y productos");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALES_DETAIL);
             final var data = ps.executeQuery();
             final var wrapper = new WrapperSalesAndStockEntity();
@@ -106,7 +106,7 @@ public class SalesModelImpl implements ISalesModel {
                 details.add(saleDetail);
             }
             wrapper.setSalesDetail(details);
-            logger.log("registros encontrados " + details.size());
+            logger.info("registros encontrados %s", details.size());
             return salesAndStockMapper.toOuter(wrapper);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -117,7 +117,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public WrapperPojoIntSalesAndStock retrieveSalesByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception {
         try {
-            logger.log("recuperando relacion ventas y productos");
+            logger.info("recuperando relacion ventas y productos");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALE_CLOSED);
             ps.setString(1, saleStatus.name());
             final var data = ps.executeQuery();
@@ -138,7 +138,7 @@ public class SalesModelImpl implements ISalesModel {
                 details.add(saleDetail);
             }
             wrapper.setSalesDetail(details);
-            logger.log("registros encontrados " + details.size());
+            logger.info("registros encontrados %s", details.size());
             return salesAndStockMapper.toOuter(wrapper);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -149,7 +149,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public WrapperPojoIntSales retrieveSalesDataByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception {
         try {
-            logger.log("recuperando ventas " + saleStatus.name());
+            logger.info("recuperando ventas %s", saleStatus.name());
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALE_BY_STATUS);
             ps.setString(1, saleStatus.name());
             final var data = ps.executeQuery();
@@ -165,7 +165,7 @@ public class SalesModelImpl implements ISalesModel {
                 details.add(saleDetail);
             }
             wrapper.setSales(details);
-            logger.log("registros encontrados " + details.size());
+            logger.info("registros encontrados %s", details.size());
             return salesEntityMapper.toOuter(wrapper);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -176,7 +176,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public boolean setCashboxSale(long idSale) throws BloSalesV2Exception {
         try {
-            logger.log("enviando a cashbox la venta " + idSale);
+            logger.info("enviando a cashbox la venta %s", idSale);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.SET_ON_CASHBOX);
             ps.setLong(1, idSale);

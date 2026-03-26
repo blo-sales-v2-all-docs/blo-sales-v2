@@ -48,6 +48,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
     @Override
     public PojoIntDebtor saveDebtor(PojoIntDebtor debtor) throws BloSalesV2Exception {
         try {
+            logger.info("guardando deudor %s", String.valueOf(debtor));
             final var data = mapper.toInner(debtor);
             // 1. Desactivar el AutoCommit para iniciar la transacción
             DBConnection.disableAutocommit();
@@ -64,6 +65,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
             if (rs.next()) {
                 data.setId_debtor(rs.getLong(1));
             }
+            logger.info("deudor guardado [%s]", String.valueOf(data));
             // 3. Si todo salió bien, confirmamos los cambios en la DB
             DBConnection.doCommit();
             return mapper.toOuter(data);
@@ -83,7 +85,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
     @Override
     public PojoIntDebtor getDebtorById(long idDebtor) throws BloSalesV2Exception {
         try {
-            logger.log("id buscado " + idDebtor);
+            logger.info("id buscado %s", idDebtor);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_DEBTOR_BY_ID);
             ps.setLong(1, idDebtor);
             final var rs = ps.executeQuery();
@@ -95,6 +97,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
             d.setName(rs.getString(BloSalesV2Columns.NAME));
             d.setPayments(rs.getString(BloSalesV2Columns.PAYMENTS));
             d.setDebt(rs.getBigDecimal(BloSalesV2Columns.DEBT));
+            logger.info("deudor encontrado %s", String.valueOf(d));
             return mapper.toOuter(d);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -107,7 +110,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
         try {
             DBConnection.disableAutocommit();
             final var debtorMapped = mapper.toInner(debtor);
-            logger.log("deudor actualizado " + debtor.toString());
+            logger.info("actualizando deudor");
             debtorMapped.setName(debtor.getName());
             debtorMapped.setPayments(debtor.getPayments());
             debtorMapped.setDebt(debtor.getDebt());
@@ -121,6 +124,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
                 throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
             }
             DBConnection.doCommit();
+            logger.info("deudor actualizado %s", String.valueOf(debtorMapped));
             return mapper.toOuter(debtorMapped);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -138,6 +142,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
     @Override
     public WrapperPojoIntDebtors getAllDebtors() throws BloSalesV2Exception {
          try {
+             logger.info("recuperando todos los deudores");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_DEBTORS);
             final var rs = ps.executeQuery();
             final var debtorsWrapper = new WrapperDebtorsEntity();
@@ -152,6 +157,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
                 debtors.add(entity);
             }
             debtorsWrapper.setDebtors(debtors);
+            logger.info("deudores encontrados", debtors.size());
             return wrapperMapper.toOuter(debtorsWrapper);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -162,6 +168,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
     @Override
     public WrapperPojoIntDebtorsDetails getDebtorsDetails() throws BloSalesV2Exception {
         try {
+            logger.info("recuperando detalles de deudores");
             final var ps = conn.prepareStatement(BloSalesV2Queries.DEBTORS_DETAILS);
             final var rs = ps.executeQuery();
             final var debtorsDetails = new WrapperDebtorsDetailsEntity();
@@ -179,6 +186,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
                 detail.setTotal_on_sale(rs.getBigDecimal(BloSalesV2Columns.TOTAL_ON_SALE));
                 details.add(detail);
             }
+            logger.info("deudores encontrados %s", details.size());
             debtorsDetails.setDebtors(details);
             return debtorsDetailsMapper.toOuter(debtorsDetails);
         } catch (SQLException ex) {
@@ -190,6 +198,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
     @Override
     public void deleteDebtor(long idDebtor) throws BloSalesV2Exception {
         try {
+            logger.info("eliminando deudor por id %s", idDebtor);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.DEBTOR_DELETE);
             ps.setLong(1, idDebtor);
@@ -197,6 +206,7 @@ public class DebtorsModelImpl implements IDebtorsModel {
             if (rowsAffected == 0) {
                 throw new BloSalesV2Exception(BloSalesV2Utils.SQL_DELETE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_DELETING_DATA_ON_DATA_BASE);
             }
+            logger.info("deudor eliminado");
             DBConnection.doCommit();
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

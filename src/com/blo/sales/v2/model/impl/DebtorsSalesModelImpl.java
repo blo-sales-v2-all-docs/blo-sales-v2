@@ -34,6 +34,7 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
     @Override
     public PojoIntDebtorSale addRelationship(PojoIntDebtorSale debtor) throws BloSalesV2Exception {
         try {
+            logger.info("guardando relacion deudor venta");
             final var relationInner = mapper.toInner(debtor);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_DEBTOR_SALE, Statement.RETURN_GENERATED_KEYS);
@@ -49,6 +50,7 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
                 relationInner.setId_debtor_sale(rs.getLong(1));
             }
             DBConnection.doCommit();
+            logger.info("relacion guardada exitosamente %s", String.valueOf(relationInner));
             return mapper.toOuter(relationInner);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -66,6 +68,7 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
     @Override
     public void deleteRelationhip(long fkDebtor) throws BloSalesV2Exception {
          try {
+             logger.info("eliminado relacion deudor - venta fkDebtor = %s", fkDebtor);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.DELETE_DEBTOR_SALE);
             ps.setLong(1, fkDebtor);
@@ -74,6 +77,8 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
             
             DBConnection.doCommit();
+            
+            logger.info("relacion eliminada");
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);

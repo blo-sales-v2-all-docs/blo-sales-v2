@@ -35,7 +35,7 @@ public class ActivesCostsModelImpl implements IActivesCostsModel {
     public WrapperPojoIntActivesCosts addActiveCost(WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception {
         try {
             DBConnection.disableAutocommit();
-            logger.log("guardando " + activesCosts.getActivesCosts().size());
+            logger.info("guardando registros %s", activesCosts.getActivesCosts().size());
             final var activesCostsInner = mapper.toInner(activesCosts);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_ACTIVE_COSTS, Statement.RETURN_GENERATED_KEYS);
@@ -55,7 +55,7 @@ public class ActivesCostsModelImpl implements IActivesCostsModel {
             while(rsKeys.next()) {
                 activesCostsInner.getActivesCosts().get(i).setId_actives_costs(rsKeys.getLong(1));
                 i++;
-                logger.log("registro guardado " + i);
+                logger.info("registro guardado %s", i);
             }
             return mapper.toOuter(activesCostsInner);
         } catch (SQLException ex) {

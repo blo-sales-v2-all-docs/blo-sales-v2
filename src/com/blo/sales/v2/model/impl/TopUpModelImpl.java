@@ -46,7 +46,7 @@ public class TopUpModelImpl implements ITopUpModel {
     @Override
     public PojoIntTopUp addTopUp(PojoIntTopUp data) throws BloSalesV2Exception {
         try {
-            logger.log(String.format("Guardando [%s]", String.valueOf(data)));
+            logger.info("Guardando [%s]", String.valueOf(data));
             final var innerData = topUpEntityMapper.toInner(data);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_TOP_UP, Statement.RETURN_GENERATED_KEYS);
@@ -65,7 +65,7 @@ public class TopUpModelImpl implements ITopUpModel {
             if (rs.next()) {
                 innerData.setId_top_up(rs.getLong(1));
             }
-            logger.log(String.format("TopUp guardada con exito [%s]", String.valueOf(innerData)));
+            logger.info("TopUp guardada con exito [%s]", String.valueOf(innerData));
             DBConnection.doCommit();
             return topUpEntityMapper.toOuter(innerData);
         } catch (SQLException ex) {
@@ -85,7 +85,7 @@ public class TopUpModelImpl implements ITopUpModel {
     public PojoIntTopUp updateTopUp(PojoIntTopUp data, long idTopUp) throws BloSalesV2Exception {
         try {
             final var innerData = topUpEntityMapper.toInner(data);
-            logger.log(String.format("Actualizando informacion %s con id %s", String.valueOf(innerData), idTopUp));
+            logger.info("Actualizando informacion %s con id %s", String.valueOf(innerData), idTopUp);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_TP_UP);
             ps.setLong(1, innerData.getFk_user().getId_user());
@@ -100,7 +100,7 @@ public class TopUpModelImpl implements ITopUpModel {
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            logger.log(String.format("Datos actualizados %s", String.valueOf(innerData)));
+            logger.info("Datos actualizados %s", String.valueOf(innerData));
             DBConnection.doCommit();
             return topUpEntityMapper.toOuter(innerData);
         } catch (SQLException e) {
@@ -120,10 +120,10 @@ public class TopUpModelImpl implements ITopUpModel {
     public WrapperPojoIntTopUp getTopUpsByStatus(TopUpSearchStatusIntEnum status) throws BloSalesV2Exception {
         try {
             final var innerStatus = TopUpSearchStatusIntEnum.valueOf(status.name());
-            logger.log(String.format("recuperando recargas por status [%s]", String.valueOf(status)));
+            logger.info("recuperando recargas por status [%s]", String.valueOf(status));
             var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ALL_TOP_UP);
             if (innerStatus != TopUpSearchStatusIntEnum.ALL) {
-                logger.log(String.format("query cambiada %s", BloSalesV2Queries.SELECT_ALL_TOP_UP));
+                logger.info("query cambiada %s", BloSalesV2Queries.SELECT_ALL_TOP_UP);
                 ps = conn.prepareStatement(BloSalesV2Queries.SELECT_TOP_UPS_BY_STATUS);
                 ps.setBoolean(1, innerStatus.isValue());
             }
@@ -153,7 +153,7 @@ public class TopUpModelImpl implements ITopUpModel {
                 
                 topUps.add(p);
             }
-            logger.log(String.format("registros encontrados %s", String.valueOf(topUps.size())));
+            logger.info("registros encontrados %s", String.valueOf(topUps.size()));
             wrapperTopUps.setTopUps(topUps);
             return wrapperToUpsMapper.toOuter(wrapperTopUps);
         } catch (SQLException ex) {

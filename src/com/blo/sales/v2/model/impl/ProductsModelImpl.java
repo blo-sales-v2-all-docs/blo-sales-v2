@@ -42,6 +42,7 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception {
         try {
+            logger.info("registrando producto [%s]", String.valueOf(product));
             DBConnection.disableAutocommit();
             final var innerProduct = mapper.toInner(product);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
@@ -63,6 +64,7 @@ public class ProductsModelImpl implements IProductsModel {
                 innerProduct.setId_product(rs.getInt(1));
             }
             DBConnection.doCommit();
+            logger.info("producto registrado [%s]", String.valueOf(innerProduct));
             return mapper.toOuter(innerProduct);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -80,6 +82,7 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public WrapperPojoIntProducts getAllProducts() throws BloSalesV2Exception {
         try {
+            logger.info("recuperando todos los productos");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ALL_PRODUCTS);
             final var rs = ps.executeQuery();
             final var productsInn = new WrapperProductsEntity();
@@ -97,6 +100,7 @@ public class ProductsModelImpl implements IProductsModel {
                 p.setProduct(rs.getString(BloSalesV2Columns.PRODUCT));
                 innerProducts.add(p);
             }
+            logger.info("productos encontrados %s",innerProducts.size());
             productsInn.setProducts(innerProducts);
             return wrapperMapper.toOuter(productsInn);
         } catch (SQLException ex) {
@@ -108,6 +112,7 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public PojoIntProduct updateProductInfo(PojoIntProduct product) throws BloSalesV2Exception {
         try {
+            logger.info("actualizando informacion del producto %s", String.valueOf(product));
             final var innerProduct = mapper.toInner(product);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_PRODUCT);
@@ -123,6 +128,7 @@ public class ProductsModelImpl implements IProductsModel {
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
             DBConnection.doCommit();
+            logger.info("producto actualizado [%s]", String.valueOf(product));
             return mapper.toOuter(innerProduct);
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -140,6 +146,7 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public PojoIntProduct getProductById(long idProduct) throws BloSalesV2Exception {
         try {
+            logger.info("recuperando producto por id = %s", idProduct);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ONE_PRODUCT);
             ps.setLong(1, idProduct);
             final var rs = ps.executeQuery();
@@ -154,6 +161,7 @@ public class ProductsModelImpl implements IProductsModel {
             p.setQuantity(rs.getBigDecimal(BloSalesV2Columns.QUANTITY));
             p.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
             p.setProduct(rs.getString(BloSalesV2Columns.PRODUCT));
+            logger.info("producto recuperado %s", String.valueOf(p));
             return mapper.toOuter(p);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -164,6 +172,7 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public PojoIntProduct getProductByBarCode(String barCode) throws BloSalesV2Exception {
         try {
+            logger.info("recuperando producto por bar code = %s", barCode);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_PRODUCT_BY_BAR_CODE);
             ps.setString(1, barCode);
             final var rs = ps.executeQuery();
@@ -182,6 +191,7 @@ public class ProductsModelImpl implements IProductsModel {
             p.setQuantity(rs.getBigDecimal(BloSalesV2Columns.QUANTITY));
             p.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
             p.setProduct(rs.getString(BloSalesV2Columns.PRODUCT));
+            logger.info("producto encontrado %s", String.valueOf(p));
             return mapper.toOuter(p);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

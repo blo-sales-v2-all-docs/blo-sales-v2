@@ -46,7 +46,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
             final var rs = ps.executeQuery();
             final var wrapper = new WrapperMobilesCompaniesEntity();
             final var companies = new ArrayList<MobileCompanyEntity>();
-            logger.log("recuperando companias para recargas");
+            logger.info("recuperando companias para recargas");
             while(rs.next()) {
                 final var m = new MobileCompanyEntity();
                 m.setId_mobile_company(rs.getLong(BloSalesV2Columns.ID_COMPANY));
@@ -54,7 +54,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
                 companies.add(m);
             }
             wrapper.setCompanies(companies);
-            logger.log(String.format("compañias encontradas %s", companies.size()));
+            logger.info("compañias encontradas %s", companies.size());
             return companiesMobilesMapper.toOuter(wrapper);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -66,7 +66,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     public PojoIntMobileCompany createMobileCompany(PojoIntMobileCompany company) throws BloSalesV2Exception {
         try {
             final var entity = mobileCompanyMapper.toInner(company);
-            logger.log(String.format("Guardando [%s]", String.valueOf(company)));
+            logger.info("Guardando [%s]", String.valueOf(company));
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_MOBILE_COMPANY, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, entity.getMobile_company());
@@ -81,7 +81,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
                 entity.setId_mobile_company(rs.getLong(1));
             }
             DBConnection.doCommit();
-            logger.log(String.format("datos guardados %s", String.valueOf(entity)));
+            logger.info("datos guardados %s", String.valueOf(entity));
             return mobileCompanyMapper.toOuter(entity);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -99,7 +99,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     @Override
     public PojoIntMobileCompany getCompanyMobileById(long id) throws BloSalesV2Exception {
         try {
-            logger.log(String.format("recuperando compania mobile by id [%s]", id));
+            logger.info("recuperando compania mobile by id [%s]", id);
             final var ps = conn.prepareStatement(BloSalesV2Queries.RETRIEVE_MOBILE_COMPANY_BY_ID);
             ps.setLong(1, id);
             final var rs = ps.executeQuery();
@@ -107,7 +107,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
             final var company = new MobileCompanyEntity();
             company.setId_mobile_company(rs.getLong(BloSalesV2Columns.ID_COMPANY));
             company.setMobile_company(rs.getString(BloSalesV2Columns.COMPANY));
-            logger.log(String.format("Compania encontrada %s", String.valueOf(company)));
+            logger.info("Compania encontrada %s", String.valueOf(company));
             return mobileCompanyMapper.toOuter(company);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -119,7 +119,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     public PojoIntMobileCompany updateCompanyMobile(PojoIntMobileCompany companyData, long id) throws BloSalesV2Exception {
         try {
             final var innerCompany = mobileCompanyMapper.toInner(companyData);
-            logger.log(String.format("Actualizando compania %s por id %s", String.valueOf(companyData), id));
+            logger.info("Actualizando compania %s por id %s", String.valueOf(companyData), id);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_MOBILE_COMPANY);
             ps.setString(1, innerCompany.getMobile_company());
@@ -131,7 +131,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
             
             DBConnection.doCommit();
             
-            logger.log(String.format("Compania actualizada %s", String.valueOf(companyData)));
+            logger.info("Compania actualizada %s", String.valueOf(companyData));
             return mobileCompanyMapper.toOuter(innerCompany);
         } catch (SQLException e) {
             logger.error(e.getMessage());

@@ -34,7 +34,7 @@ public class SaleDeletedDetailModelImpl implements ISaleDeletedDetailModel {
     @Override
     public PojoIntSaleDeletedDetail addSaleDeletedDetail(PojoIntSaleDeletedDetail detail) throws BloSalesV2Exception {
         try {
-            logger.log("guardando motivo de baja");
+            logger.info("guardando motivo de baja");
             DBConnection.disableAutocommit();
             final var innerSale = mapper.toInner(detail);
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_SALE_DELETED_DETAIL, Statement.RETURN_GENERATED_KEYS);
@@ -51,7 +51,7 @@ public class SaleDeletedDetailModelImpl implements ISaleDeletedDetailModel {
                 innerSale.setId_sale_deleted(rs.getLong(1));
                 DBConnection.doCommit();
             }
-            logger.log("relacion guardada " + innerSale.toString());
+            logger.info("relacion guardada ", String.valueOf(innerSale));
             return mapper.toOuter(innerSale);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

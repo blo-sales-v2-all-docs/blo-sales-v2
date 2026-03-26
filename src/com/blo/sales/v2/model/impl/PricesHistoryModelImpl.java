@@ -34,6 +34,7 @@ public class PricesHistoryModelImpl implements IPricesHistoryModel {
     @Override
     public PojoIntPriceHistory addPriceHistory(PojoIntPriceHistory priceHistory) throws BloSalesV2Exception {
         try {
+            logger.info("guardando precio en historial %s", String.valueOf(priceHistory));
             final var entity = mapper.toInner(priceHistory);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRICE_HISTORY_ITEM, Statement.RETURN_GENERATED_KEYS);
@@ -48,6 +49,7 @@ public class PricesHistoryModelImpl implements IPricesHistoryModel {
                 entity.setId_price_history(rs.getLong(1));
             }
             DBConnection.doCommit();
+            logger.info("item guardado [%s]", String.valueOf(entity));
             return mapper.toOuter(entity);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

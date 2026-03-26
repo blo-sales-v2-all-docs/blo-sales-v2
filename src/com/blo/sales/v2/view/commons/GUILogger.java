@@ -18,11 +18,11 @@ public final class GUILogger {
         }
     }
     
-    public static GUILogger getLogger(String className) {
+    public static GUILogger getLogger(String classFrom) {
         if (instance == null) {
             instance = new GUILogger();
         }
-        GUILogger.className = className;
+        className = classFrom;
         return instance;
     }
     
@@ -32,7 +32,20 @@ public final class GUILogger {
         Logger.getLogger(className).log(Level.SEVERE, _str);
     }
     
+    @Deprecated(forRemoval = true, since = "2.7.0")
     public void log(String str) {
+        final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
+        row.append(_str);
+        Logger.getLogger(className).log(Level.INFO, _str);
+    }
+    
+    public void info(String str, Object... args) {
+        final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, String.format(str, args));
+        row.append(_str);
+        Logger.getLogger(className).log(Level.INFO, _str);
+    }
+    
+    public void info(String str) {
         final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
         row.append(_str);
         Logger.getLogger(className).log(Level.INFO, _str);

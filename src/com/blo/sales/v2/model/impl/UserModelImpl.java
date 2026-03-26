@@ -53,6 +53,7 @@ public class UserModelImpl implements IUserModel {
     @Override
     public PojoIntLoggedInUser doLogin(PojoIntUser userData) throws BloSalesV2Exception {
         try {
+            logger.info("recuperando informacion de usuario");
             userExists(userData.getUserName());
             final var userFound = selectUserEntity(userData.getUserName(), userData.getPassword());
             return userEntityMapper.toOuter(userFound);
@@ -107,7 +108,7 @@ public class UserModelImpl implements IUserModel {
     @Override
     public PojoIntNote addNote(PojoIntNote note) throws BloSalesV2Exception {
          try {
-            logger.log("se comienza a registrar venta");
+            logger.info("se comienza a registrar venta");
             final var innerNote = noteMapper.toInner(note);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_NOTES, Statement.RETURN_GENERATED_KEYS);
@@ -124,7 +125,7 @@ public class UserModelImpl implements IUserModel {
                 innerNote.setFk_user(rs.getInt(1));
             }
             DBConnection.doCommit();
-            logger.log("nota registrada " + innerNote.toString());
+            logger.info("nota registrada %s", String.valueOf(note));
             return noteMapper.toOuter(innerNote);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -142,7 +143,7 @@ public class UserModelImpl implements IUserModel {
     @Override
     public WrapperPojoIntNotes getNotesByUserId(long idUser) throws BloSalesV2Exception {
         try {
-            logger.log("recuperando notas");
+            logger.info("recuperando notas");
             final var ps = conn.prepareStatement(BloSalesV2Queries.GET_NOTES_BY_ID_USER);
             ps.setLong(1, idUser);
             final var data = ps.executeQuery();
@@ -159,7 +160,7 @@ public class UserModelImpl implements IUserModel {
                 notes.add(note);
             }
             wrapper.setNotes(notes);
-            logger.log("registros encontrados " + notes.size());
+            logger.info("registros encontrados ", notes.size());
             return mapperNotes.toOuter(wrapper);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -170,7 +171,7 @@ public class UserModelImpl implements IUserModel {
     @Override
     public PojoIntNote updateNote(PojoIntNote note) throws BloSalesV2Exception {
         try {
-            logger.log(String.format("Actualizando [%s]", String.valueOf(note)));
+            logger.info("Actualizando [%s]", String.valueOf(note));
             DBConnection.disableAutocommit();
             final var noteInner = noteMapper.toInner(note);
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_NOTE);
@@ -182,7 +183,7 @@ public class UserModelImpl implements IUserModel {
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
             DBConnection.doCommit();
-            logger.log(String.format("nota actualizada %s", String.valueOf(noteInner)));
+            logger.info("nota actualizada %s", String.valueOf(noteInner));
             return noteMapper.toOuter(noteInner);
         } catch (SQLException e) {
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
@@ -198,13 +199,14 @@ public class UserModelImpl implements IUserModel {
     @Override
     public void deleteNote(long idNote) throws BloSalesV2Exception {
         try {
+            logger.info("eliminando nota por id=%s", idNote);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.DELETE_NOTE);
             ps.setLong(1, idNote);
             final var rowsAffected = ps.executeUpdate();
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_DELETING_DATA_ON_DATA_BASE);
-            
+            logger.info("nota eliminada");
             DBConnection.doCommit();
         } catch (SQLException e) {
             logger.error(e.getMessage());

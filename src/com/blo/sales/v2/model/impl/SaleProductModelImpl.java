@@ -42,7 +42,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
     @Override
     public PojoIntSaleProduct addSaleProduct(PojoIntSaleProduct sale) throws BloSalesV2Exception {
         try {
-            logger.log("guardando relacion venta producto");
+            logger.info("guardando relacion venta producto");
             DBConnection.disableAutocommit();
             final var saleProduct = mapper.toInner(sale);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
@@ -62,7 +62,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
                 saleProduct.setId_sale_product(rs.getLong(1));
                 DBConnection.doCommit();
             }
-            logger.log("relacion guardada " + saleProduct.toString());
+            logger.info("relacion guardada ", String.valueOf(saleProduct));
             return mapper.toOuter(saleProduct);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -80,6 +80,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
     @Override
     public PojoIntSaleProduct getRelationship(long fkSale, long fkProduct) throws BloSalesV2Exception {
         try {
+            logger.info("recuperando relacion fkSale = %s y fkProduct = %s", fkSale, fkProduct);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALES_PRODUCT);
             ps.setLong(1, fkSale);
             ps.setLong(2, fkProduct);
@@ -95,7 +96,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
                 out.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
                 out.setTotal_on_sale(data.getBigDecimal(BloSalesV2Columns.TOTAL_ON_SALE));
             }
-            logger.log(String.format("datos encontrados %s", out));
+            logger.info("relacion encontrada %s", String.valueOf(out));
             return mapper.toOuter(out);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -106,6 +107,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
     @Override
     public PojoIntSaleProduct updateRelationship(PojoIntSaleProduct data) throws BloSalesV2Exception {
         try {
+            logger.info("actualizando relacion %s", String.valueOf(data));
             final var innerInfo = mapper.toInner(data);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_SALE_PRODUCT_RELATIONSHIP);
@@ -120,6 +122,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
             DBConnection.doCommit();
+            logger.info("actualizacion completa");
             return mapper.toOuter(innerInfo);
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -137,6 +140,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
     @Override
     public WrapperPojoIntSaleStock getSalesStockLiveByIdSale(long fkSale) throws BloSalesV2Exception {
         try {
+            logger.info("Recuperando relacion entre ventas y stock que no han sido eliminadas %s", fkSale);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALES_PRODUCT_BY_FK_SALE);
             ps.setLong(1, fkSale);
             final var data = ps.executeQuery();
@@ -155,7 +159,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
                 item.setIs_live(data.getBoolean(BloSalesV2Columns.IS_LIVE));
                 lst.add(item);
             }
-            logger.log(String.format("datos encontrados %s", lst.size()));
+            logger.info("datos encontrados %s", lst.size());
             out.setSalesStock(lst);
             return saleStockEntityMapper.toOuter(out);
         } catch (SQLException ex) {

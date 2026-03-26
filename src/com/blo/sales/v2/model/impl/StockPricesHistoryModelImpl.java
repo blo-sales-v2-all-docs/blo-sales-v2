@@ -42,6 +42,7 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
     @Override
     public PojoIntStockPricesHistory addPriceOnHistory(PojoIntStockPricesHistory item) throws BloSalesV2Exception {
         try {
+            logger.info("agregando item en historial de precios %s", String.valueOf(item));
             final var entity = mapper.toInner(item);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRICE_HISTORY_RELATIONSHIP, Statement.RETURN_GENERATED_KEYS);
@@ -56,6 +57,8 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
             if (rs.next()) {
                 entity.setId_stock_prices_history(rs.getLong(1));
             }
+            
+            logger.info("item guardado %s", String.valueOf(entity));
             DBConnection.doCommit();
             return mapper.toOuter(entity);
         } catch (SQLException ex) {
@@ -74,6 +77,7 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
     @Override
     public WrapperPojoIntStockPriceHistory getPriceFromProduct(long idProduct) throws BloSalesV2Exception {
         try {
+            logger.info("recuperando historial de precios mediante idProduct=%s", idProduct);
             final var ps = conn.prepareStatement(BloSalesV2Queries.RETRIEVE_STOCK_PRICE_HISTORY);
             ps.setLong(1, idProduct);
             final var rs = ps.executeQuery();
@@ -90,7 +94,7 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
                 item.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
                 historyStockPrice.add(item);
             }
-            logger.log(String.format("hitorial %s", historyStockPrice.size()));
+            logger.info("hitorial %s", historyStockPrice.size());
             wrapperHistory.setHistory(historyStockPrice);
             return wrapperMapper.toOuter(wrapperHistory);
         } catch (SQLException ex) {

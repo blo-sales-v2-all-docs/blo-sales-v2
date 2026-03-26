@@ -42,6 +42,7 @@ public class CategoriesModelImpl implements ICategoriesModel {
     @Override
     public PojoIntCategory registerCategory(PojoIntCategory category) throws BloSalesV2Exception {
         try {
+            logger.info("registrando categoria %s", String.valueOf(category));
             final var data = categoryMapper.toInner(category);
             // 1. Desactivar el AutoCommit para iniciar la transacción
             DBConnection.disableAutocommit();
@@ -59,6 +60,7 @@ public class CategoriesModelImpl implements ICategoriesModel {
             }
             // 3. Si todo salió bien, confirmamos los cambios en la DB
             DBConnection.doCommit();
+            logger.info("categoria registrada %s", String.valueOf(data));
             return categoryMapper.toOuter(data);
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -76,6 +78,7 @@ public class CategoriesModelImpl implements ICategoriesModel {
     @Override
     public WrapperIntPojoCategories getAllCategories() throws BloSalesV2Exception {
         try {
+            logger.info("recuperando todas las categorias");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ALL_DATA_FROM_CATEGORIES);
             final var data = ps.executeQuery();
             final var categories = new ArrayList<CategoryEntity>();
@@ -88,6 +91,7 @@ public class CategoriesModelImpl implements ICategoriesModel {
                 categories.add(category);
             }
             wrapper.setCategories(categories);
+            logger.info("categorias encontradas %s", categories.size());
             return wrapperCategoriesEntityMapper.toOuter(wrapper);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

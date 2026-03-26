@@ -95,6 +95,7 @@ public class SalesControllerImpl implements ISalesController {
         sale.setTotal(totalSale);
         sale.setTimestamp(timestamp);
         final var saleSaved = saleModel.registerSale(sale);
+        logger.info("venta registrada %s", String.valueOf(saleSaved));
         for (final var p: products) {
             final var productFound = filterProductById(productsFound, p.getIdProduct());
             // registro de movimiento previo a resta
@@ -106,7 +107,7 @@ public class SalesControllerImpl implements ISalesController {
             movementBef.setTimestamp(timestamp);
             movementBef.setType(TypesEntityEnum.NOT_MODIFIED);
             historyController.registerMovement(movementBef);
-            logger.log(String.format("registro de movimiento previo a resta %s", movementBef));
+            logger.info("registro de movimiento previo a resta %s", String.valueOf(movementBef));
             
             // registro de movimiento
             final var movement = new PojoIntMovement();
@@ -130,6 +131,7 @@ public class SalesControllerImpl implements ISalesController {
             // actualizar cantidad en el stock
             final var newQuantity = productFound.getQuantity().subtract(p.getQuantityOnSale());
             productFound.setQuantity(newQuantity);
+            logger.info("producto actualizado %s", String.valueOf(productFound));
             productsController.updateProductInfo(productFound, ReasonsIntEnum.SALE, idUser, TypesIntEnum.ADJUST);
         }
         /** se agrega el dinero a la caja */
@@ -137,6 +139,7 @@ public class SalesControllerImpl implements ISalesController {
         var openCashbox = cashboxController.getOpenCashbox();
         // si no existe se crea
         if (openCashbox == null) {
+            logger.info("cashbox inexistente");
             final var newCashbox = new PojoIntCashbox();
             newCashbox.setFkUser(idUser);
             newCashbox.setAmount(BigDecimal.ZERO);
@@ -144,11 +147,13 @@ public class SalesControllerImpl implements ISalesController {
             newCashbox.setTimestamp(timestamp);
             openCashbox = cashboxController.addCashbox(newCashbox);
         }
+        logger.info("cashbox %s", String.valueOf(openCashbox));
         // se suma la cantidad de la venta al monto de la caja abierta
         final var amount = openCashbox.getAmount().add(totalSale);
         openCashbox.setAmount(amount);
         openCashbox.setTimestamp(timestamp);
         // actualizar cantidad en la caja
+        logger.info("actualizando caja abierta %s", String.valueOf(openCashbox));
         cashboxController.updateCAshbox(openCashbox, openCashbox.getIdCashbox());
         return saleSaved;
     }

@@ -44,6 +44,7 @@ public class HistoryModelImpl implements IHistoryModel {
     @Override
     public PojoIntMovement registerMovement(PojoIntMovement movement) throws BloSalesV2Exception {
         try {
+            logger.info("guarando movimiento %s", String.valueOf(movement));
             final var inMovement = mapper.toInner(movement);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_MOVEMENT, Statement.RETURN_GENERATED_KEYS);
@@ -62,6 +63,7 @@ public class HistoryModelImpl implements IHistoryModel {
                 inMovement.setId_movement(rs.getInt(1));
             }
             DBConnection.doCommit();
+            logger.info("movimiento guardado [%s]", String.valueOf(inMovement));
             return mapper.toOuter(inMovement);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
@@ -79,7 +81,7 @@ public class HistoryModelImpl implements IHistoryModel {
     @Override
     public WrapperPojoIntMovementsDetail getHistoryFromProduct(long productId) throws BloSalesV2Exception {
         try {
-            logger.log(String.format("Buscando movimientos de %s", productId));
+            logger.info("Buscando movimientos de %s", productId);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_MOVEMENTS_DETAIL);
             ps.setLong(1, productId);
             final var rs = ps.executeQuery();
@@ -99,7 +101,7 @@ public class HistoryModelImpl implements IHistoryModel {
                 item.setQuantity(rs.getBigDecimal(BloSalesV2Columns.QUANTITY));
                 movements.add(item);
             }
-            logger.log(String.format("Movimientos recuperados %s", movements.size()));
+            logger.info("Movimientos recuperados %s", movements.size());
             wrapperMovement.setHistory(movements);
             return movementsDetailsMapper.toOuter(wrapperMovement);
         } catch (SQLException ex) {
