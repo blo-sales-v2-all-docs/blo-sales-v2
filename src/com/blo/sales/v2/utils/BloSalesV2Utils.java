@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public final class BloSalesV2Utils {
     
-    public static final String VERSION = "v2.7.1-SNAPSHOT";
+    public static final String VERSION = "v2.7.1-RELEASE";
     
     private static final String RELEASE = "RELEASE";
     
