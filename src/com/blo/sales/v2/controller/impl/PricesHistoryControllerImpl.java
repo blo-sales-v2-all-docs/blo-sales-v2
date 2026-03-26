@@ -26,7 +26,7 @@ public class PricesHistoryControllerImpl implements IPricesHistoryController {
 
     @Override
     public PojoIntPriceHistory addPriceHistory(PojoIntPriceHistory priceHistory) throws BloSalesV2Exception {
-        logger.log("Guardando informacion de precio " + priceHistory.toString());
+        logger.info("Guardando informacion de precio %s", String.valueOf(priceHistory));
         return model.addPriceHistory(priceHistory);
     }
     

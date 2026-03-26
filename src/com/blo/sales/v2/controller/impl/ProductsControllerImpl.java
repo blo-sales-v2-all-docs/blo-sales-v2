@@ -67,7 +67,7 @@ public class ProductsControllerImpl implements IProductsController {
                 BloSalesV2Utils.CATEGORY_NOT_FOUND
         );
         final var productSaved = model.registerProduct(product);
-        logger.log("producto guardado: " + productSaved.toString());
+        logger.info("producto guardado: %s", String.valueOf(productSaved));
         final var itemPrice = new PojoIntPriceHistory();
         itemPrice.setCostOfSale(product.getCostOfSale());
         itemPrice.setPrice(product.getPrice());
@@ -77,15 +77,18 @@ public class ProductsControllerImpl implements IProductsController {
 
     @Override
     public WrapperPojoIntProducts getAllProducts() throws BloSalesV2Exception {
+        logger.equals("recuperando todos los productos");
         return model.getAllProducts();
     }
 
     @Override
     public PojoIntProduct updateProductInfo(PojoIntProduct product, ReasonsIntEnum reasons, long idUser, TypesIntEnum type) throws BloSalesV2Exception {
+        logger.info("validando informacion de producto");
         /** validaciones */
         final var productFound = getProductById(product.getIdProduct());
         user.getUserById(idUser);
         final var timestamp = BloSalesV2Utils.getTimestamp();
+        logger.info("producto encontrado %s", String.valueOf(productFound));
         /** crea una instancia para la bitacora */
         final var movement = new PojoIntMovement();
         movement.setFk_user(idUser);
@@ -95,6 +98,7 @@ public class ProductsControllerImpl implements IProductsController {
         movement.setTimestamp(timestamp);
         movement.setType(TypesEntityEnum.valueOf(type.name()));
         historyController.registerMovement(movement);
+        logger.info("movimiento registrado %s", String.valueOf(movement));
         
         /** actualiza algunos campos del POJO */
         productFound.setBarCode(product.getBarCode());
@@ -104,11 +108,13 @@ public class ProductsControllerImpl implements IProductsController {
         productFound.setQuantity(product.getQuantity());
         /** se actualiza timestamp a ultima actualizacion */
         productFound.setTimestamp(timestamp);
+        logger.info("producto actualizado [%s]", String.valueOf(productFound));
         return model.updateProductInfo(productFound);
     }
 
     @Override
     public PojoIntProduct getProductById(long idProduct) throws BloSalesV2Exception {
+        logger.info("recuperando producto por id=%s", idProduct);
         return model.getProductById(idProduct);
     }
 }

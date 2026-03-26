@@ -26,7 +26,7 @@ public class SaleDeletedDetailControllerImpl implements ISaleDeletedDetailContro
 
     @Override
     public PojoIntSaleDeletedDetail addSaleDeletedDetail(PojoIntSaleDeletedDetail detail) throws BloSalesV2Exception {
-        logger.log(String.format("Guardando rzon de baja %s", detail.toString()));
+        logger.info("Guardando rzon de baja %s", String.valueOf(detail));
         return model.addSaleDeletedDetail(detail);
     }
     

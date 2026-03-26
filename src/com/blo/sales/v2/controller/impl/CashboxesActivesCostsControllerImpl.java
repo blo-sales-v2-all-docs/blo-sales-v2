@@ -26,7 +26,7 @@ public class CashboxesActivesCostsControllerImpl implements ICashboxesActivesCos
 
     @Override
     public PojoIntCashboxesActivesCosts addRelationship(PojoIntCashboxesActivesCosts data) throws BloSalesV2Exception {
-        logger.log("agregando relacion");
+        logger.info("agregando relacion");
         return model.addRelationship(data);
     }
     

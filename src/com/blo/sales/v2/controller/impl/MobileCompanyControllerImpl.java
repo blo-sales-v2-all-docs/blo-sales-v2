@@ -27,25 +27,25 @@ public class MobileCompanyControllerImpl implements IMobileCompanyController {
 
     @Override
     public WrapperPojoIntMobilesCompanies getMobilesCompanies() throws BloSalesV2Exception {
-        logger.log("Recuperando todas las companias");
+        logger.info("Recuperando todas las companias");
         return model.getMobilesCompanies();
     }
 
     @Override
     public PojoIntMobileCompany createMobileCompany(PojoIntMobileCompany company) throws BloSalesV2Exception {
-        logger.log(String.format("Creando compania %s", String.valueOf(company)));
+        logger.info("Creando compania %s", String.valueOf(company));
         return model.createMobileCompany(company);
     }
 
     @Override
     public PojoIntMobileCompany getCompanyMobileById(long id) throws BloSalesV2Exception {
-        logger.log(String.format("Recuperando compania por %s", id));
+        logger.info("Recuperando compania por %s", id);
         return model.getCompanyMobileById(id);
     }
 
     @Override
     public PojoIntMobileCompany updateCompanyMobile(PojoIntMobileCompany companyData, long id) throws BloSalesV2Exception {
-        logger.log(String.format("Actualizando company %s [%s]", id, String.valueOf(companyData)));
+        logger.info("Actualizando company %s [%s]", id, String.valueOf(companyData));
         return model.updateCompanyMobile(companyData, id);
     }
     

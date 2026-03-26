@@ -32,9 +32,9 @@ public class TopUpsControllerImpl implements ITopUpsController {
 
     @Override
     public PojoIntTopUp addTopUp(PojoIntTopUp data, long idCompany) throws BloSalesV2Exception {
-        logger.log(String.format("guardando recarga telefonica", String.valueOf(data)));
+        logger.info("guardando recarga telefonica", String.valueOf(data));
         final var companyFound = mobileCompanyController.getCompanyMobileById(idCompany);
-        logger.log(String.format("Compania encontrada %s", String.valueOf(companyFound)));
+        logger.info("Compania encontrada %s", String.valueOf(companyFound));
         BloSalesV2Utils.validateRule(companyFound == null, BloSalesV2Utils.CODE_COMPANY_NOT_FOUND, BloSalesV2Utils.ERROR_COMPANY_NOT_FOUND);
         data.setFkMobileCompany(companyFound);
         return model.addTopUp(data);
@@ -42,20 +42,20 @@ public class TopUpsControllerImpl implements ITopUpsController {
 
     @Override
     public WrapperPojoIntTopUp closeTopUps(WrapperPojoIntTopUp topUps) throws BloSalesV2Exception {
-        logger.log(String.format("actualizando topUps %s", topUps.getTopUps().size()));
+        logger.info("actualizando topUps %s", topUps.getTopUps().size());
         if (topUps.getTopUps() != null && !topUps.getTopUps().isEmpty()) {
             for(final var element: topUps.getTopUps()) {
                 element.setChecked(true);
                 model.updateTopUp(element, element.getIdTopUp());
             }
-            logger.log("Se han cerrado las recargas");
+            logger.info("Se han cerrado las recargas");
         }
         return topUps;
     }
 
     @Override
     public WrapperPojoIntTopUp getTopUpsByStatus(TopUpSearchStatusIntEnum status) throws BloSalesV2Exception {
-        logger.log(String.format("buscando recargas por estatus %s", String.valueOf(status)));
+        logger.info("buscando recargas por estatus %s", String.valueOf(status));
         return model.getTopUpsByStatus(status);
     }
     

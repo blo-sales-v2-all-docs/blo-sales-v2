@@ -27,25 +27,25 @@ public class SalesProductControllerImpl implements ISalesProductController {
     
     @Override
     public PojoIntSaleProduct addSalesProduct(PojoIntSaleProduct salesProduct) throws BloSalesV2Exception {
-        logger.log("guardando relacion venta producto");
+        logger.info("guardando relacion venta producto");
         return model.addSaleProduct(salesProduct);
     }
 
     @Override
     public PojoIntSaleProduct getRelationship(long idSale, long idProduct) throws BloSalesV2Exception {
-        logger.log("recuperando relacion");
+        logger.info("recuperando relacion");
         return model.getRelationship(idSale, idProduct);
     }
 
     @Override
     public PojoIntSaleProduct updateRelationship(PojoIntSaleProduct data) throws BloSalesV2Exception {
-        logger.log("Actualizando relacion");
+        logger.info("Actualizando relacion");
         return model.updateRelationship(data);
     }
 
     @Override
     public WrapperPojoIntSaleStock getSalesStockLiveByIdSale(long idSale) throws BloSalesV2Exception {
-        logger.log(String.format("recuperando todas las ventas de %s", idSale));
+        logger.info("recuperando todas las ventas de %s", idSale);
         return model.getSalesStockLiveByIdSale(idSale);
     }
     

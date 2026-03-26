@@ -26,7 +26,7 @@ public class ActivesCostsControllerImpl implements IActivesCostsController {
 
     @Override
     public WrapperPojoIntActivesCosts addActiveCost(WrapperPojoIntActivesCosts activeCost) throws BloSalesV2Exception {
-        log.log("guardando activos y costos " + activeCost.getActivesCosts().size());
+        log.info("guardando activos y costos %s", activeCost.getActivesCosts().size());
         return model.addActiveCost(activeCost);
     }
     

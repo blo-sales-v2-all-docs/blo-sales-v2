@@ -55,12 +55,13 @@ public class DebtorsControllerImpl implements IDebtorsController {
 
     @Override
     public PojoIntDebtor getDebtorById(long idDebtor) throws BloSalesV2Exception {
-        logger.log("recuperando deudor " + idDebtor);
+        logger.info("recuperando deudor %s", idDebtor);
         return model.getDebtorById(idDebtor);
     }
 
     @Override
     public PojoIntDebtor updateDebtor(PojoIntDebtor debtor, long idDebtor) throws BloSalesV2Exception {
+        logger.info("actualizando deudor %s", String.valueOf(debtor));
         return model.updateDebtor(debtor, idDebtor);
     }
 
@@ -71,7 +72,7 @@ public class DebtorsControllerImpl implements IDebtorsController {
         
         BloSalesV2Utils.validateRule(debtorFound == null, BloSalesV2Utils.CODE_DEBTOR_NOT_FOUND, BloSalesV2Utils.DEBTOR_NOT_FOUND);
         
-        logger.log(String.format("deudor encontrado %s", debtorFound.toString()));
+        logger.info("deudor encontrado %s", String.valueOf(debtorFound));
         // se registra como venta
         final var productPay = productsController.getProductById(getIdPaymentProduct());
         final var productsLst = new ArrayList<PojoIntSaleProductData>();
@@ -84,16 +85,16 @@ public class DebtorsControllerImpl implements IDebtorsController {
         salesController.registerSale(pay, productsLst, idUser);
         // validar que el pago no cubre toda la deuda
         if (pay.compareTo(debtorFound.getDebt()) < 0) {
-            logger.log("pago es menor que la deuda");
+            logger.info("pago es menor que la deuda");
             final var amount = debtorFound.getDebt().subtract(pay);
-            logger.log(String.format("nuevo monto ", amount));
+            logger.info("nuevo monto ", amount);
             final var payments = BloSalesV2Utils.getPartialPayment(pay);
             debtorFound.setPayments(debtorFound.getPayments() + payments);
             debtorFound.setDebt(amount);
             return updateDebtor(debtorFound, idDebtor);
         }
         // pago completo
-        logger.log("pago completo");
+        logger.info("pago completo");
         debtorFound.setDebt(BigDecimal.ZERO);
         debtorFound.setPayments(BloSalesV2Utils.EMPTY_STRING);
         debtorsSales.deleteRelationhip(idDebtor);
@@ -103,11 +104,13 @@ public class DebtorsControllerImpl implements IDebtorsController {
 
     @Override
     public WrapperPojoIntDebtorsDetails getDebtorsDetails() throws BloSalesV2Exception {
+        logger.info("recuperando detalles de deudores");
         return model.getDebtorsDetails();
     }
 
     @Override
     public void deleteDebtor(long idDebtor) throws BloSalesV2Exception {
+        logger.info("eliminando deudor por id = %s", idDebtor);
         model.deleteDebtor(idDebtor);
     }
 

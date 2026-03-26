@@ -32,21 +32,21 @@ public class StockPricesHistoryControllerImpl implements IStockPricesHistoryCont
 
     @Override
     public PojoIntStockPricesHistory addPriceOnHistory(PojoIntPriceHistory priceItem, long idProduct) throws BloSalesV2Exception {
-        logger.log("guardando item " + priceItem.toString());
+        logger.info("guardando item %s", String.valueOf(priceItem));
         final var saved = pricesController.addPriceHistory(priceItem);
-        logger.log("precio guardado " + saved.toString());
+        logger.info("precio guardado %s", String.valueOf(saved));
         final var item = new PojoIntStockPricesHistory();
         item.setFkProduct(idProduct);
         item.setFkPriceHistory(saved.getIdPriceHistory());
         item.setTimesTamp(BloSalesV2Utils.getTimestamp());
         final var relationSaved = model.addPriceOnHistory(item);
-        logger.log("item guardod [relacion precio stock] " + relationSaved.toString());
+        logger.info("item guardod [relacion precio stock] %s", String.valueOf(relationSaved));
         return relationSaved;
     }
 
     @Override
     public WrapperPojoIntStockPriceHistory getPriceFromProduct(long idProduct) throws BloSalesV2Exception {
-        logger.log("recuperando historial de precios " + idProduct);
+        logger.info("recuperando historial de precios %s", idProduct);
         return model.getPriceFromProduct(idProduct);
     }
 

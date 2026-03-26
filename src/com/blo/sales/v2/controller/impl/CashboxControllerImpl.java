@@ -41,34 +41,37 @@ public class CashboxControllerImpl implements ICashboxController {
     
     @Override
     public PojoIntCashbox addCashbox(PojoIntCashbox cashbox) throws BloSalesV2Exception {
-        logger.log("creando caja de dinero");
+        logger.info("creando caja de dinero");
         return model.addCashbox(cashbox);
     }
 
     @Override
     public PojoIntCashbox getOpenCashbox() throws BloSalesV2Exception {
+        logger.info("recuperando caja abierta");
         return model.getOpenCashbox();
     }
 
     @Override
     public PojoIntCashbox updateCAshbox(PojoIntCashbox cashbox, long idCashbox) throws BloSalesV2Exception {
+        logger.info("actualizando cashbox byId = %s", idCashbox);
         return model.updateCashbox(cashbox, idCashbox);
     }
     
     @Override
     public WrapperPojoIntCashboxes getAllCashboxes() throws BloSalesV2Exception {
+        logger.info("recuperando todas las cashbox");
         return model.getAllCashboxes();
     }
 
     @Override
     public PojoIntCashbox closeCashbox(PojoIntCashbox cashbox, WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception {
         cashbox.setStatus(CashboxStatusIntEnum.CLOSE);
-        logger.log("cerrando caja " + cashbox.toString());
+        logger.info("cerrando caja %s", String.valueOf(cashbox));
         updateCAshbox(cashbox, cashbox.getIdCashbox());
-        logger.log("guardando costos " + activesCosts.getActivesCosts().size());
+        logger.info("guardando costos %s", activesCosts.getActivesCosts().size());
         if (activesCosts.getActivesCosts() != null && !activesCosts.getActivesCosts().isEmpty()) {
             final var saved = activesCostsController.addActiveCost(activesCosts);
-            logger.log("se han guardado los activos y costos" + saved.getActivesCosts().size());
+            logger.info("se han guardado los activos y costos %s", saved.getActivesCosts().size());
             // guardar las relaciones
             for (final var ac: saved.getActivesCosts()) {
                 final var item = new PojoIntCashboxesActivesCosts();
@@ -76,10 +79,11 @@ public class CashboxControllerImpl implements ICashboxController {
                 item.setFkCashbox(cashbox.getIdCashbox());
                 item.setTimestamp(cashbox.getTimestamp());
                 final var relationSaved = cashboxesAactivesCostsController.addRelationship(item);
-                logger.log("relacion guardada en la db " + relationSaved.toString());
+                logger.info("relacion guardada en la db [%s]", String.valueOf(relationSaved));
             }
         }
         // cerrar ventas del dia
+        logger.info("cerrando ventas del dia");
         final var sales = salesController.retrieveSalesDataByStatus(SalesStatusIntEnum.CLOSE);
         if (sales.getSales() != null && !sales.getSales().isEmpty()) {
             for (final var s: sales.getSales()) {
@@ -91,7 +95,7 @@ public class CashboxControllerImpl implements ICashboxController {
 
     @Override
     public WrapperPojoIntCashboxesDetails getCashboxesDetail() throws BloSalesV2Exception {
-        logger.log("recuperando detalles de caja");
+        logger.info("recuperando detalles de caja");
         return model.getCashboxesDetail();
     }
 
