@@ -16,7 +16,7 @@ public enum KeysEnum {
     CATEGORIES_LBL_CATEGORY("categories.lbl.category"), CATEGORIES_LBL_DESCRIPTION("categories.lbl.description"), CATEGORIES_LBL_EDIT_CATEGORY("categories.lbl.edit-category"),
     // dialogos
     DLG_DEBTORS_BTN_REGISTER("dlg-debtors.btn-register"), DLG_DEBTORS_LBL_GIVE("dlg-debtors.lbl.give"), DLG_DEBTORS_LBL_GIVE_CASH("dlg-debtors.lbl.give-cash"),
-    DLG_SELECTOR("dlg-filter.lbl.filter"),
+    DLG_SELECTOR("dlg-filter.lbl.filter"), DLG_CASHBOX_TRG_SALES_TODAY("dlg-cashbox.trg.sales-today"),
     // cashbox
     CASHBOX_BTN_CLOSE_NOW("cashbox.btn.close-now"), CASHBOX_DLG_IMPORT_FROM_NOTES("cashbox.dlg.import-from-notes"), CASHBOX_DLG_CLOSING_CASHBOX("cashbox.dlg.closing-cashbox"),
     CASHBOXES_LBL_ACTIVES("cashboxes.lbl.actives"), CASHBOXES_LBL_COSTS("cashboxes.lbl.costs"),

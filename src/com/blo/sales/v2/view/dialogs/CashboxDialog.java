@@ -41,6 +41,8 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
     private WrapperPojoNotes actives;
     
     private WrapperPojoNotes pasives;
+    
+    private PojoCashbox cashboxData;
 
     public CashboxDialog(
         Component parent,
@@ -56,58 +58,20 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         this.callback = callback;
         this.actives = actives;
         this.pasives = pasives;
+        this.cashboxData = cashboxData;
         lstCosts = new ArrayList<>();
         modelActives = new DefaultListModel();
         modelPasives = new DefaultListModel();
         dataNewCashbox = new PojoDialogCashboxData();
         totalActives = BigDecimal.ZERO;
         totalPasives = BigDecimal.ZERO;
-        totalActivesCosts = cashboxData.getAmount();
-        //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + cashboxData.getAmount());
+        totalActivesCosts = BigDecimal.ZERO;
         GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), cashboxData.getAmount()));
         setInfoFromNotes();
         // lista de activos
-        GUICommons.addDoubleClickOnListEvt(lstActives, item -> {
-            final var indexSelected = lstActives.getSelectedIndex();
-            if (indexSelected != -1) {
-                    final var props = item.split(",");
-                    // formato de item: item 0, concepto=Cuenta de ayer, monto=750, tipo=ACTIVO, completo=false
-                    final var amount = new BigDecimal(props[2].split("=")[1].trim());
-                    // resta en la cuenta de activos
-                    totalActives = totalActives.subtract(amount);
-                    //GUICommons.setTextToField(lblActivesTotal, "Total activos: " + totalActives);
-                    GUICommons.setTextToField(lblActivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_ACTIVES.getKey()), totalActives));
-                    // se elimina del arreglo y de la lista
-                    lstCosts.removeIf(i -> i.toString().equals(item));
-                    modelActives.remove(indexSelected);
-                    // se resta al total de activos a neto
-                    totalActivesCosts = totalActivesCosts.subtract(amount);
-                    //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
-                    GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
-                }
-        });
+        GUICommons.addDoubleClickOnListEvt(lstActives, item -> removeActive(item));
         // lista de pasivos
-        GUICommons.addDoubleClickOnListEvt(lstPasives, item -> {
-            final var indexSelected = lstPasives.getSelectedIndex();
-            if (indexSelected != -1) {
-                    final var props = Arrays.asList(item.split(",")).stream().
-                            map(i -> i.trim()).
-                            collect(Collectors.toCollection(ArrayList::new));
-                    // formato de item: item 0, concepto=Cuenta de ayer, monto=750, tipo=ACTIVO, completo=false
-                    final var amount = new BigDecimal(props.get(2).split("=")[1].trim());
-                    // resta en la cuenta de activos
-                    totalPasives = totalPasives.subtract(amount);
-                    //GUICommons.setTextToField(lblPasivesTotal, "Total costos: " + totalPasives);
-                    GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), totalPasives));
-                    // se elimina del arreglo y de la lista
-                    lstCosts.removeIf(i -> i.toString().equals(item));
-                    modelPasives.remove(indexSelected);
-                    // se resta al total de activos a neto
-                    totalActivesCosts = totalActivesCosts.add(amount);
-                    //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
-                    GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
-                }
-        });
+        GUICommons.addDoubleClickOnListEvt(lstPasives, item -> removePasive(item));
     }
 
     @SuppressWarnings("unchecked")
@@ -297,6 +261,9 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
 
     // carga los datos de una nota en los campos de texto
     private void setInfoFromNotes() {
+        final var salesToDay = createItem(cashboxData.getAmount(), getTranslateBy(KeysEnum.DLG_CASHBOX_TRG_SALES_TODAY.getKey()), ActivesCostsEnum.ACTIVO);
+        lstCosts.add(salesToDay);
+        addActive(salesToDay, salesToDay.getAmount());
         if (actives != null) {
             // hay activos
             for (final var note: actives.getNotes()) {
@@ -329,7 +296,6 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         modelActives.addElement(data.toString());
         lstActives.setModel(modelActives);
         totalActives = totalActives.add(amount);
-        //GUICommons.setTextToField(lblActivesTotal, "Total activos: " + totalActives);
         GUICommons.setTextToField(lblActivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_ACTIVES.getKey()), totalActives));
         totalActivesCosts = totalActivesCosts.add(amount);
     }
@@ -343,7 +309,6 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         modelPasives.addElement(data.toString());
         lstPasives.setModel(modelPasives);
         totalPasives = totalPasives.add(amount);
-//        GUICommons.setTextToField(lblPasivesTotal, "Total pasivos: " + totalPasives);
         GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), totalPasives));
         totalActivesCosts = totalActivesCosts.subtract(amount);
     }
@@ -381,6 +346,44 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         out.setConcept(concept);
         out.setType(type);
         return out;
+    }
+    
+    private void removeActive(String item) {
+        final var indexSelected = lstActives.getSelectedIndex();
+        if (indexSelected != -1) {
+                final var props = item.split(",");
+                // formato de item: item 0, concepto=Cuenta de ayer, monto=750, tipo=ACTIVO, completo=false
+                final var amount = new BigDecimal(props[2].split("=")[1].trim());
+                // resta en la cuenta de activos
+                totalActives = totalActives.subtract(amount);
+                GUICommons.setTextToField(lblActivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_ACTIVES.getKey()), totalActives));
+                // se elimina del arreglo y de la lista
+                lstCosts.removeIf(i -> i.toString().equals(item));
+                modelActives.remove(indexSelected);
+                // se resta al total de activos a neto
+                totalActivesCosts = totalActivesCosts.subtract(amount);
+                GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
+            }
+    }
+    
+    private void removePasive(String item) {
+        final var indexSelected = lstPasives.getSelectedIndex();
+        if (indexSelected != -1) {
+            final var props = Arrays.asList(item.split(",")).stream().
+                    map(i -> i.trim()).
+                    collect(Collectors.toCollection(ArrayList::new));
+            // formato de item: item 0, concepto=Cuenta de ayer, monto=750, tipo=ACTIVO, completo=false
+            final var amount = new BigDecimal(props.get(2).split("=")[1].trim());
+            // resta en la cuenta de activos
+            totalPasives = totalPasives.subtract(amount);
+            GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), totalPasives));
+            // se elimina del arreglo y de la lista
+            lstCosts.removeIf(i -> i.toString().equals(item));
+            modelPasives.remove(indexSelected);
+            // se resta al total de activos a neto
+            totalActivesCosts = totalActivesCosts.add(amount);
+            GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
