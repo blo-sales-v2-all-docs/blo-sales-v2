@@ -118,14 +118,6 @@ public final class GUICommons {
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
                     actionHandler(table, action);
-                    /*final var fila = table.getSelectedRow();
-                    if (fila != -1) {
-                        // Convertir el índice por si la tabla está filtrada
-                        final var filaModelo = table.convertRowIndexToModel(fila);
-                        // Recuperar el ID (suponiendo que está en la columna 0)
-                        T id = (T) table.getModel().getValueAt(filaModelo, 0);
-                        action.accept(id);
-                    }*/
                 }
             }
         });

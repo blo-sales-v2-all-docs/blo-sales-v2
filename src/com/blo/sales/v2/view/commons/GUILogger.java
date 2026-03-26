@@ -37,7 +37,7 @@ public final class GUILogger {
         row.append(_str);
         Logger.getLogger(className).log(Level.INFO, _str);
     }
-    
+       
     public String getLogs() {
         if (row == null) {
             return "[" + BloSalesV2Utils.getTimestamp() + "]";

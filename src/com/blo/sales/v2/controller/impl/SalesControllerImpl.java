@@ -182,6 +182,8 @@ public class SalesControllerImpl implements ISalesController {
         final var debtorFound = debtorsController.getDebtorById(idDebtor);
         // se guarda deuda original
         BloSalesV2Utils.validateRule(debtorFound == null, BloSalesV2Utils.CODE_DEBTOR_NOT_FOUND, BloSalesV2Utils.DEBTOR_NOT_FOUND);
+        final var currentDebt = debtorFound.getDebt();
+        logger.log(String.format("Deudor encontrado %s", String.valueOf(debtorFound)));
         debtorFound.setDebt(totalSale);
         /** se actualiza deudor */
         if (partialPay.compareTo(BigDecimal.ZERO) == 0) {
@@ -192,27 +194,25 @@ public class SalesControllerImpl implements ISalesController {
             registereRelationship(idDebtor, resiteredSale.getIdSale(), resiteredSale.getTimestamp());
             return debtorsController.updateDebtor(debtorFound, idDebtor);
         }
-        // el deudor ha abonado algo
-        logger.log("abono de deudor " + partialPay);
-        // flujo cuando no se cubre deuda completa
-        if (partialPay.compareTo(debtorFound.getDebt()) < 0) {
-            logger.log("el deudor no pago completo");
+        final var allProductsSum = productsInfo.stream().
+                map(PojoIntSaleProductData::getProductBuyTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
+        final var newDebt = currentDebt.add(allProductsSum).subtract(partialPay);
+        logger.log(String.format("nueva deuda (%s + %s - %s = %s)", currentDebt, allProductsSum, partialPay, newDebt));
+        if (newDebt.compareTo(BigDecimal.ZERO) > 0) {
+            logger.log("aun hay deuda");
             registerSale(partialPay, productsInfo, idUser);
             debtorFound.setPayments(partialPayments);
-            logger.log("debtor found actualizado " + debtorFound.toString());
+            logger.log(String.format("debtor found actualizado %s", String.valueOf(debtorFound)));
             // se guarda relacion
-            final var resiteredSale = registerSale(BigDecimal.ZERO, productsInfo, idUser);
-            registereRelationship(idDebtor, resiteredSale.getIdSale(), resiteredSale.getTimestamp());
+            final var regiteredSale = registerSale(BigDecimal.ZERO, productsInfo, idUser);
+            registereRelationship(idDebtor, regiteredSale.getIdSale(), regiteredSale.getTimestamp());
             return debtorsController.updateDebtor(debtorFound, idDebtor);
         }
-        // se cubre deuda completa
-        logger.log("se cubre deuda completa");
-        // validar que no se guarden numeros negativos en la deuda
-        final var registeredSale = registerSale(totalSale, productsInfo, idUser);
-        debtorsSalesController.deleteRelationhip(registeredSale.getIdSale());
-        debtorFound.setPayments(BloSalesV2Utils.EMPTY_STRING);
-        debtorFound.setDebt(BigDecimal.ZERO);
-        return debtorsController.updateDebtor(debtorFound, idDebtor);
+        logger.log("se ha pagado toda la deuda");
+        registerSale(totalSale, productsInfo, idUser);
+        debtorsSalesController.deleteRelationhip(idDebtor);
+        debtorsController.deleteDebtor(idDebtor);
+        return null;
     }
     
     @Override

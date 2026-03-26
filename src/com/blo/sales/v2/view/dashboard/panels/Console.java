@@ -4,6 +4,7 @@ import com.blo.sales.v2.plugins.writter.BloSalesV2WritterFile;
 import com.blo.sales.v2.plugins.writter.enums.ExtensionEnum;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -89,5 +90,6 @@ public final class Console extends AbstractDashboardBase {
     @Override
     public void loadTargets() {
         GUICommons.setTextToButton(btnDownloadLogs, getTranslateBy(KeysEnum.CONSOLE_BTN_DOWNLOAD_LOGS.getKey()));
+        txtArea.setText(BloSalesV2Utils.EMPTY_STRING);
     }
 }
