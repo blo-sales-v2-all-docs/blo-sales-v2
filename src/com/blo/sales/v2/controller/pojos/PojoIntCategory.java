@@ -31,5 +31,16 @@ public class PojoIntCategory {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntCategory{");
+        sb.append("idCategory=").append(idCategory);
+        sb.append(", category=").append(category);
+        sb.append(", description=").append(description);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

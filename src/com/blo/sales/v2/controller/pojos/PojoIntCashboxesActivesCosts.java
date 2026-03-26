@@ -45,6 +45,14 @@ public class PojoIntCashboxesActivesCosts {
 
     @Override
     public String toString() {
-        return "PojoIntCashboxesActivesCosts{" + "idCashboxesActivesCosts=" + idCashboxesActivesCosts + ", fkCashbox=" + fkCashbox + ", fkActivesCosts=" + fkActivesCosts + ", timestamp=" + timestamp + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntCashboxesActivesCosts{");
+        sb.append("idCashboxesActivesCosts=").append(idCashboxesActivesCosts);
+        sb.append(", fkCashbox=").append(fkCashbox);
+        sb.append(", fkActivesCosts=").append(fkActivesCosts);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
     }
+
 }

@@ -56,7 +56,15 @@ public class PojoIntNote {
 
     @Override
     public String toString() {
-        return "PojoIntNote{" + "idNote=" + idNote + ", fkUser=" + fkUser + ", note=" + note + ", timesamp=" + timesamp + ", typeNote=" + typeNote + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntNote{");
+        sb.append("idNote=").append(idNote);
+        sb.append(", fkUser=").append(fkUser);
+        sb.append(", note=").append(note);
+        sb.append(", timesamp=").append(timesamp);
+        sb.append(", typeNote=").append(typeNote);
+        sb.append('}');
+        return sb.toString();
     }
-    
+
 }

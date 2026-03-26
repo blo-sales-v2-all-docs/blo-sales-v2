@@ -54,6 +54,15 @@ public class PojoIntSaleDeletedDetail {
 
     @Override
     public String toString() {
-        return "PojoIntSaleDeletedDetail{" + "idSaleDeleted=" + idSaleDeleted + ", fkSaleProduct=" + fkSaleProduct + ", fkUser=" + fkUser + ", reason=" + reason + ", timestamp=" + timestamp + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntSaleDeletedDetail{");
+        sb.append("idSaleDeleted=").append(idSaleDeleted);
+        sb.append(", fkSaleProduct=").append(fkSaleProduct);
+        sb.append(", fkUser=").append(fkUser);
+        sb.append(", reason=").append(reason);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
     }
+
 }

@@ -13,5 +13,14 @@ public class WrapperPojoIntNotes {
     public void setNotes(List<PojoIntNote> notes) {
         this.notes = notes;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntNotes{");
+        sb.append("notes=").append(notes);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

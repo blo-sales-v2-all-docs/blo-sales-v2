@@ -16,7 +16,11 @@ public class WrapperPojoIntTopUp {
 
     @Override
     public String toString() {
-        return "WrapperPojoIntTopUp{" + "topUps=" + topUps + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntTopUp{");
+        sb.append("topUps=").append(topUps);
+        sb.append('}');
+        return sb.toString();
     }
-    
+
 }

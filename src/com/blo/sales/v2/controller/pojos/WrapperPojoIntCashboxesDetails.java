@@ -14,4 +14,13 @@ public class WrapperPojoIntCashboxesDetails {
         this.cashboxesInfo = cashboxesInfo;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntCashboxesDetails{");
+        sb.append("cashboxesInfo=").append(cashboxesInfo);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }

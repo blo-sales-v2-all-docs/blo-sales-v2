@@ -26,8 +26,8 @@ public class MovementEntityMapper implements IToInner<MovementEntity, PojoIntMov
             return null;
         }
         final var inner = new MovementEntity();
-        inner.setFk_product(outer.getFk_product());
-        inner.setFk_user(outer.getFk_user());
+        inner.setFk_product(outer.getFkProduct());
+        inner.setFk_user(outer.getFkUser());
         inner.setQuantity(outer.getQuantity());
         inner.setReason(ReasonsEntityEnum.valueOf(outer.getReason().name()));
         inner.setTimestamp(outer.getTimestamp());
@@ -41,9 +41,9 @@ public class MovementEntityMapper implements IToInner<MovementEntity, PojoIntMov
             return null;
         }
         final var outer = new PojoIntMovement();
-        outer.setFk_product(inner.getFk_product());
-        outer.setFk_user(inner.getFk_user());
-        outer.setId_movement(inner.getId_movement());
+        outer.setFkProduct(inner.getFk_product());
+        outer.setFkUser(inner.getFk_user());
+        outer.setIdMovement(inner.getId_movement());
         outer.setQuantity(inner.getQuantity());
         outer.setReason(ReasonsEntityEnum.valueOf(inner.getReason().name()));
         outer.setTimestamp(inner.getTimestamp());

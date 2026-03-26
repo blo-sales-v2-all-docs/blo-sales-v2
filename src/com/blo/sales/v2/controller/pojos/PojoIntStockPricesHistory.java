@@ -44,7 +44,14 @@ public class PojoIntStockPricesHistory {
 
     @Override
     public String toString() {
-        return "PojoIntStockPricesHistory{" + "idStockPricesHistory=" + idStockPricesHistory + ", fkProduct=" + fkProduct + ", fkPriceHistory=" + fkPriceHistory + ", timesTamp=" + timesTamp + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntStockPricesHistory{");
+        sb.append("idStockPricesHistory=").append(idStockPricesHistory);
+        sb.append(", fkProduct=").append(fkProduct);
+        sb.append(", fkPriceHistory=").append(fkPriceHistory);
+        sb.append(", timesTamp=").append(timesTamp);
+        sb.append('}');
+        return sb.toString();
     }
     
 }

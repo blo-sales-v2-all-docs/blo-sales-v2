@@ -13,4 +13,13 @@ public class WrapperPojoIntProducts {
     public void setProducts(List<PojoIntProduct> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntProducts{");
+        sb.append("products=").append(products);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -13,5 +13,14 @@ public class WrapperPojoIntSaleStock {
     public void setSalesStocks(List<PojoIntSaleProduct> salesStock) {
         this.salesStock = salesStock;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntSaleStock{");
+        sb.append("salesStock=").append(salesStock);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

@@ -16,7 +16,11 @@ public class WrapperPojoIntStockPriceHistory {
 
     @Override
     public String toString() {
-        return "WrapperPojoIntStockPriceHistory{" + "history=" + history + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntStockPriceHistory{");
+        sb.append("history=").append(history);
+        sb.append('}');
+        return sb.toString();
     }
     
 }

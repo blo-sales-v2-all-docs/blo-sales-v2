@@ -13,5 +13,14 @@ public class WrapperPojoIntActivesCosts {
     public void setActivesCosts(List<PojoIntActiveCost> activesCosts) {
         this.activesCosts = activesCosts;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntActivesCosts{");
+        sb.append("activesCosts=").append(activesCosts);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 
 public class PojoIntMovement {
     
-    private long id_movement;
+    private long idMovement;
     
-    private long fk_product;
+    private long fkProduct;
     
-    private long fk_user;
+    private long fkUser;
     
     private TypesEntityEnum type;
     
@@ -20,28 +20,28 @@ public class PojoIntMovement {
     
     private String timestamp;
 
-    public long getId_movement() {
-        return id_movement;
+    public long getIdMovement() {
+        return idMovement;
     }
 
-    public void setId_movement(long id_movement) {
-        this.id_movement = id_movement;
+    public void setIdMovement(long idMovement) {
+        this.idMovement = idMovement;
     }
 
-    public long getFk_product() {
-        return fk_product;
+    public long getFkProduct() {
+        return fkProduct;
     }
 
-    public void setFk_product(long fk_product) {
-        this.fk_product = fk_product;
+    public void setFkProduct(long fkProduct) {
+        this.fkProduct = fkProduct;
     }
 
-    public long getFk_user() {
-        return fk_user;
+    public long getFkUser() {
+        return fkUser;
     }
 
-    public void setFk_user(long fk_user) {
-        this.fk_user = fk_user;
+    public void setFkUser(long fkUser) {
+        this.fkUser = fkUser;
     }
 
     public TypesEntityEnum getType() {
@@ -78,7 +78,17 @@ public class PojoIntMovement {
 
     @Override
     public String toString() {
-        return "PojoIntMovement{" + "id_movement=" + id_movement + ", fk_product=" + fk_product + ", fk_user=" + fk_user + ", type=" + type + ", quantity=" + quantity + ", reason=" + reason + ", timestamp=" + timestamp + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoIntMovement{");
+        sb.append("idMovement=").append(idMovement);
+        sb.append(", fkProduct=").append(fkProduct);
+        sb.append(", fkUser=").append(fkUser);
+        sb.append(", type=").append(type);
+        sb.append(", quantity=").append(quantity);
+        sb.append(", reason=").append(reason);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
     }
     
 }

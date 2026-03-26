@@ -16,7 +16,12 @@ public class WrapperPojoIntMovementsDetail {
 
     @Override
     public String toString() {
-        return "WrapperPojoIntMovementDetail{" + "history=" + history + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntMovementsDetail{");
+        sb.append("history=").append(history);
+        sb.append('}');
+        return sb.toString();
     }
+
     
 }

@@ -91,8 +91,8 @@ public class ProductsControllerImpl implements IProductsController {
         logger.info("producto encontrado %s", String.valueOf(productFound));
         /** crea una instancia para la bitacora */
         final var movement = new PojoIntMovement();
-        movement.setFk_user(idUser);
-        movement.setFk_product(productFound.getIdProduct());
+        movement.setFkUser(idUser);
+        movement.setFkProduct(productFound.getIdProduct());
         movement.setQuantity(product.getQuantity());
         movement.setReason(ReasonsEntityEnum.valueOf(reasons.name()));
         movement.setTimestamp(timestamp);

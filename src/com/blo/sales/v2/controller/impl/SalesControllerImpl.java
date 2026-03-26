@@ -101,8 +101,8 @@ public class SalesControllerImpl implements ISalesController {
             final var productFound = filterProductById(productsFound, p.getIdProduct());
             // registro de movimiento previo a resta
             final var movementBef = new PojoIntMovement();
-            movementBef.setFk_product(p.getIdProduct());
-            movementBef.setFk_user(idUser);
+            movementBef.setFkProduct(p.getIdProduct());
+            movementBef.setFkUser(idUser);
             movementBef.setQuantity(productFound.getQuantity());
             movementBef.setReason(ReasonsEntityEnum.SALE);
             movementBef.setTimestamp(timestamp);
@@ -112,8 +112,8 @@ public class SalesControllerImpl implements ISalesController {
             
             // registro de movimiento
             final var movement = new PojoIntMovement();
-            movement.setFk_product(p.getIdProduct());
-            movement.setFk_user(idUser);
+            movement.setFkProduct(p.getIdProduct());
+            movement.setFkUser(idUser);
             movement.setQuantity(p.getQuantityOnSale());
             movement.setReason(ReasonsEntityEnum.SALE);
             movement.setTimestamp(timestamp);
@@ -273,8 +273,8 @@ public class SalesControllerImpl implements ISalesController {
         final var timestamp = BloSalesV2Utils.getTimestamp();
         // registro previo antes de movimientos
         final var movementBef = new PojoIntMovement();
-        movementBef.setFk_product(productFound.getIdProduct());
-        movementBef.setFk_user(idUser);
+        movementBef.setFkProduct(productFound.getIdProduct());
+        movementBef.setFkUser(idUser);
         movementBef.setQuantity(productFound.getQuantity());
         movementBef.setReason(ReasonsEntityEnum.DEVOLUTION);
         movementBef.setTimestamp(BloSalesV2Utils.getTimestamp());
@@ -284,8 +284,8 @@ public class SalesControllerImpl implements ISalesController {
         
         // registrar los productos que llegan al stock
         final var movement = new PojoIntMovement();
-        movement.setFk_product(productFound.getIdProduct());
-        movement.setFk_user(idUser);
+        movement.setFkProduct(productFound.getIdProduct());
+        movement.setFkUser(idUser);
         movement.setQuantity(relationFound.getQuantityOnSale());
         movement.setReason(ReasonsEntityEnum.DEVOLUTION);
         movement.setTimestamp(BloSalesV2Utils.getTimestamp());

@@ -13,5 +13,14 @@ public class WrapperPojoIntDebtorsDetails {
     public void setDebtors(List<PojoIntDebtorDetail> debtors) {
         this.debtors = debtors;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WrapperPojoIntDebtorsDetails{");
+        sb.append("debtors=").append(debtors);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }
