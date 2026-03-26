@@ -44,5 +44,17 @@ public class PojoDialogCashboxData {
     public void setItems(List<PojoActiveCost> items) {
         this.items = items;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoDialogCashboxData{");
+        sb.append("totalActives=").append(totalActives);
+        sb.append(", totalPasives=").append(totalPasives);
+        sb.append(", totalAmountInCashbox=").append(totalAmountInCashbox);
+        sb.append(", items=").append(items);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

@@ -34,4 +34,15 @@ public class PojoSale {
     public void setSaleStatus(SalesStatusEnum saleStatus) {
         this.saleStatus = saleStatus;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoSale{");
+        sb.append("idSale=").append(idSale);
+        sb.append(", total=").append(total);
+        sb.append(", saleStatus=").append(saleStatus);
+        sb.append('}');
+        return sb.toString();
+    }
 }

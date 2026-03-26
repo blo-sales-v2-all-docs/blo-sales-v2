@@ -65,4 +65,18 @@ public class PojoCashbox {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoCashbox{");
+        sb.append("idCashbox=").append(idCashbox);
+        sb.append(", fkUser=").append(fkUser);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append(", amount=").append(amount);
+        sb.append(", status=").append(status);
+        sb.append(", userFrom=").append(userFrom);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }

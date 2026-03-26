@@ -46,6 +46,13 @@ public class PojoDebtor {
 
     @Override
     public String toString() {
-        return "PojoDebtor{" + "idDebtor=" + idDebtor + ", name=" + name + ", debt=" + debt + ", payments=" + payments + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoDebtor{");
+        sb.append("idDebtor=").append(idDebtor);
+        sb.append(", name=").append(name);
+        sb.append(", debt=").append(debt);
+        sb.append(", payments=").append(payments);
+        sb.append('}');
+        return sb.toString();
     }
 }

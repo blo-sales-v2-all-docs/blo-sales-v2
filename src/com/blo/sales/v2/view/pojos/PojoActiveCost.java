@@ -58,7 +58,13 @@ public class PojoActiveCost {
 
     @Override
     public String toString() {
-        return idActiveCosts + ", concepto=" + concept + ", monto=" + amount + ", tipo=" + type + ", completo=" + complete;
+        StringBuilder sb = new StringBuilder();
+        sb.append(idActiveCosts);
+        sb.append(", concept=").append(concept);
+        sb.append(", amount=").append(amount);
+        sb.append(", type=").append(type);
+        sb.append(", complete=").append(complete);
+        return sb.toString();
     }
     
 }

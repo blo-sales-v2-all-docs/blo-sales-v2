@@ -53,5 +53,18 @@ public class PojoSaleProductData {
     public void setProductBuyTotal(BigDecimal productBuyTotal) {
         this.productBuyTotal = productBuyTotal;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoSaleProductData{");
+        sb.append("idProduct=").append(idProduct);
+        sb.append(", quantityOnSale=").append(quantityOnSale);
+        sb.append(", price=").append(price);
+        sb.append(", productBuyTotal=").append(productBuyTotal);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

@@ -24,7 +24,12 @@ public class PojoMobileCompany {
 
     @Override
     public String toString() {
-        return "PojoIntMobileCompany{" + "idMobileCompany=" + idMobileCompany + ", mobileCompany=" + mobileCompany + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoMobileCompany{");
+        sb.append("idMobileCompany=").append(idMobileCompany);
+        sb.append(", mobileCompany=").append(mobileCompany);
+        sb.append('}');
+        return sb.toString();
     }
-    
+
 }

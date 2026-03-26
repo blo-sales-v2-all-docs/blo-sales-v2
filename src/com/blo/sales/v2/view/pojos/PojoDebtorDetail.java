@@ -86,6 +86,17 @@ public class PojoDebtorDetail {
 
     @Override
     public String toString() {
-        return "PojoDebtorDetail{" + "idDebtor=" + idDebtor + ", name=" + name + ", debt=" + debt + ", payments=" + payments + ", product=" + product + ", quantitySale=" + quantitySale + ", totalOnSale=" + totalOnSale + ", timestamp=" + timestamp + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoDebtorDetail{");
+        sb.append("idDebtor=").append(idDebtor);
+        sb.append(", name=").append(name);
+        sb.append(", debt=").append(debt);
+        sb.append(", payments=").append(payments);
+        sb.append(", product=").append(product);
+        sb.append(", quantitySale=").append(quantitySale);
+        sb.append(", totalOnSale=").append(totalOnSale);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
     }
 }

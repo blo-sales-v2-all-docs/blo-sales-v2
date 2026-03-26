@@ -41,5 +41,17 @@ public class PojoDebtorSale {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PojoDebtorSale{");
+        sb.append("idDebtorSale=").append(idDebtorSale);
+        sb.append(", fkSale=").append(fkSale);
+        sb.append(", fkDebtor=").append(fkDebtor);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

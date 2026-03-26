@@ -34,7 +34,7 @@ public class PojoCategory {
 
     @Override
     public String toString() {
-        return idCategory + " " + category;
+        return String.format("%s %s", idCategory, category);
     }
     
 }
