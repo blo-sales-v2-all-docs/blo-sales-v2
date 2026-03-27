@@ -3,7 +3,13 @@ package com.blo.sales.v2.view.pojos;
 import com.blo.sales.v2.view.pojos.enums.ReasonsEnum;
 import com.blo.sales.v2.view.pojos.enums.TypesEnum;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class PojoMovementDetail {
     
     private long idMovement;
@@ -21,84 +27,4 @@ public class PojoMovementDetail {
     private String username;
     
     private BigDecimal quantity;
-
-    public long getIdMovement() {
-        return idMovement;
-    }
-
-    public void setIdMovement(long idMovement) {
-        this.idMovement = idMovement;
-    }
-
-    public TypesEnum getType() {
-        return type;
-    }
-
-    public void setType(TypesEnum type) {
-        this.type = type;
-    }
-
-    public ReasonsEnum getReason() {
-        return reason;
-    }
-
-    public void setReason(ReasonsEnum reason) {
-        this.reason = reason;
-    }
-
-    public long getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(long idProduct) {
-        this.idProduct = idProduct;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PojoMovementDetail{");
-        sb.append("idMovement=").append(idMovement);
-        sb.append(", type=").append(type);
-        sb.append(", reason=").append(reason);
-        sb.append(", idProduct=").append(idProduct);
-        sb.append(", product=").append(product);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", username=").append(username);
-        sb.append(", quantity=").append(quantity);
-        sb.append('}');
-        return sb.toString();
-    }
 }

@@ -126,10 +126,9 @@ public final class LoginFrm extends AbstractFrameBase {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try {
-            final var userData = new PojoUser(
-                GUICommons.getTextFromField(txtUserName, true),
-                GUICommons.getTextFromField(pwdUserpassword, true)
-            );
+            final var userData = new PojoUser();
+            userData.setPassword(GUICommons.getTextFromField(pwdUserpassword, true));
+            userData.setUsername(GUICommons.getTextFromField(txtUserName, true));
             final var userDataIn = userMapper.toInner(userData);
             final var userResponse = loggedInUserMapper.toOuter(
                 userController.doLogin(userDataIn)

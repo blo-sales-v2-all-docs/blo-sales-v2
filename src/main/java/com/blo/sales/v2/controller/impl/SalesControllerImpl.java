@@ -304,7 +304,7 @@ public class SalesControllerImpl implements ISalesController {
         var totalOnSale = relationFound.getTotalOnSale();
         totalOnSale = totalOnSale.subtract(productFound.getPrice());
         relationFound.setTotalOnSale(BigDecimal.ZERO);
-        relationFound.setIsLive(false);
+        relationFound.setLive(false);
         relationFound.setTimestap(timestamp);
         relationFound.setProductTotalOnSale(BigDecimal.ZERO);
         relationFound.setQuantityOnSale(BigDecimal.ZERO);

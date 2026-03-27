@@ -2,7 +2,13 @@ package com.blo.sales.v2.model.entities;
 
 import com.blo.sales.v2.model.entities.enums.CashboxEntityEnum;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class CashboxEntity {
     
     private long id_cashbox;
@@ -16,67 +22,5 @@ public class CashboxEntity {
     private CashboxEntityEnum status;
     
     private String username;
-
-    public long getId_cashbox() {
-        return id_cashbox;
-    }
-
-    public void setId_cashbox(long id_cashbox) {
-        this.id_cashbox = id_cashbox;
-    }
-
-    public long getFk_user() {
-        return fk_user;
-    }
-
-    public void setFk_user(long fk_user) {
-        this.fk_user = fk_user;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal initial_amount) {
-        this.amount = initial_amount;
-    }
-
-    public CashboxEntityEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(CashboxEntityEnum status) {
-        this.status = status;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CashboxEntity{");
-        sb.append("id_cashbox=").append(id_cashbox);
-        sb.append(", fk_user=").append(fk_user);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", amount=").append(amount);
-        sb.append(", status=").append(status);
-        sb.append(", username=").append(username);
-        sb.append('}');
-        return sb.toString();
-    }
     
 }

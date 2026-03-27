@@ -1,26 +1,15 @@
 package com.blo.sales.v2.view.pojos;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class WrapperPojoStockPriceHistory {
     
     private List<PojoStockPriceHistory> history;
-
-    public List<PojoStockPriceHistory> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<PojoStockPriceHistory> history) {
-        this.history = history;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("WrapperPojoStockPriceHistory{");
-        sb.append("history=").append(history);
-        sb.append('}');
-        return sb.toString();
-    }
 
 }

@@ -24,7 +24,7 @@ public class PojoStockPriceHistoryMapper implements IToOuter<PojoIntStockPriceHi
         }
         final var outer = new PojoStockPriceHistory();
         outer.setCostOfSale(inner.getCostOfSale());
-        outer.setId_stock_price_history(inner.getIdStockPriceHistory());
+        outer.setIdStockPriceHistory(inner.getIdStockPriceHistory());
         outer.setPrice(inner.getPrice());
         outer.setProduct(inner.getProduct());
         outer.setTimestamp(inner.getTimestamp());

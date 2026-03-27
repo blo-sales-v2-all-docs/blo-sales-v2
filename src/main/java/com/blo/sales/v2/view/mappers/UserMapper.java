@@ -22,7 +22,10 @@ public class UserMapper implements IToInner<PojoIntUser, PojoUser> {
         if (outer == null) {
             return null;
         }
-        return new PojoIntUser(outer.getUsername(), outer.getPassword());
+        final var user = new PojoIntUser();
+        user.setUserName(outer.getUsername());
+        user.setPassword(outer.getPassword());
+        return user;
     }
     
 }

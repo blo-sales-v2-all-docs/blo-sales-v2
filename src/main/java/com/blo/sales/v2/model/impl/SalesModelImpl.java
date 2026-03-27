@@ -161,7 +161,7 @@ public class SalesModelImpl implements ISalesModel {
                 saleDetail.setId_sale(data.getLong(BloSalesV2Columns.ID_SALE));
                 saleDetail.setTotal(data.getBigDecimal(BloSalesV2Columns.TOTAL));
                 saleDetail.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
-                saleDetail.setSales_status(SaleStatusEntityEnum.valueOf(data.getString(BloSalesV2Columns.SALE_STATUS)));
+                saleDetail.setSale_status(SaleStatusEntityEnum.valueOf(data.getString(BloSalesV2Columns.SALE_STATUS)));
                 details.add(saleDetail);
             }
             wrapper.setSales(details);

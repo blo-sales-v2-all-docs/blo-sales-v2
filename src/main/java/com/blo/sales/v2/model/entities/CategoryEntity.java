@@ -1,5 +1,12 @@
 package com.blo.sales.v2.model.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
 public class CategoryEntity {
     
     private long id_category;
@@ -7,40 +14,5 @@ public class CategoryEntity {
     private String category;
     
     private String description;
-
-    public long getId_category() {
-        return id_category;
-    }
-
-    public void setId_category(long id_category) {
-        this.id_category = id_category;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CategoryEntity{");
-        sb.append("id_category=").append(id_category);
-        sb.append(", category=").append(category);
-        sb.append(", description=").append(description);
-        sb.append('}');
-        return sb.toString();
-    }
     
 }

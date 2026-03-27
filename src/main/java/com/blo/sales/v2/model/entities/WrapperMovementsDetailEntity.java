@@ -1,26 +1,15 @@
 package com.blo.sales.v2.model.entities;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class WrapperMovementsDetailEntity {
     
     private List<MovementDetailEntity> history;
-
-    public List<MovementDetailEntity> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<MovementDetailEntity> history) {
-        this.history = history;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("WrapperMovementsDetailEntity{");
-        sb.append("history=").append(history);
-        sb.append('}');
-        return sb.toString();
-    }
 
 }
