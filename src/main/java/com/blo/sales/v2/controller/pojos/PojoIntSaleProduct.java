@@ -1,7 +1,13 @@
 package com.blo.sales.v2.controller.pojos;
 
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class PojoIntSaleProduct {
     
     private long idSaleProduct;
@@ -19,85 +25,5 @@ public class PojoIntSaleProduct {
     private String timestap;
     
     private boolean isLive;
-
-    public long getIdSaleProduct() {
-        return idSaleProduct;
-    }
-
-    public void setIdSaleProduct(long idSaleProduct) {
-        this.idSaleProduct = idSaleProduct;
-    }
-
-    public long getFkSale() {
-        return fkSale;
-    }
-
-    public void setFkSale(long fkSale) {
-        this.fkSale = fkSale;
-    }
-
-    public long getFkProduct() {
-        return fkProduct;
-    }
-
-    public void setFkProduct(long fkProduct) {
-        this.fkProduct = fkProduct;
-    }
-
-    public BigDecimal getQuantityOnSale() {
-        return quantityOnSale;
-    }
-
-    public void setQuantityOnSale(BigDecimal quantityOnSale) {
-        this.quantityOnSale = quantityOnSale;
-    }
-
-    public BigDecimal getTotalOnSale() {
-        return totalOnSale;
-    }
-
-    public void setTotalOnSale(BigDecimal totalOnSale) {
-        this.totalOnSale = totalOnSale;
-    }
-
-    public String getTimestap() {
-        return timestap;
-    }
-
-    public void setTimestap(String timestap) {
-        this.timestap = timestap;
-    }
-
-    public BigDecimal getProductTotalOnSale() {
-        return productTotalOnSale;
-    }
-
-    public void setProductTotalOnSale(BigDecimal productTotalOnSale) {
-        this.productTotalOnSale = productTotalOnSale;
-    }
-    
-    public void setIsLive(boolean isLive) {
-        this.isLive = isLive;
-    }
-    
-    public boolean isLive() {
-        return isLive;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PojoIntSaleProduct{");
-        sb.append("idSaleProduct=").append(idSaleProduct);
-        sb.append(", fkSale=").append(fkSale);
-        sb.append(", fkProduct=").append(fkProduct);
-        sb.append(", quantityOnSale=").append(quantityOnSale);
-        sb.append(", totalOnSale=").append(totalOnSale);
-        sb.append(", productTotalOnSale=").append(productTotalOnSale);
-        sb.append(", timestap=").append(timestap);
-        sb.append(", isLive=").append(isLive);
-        sb.append('}');
-        return sb.toString();
-    }
     
 }

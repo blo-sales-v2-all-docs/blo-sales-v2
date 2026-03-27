@@ -1,7 +1,11 @@
 package com.blo.sales.v2.controller.pojos;
 
 import com.blo.sales.v2.controller.pojos.enums.RolesIntEnum;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class PojoIntLoggedInUser {
     
     private long idUser;
@@ -9,28 +13,4 @@ public class PojoIntLoggedInUser {
     private String username;
     
     private RolesIntEnum role;
-
-    public long getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public RolesIntEnum getRole() {
-        return role;
-    }
-
-    public void setRole(RolesIntEnum role) {
-        this.role = role;
-    }
 }
