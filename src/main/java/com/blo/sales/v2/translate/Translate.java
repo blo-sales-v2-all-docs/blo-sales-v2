@@ -10,7 +10,7 @@ public class Translate {
     public Translate(String lang, String country) {
         Locale locale = new Locale(lang, country);
         // "messages" es el nombre base de tu archivo .properties
-        bundle = ResourceBundle.getBundle("com.blo.sales.v2.translate.es", locale);
+        bundle = ResourceBundle.getBundle("es", locale);
     }
 
     public String get(String key) {

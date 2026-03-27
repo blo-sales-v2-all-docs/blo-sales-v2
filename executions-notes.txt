@@ -1,0 +1,2 @@
+comando para ejecutar el jar:
+	java -jar BloSalesV2-2.8.0-SNAPSHOT-jar-with-dependencies.jar
