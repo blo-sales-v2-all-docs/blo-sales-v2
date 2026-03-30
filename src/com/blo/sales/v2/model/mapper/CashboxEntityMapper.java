@@ -9,7 +9,7 @@ import com.blo.sales.v2.utils.IToOuter;
 
 public class CashboxEntityMapper implements IToInner<CashboxEntity, PojoIntCashbox>, IToOuter<CashboxEntity, PojoIntCashbox> {
     
-    public static CashboxEntityMapper instance;
+    private static CashboxEntityMapper instance;
     
     private CashboxEntityMapper() { }
     

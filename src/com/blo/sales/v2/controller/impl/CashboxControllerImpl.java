@@ -3,6 +3,7 @@ package com.blo.sales.v2.controller.impl;
 import com.blo.sales.v2.controller.IActivesCostsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.ICashboxesActivesCostsController;
+import com.blo.sales.v2.controller.ICashboxesSalesController;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxesActivesCosts;
@@ -27,6 +28,8 @@ public class CashboxControllerImpl implements ICashboxController {
     private static final IActivesCostsController activesCostsController = ActivesCostsControllerImpl.getInstance();
     
     private static final ISalesController salesController = SalesControllerImpl.getInstance();
+    
+    private static final ICashboxesSalesController cashboxesSalesController = CashboxesSalesControllerImpl.getInstance();
     
     private static CashboxControllerImpl instance;
         
@@ -88,6 +91,8 @@ public class CashboxControllerImpl implements ICashboxController {
         if (sales.getSales() != null && !sales.getSales().isEmpty()) {
             for (final var s: sales.getSales()) {
                 salesController.setCashboxSale(s.getIdSale());
+                // guardando relacion caja de dinero - venta
+                cashboxesSalesController.addCashboxSale(cashbox.getIdCashbox(), s.getIdSale());
             }
         }
         return cashbox;
