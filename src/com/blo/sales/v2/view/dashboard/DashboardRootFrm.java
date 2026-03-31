@@ -18,11 +18,14 @@ import com.blo.sales.v2.view.dashboard.panels.SalesReport;
 import com.blo.sales.v2.view.dashboard.panels.SalesToday;
 import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
+import com.google.inject.Injector;
+import jakarta.inject.Inject;
 import java.awt.BorderLayout;
 
 public final class DashboardRootFrm extends AbstractFrameBase {
     
-    private final PojoLoggedInUser userData;
+    @Inject
+    private Injector injector;
     
     private RegisterProduct registerProduct;
     
@@ -50,15 +53,21 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     
     private TopUps topUps;
     
-    public DashboardRootFrm(PojoLoggedInUser userData) {
-        this.userData = userData;
+    private PojoLoggedInUser userData;
+    
+    @Inject
+    public DashboardRootFrm() {
         initComponents();
+        
+        
+    }
+    
+    public void init() {
         content.setLayout(new BorderLayout());
         setTitle(getTranslateBy(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
         GUICommons.showPanel(this, content, new Sales(userData, KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
         GUICommons.allWindow(this);
         GUICommons.setTextToField(lblVersion, BloSalesV2Utils.VERSION);
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -274,8 +283,14 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     }//GEN-LAST:event_optRegisterActionPerformed
 
     private void optCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optCategoryActionPerformed
-        categories = new Categories(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey());
-        GUICommons.showPanel(this, content, categories);
+//        categories = new Categories(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey());
+  //      GUICommons.showPanel(this, content, categories);
+  if (injector != null) {
+  categories = new Categories(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey());
+  injector.injectMembers(categories);
+  categories.init();
+  GUICommons.showPanel(this, content, categories);
+  }
     }//GEN-LAST:event_optCategoryActionPerformed
 
     private void optStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optStockActionPerformed
@@ -332,7 +347,8 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         topUps = new TopUps(userData, KeysEnum.DASHBOARD_TITLES_TOP_UPS.getKey());
         GUICommons.showPanel(this, content, topUps);
     }//GEN-LAST:event_optTopUpsActionPerformed
-        
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel content;
     private javax.swing.JMenu itmAdmon;
@@ -364,5 +380,9 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     @Override
     public void loadTargets() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setUserData(PojoLoggedInUser userData) {
+        this.userData = userData;
     }
 }

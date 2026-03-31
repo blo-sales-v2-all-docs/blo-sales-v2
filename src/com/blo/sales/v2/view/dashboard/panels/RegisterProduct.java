@@ -23,7 +23,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(RegisterProduct.class.getName());
     
-    private static final ICategoriesController categories = CategoriesControllerImpl.getInstance();
+    private static final ICategoriesController categories = null;
     
     private static final ProductMapper productMapper = ProductMapper.getInstance();
     

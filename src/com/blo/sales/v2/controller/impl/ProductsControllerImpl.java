@@ -23,7 +23,7 @@ public class ProductsControllerImpl implements IProductsController {
     
     private static final GUILogger logger = GUILogger.getLogger(ProductsControllerImpl.class.getName());
     
-    private static final ICategoriesController categoriesController = CategoriesControllerImpl.getInstance();
+    private static final ICategoriesController categoriesController = null;
     
     private static final IProductsModel model = ProductsModelImpl.getInstance();
     

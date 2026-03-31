@@ -48,7 +48,7 @@ public final class AllProducts extends AbstractDashboardBase {
     
     private static final IStockPricesHistoryController stockPricesHistoryController = StockPricesHistoryControllerImpl.getInstance();
     
-    private static final ICategoriesController categoriesController = CategoriesControllerImpl.getInstance();
+    private static final ICategoriesController categoriesController = null;
     
     private static final IHistoryController historyController = HistoryControllerImpl.getInstance();
     

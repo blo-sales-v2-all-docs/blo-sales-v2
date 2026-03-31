@@ -14,6 +14,8 @@ import com.blo.sales.v2.view.mappers.UserMapper;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.blo.sales.v2.view.commons.AbstractFrameBase;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.google.inject.Injector;
+import jakarta.inject.Inject;
 
 public final class LoginFrm extends AbstractFrameBase {
     
@@ -24,6 +26,9 @@ public final class LoginFrm extends AbstractFrameBase {
     private static final LoggedInUserMapper loggedInUserMapper = LoggedInUserMapper.getInstance();
     
     private static final IUserController userController = UserControllerImpl.getInstance();
+    
+    @Inject
+    private Injector injector;
     
     public LoginFrm() {
         initComponents();
@@ -135,10 +140,15 @@ public final class LoginFrm extends AbstractFrameBase {
                 userController.doLogin(userDataIn)
             );
             if (userResponse.getRole().equals(RolesEnum.ROOT)) {
-                final var dashboard = new DashboardRootFrm(userResponse);
+                final var dash = injector.getInstance(DashboardRootFrm.class);
+                dash.setUserData(userResponse);
+                dash.setVisible(true);
+                dash.setLocationRelativeTo(null);
+                this.dispose();
+               /* final var dashboard = new DashboardRootFrm(userResponse);
                 dashboard.setVisible(true);
                 dashboard.setLocationRelativeTo(null);
-                this.dispose();
+                this.dispose();*/
             }
 
         } catch (BloSalesV2Exception ex) {
@@ -146,41 +156,6 @@ public final class LoginFrm extends AbstractFrameBase {
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnLoginActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginFrm().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;

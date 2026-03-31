@@ -14,6 +14,7 @@ import com.blo.sales.v2.view.mappers.WrapperPojoCategoriesMapper;
 import com.blo.sales.v2.view.pojos.PojoCategory;
 import com.blo.sales.v2.view.pojos.WrapperPojoCategories;
 import javax.swing.DefaultListModel;
+import jakarta.inject.Inject;
 
 public final class Categories extends AbstractDashboardBase {
     
@@ -23,13 +24,19 @@ public final class Categories extends AbstractDashboardBase {
     
     private static final WrapperPojoCategoriesMapper wrapperPojoCategoriesMapper = WrapperPojoCategoriesMapper.getInstance();
     
-    private static final ICategoriesController categoriesController = CategoriesControllerImpl.getInstance();
+    //private static final ICategoriesController categoriesController = CategoriesControllerImpl.getInstance();
     
     /** Variable global para almacenar categorias y usarla en cualquer metodo */
+    @Inject
+    private ICategoriesController categoriesController;
+    
     private WrapperPojoCategories categoriesGlobal;
 
     public Categories(String key) {
         super(key);
+    }
+    
+    public void init() {
         initComponents();
         loadTargets();
         loadCategories();

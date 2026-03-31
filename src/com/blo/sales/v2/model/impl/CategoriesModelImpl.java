@@ -18,6 +18,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import jakarta.inject.Singleton;
+
+@Singleton
 public class CategoriesModelImpl implements ICategoriesModel {
     
     private static final GUILogger logger = GUILogger.getLogger(CategoriesModelImpl.class.getName());
@@ -27,8 +30,8 @@ public class CategoriesModelImpl implements ICategoriesModel {
     private static final CategoryEntityMapper categoryMapper = CategoryEntityMapper.getInstance();
    
     private static final WrapperCategoriesEntityMapper wrapperCategoriesEntityMapper = WrapperCategoriesEntityMapper.getInstance();
-
-    public static CategoriesModelImpl instance;
+    
+    /*public static CategoriesModelImpl instance;
     
     private CategoriesModelImpl() { }
     
@@ -37,7 +40,7 @@ public class CategoriesModelImpl implements ICategoriesModel {
             instance = new CategoriesModelImpl();
         }
         return instance;
-    }
+    }*/
 
     @Override
     public PojoIntCategory registerCategory(PojoIntCategory category) throws BloSalesV2Exception {
