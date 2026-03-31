@@ -18,7 +18,7 @@ public enum KeysEnum {
     DLG_DEBTORS_BTN_REGISTER("dlg-debtors.btn-register"), DLG_DEBTORS_LBL_GIVE("dlg-debtors.lbl.give"), DLG_DEBTORS_LBL_GIVE_CASH("dlg-debtors.lbl.give-cash"),
     DLG_SELECTOR("dlg-filter.lbl.filter"), DLG_CASHBOX_TRG_SALES_TODAY("dlg-cashbox.trg.sales-today"),
     // cashbox
-    CASHBOX_BTN_CLOSE_NOW("cashbox.btn.close-now"), CASHBOX_DLG_IMPORT_FROM_NOTES("cashbox.dlg.import-from-notes"), CASHBOX_DLG_CLOSING_CASHBOX("cashbox.dlg.closing-cashbox"), CASHBOXES_BTN_VIEW_DETAILS("cashboxes.btn.view-details"),
+    CASHBOX_BTN_CLOSE_NOW("cashbox.btn.close-now"), CASHBOX_DLG_IMPORT_FROM_NOTES("cashbox.dlg.import-from-notes"), CASHBOX_DLG_CLOSING_CASHBOX("cashbox.dlg.closing-cashbox"), CASHBOXES_BTN_VIEW_DETAILS("cashboxes.btn.view-details"), CASHBOXES_BTN_GRAPHICS("cashboxes.btn.grapics"),
     CASHBOXES_LBL_ACTIVES("cashboxes.lbl.actives"), CASHBOXES_LBL_COSTS("cashboxes.lbl.costs"), CASHBOXES_LBL_CASHBOX_OF("cashboxes.lbl.cashbox-of"),
     // notes
     NOTES_LBL_INSTRUCTIONS("notes.lbl.instructions"), NOTES_BTN_SAVE_NOTE("notes.btn.save-note"), DLG_NOTE_BTN_DELETE("dlg-note.btn.delete"), NOTES_DLG_EDITING_NOTE("notes.dlg.editing-note"),

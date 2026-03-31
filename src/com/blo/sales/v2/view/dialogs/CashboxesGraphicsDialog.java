@@ -1,6 +1,7 @@
 package com.blo.sales.v2.view.dialogs;
 
-import com.blo.sales.v2.view.pojos.WrapperPojoStockPriceHistory;
+import com.blo.sales.v2.view.commons.AbstractDialogBase;
+import com.blo.sales.v2.view.pojos.WrapperPojoCashboxesDetails;
 import java.awt.Component;
 import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartFactory;
@@ -10,52 +11,45 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public class PricesEvolutionDialog extends javax.swing.JDialog {
-    
-    private static final String PRICE_OF_SALE = "Precio de venta";
-    
-    private static final String COST_OF_SALE = "Costo de venta";
+public class CashboxesGraphicsDialog extends AbstractDialogBase {
     
     private static final String EVOLUTION_OF = "Evoluci\u00f3n de: ";
     
-    private static final String REGISTER_HOUR = "Hora del Registro";
+    private static final String REGISTER_HOUR = "Fecha de Registro";
     
-    private static final String CURRENCY = "Pesos ($): ";
+    private static final String CASHBOX = "Caja";
+    
+    private final WrapperPojoCashboxesDetails cashboxesDetails;
 
-    private final WrapperPojoStockPriceHistory pricesEvolution;
-
-    public PricesEvolutionDialog(Component parent, boolean modal, WrapperPojoStockPriceHistory pricesEvolution) {
-        super(SwingUtilities.getWindowAncestor(parent), "", ModalityType.APPLICATION_MODAL);
-        this.pricesEvolution = pricesEvolution;
+    public CashboxesGraphicsDialog(Component parent, String title, WrapperPojoCashboxesDetails cashboxesDetails) {
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
         initComponents();
-        createGraphic();
-
-        this.setLocationRelativeTo(null);
+        this.cashboxesDetails = cashboxesDetails;
+        loadGraphics();
     }
 
-    private void createGraphic() {
-        if (pricesEvolution.getHistory() == null || pricesEvolution.getHistory().isEmpty()) {
+    private void loadGraphics() {
+        if (cashboxesDetails.getCashboxesInfo() == null || cashboxesDetails.getCashboxesInfo().isEmpty()) {
             return;
         }
 
         final var dataset = new DefaultCategoryDataset();
 
         // 1. Llenar Dataset usando el Timestamp
-        for (final var item : pricesEvolution.getHistory()) {
+        for (final var item : cashboxesDetails.getCashboxesInfo()) {
             // Extraemos solo la hora del timestamp para que el eje X sea legible
             // Ejemplo: "2026-02-08T10:05:51.535" -> "10:05:51"
             final var fullTimestamp = item.getTimestamp();
-            final var date = fullTimestamp.split("\\.")[0];
+            final var date = fullTimestamp.split("T")[0];
 
-            dataset.addValue(item.getPrice(), PRICE_OF_SALE, date);
-            dataset.addValue(item.getCostOfSale(), COST_OF_SALE, date);
+            dataset.addValue(item.getAmount(), CASHBOX, date);
         }
 
         // 2. Crear Chart con etiquetas de tiempo
         final var chart = ChartFactory.createLineChart(
-                EVOLUTION_OF + pricesEvolution.getHistory().get(0).getProduct(),
+                EVOLUTION_OF,
                 REGISTER_HOUR, // Etiqueta del eje X
-                CURRENCY,
+                "Monto",
                 dataset
         );
 
@@ -87,7 +81,7 @@ public class PricesEvolutionDialog extends javax.swing.JDialog {
         this.pack();
         this.setSize(800, 600);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -107,6 +101,11 @@ public class PricesEvolutionDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void loadTargets() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
