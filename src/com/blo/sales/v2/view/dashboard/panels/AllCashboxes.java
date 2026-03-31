@@ -1,7 +1,9 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.ICashboxController;
+import com.blo.sales.v2.controller.ICashboxesSalesController;
 import com.blo.sales.v2.controller.impl.CashboxControllerImpl;
+import com.blo.sales.v2.controller.impl.CashboxesSalesControllerImpl;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
@@ -24,12 +26,17 @@ public final class AllCashboxes extends AbstractDashboardBase {
     
     private static final ICashboxController controller = CashboxControllerImpl.getInstance();
     
+    private static final ICashboxesSalesController cashboxesSales = CashboxesSalesControllerImpl.getInstance();
+    
     private static final WrapperPojoCashboxesDetailsMapper mapper = WrapperPojoCashboxesDetailsMapper.getInstance();
+    
+    private long idCashbox;
 
     public AllCashboxes(String key) {
         super(key);
         initComponents();
         loadCashboxData();
+        loadTargets();
     }
     
     private void loadCashboxData() {
@@ -41,6 +48,8 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     final var cashboxFound = cashboxes.getCashboxesInfo().stream().
                         filter(c -> c.getIdCashbox() == id).collect(Collectors.toList());
                     if (cashboxFound != null) {
+                        idCashbox = id;
+                        GUICommons.enabledButton(btnViewDetails);
                         final var modelActives = new DefaultListModel<String>();
                         final var modelCosts = new DefaultListModel<String>();
                         final var baseStr = "%s=$%s";
@@ -101,6 +110,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstCosts = new javax.swing.JList<>();
         lblCosts = new javax.swing.JLabel();
+        btnViewDetails = new javax.swing.JButton();
 
         tblCashboxes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,6 +133,13 @@ public final class AllCashboxes extends AbstractDashboardBase {
 
         lblCosts.setText("gastos");
 
+        btnViewDetails.setText("ver_detalles");
+        btnViewDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewDetailsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,8 +153,11 @@ public final class AllCashboxes extends AbstractDashboardBase {
                             .addComponent(lblActives)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCosts)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblCosts)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnViewDetails))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
@@ -147,19 +167,31 @@ public final class AllCashboxes extends AbstractDashboardBase {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblActives)
-                    .addComponent(lblCosts))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblActives)
+                        .addComponent(lblCosts))
+                    .addComponent(btnViewDetails, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
+        try {
+            logger.info("buscando id %s", idCashbox);
+            cashboxesSales.getCashboxSalesDetailById(idCashbox);
+        } catch (BloSalesV2Exception ex) {
+            System.getLogger(AllCashboxes.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }//GEN-LAST:event_btnViewDetailsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnViewDetails;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -174,5 +206,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
     public void loadTargets() {
         GUICommons.setTextToField(lblActives, getTranslateBy(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()));
         GUICommons.setTextToField(lblCosts, getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()));
+        GUICommons.setTextToButton(btnViewDetails, getTranslateBy(KeysEnum.CASHBOXES_BTN_VIEW_DETAILS.getKey()));
+        GUICommons.disabledButton(btnViewDetails);
     }
 }

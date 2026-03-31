@@ -1,7 +1,7 @@
 package com.blo.sales.v2.model.constants;
 
 public final class BloSalesV2Columns {
-    
+
     private BloSalesV2Columns() { }
     
     public static final String ID_CASHBOX = "id_cashbox";
@@ -113,5 +113,7 @@ public final class BloSalesV2Columns {
     public static final String CHECKED = "checked";
     
     public static final String PHONE_NUMBER = "phone_number";
+    
+    public static final String ID_CASHBOX_SALE = "id_cashbox_sale";
     
 }

@@ -9,7 +9,7 @@ import com.blo.sales.v2.utils.IToOuter;
 
 public class UserLoggedEntityMapper implements IToOuter<UserEntity, PojoIntLoggedInUser>, IToInner<UserEntity, PojoIntLoggedInUser> {
     
-    public static UserLoggedEntityMapper instance;
+    private static UserLoggedEntityMapper instance;
     
     private UserLoggedEntityMapper() { }
     

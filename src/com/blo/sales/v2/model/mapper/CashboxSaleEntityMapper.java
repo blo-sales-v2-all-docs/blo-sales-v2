@@ -2,7 +2,6 @@ package com.blo.sales.v2.model.mapper;
 
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxSale;
 import com.blo.sales.v2.model.entities.CashboxSaleEntity;
-import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
 
 public class CashboxSaleEntityMapper implements IToOuter<CashboxSaleEntity, PojoIntCashboxSale> {

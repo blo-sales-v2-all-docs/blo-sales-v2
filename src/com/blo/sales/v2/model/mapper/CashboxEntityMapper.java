@@ -43,7 +43,9 @@ public class CashboxEntityMapper implements IToInner<CashboxEntity, PojoIntCashb
         outer.setFkUser(inner.getFk_user());
         outer.setIdCashbox(inner.getId_cashbox());
         outer.setAmount(inner.getAmount());
-        outer.setStatus(CashboxStatusIntEnum.valueOf(inner.getStatus().name()));
+        if (inner.getStatus() != null) {
+            outer.setStatus(CashboxStatusIntEnum.valueOf(inner.getStatus().name()));
+        }
         outer.setTimestamp(inner.getTimestamp());
         outer.setUserFrom(inner.getUsername());
         return outer;

@@ -128,5 +128,9 @@ public final class BloSalesV2Queries {
     public static final String SELECT_ALL_TOP_UP = "SELECT id_top_up, fk_user, fk_mobile_company, amount, checked, phone_number, timestamp, username, id_user, rol, id_mobile_company, company FROM top_up INNER JOIN users ON top_up.fk_user = users.id_user INNER JOIN mobile_company ON mobile_company.id_mobile_company = top_up.fk_mobile_company";
     
     /** sales-cashboxes */
-    public static final String INSERT_CASHBOX_SALE_RELATIONSHIP = "INSERT INTO cashboxes_sales(fk_cashbox, fk_sale) VALUES(?,?)";;
+    public static final String INSERT_CASHBOX_SALE_RELATIONSHIP = "INSERT INTO cashboxes_sales(fk_cashbox, fk_sale) VALUES(?,?)";
+    
+    public static final String GET_CASHBOXES_ALL_DATA_DETAIL_BY_CASHBOX_ID = "SELECT c.id_cashbox , c.fk_user, c.amount, c.status, c.timestamp AS cb_timestamp, s.id_sale, s.total, s.sale_status, s.timestamp, s2.product, sp.quantity_sale, sp.product_total_on_sale, sp.total_on_sale, u.username, u.rol FROM cashboxes_sales cs INNER JOIN cashboxes c ON cs.fk_cashbox  = c.id_cashbox  INNER JOIN sales s ON s.id_sale  = cs.fk_sale INNER JOIN sale_product sp INNER JOIN stock s2 ON sp.fk_product  = s2.id_product ON sp.fk_sale = s.id_sale INNER JOIN users u ON u.id_user = c.fk_user  WHERE c.id_cashbox  = ?";
+    
+    public static final String GET_CASHBOX_SALE_DATA_BY_ID = "SELECT c.id_cashbox , c.fk_user, c.amount, c.timestamp, c.status, s.id_sale, s.total, s.sale_status, s.timestamp  FROM cashboxes_sales cs INNER JOIN cashboxes c ON cs.fk_cashbox  = c.id_cashbox  INNER JOIN sales s ON s.id_sale  = cs.fk_sale WHERE c.id_cashbox  = ?";
 }

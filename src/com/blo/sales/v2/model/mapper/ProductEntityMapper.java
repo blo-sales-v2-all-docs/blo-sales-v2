@@ -7,7 +7,7 @@ import com.blo.sales.v2.utils.IToOuter;
 
 public class ProductEntityMapper implements IToInner<ProductEntity, PojoIntProduct>, IToOuter<ProductEntity, PojoIntProduct> {
 
-    public static ProductEntityMapper instance;
+    private static ProductEntityMapper instance;
     
     private ProductEntityMapper() { }
     
