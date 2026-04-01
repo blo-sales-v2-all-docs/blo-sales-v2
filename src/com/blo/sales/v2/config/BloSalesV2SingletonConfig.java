@@ -115,112 +115,44 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         /**
          * controller
          */
-        bind(IActivesCostsController.class).
-                to(ActivesCostsControllerImpl.class).
-                in(Singleton.class);
-        bind(ICashboxController.class).
-                to(CashboxControllerImpl.class).
-                in(Singleton.class);
-        bind(ICashboxesActivesCostsController.class).
-                to(CashboxesActivesCostsControllerImpl.class).
-                in(Singleton.class);
-        bind(ICashboxesSalesController.class).
-                to(CashboxesSalesControllerImpl.class).
-                in(Singleton.class);
-        bind(ICategoriesController.class).
-                to(CategoriesControllerImpl.class).
-                in(Singleton.class);
-        bind(IDebtorsController.class).
-                to(DebtorsControllerImpl.class).
-                in(Singleton.class);
-        bind(IDebtorsSalesController.class).
-                to(DebtorsSalesControllerImpl.class).
-                in(Singleton.class);
-        bind(IHistoryController.class).
-                to(HistoryControllerImpl.class).
-                in(Singleton.class);
-        bind(IMobileCompanyController.class).
-                to(MobileCompanyControllerImpl.class).
-                in(Singleton.class);
-        bind(IPricesHistoryController.class).
-                to(PricesHistoryControllerImpl.class).
-                in(Singleton.class);
-        bind(IProductsController.class).
-                to(ProductsControllerImpl.class).
-                in(Singleton.class);
-        bind(ISaleDeletedDetailController.class).
-                to(SaleDeletedDetailControllerImpl.class).
-                in(Singleton.class);
-        bind(ISalesController.class).
-                to(SalesControllerImpl.class).
-                in(Singleton.class);
-        bind(ISalesProductController.class).
-                to(SalesProductControllerImpl.class).
-                in(Singleton.class);
-        bind(IStockPricesHistoryController.class).
-                to(StockPricesHistoryControllerImpl.class).
-                in(Singleton.class);
-        bind(ITopUpsController.class).
-                to(TopUpsControllerImpl.class).
-                in(Singleton.class);
-        bind(IUserController.class).
-                to(UserControllerImpl.class).
-                in(Singleton.class);
+        bind(IActivesCostsController.class).to(ActivesCostsControllerImpl.class).in(Singleton.class);
+        bind(ICashboxController.class).to(CashboxControllerImpl.class).in(Singleton.class);
+        bind(ICashboxesActivesCostsController.class).to(CashboxesActivesCostsControllerImpl.class).in(Singleton.class);
+        bind(ICashboxesSalesController.class).to(CashboxesSalesControllerImpl.class).in(Singleton.class);
+        bind(ICategoriesController.class).to(CategoriesControllerImpl.class).in(Singleton.class);
+        bind(IDebtorsController.class).to(DebtorsControllerImpl.class).in(Singleton.class);
+        bind(IDebtorsSalesController.class).to(DebtorsSalesControllerImpl.class).in(Singleton.class);
+        bind(IHistoryController.class).to(HistoryControllerImpl.class).in(Singleton.class);
+        bind(IMobileCompanyController.class).to(MobileCompanyControllerImpl.class).in(Singleton.class);
+        bind(IPricesHistoryController.class).to(PricesHistoryControllerImpl.class).in(Singleton.class);
+        bind(IProductsController.class).to(ProductsControllerImpl.class).in(Singleton.class);
+        bind(ISaleDeletedDetailController.class).to(SaleDeletedDetailControllerImpl.class).in(Singleton.class);
+        bind(ISalesController.class).to(SalesControllerImpl.class).in(Singleton.class);
+        bind(ISalesProductController.class).to(SalesProductControllerImpl.class).in(Singleton.class);
+        bind(IStockPricesHistoryController.class).to(StockPricesHistoryControllerImpl.class).in(Singleton.class);
+        bind(ITopUpsController.class).to(TopUpsControllerImpl.class).in(Singleton.class);
+        bind(IUserController.class).to(UserControllerImpl.class).in(Singleton.class);
 
         /**
          * models
          */
-        bind(IActivesCostsModel.class).
-                to(ActivesCostsModelImpl.class).
-                in(Singleton.class);
-        bind(ICashboxModel.class).
-                to(CashboxModelImpl.class).
-                in(Singleton.class);
-        bind(ICashboxesActivesCostsModel.class).
-                to(CashboxesActivesCostsModelImpl.class).
-                in(Singleton.class);
-        bind(ICashboxesSalesModel.class).
-                to(CashboxesSalesModelImpl.class).
-                in(Singleton.class);
-        bind(ICategoriesModel.class).
-                to(CategoriesModelImpl.class).
-                in(Singleton.class);
-        bind(IDebtorsModel.class).
-                to(DebtorsModelImpl.class).
-                in(Singleton.class);
-        bind(IDebtorsSalesModel.class).
-                to(DebtorsSalesModelImpl.class).
-                in(Singleton.class);
-        bind(IHistoryModel.class).
-                to(HistoryModelImpl.class).
-                in(Singleton.class);
-        bind(IMobileCompanyModel.class).
-                to(MobileCompanyModelImpl.class).
-                in(Singleton.class);
-        bind(IPricesHistoryModel.class).
-                to(PricesHistoryModelImpl.class).
-                in(Singleton.class);
-        bind(IProductsModel.class).
-                to(ProductsModelImpl.class).
-                in(Singleton.class);
-        bind(ISaleDeletedDetailModel.class).
-                to(SaleDeletedDetailModelImpl.class).
-                in(Singleton.class);
-        bind(ISaleProductModel.class).
-                to(SaleProductModelImpl.class).
-                in(Singleton.class);
-        bind(ISalesModel.class).
-                to(SalesModelImpl.class).
-                in(Singleton.class);
-        bind(IStockPricesHistoryModel.class).
-                to(StockPricesHistoryModelImpl.class).
-                in(Singleton.class);
-        bind(ITopUpModel.class).
-                to(TopUpModelImpl.class).
-                in(Singleton.class);
-        bind(IUserModel.class).
-                to(UserModelImpl.class).
-                in(Singleton.class);
+        bind(IActivesCostsModel.class).to(ActivesCostsModelImpl.class).in(Singleton.class);
+        bind(ICashboxModel.class).to(CashboxModelImpl.class).in(Singleton.class);
+        bind(ICashboxesActivesCostsModel.class).to(CashboxesActivesCostsModelImpl.class).in(Singleton.class);
+        bind(ICashboxesSalesModel.class).to(CashboxesSalesModelImpl.class).in(Singleton.class);
+        bind(ICategoriesModel.class).to(CategoriesModelImpl.class).in(Singleton.class);
+        bind(IDebtorsModel.class).to(DebtorsModelImpl.class).in(Singleton.class);
+        bind(IDebtorsSalesModel.class).to(DebtorsSalesModelImpl.class).in(Singleton.class);
+        bind(IHistoryModel.class).to(HistoryModelImpl.class).in(Singleton.class);
+        bind(IMobileCompanyModel.class).to(MobileCompanyModelImpl.class).in(Singleton.class);
+        bind(IPricesHistoryModel.class).to(PricesHistoryModelImpl.class).in(Singleton.class);
+        bind(IProductsModel.class).to(ProductsModelImpl.class).in(Singleton.class);
+        bind(ISaleDeletedDetailModel.class).to(SaleDeletedDetailModelImpl.class).in(Singleton.class);
+        bind(ISaleProductModel.class).to(SaleProductModelImpl.class).in(Singleton.class);
+        bind(ISalesModel.class).to(SalesModelImpl.class).in(Singleton.class);
+        bind(IStockPricesHistoryModel.class).to(StockPricesHistoryModelImpl.class).in(Singleton.class);
+        bind(ITopUpModel.class).to(TopUpModelImpl.class).in(Singleton.class);
+        bind(IUserModel.class).to(UserModelImpl.class).in(Singleton.class);
 
         bind(CategoryMapper.class).in(Singleton.class);
         bind(DebtorMapper.class).in(Singleton.class);
@@ -259,15 +191,48 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(WrapperPojoStockPriceHistoryMapper.class).in(Singleton.class);
         bind(WrapperPojoTopUpsMapper.class).in(Singleton.class);
         
-        
-        
+        bind(ActiveCostEntityMapper.class).in(Singleton.class);
+        bind(CashboxDetailEntityMapper.class).in(Singleton.class);
+        bind(CashboxEntityMapper.class).in(Singleton.class);
+        bind(CashboxSaleDetailEntityMapper.class).in(Singleton.class);
+        bind(CashboxSaleEntityMapper.class).in(Singleton.class);
+        bind(CashboxesActivesCostsEntityMapper.class).in(Singleton.class);
+        bind(CategoryEntityMapper.class).in(Singleton.class);
+        bind(DebtorDetailEntityMapper.class).in(Singleton.class);
+        bind(DebtorEntityMapper.class).in(Singleton.class);
+        bind(DebtorSaleEntityMapper.class).in(Singleton.class);
+        bind(MobileCompanyEntityMapper.class).in(Singleton.class);
+        bind(MovementDetailEntityMapper.class).in(Singleton.class);
+        bind(MovementEntityMapper.class).in(Singleton.class);
+        bind(NoteEntityMapper.class).in(Singleton.class);
+        bind(PriceHistoryEntityMapper.class).in(Singleton.class);
+        bind(ProductEntityMapper.class).in(Singleton.class);
+        bind(SaleAndProductEntityMapper.class).in(Singleton.class);
+        bind(SaleDeletedDetailEntityMapper.class).in(Singleton.class);
+        bind(SaleEntityMapper.class).in(Singleton.class);
+        bind(SaleProductEntityMapper.class).in(Singleton.class);
+        bind(StockPriceHistoryEntityMapper.class).in(Singleton.class);
+        bind(StockPricesHistoryEntityMapper.class).in(Singleton.class);
+        bind(TopUpEntityMapper.class).in(Singleton.class);
+        bind(UserEntityMapper.class).in(Singleton.class);
+        bind(UserLoggedEntityMapper.class).in(Singleton.class);
+        bind(WrapperActivesCostsEntityMapper.class).in(Singleton.class);
+        bind(WrapperCashboxesDetailsEntityMapper.class).in(Singleton.class);
+        bind(WrapperCashboxesEntityMapper.class).in(Singleton.class);
+        bind(WrapperCashboxesSalesDetailEntityMapper.class).in(Singleton.class);
+        bind(WrapperCategoriesEntityMapper.class).in(Singleton.class);
+        bind(WrapperDebtorsDetailsEntityMapper.class).in(Singleton.class);
+        bind(WrapperDebtorsEntityMapper.class).in(Singleton.class);
+        bind(WrapperDebtorsSalesEntityMapper.class).in(Singleton.class);
+        bind(WrapperMobilesCompaniesEntityMapper.class).in(Singleton.class);
+        bind(WrapperMovementsDetailEntityMapper.class).in(Singleton.class);
+        bind(WrapperNotesEntityMapper.class).in(Singleton.class);
+        bind(WrapperProductsEntityMapper.class).in(Singleton.class);
+        bind(WrapperSaleStockEntityMapper.class).in(Singleton.class);
+        bind(WrapperSalesAndStockEntityMapper.class).in(Singleton.class);
+        bind(WrapperSalesEntityMapper.class).in(Singleton.class);
+        bind(WrapperStockPricesHistoryEntityMapper.class).in(Singleton.class);
+        bind(WrapperTopUpsEntityMapper.class).in(Singleton.class);
 
-        // --- VINCULACIÓN DE MAPPERS ---
-        // Los mappers suelen ser clases concretas (sin interfaz). 
-        // Solo necesitamos asegurar que Guice los maneje como Singletons.
-        //bind(UserMapper.class).in(Singleton.class);
-        // --- NOTA SOBRE JFRAMES ---
-        // No es obligatorio hacer bind de los JFrames (LoginFrm, DashboardRootFrm),
-        // Guice los encuentra automáticamente si tienen la anotación @Inject.
     }
 }

@@ -38,17 +38,6 @@ public class CashboxModelImpl implements ICashboxModel {
     
     private static final WrapperCashboxesDetailsEntityMapper cashboxesDetailsMapper =  WrapperCashboxesDetailsEntityMapper.getInstance();
     
-    /*private static CashboxModelImpl instance;
-    
-    private CashboxModelImpl() { }
-    
-    public static CashboxModelImpl getInstance() {
-        if (instance == null) {
-            instance = new CashboxModelImpl();
-        }
-        return instance;
-    }*/
-
     @Override
     public PojoIntCashbox addCashbox(PojoIntCashbox cashbox) throws BloSalesV2Exception {
         try {

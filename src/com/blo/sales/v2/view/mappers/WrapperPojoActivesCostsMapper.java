@@ -5,8 +5,10 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntActivesCosts;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.view.pojos.WrapperPojoActivesCosts;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperPojoActivesCostsMapper implements IToInner<WrapperPojoIntActivesCosts, WrapperPojoActivesCosts> {
     
     @Inject

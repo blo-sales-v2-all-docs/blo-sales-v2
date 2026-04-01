@@ -22,17 +22,6 @@ public class ActivesCostsModelImpl implements IActivesCostsModel {
     
     private static final WrapperActivesCostsEntityMapper mapper = WrapperActivesCostsEntityMapper.getInstance();
     
-   /* private static ActivesCostsModelImpl instance;
-
-    private ActivesCostsModelImpl() { }
-
-    public static ActivesCostsModelImpl getInstance() {
-        if (instance == null) {
-            instance = new ActivesCostsModelImpl();
-        }
-        return instance;
-    }*/
-    
     @Override
     public WrapperPojoIntActivesCosts addActiveCost(WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception {
         try {
