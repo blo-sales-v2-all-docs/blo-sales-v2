@@ -1,6 +1,7 @@
 package com.blo.sales.v2.view.commons;
 
 import com.blo.sales.v2.translate.Translate;
+import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -14,7 +15,19 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     
     private final String title;
     
+    private PojoLoggedInUser userData;
+    
     public abstract void loadTargets();
+    
+    public abstract void init();
+
+    public void setUserData(PojoLoggedInUser userData) {
+        this.userData = userData;
+    }
+
+    public PojoLoggedInUser getUserData() {
+        return userData;
+    }
     
     public AbstractDashboardBase(String title) {
         this.title = title;

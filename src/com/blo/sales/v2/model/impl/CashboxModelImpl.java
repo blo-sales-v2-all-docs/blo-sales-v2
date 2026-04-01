@@ -19,34 +19,29 @@ import com.blo.sales.v2.model.mapper.WrapperCashboxesEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+ 
+@Singleton
 public class CashboxModelImpl implements ICashboxModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxModelImpl.class.getName());
         
-    private static final CashboxEntityMapper mapper = CashboxEntityMapper.getInstance();
+    @Inject
+    private CashboxEntityMapper mapper;
     
-    private static final WrapperCashboxesEntityMapper wrapperMapper = WrapperCashboxesEntityMapper.getInstance();
+    @Inject
+    private WrapperCashboxesEntityMapper wrapperMapper;
     
-    private static final WrapperCashboxesDetailsEntityMapper cashboxesDetailsMapper =  WrapperCashboxesDetailsEntityMapper.getInstance();
+    @Inject
+    private WrapperCashboxesDetailsEntityMapper cashboxesDetailsMapper;
     
-    private static CashboxModelImpl instance;
-    
-    private CashboxModelImpl() { }
-    
-    public static CashboxModelImpl getInstance() {
-        if (instance == null) {
-            instance = new CashboxModelImpl();
-        }
-        return instance;
-    }
-
     @Override
     public PojoIntCashbox addCashbox(PojoIntCashbox cashbox) throws BloSalesV2Exception {
         try {

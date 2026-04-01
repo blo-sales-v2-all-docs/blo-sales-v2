@@ -2,8 +2,6 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.IMobileCompanyController;
 import com.blo.sales.v2.controller.ITopUpsController;
-import com.blo.sales.v2.controller.impl.MobileCompanyControllerImpl;
-import com.blo.sales.v2.controller.impl.TopUpsControllerImpl;
 import com.blo.sales.v2.controller.pojos.enums.TopUpSearchStatusIntEnum;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -18,6 +16,7 @@ import com.blo.sales.v2.view.mappers.WrapperPojoTopUpsMapper;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 import com.blo.sales.v2.view.pojos.PojoTopUp;
 import com.blo.sales.v2.view.pojos.enums.TopUpSearchStatusEnum;
+import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
@@ -29,30 +28,25 @@ public final class TopUps extends AbstractDashboardBase {
     
     private static final String[] titles = {"ID", "Número telefónico", "Compañía", "Monto", "Usuario", "Timestamp"};
     
-    private static final IMobileCompanyController mobileController = MobileCompanyControllerImpl.getInstance();
+    @Inject
+    private IMobileCompanyController mobileController;
     
-    private static final ITopUpsController topUpsController = TopUpsControllerImpl.getInstance();
+    @Inject
+    private ITopUpsController topUpsController;
     
-    private static final PojoTopUpMapper topUpMapper = PojoTopUpMapper.getInstance();
+    @Inject
+    private PojoTopUpMapper topUpMapper;
     
-    private static final WrapperPojoTopUpsMapper wrapperPojoTopUp = WrapperPojoTopUpsMapper.getInstance();
+    @Inject
+    private WrapperPojoTopUpsMapper wrapperPojoTopUp;
     
-    private static final WrapperPojoMobilesCompaniesMapper wrapperCompaniesMapper = WrapperPojoMobilesCompaniesMapper.getInstance();
+    @Inject
+    private WrapperPojoMobilesCompaniesMapper wrapperCompaniesMapper;
     
     private BigDecimal topUpsTotal;
-            
-    private PojoLoggedInUser userData;
 
-    public TopUps(PojoLoggedInUser userData, String key) {
+    public TopUps(String key) {
         super(key);
-        this.userData = userData;
-        topUpsTotal = BigDecimal.ZERO;
-        initComponents();
-        GUICommons.loadTitleOnTable(tblResults, titles, false);
-        loadTargets();
-        retrieveCompanies();
-        setTextToFilter();
-        GUICommons.hiddenElement(btnCloseTopUps);
     }
 
     @SuppressWarnings("unchecked")
@@ -237,7 +231,7 @@ public final class TopUps extends AbstractDashboardBase {
             topUpData.setAmount(amount);
             topUpData.setChecked(false);
             topUpData.setFkMobileCompany(null);
-            topUpData.setFkUser(userData);
+            topUpData.setFkUser(getUserData());
             topUpData.setPhoneNumber(phoneNmb);
             topUpData.setTimestamp(BloSalesV2Utils.getTimestamp());
             topUpsController.addTopUp(topUpMapper.toInner(topUpData), Long.parseLong(idCompany));
@@ -392,5 +386,16 @@ public final class TopUps extends AbstractDashboardBase {
         GUICommons.setTextToButton(btnFilterApply, getTranslateBy(KeysEnum.TOP_UPS_BTN_APPLY_FILTER.getKey()));
         GUICommons.setTextToButton(btnCloseTopUps, getTranslateBy(KeysEnum.TOP_UPS_BTN_CLOSE_NOW.getKey()));
         GUICommons.setTextToField(lblTotalAmount, BloSalesV2Utils.EMPTY_STRING);
+    }
+
+    @Override
+    public void init() {
+        topUpsTotal = BigDecimal.ZERO;
+        initComponents();
+        GUICommons.loadTitleOnTable(tblResults, titles, false);
+        loadTargets();
+        retrieveCompanies();
+        setTextToFilter();
+        GUICommons.hiddenElement(btnCloseTopUps);
     }
 }

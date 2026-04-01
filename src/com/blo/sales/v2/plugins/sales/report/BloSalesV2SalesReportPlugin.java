@@ -83,7 +83,7 @@ public final class BloSalesV2SalesReportPlugin {
         }
                
         final String[] headers = {"ID Venta", "Producto", "¿Por kg?", "Cantidad en venta", "Precio", "Total", "Costo de venta", "Ganancia"};
-        BloSalesV2CSVPlugin.exportFile(headers, createStringFromArray(rowsData));
+        BloSalesV2CSVPlugin.exportFile(headers, createStringFromArray(rowsData), "Reporte de ventas", false);
     }
     
     private static BloSalesV2CSVCols createStringFromArray(List<RowSaleData> lst) {

@@ -1,7 +1,6 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.ICategoriesController;
-import com.blo.sales.v2.controller.impl.CategoriesControllerImpl;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
@@ -14,22 +13,29 @@ import com.blo.sales.v2.view.mappers.WrapperPojoCategoriesMapper;
 import com.blo.sales.v2.view.pojos.PojoCategory;
 import com.blo.sales.v2.view.pojos.WrapperPojoCategories;
 import javax.swing.DefaultListModel;
+import jakarta.inject.Inject;
 
 public final class Categories extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Categories.class.getName());
     
-    private static final CategoryMapper categoryMapper = CategoryMapper.getInstance();
+    @Inject
+    private ICategoriesController categoriesController;
     
-    private static final WrapperPojoCategoriesMapper wrapperPojoCategoriesMapper = WrapperPojoCategoriesMapper.getInstance();
+    @Inject
+    private CategoryMapper categoryMapper;
     
-    private static final ICategoriesController categoriesController = CategoriesControllerImpl.getInstance();
+    @Inject
+    private WrapperPojoCategoriesMapper wrapperPojoCategoriesMapper;
     
-    /** Variable global para almacenar categorias y usarla en cualquer metodo */
     private WrapperPojoCategories categoriesGlobal;
 
     public Categories(String key) {
         super(key);
+    }
+    
+    @Override
+    public void init() {
         initComponents();
         loadTargets();
         loadCategories();

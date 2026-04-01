@@ -4,22 +4,15 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxes;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoCashbox;
 import com.blo.sales.v2.view.pojos.WrapperPojoCashboxes;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperPojoCashboxesMapper implements IToOuter<WrapperPojoIntCashboxes, WrapperPojoCashboxes> {
     
-    private static final PojoCashboxMapper mapper = PojoCashboxMapper.getInstance();
-    
-    private static WrapperPojoCashboxesMapper instance;
-    
-    private WrapperPojoCashboxesMapper() { }
-    
-    public static WrapperPojoCashboxesMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperPojoCashboxesMapper();
-        }
-        return instance;
-    }
+    @Inject
+    private PojoCashboxMapper mapper;
 
     @Override
     public WrapperPojoCashboxes toOuter(WrapperPojoIntCashboxes inner) {

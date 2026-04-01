@@ -16,7 +16,7 @@ public class PojoIntSaleProduct {
     
     private BigDecimal productTotalOnSale;
     
-    private String timestap;
+    private String timestamp;
     
     private boolean isLive;
 
@@ -60,12 +60,12 @@ public class PojoIntSaleProduct {
         this.totalOnSale = totalOnSale;
     }
 
-    public String getTimestap() {
-        return timestap;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimestap(String timestap) {
-        this.timestap = timestap;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public BigDecimal getProductTotalOnSale() {
@@ -94,7 +94,7 @@ public class PojoIntSaleProduct {
         sb.append(", quantityOnSale=").append(quantityOnSale);
         sb.append(", totalOnSale=").append(totalOnSale);
         sb.append(", productTotalOnSale=").append(productTotalOnSale);
-        sb.append(", timestap=").append(timestap);
+        sb.append(", timestamp=").append(timestamp);
         sb.append(", isLive=").append(isLive);
         sb.append('}');
         return sb.toString();

@@ -6,29 +6,22 @@ import com.blo.sales.v2.controller.pojos.PojoIntPriceHistory;
 import com.blo.sales.v2.controller.pojos.PojoIntStockPricesHistory;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntStockPriceHistory;
 import com.blo.sales.v2.model.IStockPricesHistoryModel;
-import com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class StockPricesHistoryControllerImpl implements IStockPricesHistoryController {
 
     private static final GUILogger logger = GUILogger.getLogger(StockPricesHistoryControllerImpl.class.getName());
     
-    private static final IStockPricesHistoryModel model = StockPricesHistoryModelImpl.getInstance();
+    @Inject
+    private IStockPricesHistoryModel model;
     
-    private static final IPricesHistoryController pricesController = PricesHistoryControllerImpl.getInstance();
-    
-    private static StockPricesHistoryControllerImpl instance;
-    
-    private StockPricesHistoryControllerImpl() { }
-    
-    public static StockPricesHistoryControllerImpl getInstance() {
-        if (instance == null) {
-            instance = new StockPricesHistoryControllerImpl();
-        }
-        return instance;
-    }    
+    @Inject
+    private IPricesHistoryController pricesController;
 
     @Override
     public PojoIntStockPricesHistory addPriceOnHistory(PojoIntPriceHistory priceItem, long idProduct) throws BloSalesV2Exception {

@@ -4,23 +4,16 @@ import com.blo.sales.v2.controller.pojos.PojoIntTopUp;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntTopUp;
 import com.blo.sales.v2.model.entities.WrapperTopUpsEntity;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperTopUpsEntityMapper implements IToOuter<WrapperTopUpsEntity, WrapperPojoIntTopUp> {
     
-    private static final TopUpEntityMapper mapper = TopUpEntityMapper.getInstance();
+    @Inject
+    private TopUpEntityMapper mapper;
     
-    private static WrapperTopUpsEntityMapper instance;
-    
-    private WrapperTopUpsEntityMapper() { }
-    
-    public static WrapperTopUpsEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperTopUpsEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public WrapperPojoIntTopUp toOuter(WrapperTopUpsEntity inner) {
         if (inner == null) {

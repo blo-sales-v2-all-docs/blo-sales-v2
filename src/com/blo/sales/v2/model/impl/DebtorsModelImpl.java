@@ -17,33 +17,28 @@ import com.blo.sales.v2.model.mapper.WrapperDebtorsEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+@Singleton
 public class DebtorsModelImpl implements IDebtorsModel {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsModelImpl.class.getName());
     
     private static final Connection conn = DBConnection.getConnection();
     
-    private static DebtorsModelImpl instance;
+    @Inject
+    private DebtorEntityMapper mapper;
     
-    private static final DebtorEntityMapper mapper = DebtorEntityMapper.getInstance();
+    @Inject
+    private WrapperDebtorsEntityMapper wrapperMapper;
     
-    private static final WrapperDebtorsEntityMapper wrapperMapper = WrapperDebtorsEntityMapper.getInstance();
-    
-    private static final WrapperDebtorsDetailsEntityMapper debtorsDetailsMapper = WrapperDebtorsDetailsEntityMapper.getInstance();
-    
-    private DebtorsModelImpl() { }
-    
-    public static DebtorsModelImpl getInstance() {
-        if (instance == null) {
-            instance = new DebtorsModelImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private WrapperDebtorsDetailsEntityMapper debtorsDetailsMapper;
 
     @Override
     public PojoIntDebtor saveDebtor(PojoIntDebtor debtor) throws BloSalesV2Exception {

@@ -4,22 +4,15 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntMovementsDetail;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoMovementDetail;
 import com.blo.sales.v2.view.pojos.WrapperPojoMovementsDetail;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperPojoMovementsDetailMapper implements IToOuter<WrapperPojoIntMovementsDetail, WrapperPojoMovementsDetail> {
     
-    private static final PojoMovementDetailMapper mapper = PojoMovementDetailMapper.getInstance();
-    
-    private static WrapperPojoMovementsDetailMapper instance;
-    
-    private WrapperPojoMovementsDetailMapper() { }
-    
-    public static WrapperPojoMovementsDetailMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperPojoMovementsDetailMapper();
-        }
-        return instance;
-    }
+    @Inject
+    private PojoMovementDetailMapper mapper;
 
     @Override
     public WrapperPojoMovementsDetail toOuter(WrapperPojoIntMovementsDetail inner) {

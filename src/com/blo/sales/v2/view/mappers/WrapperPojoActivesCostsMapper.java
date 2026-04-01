@@ -4,22 +4,15 @@ import com.blo.sales.v2.controller.pojos.PojoIntActiveCost;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntActivesCosts;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.view.pojos.WrapperPojoActivesCosts;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperPojoActivesCostsMapper implements IToInner<WrapperPojoIntActivesCosts, WrapperPojoActivesCosts> {
     
-    private static final PojoActiveCostMapper mapper = PojoActiveCostMapper.getInstance();
-    
-    private static WrapperPojoActivesCostsMapper instance;
-    
-    private WrapperPojoActivesCostsMapper() { }
-    
-    public static WrapperPojoActivesCostsMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperPojoActivesCostsMapper();
-        }
-        return instance;
-    }
+    @Inject
+    private PojoActiveCostMapper mapper;
 
     @Override
     public WrapperPojoIntActivesCosts toInner(WrapperPojoActivesCosts outer) {

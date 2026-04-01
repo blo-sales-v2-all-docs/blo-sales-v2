@@ -6,20 +6,11 @@ import com.blo.sales.v2.model.entities.ActiveCostEntity;
 import com.blo.sales.v2.model.entities.enums.ActivesCostsEntityEnum;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class ActiveCostEntityMapper implements IToInner<ActiveCostEntity, PojoIntActiveCost>, IToOuter<ActiveCostEntity, PojoIntActiveCost> {
     
-    private static ActiveCostEntityMapper instance;
-    
-    private ActiveCostEntityMapper() { }
-    
-    public static ActiveCostEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new ActiveCostEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public ActiveCostEntity toInner(PojoIntActiveCost outer) {
         if (outer == null) {

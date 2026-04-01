@@ -15,31 +15,25 @@ import com.blo.sales.v2.model.mapper.WrapperMovementsDetailEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+@Singleton
 public class HistoryModelImpl implements IHistoryModel {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsSalesModelImpl.class.getName());
     
     private static final Connection conn = DBConnection.getConnection();
     
-    private static HistoryModelImpl instance;
+    @Inject
+    private MovementEntityMapper mapper;
     
-    private static final MovementEntityMapper mapper = MovementEntityMapper.getInstance();
-    
-    private static final WrapperMovementsDetailEntityMapper movementsDetailsMapper = WrapperMovementsDetailEntityMapper.getInstance();
-    
-    private HistoryModelImpl() { }
-    
-    public static HistoryModelImpl getInstance() {
-        if (instance == null) {
-            instance = new HistoryModelImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private WrapperMovementsDetailEntityMapper movementsDetailsMapper;
 
     @Override
     public PojoIntMovement registerMovement(PojoIntMovement movement) throws BloSalesV2Exception {

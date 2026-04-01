@@ -22,7 +22,7 @@ public class PricesEvolutionDialog extends javax.swing.JDialog {
     
     private static final String CURRENCY = "Pesos ($): ";
 
-    private WrapperPojoStockPriceHistory pricesEvolution;
+    private final WrapperPojoStockPriceHistory pricesEvolution;
 
     public PricesEvolutionDialog(Component parent, boolean modal, WrapperPojoStockPriceHistory pricesEvolution) {
         super(SwingUtilities.getWindowAncestor(parent), "", ModalityType.APPLICATION_MODAL);

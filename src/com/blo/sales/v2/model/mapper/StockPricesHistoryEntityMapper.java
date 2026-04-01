@@ -4,20 +4,11 @@ import com.blo.sales.v2.controller.pojos.PojoIntStockPricesHistory;
 import com.blo.sales.v2.model.entities.StockPricesHistoryEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class StockPricesHistoryEntityMapper implements IToInner<StockPricesHistoryEntity, PojoIntStockPricesHistory>, IToOuter<StockPricesHistoryEntity, PojoIntStockPricesHistory> {
     
-    private static StockPricesHistoryEntityMapper instance;
-    
-    private StockPricesHistoryEntityMapper() { }
-    
-    public static StockPricesHistoryEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new StockPricesHistoryEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public StockPricesHistoryEntity toInner(PojoIntStockPricesHistory outer) {
         if (outer == null) {

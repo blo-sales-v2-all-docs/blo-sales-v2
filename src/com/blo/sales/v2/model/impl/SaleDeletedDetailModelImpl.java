@@ -8,28 +8,21 @@ import com.blo.sales.v2.model.mapper.SaleDeletedDetailEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Singleton
 public class SaleDeletedDetailModelImpl implements ISaleDeletedDetailModel {
     
     private static final GUILogger logger = GUILogger.getLogger(SaleDeletedDetailModelImpl.class.getName());
     
     private static final Connection conn = DBConnection.getConnection();
     
-    private static final SaleDeletedDetailEntityMapper mapper = SaleDeletedDetailEntityMapper.getInstance();
-    
-    private static SaleDeletedDetailModelImpl instance;
-    
-    private SaleDeletedDetailModelImpl() { }
-    
-    public static SaleDeletedDetailModelImpl getInstance() {
-        if (instance == null) {
-            instance = new SaleDeletedDetailModelImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private SaleDeletedDetailEntityMapper mapper;
 
     @Override
     public PojoIntSaleDeletedDetail addSaleDeletedDetail(PojoIntSaleDeletedDetail detail) throws BloSalesV2Exception {

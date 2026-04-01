@@ -4,19 +4,10 @@ import com.blo.sales.v2.controller.pojos.PojoIntDebtorSale;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoDebtorSale;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class DebtorSaleMapper implements IToInner<PojoIntDebtorSale, PojoDebtorSale>, IToOuter<PojoIntDebtorSale, PojoDebtorSale> {
-
-    private static DebtorSaleMapper instance;
-    
-    private DebtorSaleMapper() { }
-    
-    public static DebtorSaleMapper getInstance() {
-        if (instance == null) {
-            instance = new DebtorSaleMapper();
-        }
-        return instance;
-    }
     
     @Override
     public PojoIntDebtorSale toInner(PojoDebtorSale outer) {

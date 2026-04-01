@@ -2,8 +2,6 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.ICategoriesController;
 import com.blo.sales.v2.controller.IProductsController;
-import com.blo.sales.v2.controller.impl.CategoriesControllerImpl;
-import com.blo.sales.v2.controller.impl.ProductsControllerImpl;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
@@ -16,6 +14,7 @@ import com.blo.sales.v2.view.mappers.WrapperPojoCategoriesMapper;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.utils.GUIStore;
 import com.blo.sales.v2.view.utils.handler.ManagementProductStoreHandler;
+import jakarta.inject.Inject;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
@@ -23,25 +22,20 @@ public final class RegisterProduct extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(RegisterProduct.class.getName());
     
-    private static final ICategoriesController categories = CategoriesControllerImpl.getInstance();
+    @Inject
+    private IProductsController productsController;
     
-    private static final ProductMapper productMapper = ProductMapper.getInstance();
+    @Inject
+    private ICategoriesController categories;
     
-    private static final IProductsController productsController = ProductsControllerImpl.getInstance();
+    @Inject
+    private ProductMapper productMapper;
     
-    private static final WrapperPojoCategoriesMapper categoriesMapper = WrapperPojoCategoriesMapper.getInstance();
+    @Inject
+    private WrapperPojoCategoriesMapper categoriesMapper;
 
     public RegisterProduct(String key) {
         super(key);
-        try {
-            initComponents();
-            loadDataForm();
-            loadTargets();
-            loadCategories();
-        } catch (BloSalesV2Exception ex) {
-            logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
-        }
     }
     
     @SuppressWarnings("unchecked")
@@ -293,5 +287,18 @@ public final class RegisterProduct extends AbstractDashboardBase {
         GUICommons.setTextToField(lblSaleCost, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_COST_OF_SALE.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToCheckbox(chkbxItsKg, getTranslateBy(KeysEnum.REGISTER_PRODUCT_BY_KG.getKey()));
+    }
+
+    @Override
+    public void init() {
+        try {
+            initComponents();
+            loadDataForm();
+            loadTargets();
+            loadCategories();
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
     }
 }

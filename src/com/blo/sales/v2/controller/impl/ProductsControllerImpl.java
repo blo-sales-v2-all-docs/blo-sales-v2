@@ -14,36 +14,31 @@ import com.blo.sales.v2.controller.pojos.enums.TypesIntEnum;
 import com.blo.sales.v2.model.IProductsModel;
 import com.blo.sales.v2.model.entities.enums.ReasonsEntityEnum;
 import com.blo.sales.v2.model.entities.enums.TypesEntityEnum;
-import com.blo.sales.v2.model.impl.ProductsModelImpl;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class ProductsControllerImpl implements IProductsController {
     
     private static final GUILogger logger = GUILogger.getLogger(ProductsControllerImpl.class.getName());
     
-    private static final ICategoriesController categoriesController = CategoriesControllerImpl.getInstance();
+    @Inject
+    private ICategoriesController categoriesController;
     
-    private static final IProductsModel model = ProductsModelImpl.getInstance();
+    @Inject
+    private IProductsModel model;
     
-    private static final IUserController user = UserControllerImpl.getInstance();
+    @Inject
+    private IUserController user;
     
-    private static final IHistoryController historyController = HistoryControllerImpl.getInstance();
+    @Inject
+    private IHistoryController historyController;
     
-    private static final IStockPricesHistoryController historyPrices = StockPricesHistoryControllerImpl.getInstance();
-    
-    private static ProductsControllerImpl instance;
-    
-    private ProductsControllerImpl() {
-    }
-    
-    public static ProductsControllerImpl getInstance() {
-        if (instance == null) {
-            instance = new ProductsControllerImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private IStockPricesHistoryController historyPrices;
 
     @Override
     public PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception {

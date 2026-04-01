@@ -1,7 +1,6 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.IDebtorsController;
-import com.blo.sales.v2.controller.impl.DebtorsControllerImpl;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
@@ -11,8 +10,8 @@ import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorsDetailsMapper;
 import com.blo.sales.v2.view.pojos.PojoDebtorDetail;
-import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 import com.blo.sales.v2.view.pojos.WrapperPojoDebtorsDetails;
+import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -23,29 +22,17 @@ public final class Debtors extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Debtors.class.getName());
     
-    private static final IDebtorsController debtors = DebtorsControllerImpl.getInstance();
+    @Inject
+    private IDebtorsController debtors;
     
-    private static final WrapperPojoDebtorsDetailsMapper debtorsDetailsMapper = WrapperPojoDebtorsDetailsMapper.getInstance();
-    
-    private PojoLoggedInUser userData;
+    @Inject
+    private WrapperPojoDebtorsDetailsMapper debtorsDetailsMapper;
     
     /** deudor seleccionado para hacer operaciones */
     private PojoDebtorDetail debtorSelected;
     
-    public Debtors(PojoLoggedInUser userData, String key) {
+    public Debtors(String key) {
         super(key);
-        try {
-            this.userData = userData;
-            initComponents();
-            loadTargets();
-            disabledButtons();
-            loadDataAndTitles();
-            //initFilter();
-            GUICommons.addDoubleClickOnTable(tblDebtors, item -> selectADebtor((long) item));
-        } catch (BloSalesV2Exception ex) {
-            logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
-        }
     }
     
     private WrapperPojoDebtorsDetails retrieveDebtorsDetails() throws BloSalesV2Exception {
@@ -229,7 +216,7 @@ public final class Debtors extends AbstractDashboardBase {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             final var payment = GUICommons.getNumberFromJText(nmbPay, GUICommons.DIGITS_OF_CURRENCY);
-            debtors.addPayment(payment, userData.getIdUser(), debtorSelected.getIdDebtor());
+            debtors.addPayment(payment, getUserData().getIdUser(), debtorSelected.getIdDebtor());
             loadDataAndTitles();
             disabledButtons();
         } catch (BloSalesV2Exception ex) {
@@ -256,7 +243,7 @@ public final class Debtors extends AbstractDashboardBase {
     private void btnPayallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayallActionPerformed
         try {
             if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
-                debtors.addPayment(debtorSelected.getDebt(), userData.getIdUser(), debtorSelected.getIdDebtor());
+                debtors.addPayment(debtorSelected.getDebt(), getUserData().getIdUser(), debtorSelected.getIdDebtor());
                 loadDataAndTitles();
                 disabledButtons();
             }
@@ -335,5 +322,20 @@ public final class Debtors extends AbstractDashboardBase {
         GUICommons.setTextToField(lblAddPartialPay, getTranslateBy(KeysEnum.DEBTORS_LBL_ADD_PAY.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnPayall, getTranslateBy(KeysEnum.DEBTORS_BTN_PAY_ALL.getKey()));
+    }
+
+    @Override
+    public void init() {
+        try {
+            initComponents();
+            loadTargets();
+            disabledButtons();
+            loadDataAndTitles();
+            //initFilter();
+            GUICommons.addDoubleClickOnTable(tblDebtors, item -> selectADebtor((long) item));
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
     }
 }

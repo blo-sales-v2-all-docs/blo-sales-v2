@@ -36,11 +36,12 @@ public final class DebtorsDialog<T> extends AbstractDialogBase {
             BigDecimal totalSale,
             Consumer<T> callback
     ) {
-        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
         this.items = items;
         this.totalSale = totalSale;
         this.callback = callback;
         initComponents();
+        dialogSizeHandler();
         loadTargets();
         loadTitlesAndData();
         GUICommons.setTextToField(lblAmount, String.format(getTranslateBy(KeysEnum.COMMON_CURRENCY_SYMBOL_BEFORE.getKey()), this.totalSale));

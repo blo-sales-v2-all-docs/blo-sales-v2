@@ -3,20 +3,11 @@ package com.blo.sales.v2.view.mappers;
 import com.blo.sales.v2.controller.pojos.PojoIntStockPriceHistory;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoStockPriceHistory;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class PojoStockPriceHistoryMapper implements IToOuter<PojoIntStockPriceHistory, PojoStockPriceHistory> {
     
-    private static PojoStockPriceHistoryMapper instance;
-    
-    private PojoStockPriceHistoryMapper() { }
-    
-    public static PojoStockPriceHistoryMapper getInstance() {
-        if (instance == null) {
-            instance = new PojoStockPriceHistoryMapper();
-        }
-        return instance;
-    }
-
     @Override
     public PojoStockPriceHistory toOuter(PojoIntStockPriceHistory inner) {
         if (inner == null) {

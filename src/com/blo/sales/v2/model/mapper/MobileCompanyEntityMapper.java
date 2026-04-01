@@ -4,20 +4,11 @@ import com.blo.sales.v2.controller.pojos.PojoIntMobileCompany;
 import com.blo.sales.v2.model.entities.MobileCompanyEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class MobileCompanyEntityMapper implements IToInner<MobileCompanyEntity, PojoIntMobileCompany>, IToOuter<MobileCompanyEntity, PojoIntMobileCompany> {
     
-    private static MobileCompanyEntityMapper instance;
-    
-    private MobileCompanyEntityMapper() { }
-    
-    public static MobileCompanyEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new MobileCompanyEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public MobileCompanyEntity toInner(PojoIntMobileCompany outer) {
         if (outer == null) {
