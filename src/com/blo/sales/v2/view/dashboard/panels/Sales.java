@@ -24,12 +24,15 @@ import com.blo.sales.v2.view.mappers.WrapperPojoProductsMapper;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.pojos.PojoSaleProductData;
+import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 public final class Sales extends AbstractDashboardBase {
@@ -54,17 +57,24 @@ public final class Sales extends AbstractDashboardBase {
 
     private BigDecimal totalSale;
     
+    /** variable para poder guardar siempre el total como respaldo */
+    private BigDecimal storeTotalSale;
+    
     private PojoProduct productFound;
     
     private PojoLoggedInUser userData;
+    
+    private PaymentTypeEnum paymentType;
         
     public Sales(PojoLoggedInUser userData, String title) {
         super(title);
         try {
             initComponents();
+            loadPaymentsType();
             loadTargets();
             this.userData = userData;
             totalSale = BigDecimal.ZERO;
+            paymentType = PaymentTypeEnum.CASH;
             resetFields();
             disableButtons();
             retrieveProducts();
@@ -72,6 +82,18 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
             GUICommons.addDoubleClickOnTable(tblProductsSales, id -> removeItemFromSale(Long.parseLong(String.format("%s", id))));
             GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
+            GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer item) -> {
+                paymentType = getPaymentsTypeArray().get(item);
+                if (item == 1) {
+                    totalSale = totalSale.
+                            multiply(new BigDecimal("1.05")).
+                            setScale(2, RoundingMode.HALF_UP);
+                } else {
+                    /** se restaura la venta */
+                    totalSale = storeTotalSale;
+                }
+                GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+            });
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -91,6 +113,8 @@ public final class Sales extends AbstractDashboardBase {
         lblResult = new javax.swing.JLabel();
         nmbCalcPay = new javax.swing.JTextField();
         lblFastRest = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        cmnbxPaymentType = new javax.swing.JComboBox<>();
         pnlSearch = new javax.swing.JPanel();
         lblQuantity = new javax.swing.JLabel();
         nmbQuantity = new javax.swing.JTextField();
@@ -153,6 +177,8 @@ public final class Sales extends AbstractDashboardBase {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
+        jLabel1.setText("tipo_de_pago");
+
         javax.swing.GroupLayout pnlPayLayout = new javax.swing.GroupLayout(pnlPay);
         pnlPay.setLayout(pnlPayLayout);
         pnlPayLayout.setHorizontalGroup(
@@ -160,7 +186,11 @@ public final class Sales extends AbstractDashboardBase {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPayLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 628, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 509, Short.MAX_VALUE)
+                .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(cmnbxPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(btnDebtors)
                 .addGap(18, 18, 18)
                 .addComponent(btnComplete)
@@ -171,6 +201,11 @@ public final class Sales extends AbstractDashboardBase {
             .addGroup(pnlPayLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPayLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmnbxPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(btnComplete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlPayLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -420,6 +455,8 @@ public final class Sales extends AbstractDashboardBase {
                 onSalePrice
             };
             model.addRow(productInfoData);
+            /** se almacena siempre el valor total */
+            storeTotalSale = totalSale;
             GUICommons.setTextToField(txtSearch, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
             GUICommons.setTextToField(nmbQuantity, BigDecimal.ONE);
@@ -573,6 +610,16 @@ public final class Sales extends AbstractDashboardBase {
         }
     }
     
+    private void loadPaymentsType() {
+        final var paymentsTypeModel = new DefaultComboBoxModel<String>();
+        getPaymentsTypeArray().forEach(c -> paymentsTypeModel.addElement(c.getPaymentTypeTarget()));
+        cmnbxPaymentType.setModel(paymentsTypeModel);
+    }
+    
+    private List<PaymentTypeEnum> getPaymentsTypeArray() {
+        return Arrays.asList(PaymentTypeEnum.values());
+    }
+
     private void disableButtons() {
         GUICommons.disabledButton(btnComplete);
         GUICommons.disabledButton(btnDebtors);
@@ -581,6 +628,8 @@ public final class Sales extends AbstractDashboardBase {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComplete;
     private javax.swing.JButton btnDebtors;
+    private javax.swing.JComboBox<String> cmnbxPaymentType;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBarCode;
     private javax.swing.JLabel lblFastRest;

@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -135,6 +136,15 @@ public final class GUICommons {
             actionHandler(table, action);
         }
     });
+    }
+    
+    public static void addChangeEventOnComboBox(JComboBox cmbx, Consumer<Integer> action) {
+        cmbx.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                action.accept(cmbx.getSelectedIndex());
+            }
+        });
     }
     
     /**
