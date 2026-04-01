@@ -16,6 +16,7 @@ import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dialogs.DebtorsDialog;
+import com.blo.sales.v2.view.dialogs.PaymentCardDialog;
 import com.blo.sales.v2.view.dialogs.SelectorDialog;
 import com.blo.sales.v2.view.mappers.DebtorMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleProductDataMapper;
@@ -31,6 +32,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -82,18 +86,7 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
             GUICommons.addDoubleClickOnTable(tblProductsSales, id -> removeItemFromSale(Long.parseLong(String.format("%s", id))));
             GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
-            GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer item) -> {
-                paymentType = getPaymentsTypeArray().get(item);
-                if (item == 1) {
-                    totalSale = totalSale.
-                            multiply(new BigDecimal("1.05")).
-                            setScale(2, RoundingMode.HALF_UP);
-                } else {
-                    /** se restaura la venta */
-                    totalSale = storeTotalSale;
-                }
-                GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
-            });
+            GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer item) -> openPaymentCard(item));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -416,6 +409,39 @@ public final class Sales extends AbstractDashboardBase {
         }
     }//GEN-LAST:event_nmbCalcPayKeyReleased
     
+    /** abre la ventana para pagos por tarjeta */
+    private void openPaymentCard(int item) {
+        paymentType = getPaymentsTypeArray().get(item);
+        if (item == 1) {
+            totalSale = totalSale.
+                    multiply(new BigDecimal("1.05")).
+                    setScale(2, RoundingMode.HALF_UP);
+            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+            final var payment = new PaymentCardDialog<Map<String, Object>>(
+                this,
+                "Pago por tarjeta",
+                totalSale,
+                (Map<String, Object> infoPay) -> {
+                    infoPay.values().removeIf(Objects::isNull);
+                    if (infoPay.isEmpty() || infoPay.size() != 4) {
+                        // error
+                    }
+                    final var cardPay = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CARD_PAY)));
+                    final var cash = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CASH)));
+                    final var reference = String.valueOf(infoPay.get(PaymentCardDialog.REFERENCE));
+                    final var type = PaymentTypeEnum.getByIndex(
+                        Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
+                    );
+                }
+            );
+            payment.setVisible(true);
+            return;
+        }
+        /** se restaura la venta */
+        totalSale = storeTotalSale;
+        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+    }
+    
     private void addItemToList() {
         try {
             BloSalesV2Utils.validateRule(productFound == null, BloSalesV2Utils.CODE_PRODUCT_NOT_SELECTED, BloSalesV2Utils.PRODUCT_NOT_SELECTED);
@@ -617,7 +643,7 @@ public final class Sales extends AbstractDashboardBase {
     }
     
     private List<PaymentTypeEnum> getPaymentsTypeArray() {
-        return Arrays.asList(PaymentTypeEnum.values());
+        return Arrays.asList(PaymentTypeEnum.values()).subList(0, 2);
     }
 
     private void disableButtons() {

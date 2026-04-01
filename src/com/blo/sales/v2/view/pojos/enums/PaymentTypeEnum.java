@@ -1,8 +1,10 @@
 package com.blo.sales.v2.view.pojos.enums;
 
+import java.util.Arrays;
+
 public enum PaymentTypeEnum {
     
-    CASH("Efectivo", 0), TRANSFER("Pago con tarjeta", 1);
+    CASH("Efectivo", 0), TRANSFER("Pago con tarjeta", 1), BOTH("Ambos", 2);
     
     private final String paymentTypeTarget;
     
@@ -21,4 +23,10 @@ public enum PaymentTypeEnum {
         return index;
     }
     
+    public static PaymentTypeEnum getByIndex(int index) {
+        return Arrays.stream(PaymentTypeEnum.values())
+            .filter(e -> e.index == index)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Index no válido: " + index));
+    }
 }
