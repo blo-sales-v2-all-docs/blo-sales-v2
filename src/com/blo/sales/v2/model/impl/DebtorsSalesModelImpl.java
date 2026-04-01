@@ -8,6 +8,7 @@ import com.blo.sales.v2.model.mapper.DebtorSaleEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,19 +21,9 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
-    //private static DebtorsSalesModelImpl instance;
+    @Inject
+    private DebtorSaleEntityMapper mapper;
     
-    private static final DebtorSaleEntityMapper mapper = DebtorSaleEntityMapper.getInstance();
-    
-   /* private DebtorsSalesModelImpl() { }
-    
-    public static DebtorsSalesModelImpl getInstance() {
-        if (instance == null) {
-            instance = new DebtorsSalesModelImpl();
-        }
-        return instance;
-    }*/
-
     @Override
     public PojoIntDebtorSale addRelationship(PojoIntDebtorSale debtor) throws BloSalesV2Exception {
         try {

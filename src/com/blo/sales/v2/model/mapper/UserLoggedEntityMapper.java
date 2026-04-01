@@ -6,20 +6,11 @@ import com.blo.sales.v2.model.entities.UserEntity;
 import com.blo.sales.v2.model.entities.enums.RolesEntityEnum;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class UserLoggedEntityMapper implements IToOuter<UserEntity, PojoIntLoggedInUser>, IToInner<UserEntity, PojoIntLoggedInUser> {
     
-    private static UserLoggedEntityMapper instance;
-    
-    private UserLoggedEntityMapper() { }
-    
-    public static UserLoggedEntityMapper getInstance() {
-        if (instance == null) {
-            return new UserLoggedEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public PojoIntLoggedInUser toOuter(UserEntity inner) {
         if (inner == null) {

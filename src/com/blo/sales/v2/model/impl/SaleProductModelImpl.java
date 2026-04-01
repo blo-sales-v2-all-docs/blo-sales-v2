@@ -13,6 +13,7 @@ import com.blo.sales.v2.model.mapper.WrapperSaleStockEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -26,21 +27,12 @@ public class SaleProductModelImpl implements ISaleProductModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
-    //private static SaleProductModelImpl instance;
+    @Inject
+    private SaleProductEntityMapper mapper;
     
-    private static final SaleProductEntityMapper mapper = SaleProductEntityMapper.getInstance();
+    @Inject
+    private WrapperSaleStockEntityMapper saleStockEntityMapper;
     
-    private static final WrapperSaleStockEntityMapper saleStockEntityMapper = WrapperSaleStockEntityMapper.getInstance();
-    
-    /*private SaleProductModelImpl() { }
-    
-    public static SaleProductModelImpl getInstance() {
-        if (instance == null) {
-            instance = new SaleProductModelImpl();
-        }
-        return instance;
-    }*/
-
     @Override
     public PojoIntSaleProduct addSaleProduct(PojoIntSaleProduct sale) throws BloSalesV2Exception {
         try {

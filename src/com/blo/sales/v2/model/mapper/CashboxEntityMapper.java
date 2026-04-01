@@ -6,20 +6,11 @@ import com.blo.sales.v2.model.entities.CashboxEntity;
 import com.blo.sales.v2.model.entities.enums.CashboxEntityEnum;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class CashboxEntityMapper implements IToInner<CashboxEntity, PojoIntCashbox>, IToOuter<CashboxEntity, PojoIntCashbox> {
     
-    private static CashboxEntityMapper instance;
-    
-    private CashboxEntityMapper() { }
-    
-    public static CashboxEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new CashboxEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public CashboxEntity toInner(PojoIntCashbox outer) {
         if (outer == null) {

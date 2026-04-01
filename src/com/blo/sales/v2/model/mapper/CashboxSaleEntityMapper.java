@@ -3,24 +3,18 @@ package com.blo.sales.v2.model.mapper;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxSale;
 import com.blo.sales.v2.model.entities.CashboxSaleEntity;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class CashboxSaleEntityMapper implements IToOuter<CashboxSaleEntity, PojoIntCashboxSale> {
     
-    private static CashboxSaleEntityMapper instance;
+    @Inject
+    private CashboxEntityMapper cashboxMapper;
     
-    private static final CashboxEntityMapper cashboxMapper = CashboxEntityMapper.getInstance();
+    @Inject
+    private SaleEntityMapper saleMapper;
     
-    private static final SaleEntityMapper saleMapper = SaleEntityMapper.getInstance();
-    
-    private CashboxSaleEntityMapper() { }
-    
-    public static CashboxSaleEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new CashboxSaleEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public PojoIntCashboxSale toOuter(CashboxSaleEntity outer) {
         if (outer == null) {

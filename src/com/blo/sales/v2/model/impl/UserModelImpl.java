@@ -20,6 +20,7 @@ import com.blo.sales.v2.model.mapper.WrapperNotesEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,24 +34,17 @@ public class UserModelImpl implements IUserModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
-    private static final UserLoggedEntityMapper userEntityMapper = UserLoggedEntityMapper.getInstance();
+    @Inject
+    private UserLoggedEntityMapper userEntityMapper;
     
-    private static final UserEntityMapper userMapper = UserEntityMapper.getInstance();
+    @Inject
+    private UserEntityMapper userMapper;
     
-    private static final WrapperNotesEntityMapper mapperNotes = WrapperNotesEntityMapper.getInstance();
+    @Inject
+    private WrapperNotesEntityMapper mapperNotes;
     
-    private static final NoteEntityMapper noteMapper = NoteEntityMapper.getInstance();
-    
-    /*private static UserModelImpl instance;
-    
-    private UserModelImpl() { }
-    
-    public static UserModelImpl getInstance() {
-        if (instance == null) {
-            instance = new UserModelImpl();
-        }
-        return instance;
-    }*/
+    @Inject
+    private NoteEntityMapper noteMapper;
     
     @Override
     public PojoIntLoggedInUser doLogin(PojoIntUser userData) throws BloSalesV2Exception {

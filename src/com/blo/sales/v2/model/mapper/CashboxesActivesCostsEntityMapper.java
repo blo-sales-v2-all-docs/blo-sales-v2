@@ -4,22 +4,13 @@ import com.blo.sales.v2.controller.pojos.PojoIntCashboxesActivesCosts;
 import com.blo.sales.v2.model.entities.CashboxesActivesCostsEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class CashboxesActivesCostsEntityMapper implements 
         IToInner<CashboxesActivesCostsEntity, PojoIntCashboxesActivesCosts>,
         IToOuter<CashboxesActivesCostsEntity, PojoIntCashboxesActivesCosts> {
     
-    private static CashboxesActivesCostsEntityMapper instance;
-    
-    private CashboxesActivesCostsEntityMapper() { }
-    
-    public static CashboxesActivesCostsEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new CashboxesActivesCostsEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public CashboxesActivesCostsEntity toInner(PojoIntCashboxesActivesCosts outer) {
         if (outer == null) {

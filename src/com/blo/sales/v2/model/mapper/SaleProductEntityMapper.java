@@ -4,20 +4,11 @@ import com.blo.sales.v2.controller.pojos.PojoIntSaleProduct;
 import com.blo.sales.v2.model.entities.SaleProductEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class SaleProductEntityMapper implements IToInner<SaleProductEntity, PojoIntSaleProduct>, IToOuter<SaleProductEntity, PojoIntSaleProduct> {
     
-    private static SaleProductEntityMapper instance;
-    
-    private SaleProductEntityMapper() { }
-    
-    public static SaleProductEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new SaleProductEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public SaleProductEntity toInner(PojoIntSaleProduct outer) {
         if (outer == null) {

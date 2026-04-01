@@ -6,20 +6,11 @@ import com.blo.sales.v2.model.entities.NoteEntity;
 import com.blo.sales.v2.model.entities.enums.TypeNoteEntityEnum;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class NoteEntityMapper implements IToInner<NoteEntity, PojoIntNote>, IToOuter<NoteEntity, PojoIntNote> {
     
-    private static NoteEntityMapper instance;
-    
-    private NoteEntityMapper() { }
-    
-    public static NoteEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new NoteEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public NoteEntity toInner(PojoIntNote outer) {
         if (outer == null) {

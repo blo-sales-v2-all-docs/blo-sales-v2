@@ -6,20 +6,11 @@ import com.blo.sales.v2.model.entities.enums.ReasonsEntityEnum;
 import com.blo.sales.v2.model.entities.enums.TypesEntityEnum;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class MovementEntityMapper implements IToInner<MovementEntity, PojoIntMovement>, IToOuter<MovementEntity, PojoIntMovement> {
     
-    private static MovementEntityMapper instance;
-    
-    private MovementEntityMapper() { }
-    
-    public static MovementEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new MovementEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public MovementEntity toInner(PojoIntMovement outer) {
         if (outer == null) {

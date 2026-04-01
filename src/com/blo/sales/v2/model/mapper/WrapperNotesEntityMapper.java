@@ -4,23 +4,16 @@ import com.blo.sales.v2.controller.pojos.PojoIntNote;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntNotes;
 import com.blo.sales.v2.model.entities.WrapperNotesEntity;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperNotesEntityMapper implements IToOuter<WrapperNotesEntity, WrapperPojoIntNotes> {
     
-    private static final NoteEntityMapper mapper = NoteEntityMapper.getInstance();
+    @Inject
+    private NoteEntityMapper mapper;
     
-    private static WrapperNotesEntityMapper instance;
-    
-    private WrapperNotesEntityMapper(){ }
-    
-    public static WrapperNotesEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperNotesEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public WrapperPojoIntNotes toOuter(WrapperNotesEntity inner) {
         if (inner == null) {

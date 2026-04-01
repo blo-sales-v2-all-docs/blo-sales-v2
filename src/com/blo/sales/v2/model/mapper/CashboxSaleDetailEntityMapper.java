@@ -3,30 +3,27 @@ package com.blo.sales.v2.model.mapper;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxSaleDetail;
 import com.blo.sales.v2.model.entities.CashboxSaleDetailEntity;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class CashboxSaleDetailEntityMapper implements IToOuter<CashboxSaleDetailEntity, PojoIntCashboxSaleDetail>{
     
-    private static final CashboxEntityMapper cashboxMapper = CashboxEntityMapper.getInstance();
-    
-    private static final SaleEntityMapper saleMapper = SaleEntityMapper.getInstance();
-    
-    private static final ProductEntityMapper productMapper = ProductEntityMapper.getInstance();
-    
-    private static final UserLoggedEntityMapper userMapper = UserLoggedEntityMapper.getInstance();
-    
-    private static final SaleProductEntityMapper saleProductMapper = SaleProductEntityMapper.getInstance();
-    
-    private static CashboxSaleDetailEntityMapper instance;
-    
-    private CashboxSaleDetailEntityMapper() { }
-    
-    public static CashboxSaleDetailEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new CashboxSaleDetailEntityMapper();
-        }
-        return instance;
-    }
+   @Inject
+    private CashboxEntityMapper cashboxMapper;
 
+    @Inject
+    private SaleEntityMapper saleMapper;
+
+    @Inject
+    private ProductEntityMapper productMapper;
+
+    @Inject
+    private UserLoggedEntityMapper userMapper;
+
+    @Inject
+    private SaleProductEntityMapper saleProductMapper;
+    
     @Override
     public PojoIntCashboxSaleDetail toOuter(CashboxSaleDetailEntity inner) {
         if (inner == null) {
