@@ -9,6 +9,7 @@ import com.blo.sales.v2.controller.ISaleDeletedDetailController;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.ISalesProductController;
 import com.blo.sales.v2.controller.IUserController;
+import com.blo.sales.v2.controller.pojos.enums.PaymentTypeIntEnum;
 import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtorSale;
@@ -70,7 +71,15 @@ public class SalesControllerImpl implements ISalesController {
     }
 
     @Override
-    public PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> products, long idUser) throws BloSalesV2Exception {
+    public PojoIntSale registerSale(
+            BigDecimal totalSale,
+            List<PojoIntSaleProductData> products,
+            PaymentTypeIntEnum type,
+            String authorization,
+            BigDecimal totalCash,
+            BigDecimal totalCard,
+            long idUser
+    ) throws BloSalesV2Exception {
         /** validaciones */
         final var productsFound = productsController.getAllProducts().getProducts();
         for (final var product: products) {

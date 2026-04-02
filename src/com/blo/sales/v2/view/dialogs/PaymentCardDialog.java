@@ -147,8 +147,6 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
                 cash = GUICommons.getNumberFromJText(nmbCash, 2);
                 type = 2;
             }
-               // final var cashPay = String.format("&cash=%s&type=BOTH", cash);
-                //paymentData = paymentData.concat(cashPay);
             paymentData.put(CASH, cash);
             paymentData.put(TYPE, type);
             callback.accept((T) paymentData);

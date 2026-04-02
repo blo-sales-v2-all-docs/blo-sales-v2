@@ -6,6 +6,7 @@ import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.impl.DebtorsControllerImpl;
 import com.blo.sales.v2.controller.impl.ProductsControllerImpl;
 import com.blo.sales.v2.controller.impl.SalesControllerImpl;
+import com.blo.sales.v2.controller.pojos.enums.PaymentTypeIntEnum;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -328,7 +329,14 @@ public final class Sales extends AbstractDashboardBase {
     /** ajustar para reiniciar lista */
     private void btnCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteActionPerformed
         try {
-            salesController.registerSale(totalSale, getProductData(), this.userData.getIdUser());
+            salesController.registerSale(
+                totalSale,
+                getProductData(),
+                PaymentTypeIntEnum.CASH,
+                BloSalesV2Utils.EMPTY_STRING,
+                totalSale,
+                BigDecimal.ZERO,
+                this.userData.getIdUser());
             disableButtons();
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             totalSale = BigDecimal.ZERO;
