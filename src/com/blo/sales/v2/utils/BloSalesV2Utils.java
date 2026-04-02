@@ -90,6 +90,8 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_PAYMENT_CARD_NOT_COMPLETE = "El pago no est\u00e1 completo. \n Verifica";
     
+    public static final String ERROR_PAYMENTS_CARD_NOT_EQUALS = "La suma de los pagos no coinciden";
+    
     public static final long DEBTORS_PAYMENTS = 1;
     
     public static final String COMMON_RULE = "Ups. Error inesperado";
@@ -140,6 +142,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_INVALID_PHONE_NUMBER = "019";
     
     public static final String CODE_PAYMENT_CARD_NOT_COMPLETE = "020";
+    
+    public static final String CODE_PAYMENTS_CARD_NOT_EQUALS = "021";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

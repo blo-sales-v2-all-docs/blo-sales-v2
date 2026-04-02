@@ -11,6 +11,9 @@ public class PojoDebtor {
     private BigDecimal debt;
     
     private String payments;
+    
+    /** se requiere id para completar los datos de la venta */
+    private long idSale;
 
     public long getIdDebtor() {
         return idDebtor;
@@ -44,6 +47,14 @@ public class PojoDebtor {
         this.debt = debt;
     }
 
+    public long getIdSale() {
+        return idSale;
+    }
+
+    public void setIdSale(long idSale) {
+        this.idSale = idSale;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -52,6 +63,7 @@ public class PojoDebtor {
         sb.append(", name=").append(name);
         sb.append(", debt=").append(debt);
         sb.append(", payments=").append(payments);
+        sb.append(", idSale=").append(idSale);
         sb.append('}');
         return sb.toString();
     }

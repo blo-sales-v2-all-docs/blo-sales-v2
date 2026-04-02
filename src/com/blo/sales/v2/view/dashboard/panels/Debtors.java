@@ -1,6 +1,7 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.IDebtorsController;
+import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
@@ -8,13 +9,21 @@ import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.dialogs.PaymentCardDialog;
+import com.blo.sales.v2.view.mappers.PojoPaymentTypeInfoMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorsDetailsMapper;
 import com.blo.sales.v2.view.pojos.PojoDebtorDetail;
+import com.blo.sales.v2.view.pojos.PojoPaymentTypeInfo;
 import com.blo.sales.v2.view.pojos.WrapperPojoDebtorsDetails;
+import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +36,12 @@ public final class Debtors extends AbstractDashboardBase {
     
     @Inject
     private WrapperPojoDebtorsDetailsMapper debtorsDetailsMapper;
+    
+    @Inject
+    private ISalesController salesController;
+    
+    @Inject
+    private PojoPaymentTypeInfoMapper paymentTypeInfoMapper;
     
     /** deudor seleccionado para hacer operaciones */
     private PojoDebtorDetail debtorSelected;
@@ -79,7 +94,8 @@ public final class Debtors extends AbstractDashboardBase {
         lblAddPartialPay = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         lblDebt = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbxPaymentType = new javax.swing.JComboBox<>();
+        lblPaymentType = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         areaPayments = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -128,6 +144,8 @@ public final class Debtors extends AbstractDashboardBase {
             }
         });
 
+        lblPaymentType.setText("tipo_de_pago");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -144,10 +162,13 @@ public final class Debtors extends AbstractDashboardBase {
                         .addGap(18, 18, 18)
                         .addComponent(lblDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nmbPay, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nmbPay, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAddPartialPay))
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lblAddPartialPay))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPaymentType)
+                            .addComponent(cmbxPaymentType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -158,11 +179,13 @@ public final class Debtors extends AbstractDashboardBase {
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(lblAddPartialPay)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAddPartialPay)
+                    .addComponent(lblPaymentType))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nmbPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbxPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPayall, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
@@ -306,17 +329,89 @@ public final class Debtors extends AbstractDashboardBase {
         }
     }
     
+     private void loadPaymentsType() {
+        final var paymentsTypeModel = new DefaultComboBoxModel<String>();
+        PaymentTypeEnum.getVisiblesTypes().forEach(c -> paymentsTypeModel.addElement(c.getPaymentTypeTarget()));
+        cmbxPaymentType.setModel(paymentsTypeModel);
+    }
+     
+     /** abre la ventana para pagos por tarjeta */
+    private void openPaymentCard(int item) {
+        if (item == 1) {
+            GUICommons.disabledButton(btnSave);
+            GUICommons.disabledButton(btnPayall);
+            final var totalDebt = debtorSelected.getDebt().
+                    multiply(new BigDecimal("1.05")).
+                    setScale(2, RoundingMode.HALF_UP);
+            GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), totalDebt));
+            
+            final PaymentCardDialog<Map<String, Object>>[] paymentWrapper = new PaymentCardDialog[1];
+            
+            paymentWrapper[0] = new PaymentCardDialog<>(
+                this,
+                "Pago por tarjeta",
+                totalDebt,
+                (Map<String, Object> infoPay) -> {
+                    try {
+                        infoPay.values().removeIf(Objects::isNull);
+                        if (infoPay.isEmpty() || infoPay.size() != 4) {
+                            throw new BloSalesV2Exception(BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.COMMON_RULE);
+                        }
+                        var cardPay = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CARD_PAY)));
+                        var cash = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CASH)));
+                        final var reference = String.valueOf(infoPay.get(PaymentCardDialog.REFERENCE));
+                        final var type = PaymentTypeEnum.getByIndex(
+                            Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
+                        );
+                        var paysAdded = cardPay.add(cash);
+                        /** si el tipo es 'ambos' entonces el cash será la resta de la deuda menos el pago con tarjeta */
+                        if (type.compareTo(PaymentTypeEnum.BOTH) == 0) {
+                            cash = totalDebt.subtract(cardPay);
+                        }
+                        final var registeredSale = debtors.addPayment(paysAdded, getUserData().getIdUser(), debtorSelected.getIdDebtor());
+                        final var paymentTypeAux = new PojoPaymentTypeInfo();
+                        paymentTypeAux.setCardPay(cardPay);
+                        paymentTypeAux.setCash(cash);
+                        paymentTypeAux.setReference(reference);
+                        paymentTypeAux.setPaymentType(type);
+                        paymentTypeAux.setTotalToPay(paysAdded);
+                        paymentTypeAux.setIdSale(registeredSale.getIdSale());
+                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));
+                        
+                        loadDataAndTitles();
+                        disabledButtons();
+                        
+                        // 2. Usamos la referencia del arreglo para cerrar
+                        if (paymentWrapper[0] != null) {
+                            paymentWrapper[0].dispose();
+                        }
+                    } catch (BloSalesV2Exception ex) {
+                        logger.error(ex.getMessage());
+                        CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+                    } 
+                }
+            );
+            paymentWrapper[0].setVisible(true);
+            GUICommons.enabledButton(btnSave);
+            GUICommons.enabledButton(btnPayall);
+            return;
+        }
+        /** se restaura la venta */
+        GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaPayments;
     private javax.swing.JButton btnPayall;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbxPaymentType;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblAddPartialPay;
     private javax.swing.JLabel lblDebt;
+    private javax.swing.JLabel lblPaymentType;
     private javax.swing.JList<String> lstProducts;
     private javax.swing.JTextField nmbPay;
     private javax.swing.JTable tblDebtors;
@@ -329,6 +424,7 @@ public final class Debtors extends AbstractDashboardBase {
         GUICommons.setTextToField(lblAddPartialPay, getTranslateBy(KeysEnum.DEBTORS_LBL_ADD_PAY.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnPayall, getTranslateBy(KeysEnum.DEBTORS_BTN_PAY_ALL.getKey()));
+        GUICommons.setTextToField(lblPaymentType, getTranslateBy(KeysEnum.COMMON_LBL_PAYMENT_TYPE.getKey()));
     }
 
     @Override
@@ -340,6 +436,8 @@ public final class Debtors extends AbstractDashboardBase {
             loadDataAndTitles();
             //initFilter();
             GUICommons.addDoubleClickOnTable(tblDebtors, item -> selectADebtor((long) item));
+            loadPaymentsType();
+            GUICommons.addChangeEventOnComboBox(cmbxPaymentType, (Integer index) -> openPaymentCard(index));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));

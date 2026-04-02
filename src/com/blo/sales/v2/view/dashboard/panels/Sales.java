@@ -3,10 +3,6 @@ package com.blo.sales.v2.view.dashboard.panels;
 import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.IProductsController;
 import com.blo.sales.v2.controller.ISalesController;
-import com.blo.sales.v2.controller.impl.DebtorsControllerImpl;
-import com.blo.sales.v2.controller.impl.ProductsControllerImpl;
-import com.blo.sales.v2.controller.impl.SalesControllerImpl;
-import com.blo.sales.v2.controller.pojos.enums.PaymentTypeIntEnum;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -33,7 +29,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -94,7 +89,7 @@ public final class Sales extends AbstractDashboardBase {
         lblResult = new javax.swing.JLabel();
         nmbCalcPay = new javax.swing.JTextField();
         lblFastRest = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblPaymentType = new javax.swing.JLabel();
         cmnbxPaymentType = new javax.swing.JComboBox<>();
         pnlSearch = new javax.swing.JPanel();
         lblQuantity = new javax.swing.JLabel();
@@ -158,7 +153,7 @@ public final class Sales extends AbstractDashboardBase {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        jLabel1.setText("tipo_de_pago");
+        lblPaymentType.setText("tipo_de_pago");
 
         javax.swing.GroupLayout pnlPayLayout = new javax.swing.GroupLayout(pnlPay);
         pnlPay.setLayout(pnlPayLayout);
@@ -169,7 +164,7 @@ public final class Sales extends AbstractDashboardBase {
                 .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 509, Short.MAX_VALUE)
                 .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(lblPaymentType)
                     .addComponent(cmnbxPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnDebtors)
@@ -183,7 +178,7 @@ public final class Sales extends AbstractDashboardBase {
                 .addContainerGap()
                 .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPayLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblPaymentType)
                         .addGap(18, 18, 18)
                         .addComponent(cmnbxPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -404,7 +399,10 @@ public final class Sales extends AbstractDashboardBase {
                     multiply(new BigDecimal("1.05")).
                     setScale(2, RoundingMode.HALF_UP);
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
-            final var payment = new PaymentCardDialog<Map<String, Object>>(
+            
+            final PaymentCardDialog<Map<String, Object>>[] paymentWrapper = new PaymentCardDialog[1];
+            
+            paymentWrapper[0] = new PaymentCardDialog<>(
                 this,
                 "Pago por tarjeta",
                 totalSale,
@@ -421,9 +419,11 @@ public final class Sales extends AbstractDashboardBase {
                             Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
                         );
                         final var paysAdded = cardPay.add(cash);
+                        /** validar que los pagos no sean menor que lo que se debe pagar */
                         if (paysAdded.compareTo(totalSale) < 0) {
                             throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
                         }
+                        /** si el tipo es 'ambos' entonces el cash será la resta de la deuda menos el pago con tarjeta */
                         if (type.compareTo(PaymentTypeEnum.BOTH) == 0) {
                             cash = totalSale.subtract(cardPay);
                         }
@@ -437,13 +437,24 @@ public final class Sales extends AbstractDashboardBase {
                         paymentTypeAux.setTotalToPay(totalSale);
                         paymentTypeAux.setIdSale(registeredSale.getIdSale());
                         salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));
+                        
+                        disableButtons();
+                        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
+                        totalSale = BigDecimal.ZERO;
+                        resetFields();
+            
+                        // 2. Usamos la referencia del arreglo para cerrar
+                        if (paymentWrapper[0] != null) {
+                            paymentWrapper[0].dispose();
+                        }
                     } catch (BloSalesV2Exception ex) {
                         logger.error(ex.getMessage());
-                        CommonAlerts.openError(ex.getMessage(), "¡Error!");
+                        CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                     }
                 }
             );
-            payment.setVisible(true);
+            
+            paymentWrapper[0].setVisible(true);
             return;
         }
         /** se restaura la venta */
@@ -660,10 +671,10 @@ public final class Sales extends AbstractDashboardBase {
     private javax.swing.JButton btnComplete;
     private javax.swing.JButton btnDebtors;
     private javax.swing.JComboBox<String> cmnbxPaymentType;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBarCode;
     private javax.swing.JLabel lblFastRest;
+    private javax.swing.JLabel lblPaymentType;
     private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblTotal;
@@ -685,6 +696,7 @@ public final class Sales extends AbstractDashboardBase {
         GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), BigDecimal.ZERO));
         GUICommons.setTextToField(lblResult, BigDecimal.ZERO);
         GUICommons.setTextToField(lblFastRest, getTranslateBy(KeysEnum.SALES_LBL_FAST_REST.getKey()));
+        GUICommons.setTextToField(lblPaymentType, getTranslateBy(KeysEnum.COMMON_LBL_PAYMENT_TYPE.getKey()));
     }
 
     @Override

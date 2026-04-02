@@ -1,6 +1,8 @@
 package com.blo.sales.v2.view.dialogs;
 
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
@@ -138,16 +140,21 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
         try {
             final var cardPay = GUICommons.getNumberFromJText(nmbPaymentCard, 2);
             final var reference = GUICommons.getTextFromField(txtReference, true);
-            /** todo el pago con tarjeta + comision*/
-            final Map<String, Object> paymentData = new HashMap<>();
-            paymentData.put(CARD_PAY, cardPay);
-            paymentData.put(REFERENCE, reference);
             var cash = BigDecimal.ZERO;
             var type = 1;
             if (!checkboxStatus) {
                 cash = GUICommons.getNumberFromJText(nmbCash, 2);
                 type = 2;
             }
+            /** validar que la suma de ambos pagos no sea mayor a lo que se debe pagar */
+            final var sum = cardPay.add(cash);
+            if (sum.compareTo(pay) > 0) {
+                throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENTS_CARD_NOT_EQUALS, BloSalesV2Utils.ERROR_PAYMENTS_CARD_NOT_EQUALS);
+            }
+            /** todo el pago con tarjeta + comision*/
+            final Map<String, Object> paymentData = new HashMap<>();
+            paymentData.put(CARD_PAY, cardPay);
+            paymentData.put(REFERENCE, reference);
             paymentData.put(CASH, cash);
             paymentData.put(TYPE, type);
             callback.accept((T) paymentData);
@@ -165,7 +172,11 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
 
     @Override
     public void loadTargets() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        GUICommons.setTextToField(lblTotalToPay, getTranslateBy(KeysEnum.DLG_PAYMENTS_LBL_TOTAL.getKey()));
+        GUICommons.setTextToButton(btnDoPay, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD.getKey()));
+        GUICommons.setTextToField(lblCash, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
+        GUICommons.setTextToField(lblReference, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
+        GUICommons.setTextToCheckbox(chcbkxComplete, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_CMBX_COMPLETE.getKey()));
     }
     
     private void init() {
