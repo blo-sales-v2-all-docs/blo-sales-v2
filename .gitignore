@@ -1,2 +1,30 @@
-/build/
-/dist/
+# --- Maven ---
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/
+
+# --- NetBeans Specific ---
+nbproject/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
+
+# --- OS Specific (Linux) ---
+.DS_Store
+.directory
+*.swp
+*~
+
+# --- Compiled files ---
+*.class
+*.jar
+*.war
+*.ear
