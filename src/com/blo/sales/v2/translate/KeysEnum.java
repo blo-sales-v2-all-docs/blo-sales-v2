@@ -39,7 +39,7 @@ public enum KeysEnum {
     // dashboard
     DASHBOARD_TITLES_REGISTER_SALE("dashboard.titles.register-sale"), DASHBOARD_TITLES_LOGIN("dashboard.titles.login"), DASHBOARD_TITLES_VIEW_SALES_TODAY("dashboard.titles.view-sales-today"), DASHBOARD_TITLES_REGISTER_PRODUCT("dashboard.titles.register-product"), DASHBOARD_TITLES_CATEGORIES("dashboard.titles.categories"), DASHBOARD_TITLES_CONSOLE("dashboard.titles.console"), DASHBOARD_TITLES_DEBTORS("dashboard.titles.debtors"), DASHBOARD_TITLES_VIEW_ALL_PRODUCTS("dashboard.titles.view-all-products"), DASHBOARD_TITLES_FAST_NOTES("dashboard.titles.fast-notes"), DASHBOARD_TITLES_ALL_SALES("dashboard.titles.all-sales"), DASHBOARD_TITLES_ALL_CASHBOXES("dashboard.titles.all-cashboxes"), DASHBOARD_TITLES_OPEN_CASHBOX("dashboard.titles.open-cashbox"), DASHBOARD_TITLES_TOP_UPS("dashboard.titles.top-ups"), DASHBOARD_TITLES_MOBILE_COMPANIES("dashboard.titles.mobile-companies"),
     // dialogo de pago por tarjeta
-    DLG_PAYMENTS_LBL_TOTAL("dlg-payemtns-card.lbl.total"), DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD("dlg-payemtns-card.lbl.payment-by-card"), DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH("dlg-payemtns-card.lbl.payment-cash"), DLG_PAYMENTS_CARD_BTN_PAY("dlg-payemtns-card.btn.pay"), DLG_PAYMENTS_CARD_CMBX_COMPLETE("dlg-payemtns-card.cmbx.complete");
+    DLG_PAYMENTS_LBL_TOTAL("dlg-payemtns-card.lbl.total"), DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD("dlg-payemtns-card.lbl.payment-by-card"), DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH("dlg-payemtns-card.lbl.payment-cash"), DLG_PAYMENTS_CARD_BTN_PAY("dlg-payemtns-card.btn.pay"), DLG_PAYMENTS_CARD_CMBX_COMPLETE("dlg-payemtns-card.cmbx.complete"), COMMON_TTL_PAYMENT_BY_CARD("common.ttl.payment-by-card");
     
     
     private final String key;

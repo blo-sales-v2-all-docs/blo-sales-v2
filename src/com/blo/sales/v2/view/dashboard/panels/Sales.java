@@ -404,7 +404,7 @@ public final class Sales extends AbstractDashboardBase {
             
             paymentWrapper[0] = new PaymentCardDialog<>(
                 this,
-                "Pago por tarjeta",
+                getTranslateBy(KeysEnum.COMMON_TTL_PAYMENT_BY_CARD.getKey()),
                 totalSale,
                 (Map<String, Object> infoPay) -> {
                     try {
