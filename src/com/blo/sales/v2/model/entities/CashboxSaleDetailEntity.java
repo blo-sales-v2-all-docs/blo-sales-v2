@@ -11,6 +11,8 @@ public class CashboxSaleDetailEntity {
     private UserEntity user;
     
     private SaleProductEntity sale_product;
+    
+    private PaymentTypeInfoEntity payment_info_tmp;
 
     public CashboxEntity getCashbox() {
         return cashbox;
@@ -52,6 +54,14 @@ public class CashboxSaleDetailEntity {
         this.sale_product = sale_product;
     }
 
+    public PaymentTypeInfoEntity getPayment_info_tmp() {
+        return payment_info_tmp;
+    }
+
+    public void setPayment_info_tmp(PaymentTypeInfoEntity payment_info_tmp) {
+        this.payment_info_tmp = payment_info_tmp;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -61,6 +71,7 @@ public class CashboxSaleDetailEntity {
         sb.append(", product=").append(product);
         sb.append(", user=").append(user);
         sb.append(", sale_product=").append(sale_product);
+        sb.append(", payment_info_tmp=").append(payment_info_tmp);
         sb.append('}');
         return sb.toString();
     }

@@ -3,6 +3,7 @@ package com.blo.sales.v2.view.mappers;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleAndProduct;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
+import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
 import jakarta.inject.Singleton;
 
 @Singleton
@@ -24,6 +25,7 @@ public class PojoSaleAndProductMapper implements IToOuter<PojoIntSaleAndProduct,
         outer.setPrice(inner.getPrice());
         outer.setKg(inner.isKg());
         outer.setProductTotalOnSale(inner.getProductTotalOnSale());
+        outer.setPaymentType(PaymentTypeEnum.valueOf(inner.getPaymentType().name()));
         return outer;
     }
 }

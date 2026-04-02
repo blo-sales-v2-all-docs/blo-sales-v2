@@ -24,6 +24,9 @@ public class CashboxSaleDetailEntityMapper implements IToOuter<CashboxSaleDetail
     @Inject
     private SaleProductEntityMapper saleProductMapper;
     
+    @Inject
+    private PaymentTypeInfoEntityMapper paymenTypeInfoMapper;
+    
     @Override
     public PojoIntCashboxSaleDetail toOuter(CashboxSaleDetailEntity inner) {
         if (inner == null) {
@@ -35,6 +38,7 @@ public class CashboxSaleDetailEntityMapper implements IToOuter<CashboxSaleDetail
         outer.setProduct(productMapper.toOuter(inner.getProduct()));
         outer.setUser(userMapper.toOuter(inner.getUser()));
         outer.setSaleProduct(saleProductMapper.toOuter(inner.getSale_product()));
+        outer.setPaymentTypeInfo(paymenTypeInfoMapper.toOuter(inner.getPayment_info_tmp()));
         return outer;
     }
     

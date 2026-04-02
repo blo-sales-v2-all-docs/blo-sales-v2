@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.pojos;
 
+import com.blo.sales.v2.controller.pojos.enums.PaymentTypeIntEnum;
 import java.math.BigDecimal;
 
 public class PojoIntSaleAndProduct {
@@ -21,6 +22,8 @@ public class PojoIntSaleAndProduct {
     private BigDecimal productTotalOnSale;
     
     private String timestamp;
+    
+    private PaymentTypeIntEnum paymentType;
     
     private boolean kg;
 
@@ -104,6 +107,14 @@ public class PojoIntSaleAndProduct {
         this.productTotalOnSale = productTotalOnSale;
     }
 
+    public PaymentTypeIntEnum getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentTypeIntEnum paymentType) {
+        this.paymentType = paymentType;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -118,6 +129,7 @@ public class PojoIntSaleAndProduct {
         sb.append(", productTotalOnSale=").append(productTotalOnSale);
         sb.append(", timestamp=").append(timestamp);
         sb.append(", kg=").append(kg);
+        sb.append(", paymentType=").append(paymentType);
         sb.append('}');
         return sb.toString();
     }

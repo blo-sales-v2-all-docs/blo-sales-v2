@@ -2,9 +2,9 @@ package com.blo.sales.v2.utils;
 
 public class BloSalesV2Exception extends Exception {
     
-    private String message;
+    private final String message;
     
-    private String code;
+    private final String code;
     
     public BloSalesV2Exception(String code, String message) {
         super(message);

@@ -23,6 +23,9 @@ public class PojoCashboxSaleDetailMapper implements IToOuter<PojoIntCashboxSaleD
     
     @Inject
     private PojoSaleProductMapper saleProduct;
+    
+    @Inject
+    private PojoPaymentTypeInfoMapper paymentInfoMapper;
 
     @Override
     public PojoCashboxSaleDetail toOuter(PojoIntCashboxSaleDetail inner) {
@@ -35,6 +38,7 @@ public class PojoCashboxSaleDetailMapper implements IToOuter<PojoIntCashboxSaleD
         outer.setProduct(productMapper.toOuter(inner.getProduct()));
         outer.setUser(loggedInUserMapper.toOuter(inner.getUser()));
         outer.setSaleProduct(saleProduct.toOuter(inner.getSaleProduct()));
+        outer.setPaymentTypeInfo(paymentInfoMapper.toOuter(inner.getPaymentTypeInfo()));
         return outer;
         
     }

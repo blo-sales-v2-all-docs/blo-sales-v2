@@ -1,6 +1,7 @@
 package com.blo.sales.v2.controller;
 
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
+import com.blo.sales.v2.controller.pojos.PojoIntPaymentTypeInfo;
 import com.blo.sales.v2.controller.pojos.PojoIntSale;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleDeletedDetail;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
@@ -13,7 +14,9 @@ import java.util.List;
 
 public interface ISalesController {
     
-    PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo,long idUser) throws BloSalesV2Exception;
+    PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception;
+            
+    PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, long idUser) throws BloSalesV2Exception;
     
     PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception;
     

@@ -318,7 +318,7 @@ public final class AllProducts extends AbstractDashboardBase {
                 type = TypesEnum.ADJUST;
                 newData.setQuantity(GUICommons.getNumberFromJText(nmbQuantity, GUICommons.DIGITS_OF_QUANTITY));
                 final var reason = GUICommons.getValueFromComboBox(lstReason);
-                reasonEnum = getReasons().stream().filter(r -> r.getReasonTarget().equals(reason)).findFirst().orElse(ReasonsEnum.PRODUCT_NOT_MODIFIED);
+                reasonEnum = ReasonsEnum.findReasonByReason(reason);
             }
             newData.setQuantity(GUICommons.getNumberFromJText(nmbQuantity, GUICommons.DIGITS_OF_QUANTITY));
             productsController.updateProductInfo(
@@ -495,13 +495,8 @@ public final class AllProducts extends AbstractDashboardBase {
     
     private void initComboBox() {
         final var categoryModel = new DefaultComboBoxModel<String>();
-        getReasons().forEach(r -> categoryModel.addElement(r.getReasonTarget()));
+        ReasonsEnum.getVisiblesReasons().forEach(r -> categoryModel.addElement(r.getReasonTarget()));
         lstReason.setModel(categoryModel);
-    }
-    
-    /** recupera solo una sublista con los primeros 3 elementos */
-    private List<ReasonsEnum> getReasons() {
-        return Arrays.asList(ReasonsEnum.values()).subList(0, 3);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

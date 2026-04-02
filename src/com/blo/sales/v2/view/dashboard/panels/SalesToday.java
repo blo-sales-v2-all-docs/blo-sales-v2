@@ -27,7 +27,7 @@ public final class SalesToday extends AbstractDashboardBase {
     @Inject
     private WrapperPojoSalesAndStockMapper mapper;
 
-    private static final String[] titles = {"ID de venta", "ID producto", "Producto", "Precio o comprado", "Cantidad en venta", "Total de venta", "Timestamp"};
+    private static final String[] titles = {"ID de venta", "ID producto", "Producto", "Precio o comprado", "Cantidad en venta", "Total de venta", "Tipo de pago", "Timestamp"};
     
     public SalesToday(String key) {
         super(key);
@@ -60,6 +60,7 @@ public final class SalesToday extends AbstractDashboardBase {
                     d.getProductTotalOnSale(),
                     d.getQuantityOnSale(),
                     d.getTotalOnSale(),
+                    d.getPaymentType().getPaymentTypeTarget(),
                     parserTimestamp(d.getTimestamp())
                 };
                 model.addRow(row);

@@ -82,6 +82,7 @@ import com.blo.sales.v2.model.mapper.MobileCompanyEntityMapper;
 import com.blo.sales.v2.model.mapper.MovementDetailEntityMapper;
 import com.blo.sales.v2.model.mapper.MovementEntityMapper;
 import com.blo.sales.v2.model.mapper.NoteEntityMapper;
+import com.blo.sales.v2.model.mapper.PaymentTypeInfoEntityMapper;
 import com.blo.sales.v2.model.mapper.PriceHistoryEntityMapper;
 import com.blo.sales.v2.model.mapper.ProductEntityMapper;
 import com.blo.sales.v2.model.mapper.SaleAndProductEntityMapper;
@@ -122,6 +123,7 @@ import com.blo.sales.v2.view.mappers.PojoDebtorDetailMapper;
 import com.blo.sales.v2.view.mappers.PojoMobileCompanyMapper;
 import com.blo.sales.v2.view.mappers.PojoMovementDetailMapper;
 import com.blo.sales.v2.view.mappers.PojoNoteMapper;
+import com.blo.sales.v2.view.mappers.PojoPaymentTypeInfoMapper;
 import com.blo.sales.v2.view.mappers.PojoPriceHistoryMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleAndProductMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleMapper;
@@ -275,6 +277,8 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(WrapperSalesEntityMapper.class).in(Singleton.class);
         bind(WrapperStockPricesHistoryEntityMapper.class).in(Singleton.class);
         bind(WrapperTopUpsEntityMapper.class).in(Singleton.class);
+        bind(PojoPaymentTypeInfoMapper.class).in(Singleton.class);
+        bind(PaymentTypeInfoEntityMapper.class).in(Singleton.class);
 
     }
 }

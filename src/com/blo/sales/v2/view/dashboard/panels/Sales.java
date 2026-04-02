@@ -13,20 +13,27 @@ import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dialogs.DebtorsDialog;
+import com.blo.sales.v2.view.dialogs.PaymentCardDialog;
 import com.blo.sales.v2.view.dialogs.SelectorDialog;
 import com.blo.sales.v2.view.mappers.DebtorMapper;
+import com.blo.sales.v2.view.mappers.PojoPaymentTypeInfoMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleProductDataMapper;
 import com.blo.sales.v2.view.mappers.WrapperDebtorsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoProductsMapper;
+import com.blo.sales.v2.view.pojos.PojoPaymentTypeInfo;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.pojos.PojoSaleProductData;
+import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 public final class Sales extends AbstractDashboardBase {
@@ -54,12 +61,18 @@ public final class Sales extends AbstractDashboardBase {
     @Inject
     private DebtorMapper debtorMapper;
     
+    @Inject
+    private PojoPaymentTypeInfoMapper paymentTypeInfoMapper;
+    
     private List<PojoProduct> products;
 
     private BigDecimal totalSale;
     
+    /** variable para poder guardar siempre el total como respaldo */
+    private BigDecimal storeTotalSale;
+    
     private PojoProduct productFound;
-        
+    
     public Sales(String title) {
         super(title);
     }
@@ -76,6 +89,8 @@ public final class Sales extends AbstractDashboardBase {
         lblResult = new javax.swing.JLabel();
         nmbCalcPay = new javax.swing.JTextField();
         lblFastRest = new javax.swing.JLabel();
+        lblPaymentType = new javax.swing.JLabel();
+        cmnbxPaymentType = new javax.swing.JComboBox<>();
         pnlSearch = new javax.swing.JPanel();
         lblQuantity = new javax.swing.JLabel();
         nmbQuantity = new javax.swing.JTextField();
@@ -138,6 +153,8 @@ public final class Sales extends AbstractDashboardBase {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
+        lblPaymentType.setText("tipo_de_pago");
+
         javax.swing.GroupLayout pnlPayLayout = new javax.swing.GroupLayout(pnlPay);
         pnlPay.setLayout(pnlPayLayout);
         pnlPayLayout.setHorizontalGroup(
@@ -145,7 +162,11 @@ public final class Sales extends AbstractDashboardBase {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPayLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(pnlCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 628, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 509, Short.MAX_VALUE)
+                .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPaymentType)
+                    .addComponent(cmnbxPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(btnDebtors)
                 .addGap(18, 18, 18)
                 .addComponent(btnComplete)
@@ -156,6 +177,11 @@ public final class Sales extends AbstractDashboardBase {
             .addGroup(pnlPayLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlPayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPayLayout.createSequentialGroup()
+                        .addComponent(lblPaymentType)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmnbxPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(btnComplete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlPayLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -366,6 +392,76 @@ public final class Sales extends AbstractDashboardBase {
         }
     }//GEN-LAST:event_nmbCalcPayKeyReleased
     
+    /** abre la ventana para pagos por tarjeta */
+    private void openPaymentCard(int item) {
+        if (item == 1) {
+            totalSale = totalSale.
+                    multiply(new BigDecimal("1.05")).
+                    setScale(2, RoundingMode.HALF_UP);
+            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+            
+            final PaymentCardDialog<Map<String, Object>>[] paymentWrapper = new PaymentCardDialog[1];
+            
+            paymentWrapper[0] = new PaymentCardDialog<>(
+                this,
+                getTranslateBy(KeysEnum.COMMON_TTL_PAYMENT_BY_CARD.getKey()),
+                totalSale,
+                (Map<String, Object> infoPay) -> {
+                    try {
+                        infoPay.values().removeIf(Objects::isNull);
+                        if (infoPay.isEmpty() || infoPay.size() != 4) {
+                            throw new BloSalesV2Exception(BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.COMMON_RULE);
+                        }
+                        final var cardPay = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CARD_PAY)));
+                        var cash = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CASH)));
+                        final var reference = String.valueOf(infoPay.get(PaymentCardDialog.REFERENCE));
+                        final var type = PaymentTypeEnum.getByIndex(
+                            Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
+                        );
+                        final var paysAdded = cardPay.add(cash);
+                        /** validar que los pagos no sean menor que lo que se debe pagar */
+                        if (paysAdded.compareTo(totalSale) < 0) {
+                            throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
+                        }
+                        /** si el tipo es 'ambos' entonces el cash será la resta de la deuda menos el pago con tarjeta */
+                        if (type.compareTo(PaymentTypeEnum.BOTH) == 0) {
+                            cash = totalSale.subtract(cardPay);
+                        }
+                        final var registeredSale = salesController.registerSale(totalSale, getProductData(), getUserData().getIdUser());
+                        /** se arma pago */
+                        final var paymentTypeAux = new PojoPaymentTypeInfo();
+                        paymentTypeAux.setCardPay(cardPay);
+                        paymentTypeAux.setCash(cash);
+                        paymentTypeAux.setReference(reference);
+                        paymentTypeAux.setPaymentType(type);
+                        paymentTypeAux.setTotalToPay(totalSale);
+                        paymentTypeAux.setIdSale(registeredSale.getIdSale());
+                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));
+                        
+                        disableButtons();
+                        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
+                        totalSale = BigDecimal.ZERO;
+                        resetFields();
+            
+                        // 2. Usamos la referencia del arreglo para cerrar
+                        if (paymentWrapper[0] != null) {
+                            paymentWrapper[0].dispose();
+                        }
+                    } catch (BloSalesV2Exception ex) {
+                        logger.error(ex.getMessage());
+                        CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+                    }
+                }
+            );
+            
+            paymentWrapper[0].setVisible(true);
+            return;
+        }
+        /** se restaura la venta */
+        totalSale = storeTotalSale;
+        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+    }
+    
     private void addItemToList() {
         try {
             BloSalesV2Utils.validateRule(productFound == null, BloSalesV2Utils.CODE_PRODUCT_NOT_SELECTED, BloSalesV2Utils.PRODUCT_NOT_SELECTED);
@@ -405,6 +501,8 @@ public final class Sales extends AbstractDashboardBase {
                 onSalePrice
             };
             model.addRow(productInfoData);
+            /** se almacena siempre el valor total */
+            storeTotalSale = totalSale;
             GUICommons.setTextToField(txtSearch, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
             GUICommons.setTextToField(nmbQuantity, BigDecimal.ONE);
@@ -558,6 +656,12 @@ public final class Sales extends AbstractDashboardBase {
         }
     }
     
+    private void loadPaymentsType() {
+        final var paymentsTypeModel = new DefaultComboBoxModel<String>();
+        PaymentTypeEnum.getVisiblesTypes().forEach(c -> paymentsTypeModel.addElement(c.getPaymentTypeTarget()));
+        cmnbxPaymentType.setModel(paymentsTypeModel);
+    }
+    
     private void disableButtons() {
         GUICommons.disabledButton(btnComplete);
         GUICommons.disabledButton(btnDebtors);
@@ -566,9 +670,11 @@ public final class Sales extends AbstractDashboardBase {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComplete;
     private javax.swing.JButton btnDebtors;
+    private javax.swing.JComboBox<String> cmnbxPaymentType;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBarCode;
     private javax.swing.JLabel lblFastRest;
+    private javax.swing.JLabel lblPaymentType;
     private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblTotal;
@@ -590,6 +696,7 @@ public final class Sales extends AbstractDashboardBase {
         GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), BigDecimal.ZERO));
         GUICommons.setTextToField(lblResult, BigDecimal.ZERO);
         GUICommons.setTextToField(lblFastRest, getTranslateBy(KeysEnum.SALES_LBL_FAST_REST.getKey()));
+        GUICommons.setTextToField(lblPaymentType, getTranslateBy(KeysEnum.COMMON_LBL_PAYMENT_TYPE.getKey()));
     }
 
     @Override
@@ -597,6 +704,7 @@ public final class Sales extends AbstractDashboardBase {
         try {
             initComponents();
             loadTargets();
+            loadPaymentsType();
             totalSale = BigDecimal.ZERO;
             resetFields();
             disableButtons();
@@ -605,6 +713,7 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
             GUICommons.addDoubleClickOnTable(tblProductsSales, id -> removeItemFromSale(Long.parseLong(String.format("%s", id))));
             GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
+            GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer index) -> openPaymentCard(index));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));

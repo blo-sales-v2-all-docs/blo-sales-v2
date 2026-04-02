@@ -9,12 +9,14 @@ import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.entities.CashboxEntity;
 import com.blo.sales.v2.model.entities.CashboxSaleDetailEntity;
 import com.blo.sales.v2.model.entities.CashboxSaleEntity;
+import com.blo.sales.v2.model.entities.PaymentTypeInfoEntity;
 import com.blo.sales.v2.model.entities.ProductEntity;
 import com.blo.sales.v2.model.entities.SaleEntity;
 import com.blo.sales.v2.model.entities.SaleProductEntity;
 import com.blo.sales.v2.model.entities.UserEntity;
 import com.blo.sales.v2.model.entities.WrapperCashboxesSalesDetailsEntity;
 import com.blo.sales.v2.model.entities.enums.CashboxEntityEnum;
+import com.blo.sales.v2.model.entities.enums.PaymentTypeEntityEnum;
 import com.blo.sales.v2.model.entities.enums.RolesEntityEnum;
 import com.blo.sales.v2.model.entities.enums.SaleStatusEntityEnum;
 import com.blo.sales.v2.model.mapper.CashboxSaleEntityMapper;
@@ -97,6 +99,7 @@ public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
             ProductEntity product;
             UserEntity user;
             SaleProductEntity saleProduct;
+            PaymentTypeInfoEntity info;
             final var output = new WrapperCashboxesSalesDetailsEntity();
             final var lst = new ArrayList<CashboxSaleDetailEntity>();
             while (data.next()) {                
@@ -129,6 +132,14 @@ public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
                 user.setUsername(data.getString(BloSalesV2Columns.USER_NAME));
                 user.setRole(RolesEntityEnum.valueOf(data.getString(BloSalesV2Columns.ROL)));
                 detail.setUser(user);
+                
+                info = new PaymentTypeInfoEntity();
+                info.setReference(data.getString(BloSalesV2Columns.REFERENCE));
+                info.setCard_pay(data.getBigDecimal(BloSalesV2Columns.TOTAL_CARD));
+                info.setCash(data.getBigDecimal(BloSalesV2Columns.TOTAL_CASH));
+                info.setPayment_type(PaymentTypeEntityEnum.valueOf(data.getString(BloSalesV2Columns.PAYMENT_TYPE)));
+                info.setId_sale(sale.getId_sale());
+                detail.setPayment_info_tmp(info);
                 
                 lst.add(detail);
             }

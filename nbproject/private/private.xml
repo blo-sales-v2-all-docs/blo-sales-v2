@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+<<<<<<< HEAD
+            <file>file:/C:/Users/Orlando/Documents/NetBeansProjects/another/blo-sales-v2/src/com/blo/sales/v2/view/mappers/PojoPaymentAuxMapper.java</file>
+=======
+            <file>file:/home/orlndo/Documentos/netbeans%20projects/blo-sales-v2/src/com/blo/sales/v2/view/dialogs/PaymentCardDialog.java</file>
+            <file>file:/home/orlndo/Documentos/netbeans%20projects/blo-sales-v2/src/com/blo/sales/v2/view/dashboard/panels/Sales.java</file>
+            <file>file:/home/orlndo/Documentos/netbeans%20projects/blo-sales-v2/src/com/blo/sales/v2/controller/ISalesController.java</file>
+>>>>>>> 50f07634b77686daa7befb2028ac43b730cfecc2
+        </group>
     </open-files>
 </project-private>

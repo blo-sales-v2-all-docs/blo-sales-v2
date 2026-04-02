@@ -1,5 +1,6 @@
 package com.blo.sales.v2.model.entities;
 
+import com.blo.sales.v2.model.entities.enums.PaymentTypeEntityEnum;
 import java.math.BigDecimal;
 
 public class SaleAndProductEntity {
@@ -23,6 +24,8 @@ public class SaleAndProductEntity {
     private String timestamp;
     
     private boolean kg;
+    
+    private PaymentTypeEntityEnum payment_type;
 
     public long getId_sale() {
         return id_sale;
@@ -104,6 +107,14 @@ public class SaleAndProductEntity {
         this.product_total_on_sale = product_total_on_sale;
     }
 
+    public PaymentTypeEntityEnum getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(PaymentTypeEntityEnum payment_type) {
+        this.payment_type = payment_type;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -118,6 +129,7 @@ public class SaleAndProductEntity {
         sb.append(", product_total_on_sale=").append(product_total_on_sale);
         sb.append(", timestamp=").append(timestamp);
         sb.append(", kg=").append(kg);
+        sb.append(", payment_type=").append(payment_type);
         sb.append('}');
         return sb.toString();
     }

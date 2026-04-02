@@ -12,6 +12,8 @@ public class PojoCashboxSaleDetail {
     
     private PojoSaleProduct saleProduct;
     
+    private PojoPaymentTypeInfo paymentTypeInfo;
+    
     public PojoCashbox getCashbox() {
         return cashbox;
     }
@@ -52,6 +54,14 @@ public class PojoCashboxSaleDetail {
         this.saleProduct = saleProduct;
     }
 
+    public PojoPaymentTypeInfo getPaymentTypeInfo() {
+        return paymentTypeInfo;
+    }
+
+    public void setPaymentTypeInfo(PojoPaymentTypeInfo paymentTypeInfo) {
+        this.paymentTypeInfo = paymentTypeInfo;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -61,6 +71,7 @@ public class PojoCashboxSaleDetail {
         sb.append(", product=").append(product);
         sb.append(", user=").append(user);
         sb.append(", saleProduct=").append(saleProduct);
+        sb.append(", paymentTypeInfo=").append(paymentTypeInfo);
         sb.append('}');
         return sb.toString();
     }

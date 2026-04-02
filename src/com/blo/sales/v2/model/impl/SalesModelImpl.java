@@ -1,5 +1,6 @@
 package com.blo.sales.v2.model.impl;
 
+import com.blo.sales.v2.controller.pojos.PojoIntPaymentTypeInfo;
 import com.blo.sales.v2.controller.pojos.PojoIntSale;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSales;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSalesAndStock;
@@ -12,7 +13,9 @@ import com.blo.sales.v2.model.entities.SaleAndProductEntity;
 import com.blo.sales.v2.model.entities.SaleEntity;
 import com.blo.sales.v2.model.entities.WrapperSalesAndStockEntity;
 import com.blo.sales.v2.model.entities.WrapperSalesEntity;
+import com.blo.sales.v2.model.entities.enums.PaymentTypeEntityEnum;
 import com.blo.sales.v2.model.entities.enums.SaleStatusEntityEnum;
+import com.blo.sales.v2.model.mapper.PaymentTypeInfoEntityMapper;
 import com.blo.sales.v2.model.mapper.SaleEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperSalesAndStockEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperSalesEntityMapper;
@@ -41,6 +44,9 @@ public class SalesModelImpl implements ISalesModel {
     
     @Inject
     private WrapperSalesEntityMapper salesEntityMapper;
+    
+    @Inject
+    private PaymentTypeInfoEntityMapper paymentTypeInfoMapper;
 
     @Override
     public PojoIntSale registerSale(PojoIntSale sale) throws BloSalesV2Exception {
@@ -52,6 +58,7 @@ public class SalesModelImpl implements ISalesModel {
             ps.setBigDecimal(1, innerSale.getTotal());
             ps.setString(2, innerSale.getSale_status().name());
             ps.setString(3, innerSale.getTimestamp());
+            ps.setBigDecimal(4, innerSale.getTotal());
             final var rowsAffected = ps.executeUpdate();
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_ADD_EXCEPTION_CODE, BloSalesV2Utils.ERROR_SAVED_ON_DATA_BASE);
@@ -74,7 +81,37 @@ public class SalesModelImpl implements ISalesModel {
                 throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
             }
         }
-        
+    }
+    
+    @Override
+    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
+        try {
+            logger.info("se comienza a registrar datos del tipo de pago %s", String.valueOf(paymentData));
+            final var inner = paymentTypeInfoMapper.toInner(paymentData);
+            DBConnection.disableAutocommit();
+            final var ps = conn.prepareStatement(BloSalesV2Queries.ADD_PAYMENT_BY_CARD, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, inner.getPayment_type().name());
+            ps.setString(2, inner.getReference());
+            ps.setBigDecimal(3, inner.getCash());
+            ps.setBigDecimal(4, inner.getCard_pay());
+            ps.setLong(5, inner.getId_sale());
+            final var rowsAffected = ps.executeUpdate();
+            
+            BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
+            
+            logger.info("informacion guardada en tabla sales %s", String.valueOf(inner));
+            return paymentTypeInfoMapper.toOuter(inner);
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        } finally {
+            try {
+                DBConnection.enableAutocommit();
+            } catch (SQLException ex) {
+                logger.error(ex.getMessage());
+                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+            }
+        }
     }
 
     @Override
@@ -130,6 +167,7 @@ public class SalesModelImpl implements ISalesModel {
                 saleDetail.setTotal_on_sale(data.getBigDecimal(BloSalesV2Columns.TOTAL_ON_SALE));
                 saleDetail.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
                 saleDetail.setProduct_total_on_sale(data.getBigDecimal(BloSalesV2Columns.PRODUCT_TOTAL_ON_SALE));
+                saleDetail.setPayment_type(PaymentTypeEntityEnum.valueOf(data.getString(BloSalesV2Columns.PAYMENT_TYPE)));
                 details.add(saleDetail);
             }
             wrapper.setSalesDetail(details);
@@ -186,5 +224,4 @@ public class SalesModelImpl implements ISalesModel {
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }
-    
 }

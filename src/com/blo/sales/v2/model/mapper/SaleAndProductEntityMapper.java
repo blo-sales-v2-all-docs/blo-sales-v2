@@ -1,6 +1,7 @@
 package com.blo.sales.v2.model.mapper;
 
 import com.blo.sales.v2.controller.pojos.PojoIntSaleAndProduct;
+import com.blo.sales.v2.controller.pojos.enums.PaymentTypeIntEnum;
 import com.blo.sales.v2.model.entities.SaleAndProductEntity;
 import com.blo.sales.v2.utils.IToOuter;
 import jakarta.inject.Singleton;
@@ -24,6 +25,7 @@ public class SaleAndProductEntityMapper implements IToOuter<SaleAndProductEntity
         outer.setCostOfSale(inner.getCost_of_sale());
         outer.setKg(inner.isKg());
         outer.setProductTotalOnSale(inner.getProduct_total_on_sale());
+        outer.setPaymentType(PaymentTypeIntEnum.valueOf(inner.getPayment_type().name()));
         return outer;
     }
     

@@ -92,7 +92,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="btnSave" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
@@ -103,8 +103,17 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="lblDebt" min="-2" pref="113" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="nmbPay" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
-                      <Component id="lblAddPartialPay" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="nmbPay" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
+                              <Component id="lblAddPartialPay" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblPaymentType" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbxPaymentType" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace pref="21" max="32767" attributes="0"/>
               </Group>
@@ -119,9 +128,15 @@
                       <Component id="lblDebt" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="lblAddPartialPay" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblAddPartialPay" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPaymentType" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="nmbPay" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="nmbPay" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cmbxPaymentType" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="btnPayall" pref="50" max="32767" attributes="0"/>
@@ -168,6 +183,21 @@
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblDebt">
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cmbxPaymentType">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPaymentType">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="tipo_de_pago"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

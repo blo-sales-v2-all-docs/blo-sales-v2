@@ -13,6 +13,7 @@ import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtorSale;
 import com.blo.sales.v2.controller.pojos.PojoIntMovement;
+import com.blo.sales.v2.controller.pojos.PojoIntPaymentTypeInfo;
 import com.blo.sales.v2.controller.pojos.PojoIntProduct;
 import com.blo.sales.v2.controller.pojos.PojoIntSale;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleDeletedDetail;
@@ -68,9 +69,13 @@ public class SalesControllerImpl implements ISalesController {
     
     @Inject
     private IDebtorsSalesController debtorsSalesController;
-
+    
     @Override
-    public PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> products, long idUser) throws BloSalesV2Exception {
+    public PojoIntSale registerSale(
+            BigDecimal totalSale,
+            List<PojoIntSaleProductData> products,
+            long idUser
+    ) throws BloSalesV2Exception {
         /** validaciones */
         final var productsFound = productsController.getAllProducts().getProducts();
         for (final var product: products) {
@@ -219,6 +224,16 @@ public class SalesControllerImpl implements ISalesController {
         debtorsSalesController.deleteRelationhip(idDebtor);
         debtorsController.deleteDebtor(idDebtor);
         return null;
+    }
+    
+    @Override
+    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
+        logger.info("registrando datos de pago [%s]", String.valueOf(paymentData));
+        final var paysAdded = paymentData.getCardPay().add(paymentData.getCash());
+        if (paysAdded.compareTo(paymentData.getTotalToPay()) < 0) {
+            throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
+        }
+        return saleModel.registerPaymentTypeData(paymentData);
     }
     
     @Override

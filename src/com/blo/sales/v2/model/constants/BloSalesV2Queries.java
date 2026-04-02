@@ -37,18 +37,20 @@ public final class BloSalesV2Queries {
     public static final String SELECT_MOVEMENTS_DETAIL = "SELECT h.id_movement, h.type, h.reason, st.id_product, st.product, h.timestamp, u.username, h.quantity FROM history h INNER JOIN stock st ON h.fk_product = st.id_product INNER JOIN users u ON h.fk_user = u.id_user WHERE st.id_product = ?";
     
     /** ventas */
-    public static final String INSERT_SALE = "INSERT INTO sales(total, sale_status, timestamp) VALUES (?, ?, ?)";
+    public static final String INSERT_SALE = "INSERT INTO sales(total, sale_status, timestamp, total_cash, total_card, payment_type, authorization) VALUES (?, ?, ?, ?, 0, 'CASH', 'N/A')";
     
     public static final String SELECT_SALE_BY_STATUS = "SELECT id_sale, total, sale_status, timestamp FROM sales WHERE sale_status = ?";
     
     public static final String SET_ON_CASHBOX = "UPDATE sales SET sale_status = 'ON_CASHBOX' WHERE id_sale = ?";
+    
+    public static final String ADD_PAYMENT_BY_CARD = "UPDATE sales SET payment_type = ?, authorization = ?, total_cash = ?, total_card = ? WHERE id_sale = ?";
     
     /** ventas product */
     public static final String INSERT_SALE_PRODUCT = "INSERT INTO sale_product(fk_sale, fk_product, quantity_sale, total_on_sale, product_total_on_sale, timestamp, is_live) VALUES (?, ?, ?, ?, ?, ?, true)";
     
     public static final String SELECT_SALES_DETAIL = "SELECT s.id_sale, st.id_product, st.product, ps.quantity_sale, st.price, st.cost_of_sale, ps.total_on_sale, ps.timestamp, st.is_kg, ps.product_total_on_sale FROM sales s INNER JOIN sale_product ps ON s.id_sale = ps.fk_sale INNER JOIN stock st ON ps.fk_product = st.id_product AND ps.is_live = true";
     
-    public static final String SELECT_SALE_CLOSED = "SELECT s.id_sale, st.id_product, st.product, ps.quantity_sale, st.price, st.cost_of_sale, ps.total_on_sale, ps.timestamp, ps.product_total_on_sale FROM sales s INNER JOIN sale_product ps ON s.id_sale = ps.fk_sale INNER JOIN stock st ON ps.fk_product = st.id_product WHERE s.sale_status = ? AND ps.is_live = 1";
+    public static final String SELECT_SALE_CLOSED = "SELECT s.id_sale, st.id_product, st.product, ps.quantity_sale, st.price, st.cost_of_sale, ps.total_on_sale, ps.timestamp, ps.product_total_on_sale, s.payment_type FROM sales s INNER JOIN sale_product ps ON s.id_sale = ps.fk_sale INNER JOIN stock st ON ps.fk_product = st.id_product WHERE s.sale_status = ? AND ps.is_live = 1";
     
     public static final String SELECT_SALES_PRODUCT = "SELECT sp.id_sale_product, sp.fk_sale, sp.fk_product, sp.quantity_sale, sp.total_on_sale, sp.product_total_on_sale, sp.timestamp, sp.is_live FROM sale_product sp WHERE sp.fk_sale = ? AND sp.fk_product = ?";
     
@@ -130,7 +132,7 @@ public final class BloSalesV2Queries {
     /** sales-cashboxes */
     public static final String INSERT_CASHBOX_SALE_RELATIONSHIP = "INSERT INTO cashboxes_sales(fk_cashbox, fk_sale) VALUES(?,?)";
     
-    public static final String GET_CASHBOXES_ALL_DATA_DETAIL_BY_CASHBOX_ID = "SELECT c.id_cashbox , c.fk_user, c.amount, c.status, c.timestamp AS cb_timestamp, s.id_sale, s.total, s.sale_status, s.timestamp, s2.product, sp.quantity_sale, sp.product_total_on_sale, sp.total_on_sale, u.username, u.rol FROM cashboxes_sales cs INNER JOIN cashboxes c ON cs.fk_cashbox  = c.id_cashbox  INNER JOIN sales s ON s.id_sale  = cs.fk_sale INNER JOIN sale_product sp INNER JOIN stock s2 ON sp.fk_product  = s2.id_product ON sp.fk_sale = s.id_sale INNER JOIN users u ON u.id_user = c.fk_user  WHERE c.id_cashbox  = ?";
+    public static final String GET_CASHBOXES_ALL_DATA_DETAIL_BY_CASHBOX_ID = "SELECT c.id_cashbox , c.fk_user, c.amount, c.status, c.timestamp AS cb_timestamp, s.id_sale, s.total, s.sale_status, s.timestamp, s2.product, sp.quantity_sale, sp.product_total_on_sale, sp.total_on_sale, u.username, u.rol, s.payment_type, s.authorization, s.total_card, s.total_cash FROM cashboxes_sales cs INNER JOIN cashboxes c ON cs.fk_cashbox  = c.id_cashbox  INNER JOIN sales s ON s.id_sale  = cs.fk_sale INNER JOIN sale_product sp INNER JOIN stock s2 ON sp.fk_product  = s2.id_product ON sp.fk_sale = s.id_sale INNER JOIN users u ON u.id_user = c.fk_user  WHERE c.id_cashbox = ?";
     
     public static final String GET_CASHBOX_SALE_DATA_BY_ID = "SELECT c.id_cashbox , c.fk_user, c.amount, c.timestamp, c.status, s.id_sale, s.total, s.sale_status, s.timestamp  FROM cashboxes_sales cs INNER JOIN cashboxes c ON cs.fk_cashbox  = c.id_cashbox  INNER JOIN sales s ON s.id_sale  = cs.fk_sale WHERE c.id_cashbox  = ?";
 }

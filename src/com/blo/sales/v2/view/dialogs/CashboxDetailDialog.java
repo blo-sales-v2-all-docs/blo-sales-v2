@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 public final class CashboxDetailDialog extends AbstractDialogBase {
     
-    private static final String[] titles = {"Id venta", "Fecha de venta", "Producto", "Cantidad en venta", "Comprado", "Total de venta", "Gestionada por"};
+    private static final String[] titles = {"Id venta", "Fecha de venta", "Producto", "Cantidad vendida", "Comprado", "Total de venta", "Tipo de pago", "Referencia", "Efectivo total", "Pago con tarjeta", "Gestionada por"};
             
     private final WrapperPojoCashboxesSalesDetails cashboxDetails;
     
@@ -28,8 +28,8 @@ public final class CashboxDetailDialog extends AbstractDialogBase {
         this.cashboxDetails = cashboxDetails;
         this.title = title;
         initComponents();
-        loadTargets();
         dialogSizeHandler();
+        loadTargets();
         loadDataOnTable();
     }
 
@@ -99,6 +99,10 @@ public final class CashboxDetailDialog extends AbstractDialogBase {
                 String.valueOf(model.getValueAt(i, 4)),
                 String.valueOf(model.getValueAt(i, 5)),
                 String.valueOf(model.getValueAt(i, 6)),
+                String.valueOf(model.getValueAt(i, 7)),
+                String.valueOf(model.getValueAt(i, 8)),
+                String.valueOf(model.getValueAt(i, 9)),
+                String.valueOf(model.getValueAt(i, 10))
             };
             r.add(row);
         }
@@ -122,6 +126,10 @@ public final class CashboxDetailDialog extends AbstractDialogBase {
                 item.getSaleProduct().getQuantityOnSale(),
                 item.getSaleProduct().getProductTotalOnSale(),
                 item.getSale().getTotal(),
+                item.getPaymentTypeInfo().getPaymentType().getPaymentTypeTarget(),
+                item.getPaymentTypeInfo().getReference(),
+                item.getPaymentTypeInfo().getCash(),
+                item.getPaymentTypeInfo().getCardPay(),
                 item.getUser().getUsername()
             };
             model.addRow(row);

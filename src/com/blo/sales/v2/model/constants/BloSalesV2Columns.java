@@ -116,4 +116,11 @@ public final class BloSalesV2Columns {
     
     public static final String ID_CASHBOX_SALE = "id_cashbox_sale";
     
+    public static final String PAYMENT_TYPE = "payment_type";
+    
+    public static final String REFERENCE = "authorization";
+    
+    public static final String TOTAL_CASH = "total_cash";
+    
+    public static final String TOTAL_CARD = "total_card";
 }
