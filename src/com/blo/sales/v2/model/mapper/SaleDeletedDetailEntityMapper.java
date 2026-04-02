@@ -4,21 +4,12 @@ import com.blo.sales.v2.controller.pojos.PojoIntSaleDeletedDetail;
 import com.blo.sales.v2.model.entities.SaleDeletedDetailEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class SaleDeletedDetailEntityMapper implements 
         IToInner<SaleDeletedDetailEntity, PojoIntSaleDeletedDetail>, IToOuter<SaleDeletedDetailEntity, PojoIntSaleDeletedDetail> {
     
-    private static SaleDeletedDetailEntityMapper instance;
-    
-    private SaleDeletedDetailEntityMapper() {}
-    
-    public static SaleDeletedDetailEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new SaleDeletedDetailEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public SaleDeletedDetailEntity toInner(PojoIntSaleDeletedDetail outer) {
         if (outer == null) {

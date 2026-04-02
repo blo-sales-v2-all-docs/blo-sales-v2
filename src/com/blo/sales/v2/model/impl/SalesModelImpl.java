@@ -19,33 +19,28 @@ import com.blo.sales.v2.model.mapper.WrapperSalesEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+@Singleton
 public class SalesModelImpl implements ISalesModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
     private static final GUILogger logger = GUILogger.getLogger(SalesModelImpl.class.getName());
     
-    private static final SaleEntityMapper saleMapper = SaleEntityMapper.getInstance();
+    @Inject
+    private SaleEntityMapper saleMapper;
     
-    private static final WrapperSalesAndStockEntityMapper salesAndStockMapper = WrapperSalesAndStockEntityMapper.getInstance();
+    @Inject
+    private WrapperSalesAndStockEntityMapper salesAndStockMapper;
     
-    private static final WrapperSalesEntityMapper salesEntityMapper = WrapperSalesEntityMapper.getInstance();
-            
-    private static SalesModelImpl instance;
-    
-    private SalesModelImpl() { }
-    
-    public static SalesModelImpl getInstance() {
-        if (instance == null) {
-            instance = new SalesModelImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private WrapperSalesEntityMapper salesEntityMapper;
 
     @Override
     public PojoIntSale registerSale(PojoIntSale sale) throws BloSalesV2Exception {

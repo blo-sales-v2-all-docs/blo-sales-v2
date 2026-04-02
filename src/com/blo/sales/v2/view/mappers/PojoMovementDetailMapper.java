@@ -5,20 +5,11 @@ import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoMovementDetail;
 import com.blo.sales.v2.view.pojos.enums.ReasonsEnum;
 import com.blo.sales.v2.view.pojos.enums.TypesEnum;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class PojoMovementDetailMapper implements IToOuter<PojoIntMovementDetail, PojoMovementDetail>{
     
-    private static PojoMovementDetailMapper instance;
-    
-    private PojoMovementDetailMapper() { }
-    
-    public static PojoMovementDetailMapper getInstance() {
-        if (instance == null) {
-            instance = new PojoMovementDetailMapper();
-        }
-        return instance;
-    }
-
     @Override
     public PojoMovementDetail toOuter(PojoIntMovementDetail inner) {
         if (inner == null) {

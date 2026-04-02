@@ -3,20 +3,11 @@ package com.blo.sales.v2.model.mapper;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtorDetail;
 import com.blo.sales.v2.model.entities.DebtorDetailEntity;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class DebtorDetailEntityMapper implements IToOuter<DebtorDetailEntity, PojoIntDebtorDetail> {
     
-    private static DebtorDetailEntityMapper instance;
-    
-    private DebtorDetailEntityMapper() { }
-    
-    public static DebtorDetailEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new DebtorDetailEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public PojoIntDebtorDetail toOuter(DebtorDetailEntity inner) {
         if (inner == null) {

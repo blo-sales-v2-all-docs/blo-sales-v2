@@ -16,7 +16,7 @@ public class DBConnection {
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/blo-sales-v2";
     private static final String RELEASE = "RELEASE";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "password";
     
     // Objeto de conexión
     private static Connection conexion = null;

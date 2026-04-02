@@ -4,20 +4,11 @@ import com.blo.sales.v2.controller.pojos.PojoIntSaleProduct;
 import com.blo.sales.v2.model.entities.SaleProductEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class SaleProductEntityMapper implements IToInner<SaleProductEntity, PojoIntSaleProduct>, IToOuter<SaleProductEntity, PojoIntSaleProduct> {
     
-    private static SaleProductEntityMapper instance;
-    
-    private SaleProductEntityMapper() { }
-    
-    public static SaleProductEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new SaleProductEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public SaleProductEntity toInner(PojoIntSaleProduct outer) {
         if (outer == null) {
@@ -30,7 +21,7 @@ public class SaleProductEntityMapper implements IToInner<SaleProductEntity, Pojo
         inner.setQunatity_sale(outer.getQuantityOnSale());
         inner.setTotal_on_sale(outer.getTotalOnSale());
         inner.setQunatity_sale(outer.getQuantityOnSale());
-        inner.setTimestamp(outer.getTimestap());
+        inner.setTimestamp(outer.getTimestamp());
         inner.setProduct_total_on_sale(outer.getProductTotalOnSale());
         inner.setIs_live(outer.isLive());
         return inner;
@@ -47,7 +38,7 @@ public class SaleProductEntityMapper implements IToInner<SaleProductEntity, Pojo
         outer.setIdSaleProduct(inner.getId_sale_product());
         outer.setQuantityOnSale(inner.getQunatity_sale());
         outer.setTotalOnSale(inner.getTotal_on_sale());
-        outer.setTimestap(inner.getTimestamp());
+        outer.setTimestamp(inner.getTimestamp());
         outer.setProductTotalOnSale(inner.getProduct_total_on_sale());
         outer.setIsLive(inner.is_live());
         return outer;

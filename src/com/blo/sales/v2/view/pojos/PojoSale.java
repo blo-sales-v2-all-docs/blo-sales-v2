@@ -11,6 +11,8 @@ public class PojoSale {
 
     private SalesStatusEnum saleStatus;
 
+    private String timestamp;
+    
     public long getIdSale() {
         return idSale;
     }
@@ -35,6 +37,14 @@ public class PojoSale {
         this.saleStatus = saleStatus;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -42,7 +52,9 @@ public class PojoSale {
         sb.append("idSale=").append(idSale);
         sb.append(", total=").append(total);
         sb.append(", saleStatus=").append(saleStatus);
+        sb.append(", timestamp=").append(timestamp);
         sb.append('}');
         return sb.toString();
     }
+
 }

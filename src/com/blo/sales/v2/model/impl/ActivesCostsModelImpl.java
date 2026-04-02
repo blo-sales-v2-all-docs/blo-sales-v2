@@ -11,25 +11,18 @@ import java.sql.Statement;
 import com.blo.sales.v2.model.IActivesCostsModel;
 import com.blo.sales.v2.model.mapper.WrapperActivesCostsEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class ActivesCostsModelImpl implements IActivesCostsModel {
 
     private static final Connection conn = DBConnection.getConnection();
     
     private static final GUILogger logger = GUILogger.getLogger(ActivesCostsModelImpl.class.getName());
     
-    private static final WrapperActivesCostsEntityMapper mapper = WrapperActivesCostsEntityMapper.getInstance();
-    
-    private static ActivesCostsModelImpl instance;
-
-    private ActivesCostsModelImpl() { }
-
-    public static ActivesCostsModelImpl getInstance() {
-        if (instance == null) {
-            instance = new ActivesCostsModelImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private WrapperActivesCostsEntityMapper mapper;
     
     @Override
     public WrapperPojoIntActivesCosts addActiveCost(WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception {

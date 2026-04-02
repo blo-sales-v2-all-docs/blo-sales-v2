@@ -7,31 +7,25 @@ import com.blo.sales.v2.controller.pojos.PojoIntTopUp;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntTopUp;
 import com.blo.sales.v2.controller.pojos.enums.TopUpSearchStatusIntEnum;
 import com.blo.sales.v2.model.ITopUpModel;
-import com.blo.sales.v2.model.impl.TopUpModelImpl;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class TopUpsControllerImpl implements ITopUpsController {
     
     private static final GUILogger logger = GUILogger.getLogger(TopUpsControllerImpl.class.getName());
     
-    private static final ITopUpModel model = TopUpModelImpl.getInstance();
+    @Inject
+    private ITopUpModel model;
     
-    private static final IMobileCompanyController mobileCompanyController = MobileCompanyControllerImpl.getInstance();
+    @Inject
+    private IMobileCompanyController mobileCompanyController;
     
-    private static final ISalesController salesController = SalesControllerImpl.getInstance();
-    
-    private static TopUpsControllerImpl instance;
-    
-    private TopUpsControllerImpl() { }
-    
-    public static TopUpsControllerImpl getInstance() {
-        if (instance == null) {
-            instance = new TopUpsControllerImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private ISalesController salesController;
 
     @Override
     public PojoIntTopUp addTopUp(PojoIntTopUp data, long idCompany) throws BloSalesV2Exception {

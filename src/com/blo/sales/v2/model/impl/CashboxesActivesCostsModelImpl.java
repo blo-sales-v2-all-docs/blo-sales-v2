@@ -8,28 +8,21 @@ import com.blo.sales.v2.model.mapper.CashboxesActivesCostsEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Singleton
 public class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxesActivesCostsModelImpl.class.getName());
     
-    private static final CashboxesActivesCostsEntityMapper mapper = CashboxesActivesCostsEntityMapper.getInstance();
-    
-    private static CashboxesActivesCostsModelImpl instance;
-    
-    public static CashboxesActivesCostsModelImpl getInstance() {
-        if (instance == null) {
-            instance = new CashboxesActivesCostsModelImpl();
-        }
-        return instance;
-    }
-    
-    private CashboxesActivesCostsModelImpl() { }
+    @Inject
+    private CashboxesActivesCostsEntityMapper mapper;
 
     @Override
     public PojoIntCashboxesActivesCosts addRelationship(PojoIntCashboxesActivesCosts data) throws BloSalesV2Exception {

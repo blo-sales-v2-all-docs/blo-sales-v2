@@ -3,7 +3,6 @@ package com.blo.sales.v2.view.dialogs;
 import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVCols;
 import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVPlugin;
 import com.blo.sales.v2.translate.KeysEnum;
-import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.pojos.WrapperPojoMovementsDetail;
@@ -18,9 +17,13 @@ public final class HistoryDialog extends AbstractDialogBase {
 
     private final WrapperPojoMovementsDetail history;
     
+    private final String title;
+    
     public HistoryDialog(Component parent, String title, WrapperPojoMovementsDetail history) {
-        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, true);
+        dialogSizeHandler();
         this.history = history;
+        this.title = title;
         initComponents();
         loadData();
         loadTargets();
@@ -119,6 +122,8 @@ public final class HistoryDialog extends AbstractDialogBase {
         DefaultTableModel model = (DefaultTableModel) tblData.getModel();
         final var bloSalesRow = new BloSalesV2CSVCols();
         final var r = new ArrayList<Object[]>();
+        final Object[] firstRow = {title};
+        r.add(firstRow);
         for (var i = 0; i < tblData.getRowCount(); i++) {
             final Object[] row = {
                 String.valueOf(model.getValueAt(i, 0)),
@@ -132,7 +137,7 @@ public final class HistoryDialog extends AbstractDialogBase {
             r.add(row);
         }
         bloSalesRow.setCols(r);
-        BloSalesV2CSVPlugin.exportFile(titles, bloSalesRow);
+        BloSalesV2CSVPlugin.exportFile(titles, bloSalesRow, title, false);
     }//GEN-LAST:event_btnDownloadMovementsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,23 +6,16 @@ import com.blo.sales.v2.model.entities.ActiveCostEntity;
 import com.blo.sales.v2.model.entities.WrapperActivesCostsEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperActivesCostsEntityMapper implements IToInner<WrapperActivesCostsEntity, WrapperPojoIntActivesCosts>, IToOuter<WrapperActivesCostsEntity, WrapperPojoIntActivesCosts> {
     
-    private static final ActiveCostEntityMapper mapper = ActiveCostEntityMapper.getInstance();
+    @Inject
+    private ActiveCostEntityMapper mapper;
     
-    private static WrapperActivesCostsEntityMapper instance;
-    
-    private WrapperActivesCostsEntityMapper() { }
-    
-    public static WrapperActivesCostsEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperActivesCostsEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public WrapperActivesCostsEntity toInner(WrapperPojoIntActivesCosts outer) {
         if (outer == null) {

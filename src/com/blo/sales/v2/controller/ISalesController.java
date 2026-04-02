@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ISalesController {
     
-    PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, PaymentTypeIntEnum type, String authorization, BigDecimal totalCash, BigDecimal totalCard, long idUser) throws BloSalesV2Exception;
+    PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, long idUser) throws BloSalesV2Exception;
     
     PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception;
     

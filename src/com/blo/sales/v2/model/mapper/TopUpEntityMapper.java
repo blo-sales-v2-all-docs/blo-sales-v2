@@ -4,24 +4,18 @@ import com.blo.sales.v2.controller.pojos.PojoIntTopUp;
 import com.blo.sales.v2.model.entities.TopUpEntity;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class TopUpEntityMapper implements IToInner<TopUpEntity, PojoIntTopUp>, IToOuter<TopUpEntity, PojoIntTopUp> {
     
-    private static final MobileCompanyEntityMapper mobileCompanyMapper = MobileCompanyEntityMapper.getInstance();
+    @Inject
+    private MobileCompanyEntityMapper mobileCompanyMapper;
     
-    private static final UserLoggedEntityMapper userMapper = UserLoggedEntityMapper.getInstance();
+    @Inject
+    private UserLoggedEntityMapper userMapper;
     
-    private static TopUpEntityMapper instance;
-    
-    private TopUpEntityMapper() { }
-    
-    public static TopUpEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new TopUpEntityMapper();
-        }
-        return instance;
-    }
-
     @Override
     public TopUpEntity toInner(PojoIntTopUp outer) {
         if (outer == null) {

@@ -3,20 +3,11 @@ package com.blo.sales.v2.view.mappers;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleAndProduct;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class PojoSaleAndProductMapper implements IToOuter<PojoIntSaleAndProduct, PojoSaleAndProduct>{
     
-    private static PojoSaleAndProductMapper instance;
-    
-    private PojoSaleAndProductMapper() { }
-    
-    public static PojoSaleAndProductMapper getInstance() {
-        if (instance == null) {
-            instance = new PojoSaleAndProductMapper();
-        }
-        return instance;
-    }
-
     @Override
     public PojoSaleAndProduct toOuter(PojoIntSaleAndProduct inner) {
         if (inner == null) {

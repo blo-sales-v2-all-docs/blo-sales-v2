@@ -6,20 +6,11 @@ import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoCashbox;
 import com.blo.sales.v2.view.pojos.enums.CashboxStatusEnum;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class PojoCashboxMapper implements IToOuter<PojoIntCashbox, PojoCashbox>, IToInner<PojoIntCashbox, PojoCashbox> {
     
-    private static PojoCashboxMapper instance;
-    
-    private PojoCashboxMapper() { }
-    
-    public static PojoCashboxMapper getInstance() {
-        if (instance == null) {
-            instance = new PojoCashboxMapper();
-        }
-        return instance;
-    }
-
     @Override
     public PojoCashbox toOuter(PojoIntCashbox inner) {
         if (inner == null) {

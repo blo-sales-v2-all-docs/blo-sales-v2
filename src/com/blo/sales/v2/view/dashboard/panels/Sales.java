@@ -24,9 +24,11 @@ import com.blo.sales.v2.view.mappers.PojoSaleProductDataMapper;
 import com.blo.sales.v2.view.mappers.WrapperDebtorsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoProductsMapper;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
+import com.blo.sales.v2.view.pojos.PojoPaymentTypeAux;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.pojos.PojoSaleProductData;
 import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
+import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -35,7 +37,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -44,19 +45,26 @@ public final class Sales extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Sales.class.getName());
     
-    private static final IProductsController productsController = ProductsControllerImpl.getInstance();
+    @Inject
+    private IProductsController productsController;
     
-    private static final WrapperPojoProductsMapper mapperProducts = WrapperPojoProductsMapper.getInstance();
+    @Inject
+    private ISalesController salesController;
     
-    private static final ISalesController salesController = SalesControllerImpl.getInstance();
+    @Inject
+    private IDebtorsController debtorsController;
     
-    private static final IDebtorsController debtorsController = DebtorsControllerImpl.getInstance();
+    @Inject
+    private WrapperPojoProductsMapper mapperProducts;
     
-    private static final PojoSaleProductDataMapper saleProductMapper = PojoSaleProductDataMapper.getInstance();
+    @Inject
+    private PojoSaleProductDataMapper saleProductMapper;
     
-    private static final WrapperDebtorsMapper wrapperDebtorsMapper = WrapperDebtorsMapper.getInstance();
-    
-    private static final DebtorMapper debtorMapper = DebtorMapper.getInstance();
+    @Inject
+    private WrapperDebtorsMapper wrapperDebtorsMapper;
+
+    @Inject
+    private DebtorMapper debtorMapper;
     
     private List<PojoProduct> products;
 
@@ -67,32 +75,10 @@ public final class Sales extends AbstractDashboardBase {
     
     private PojoProduct productFound;
     
-    private PojoLoggedInUser userData;
-    
     private PaymentTypeEnum paymentType;
         
-    public Sales(PojoLoggedInUser userData, String title) {
+    public Sales(String title) {
         super(title);
-        try {
-            initComponents();
-            loadPaymentsType();
-            loadTargets();
-            this.userData = userData;
-            totalSale = BigDecimal.ZERO;
-            paymentType = PaymentTypeEnum.CASH;
-            resetFields();
-            disableButtons();
-            retrieveProducts();
-            final String[] titles = {"ID", "Producto", "Cantidad comprada", "Precio", "Total"};
-            GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
-            GUICommons.addDoubleClickOnTable(tblProductsSales, id -> removeItemFromSale(Long.parseLong(String.format("%s", id))));
-            GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
-            GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer item) -> openPaymentCard(item));
-        } catch (BloSalesV2Exception ex) {
-            logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
-        }
-        txtSearch.requestFocusInWindow();
     }
 
     @SuppressWarnings("unchecked")
@@ -329,14 +315,7 @@ public final class Sales extends AbstractDashboardBase {
     /** ajustar para reiniciar lista */
     private void btnCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteActionPerformed
         try {
-            salesController.registerSale(
-                totalSale,
-                getProductData(),
-                PaymentTypeIntEnum.CASH,
-                BloSalesV2Utils.EMPTY_STRING,
-                totalSale,
-                BigDecimal.ZERO,
-                this.userData.getIdUser());
+            salesController.registerSale(totalSale, getProductData(), getUserData().getIdUser());
             disableButtons();
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             totalSale = BigDecimal.ZERO;
@@ -366,7 +345,7 @@ public final class Sales extends AbstractDashboardBase {
                             salesController.registerSaleWithNewDebtor(
                                 pay,
                                 getProductData(),
-                                userData.getIdUser(),
+                                getUserData().getIdUser(),
                                 debtorMapper.toInner(item)
                             );
                         } else {
@@ -383,7 +362,7 @@ public final class Sales extends AbstractDashboardBase {
                                 getProductData(),
                                 pay,
                                 item.getPayments(),
-                                userData.getIdUser(),
+                                getUserData().getIdUser(),
                                 item.getIdDebtor());
                         }
                         resetFields();
@@ -440,6 +419,11 @@ public final class Sales extends AbstractDashboardBase {
                     final var type = PaymentTypeEnum.getByIndex(
                         Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
                     );
+                    final var paymentTypeAux = new PojoPaymentTypeAux();
+                    paymentTypeAux.setCardpay(cardPay);
+                    paymentTypeAux.setCash(cash);
+                    paymentTypeAux.setReference(reference);
+                    paymentTypeAux.setPaymentType(type);
                 }
             );
             payment.setVisible(true);
@@ -688,5 +672,27 @@ public final class Sales extends AbstractDashboardBase {
         GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), BigDecimal.ZERO));
         GUICommons.setTextToField(lblResult, BigDecimal.ZERO);
         GUICommons.setTextToField(lblFastRest, getTranslateBy(KeysEnum.SALES_LBL_FAST_REST.getKey()));
+    }
+
+    @Override
+    public void init() {
+        try {
+            initComponents();
+            loadTargets();
+            loadPaymentsType();
+            totalSale = BigDecimal.ZERO;
+            resetFields();
+            disableButtons();
+            retrieveProducts();
+            final String[] titles = {"ID", "Producto", "Cantidad comprada", "Precio", "Total"};
+            GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
+            GUICommons.addDoubleClickOnTable(tblProductsSales, id -> removeItemFromSale(Long.parseLong(String.format("%s", id))));
+            GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
+            GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer index) -> openPaymentCard(index));
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
+        txtSearch.requestFocusInWindow();
     }
 }

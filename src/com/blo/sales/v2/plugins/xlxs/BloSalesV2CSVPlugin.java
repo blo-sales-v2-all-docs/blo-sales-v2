@@ -22,42 +22,57 @@ public final class BloSalesV2CSVPlugin {
     
     private BloSalesV2CSVPlugin() { }
     
-    public static void exportFile(String[] headers, BloSalesV2CSVCols rows) {
-        final var chooser = new JFileChooser();
-        chooser.setDialogTitle("Guardar Hoja de Match");
-        
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            try {
-                final var archivo = new File(chooser.getSelectedFile().toString() + ".csv");            
-                // 1. Abrimos el flujo de salida básico
-                final var fos = new FileOutputStream(archivo);
-                // 2. Especificamos la codificación como String explícitamente
-                // Esto evita que Java lo confunda con un 'int'
-                final var osw = new OutputStreamWriter(fos, ISO_8859_1);
-                // 3. Envolvemos en el búfer para escribir línea por línea
-                BufferedWriter bw = new BufferedWriter(osw);
-                // Instrucción para que Excel divida las celdas automáticamente
-                bw.write(CSV_SEPARATOR_CONFIG);
-                bw.newLine();
-                // Encabezados
-                bw.write(headersFromArray(headers));
-                bw.newLine();
-                if (rows.getCols()!= null && !rows.getCols().isEmpty()) {
-                    StringBuilder strBuild = null;
-                    for (final var e: rows.getCols()) {
-                        strBuild = new StringBuilder();
-                        strBuild.append(createRow(e));
-                        strBuild.append(CSV_SEPARATOR);
-                        strBuild.append(BloSalesV2Utils.EMPTY_STRING);
-                        bw.write(strBuild.toString());
+    /**
+     * 
+     * @param headers
+     * @param rows
+     * @param csvName
+     * @param firstColDiff bandera que indica si la primer fila antes de titulos es diferente
+     */
+    public static void exportFile(String[] headers, BloSalesV2CSVCols rows, String csvName, boolean firstColDiff) {
+        if (rows.getCols() != null && !rows.getCols().isEmpty()) {
+            final var chooser = new JFileChooser();
+            chooser.setDialogTitle(String.format("Guardar %s", csvName));
+            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                try {
+                    final var archivo = new File(chooser.getSelectedFile().toString() + ".csv");            
+                    // 1. Abrimos el flujo de salida básico
+                    final var fos = new FileOutputStream(archivo);
+                    // 2. Especificamos la codificación como String explícitamente
+                    // Esto evita que Java lo confunda con un 'int'
+                    final var osw = new OutputStreamWriter(fos, ISO_8859_1);
+                    // 3. Envolvemos en el búfer para escribir línea por línea
+                    BufferedWriter bw = new BufferedWriter(osw);
+                    // Instrucción para que Excel divida las celdas automáticamente
+                    bw.write(CSV_SEPARATOR_CONFIG);
+                    bw.newLine();
+                    // primera fila diferente antes de titulos
+                    if (firstColDiff) {
+                        final var firstRow = rows.getCols().get(0);
+                        bw.write(createRow(firstRow));
                         bw.newLine();
+                        rows.getCols().remove(0);
                     }
-                }
-                bw.close(); // Importante cerrar para que se guarde el archivo
-                JOptionPane.showMessageDialog(null, "¡Hoja de match lista!");
+                    // Encabezados
+                    bw.write(headersFromArray(headers));
+                    bw.newLine();
+                    if (rows.getCols()!= null && !rows.getCols().isEmpty()) {
+                        StringBuilder strBuild = null;
+                        for (final var e: rows.getCols()) {
+                            strBuild = new StringBuilder();
+                            strBuild.append(createRow(e));
+                            strBuild.append(CSV_SEPARATOR);
+                            strBuild.append(BloSalesV2Utils.EMPTY_STRING);
+                            bw.write(strBuild.toString());
+                            bw.newLine();
+                        }
+                    }
+                    bw.close(); // Importante cerrar para que se guarde el archivo
+                    JOptionPane.showMessageDialog(null, "¡Completo!");
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                }
             }
         }
     }
@@ -78,5 +93,5 @@ public final class BloSalesV2CSVPlugin {
                 return value;
             })
             .collect(Collectors.joining(CSV_SEPARATOR));
-}
+    }
 }

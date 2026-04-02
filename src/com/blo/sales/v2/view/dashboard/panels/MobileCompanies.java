@@ -1,7 +1,6 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.IMobileCompanyController;
-import com.blo.sales.v2.controller.impl.MobileCompanyControllerImpl;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
@@ -13,17 +12,21 @@ import com.blo.sales.v2.view.mappers.PojoMobileCompanyMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoMobilesCompaniesMapper;
 import com.blo.sales.v2.view.pojos.PojoMobileCompany;
 import com.blo.sales.v2.view.pojos.WrapperPojoMobilesCompanies;
+import jakarta.inject.Inject;
 import javax.swing.table.DefaultTableModel;
 
 public final class MobileCompanies extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(MobileCompanies.class.getName());
     
-    private static final IMobileCompanyController mobileController = MobileCompanyControllerImpl.getInstance();
+    @Inject
+    private IMobileCompanyController mobileController;
     
-    private static final WrapperPojoMobilesCompaniesMapper wrapperCompaniesMapper = WrapperPojoMobilesCompaniesMapper.getInstance();
+    @Inject
+    private WrapperPojoMobilesCompaniesMapper wrapperCompaniesMapper;
     
-    private static final PojoMobileCompanyMapper companyMapper = PojoMobileCompanyMapper.getInstance();
+    @Inject
+    private PojoMobileCompanyMapper companyMapper;
 
     private static final String[] titles = {"ID de compañía", "Compañía"};
     
@@ -31,11 +34,6 @@ public final class MobileCompanies extends AbstractDashboardBase {
     
     public MobileCompanies(String key) {
         super(key);
-        initComponents();
-        loadTargets();
-        handlerLockButtons(true);
-        loadDataOnTable();
-        GUICommons.addDoubleClickOnTable(tblCompanies, id -> setDataToForm((long) id));
     }
 
     @SuppressWarnings("unchecked")
@@ -254,5 +252,14 @@ public final class MobileCompanies extends AbstractDashboardBase {
     private javax.swing.JTable tblCompanies;
     private javax.swing.JTextField txtCompanyName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void init() {
+        initComponents();
+        loadTargets();
+        handlerLockButtons(true);
+        loadDataOnTable();
+        GUICommons.addDoubleClickOnTable(tblCompanies, id -> setDataToForm((long) id));
+    }
 
 }

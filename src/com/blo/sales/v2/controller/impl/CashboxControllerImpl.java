@@ -3,6 +3,7 @@ package com.blo.sales.v2.controller.impl;
 import com.blo.sales.v2.controller.IActivesCostsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.ICashboxesActivesCostsController;
+import com.blo.sales.v2.controller.ICashboxesSalesController;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxesActivesCosts;
@@ -12,32 +13,30 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesDetails;
 import com.blo.sales.v2.controller.pojos.enums.CashboxStatusIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.SalesStatusIntEnum;
 import com.blo.sales.v2.model.ICashboxModel;
-import com.blo.sales.v2.model.impl.CashboxModelImpl;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class CashboxControllerImpl implements ICashboxController {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxControllerImpl.class.getName());
     
-    private static final ICashboxModel model = CashboxModelImpl.getInstance();
+    @Inject
+    private IActivesCostsController activesCostsController;
     
-    private static final ICashboxesActivesCostsController cashboxesAactivesCostsController = CashboxesActivesCostsControllerImpl.getInstance();
+    @Inject
+    private ICashboxModel model;
     
-    private static final IActivesCostsController activesCostsController = ActivesCostsControllerImpl.getInstance();
+    @Inject
+    private ICashboxesActivesCostsController cashboxesAactivesCostsController;
     
-    private static final ISalesController salesController = SalesControllerImpl.getInstance();
+    @Inject
+    private ISalesController salesController;
     
-    private static CashboxControllerImpl instance;
-        
-    private CashboxControllerImpl() { }
-    
-    public static CashboxControllerImpl getInstance() {
-        if (instance == null) {
-            instance = new CashboxControllerImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private ICashboxesSalesController cashboxesSalesController;
     
     @Override
     public PojoIntCashbox addCashbox(PojoIntCashbox cashbox) throws BloSalesV2Exception {
@@ -88,6 +87,8 @@ public class CashboxControllerImpl implements ICashboxController {
         if (sales.getSales() != null && !sales.getSales().isEmpty()) {
             for (final var s: sales.getSales()) {
                 salesController.setCashboxSale(s.getIdSale());
+                // guardando relacion caja de dinero - venta
+                cashboxesSalesController.addCashboxSale(cashbox.getIdCashbox(), s.getIdSale());
             }
         }
         return cashbox;

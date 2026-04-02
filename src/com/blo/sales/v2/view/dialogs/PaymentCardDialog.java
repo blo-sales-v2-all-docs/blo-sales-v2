@@ -25,7 +25,7 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
     private final BigDecimal pay;
     
     public PaymentCardDialog(Component parent, String title, BigDecimal pay, Consumer<T> callback) {
-        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
         initComponents();
         this.callback = callback;
         this.pay = pay;

@@ -23,7 +23,8 @@ public final class NoteDialog<T> extends AbstractDialogBase {
     private PojoNote pojoNote;
 
     public NoteDialog(Component parent, String title, PojoNote pojoNote, Consumer<T> callback) {
-        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
+        dialogSizeHandler();
         this.callback = callback;
         this.pojoNote = pojoNote;
         initComponents();

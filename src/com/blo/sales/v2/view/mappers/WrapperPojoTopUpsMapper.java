@@ -1,28 +1,18 @@
 package com.blo.sales.v2.view.mappers;
 
-import com.blo.sales.v2.model.mapper.*;
-import com.blo.sales.v2.controller.pojos.PojoIntTopUp;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntTopUp;
-import com.blo.sales.v2.model.entities.WrapperTopUpsEntity;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoTopUp;
 import com.blo.sales.v2.view.pojos.WrapperPojoTopUp;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperPojoTopUpsMapper implements IToOuter<WrapperPojoIntTopUp, WrapperPojoTopUp> {
     
-    private static final PojoTopUpMapper mapper = PojoTopUpMapper.getInstance();
-    
-    private static WrapperPojoTopUpsMapper instance;
-    
-    private WrapperPojoTopUpsMapper() { }
-    
-    public static WrapperPojoTopUpsMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperPojoTopUpsMapper();
-        }
-        return instance;
-    }
+    @Inject
+    private PojoTopUpMapper mapper;
 
     @Override
     public WrapperPojoTopUp toOuter(WrapperPojoIntTopUp inner) {

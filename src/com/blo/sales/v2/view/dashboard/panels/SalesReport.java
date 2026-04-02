@@ -1,7 +1,6 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.ISalesController;
-import com.blo.sales.v2.controller.impl.SalesControllerImpl;
 import com.blo.sales.v2.plugins.sales.report.BloSalesV2SalesReportPlugin;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -12,6 +11,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.mappers.WrapperPojoSalesAndStockMapper;
 import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
 import com.blo.sales.v2.view.pojos.WrapperPojoSalesAndStock;
+import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -23,17 +23,16 @@ public final class SalesReport extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesReport.class.getName());
     
-    private static final ISalesController salesController = SalesControllerImpl.getInstance();
+    @Inject
+    private ISalesController salesController;
     
-    private static final WrapperPojoSalesAndStockMapper mapper = WrapperPojoSalesAndStockMapper.getInstance();
+    @Inject
+    private WrapperPojoSalesAndStockMapper mapper;
     
     private static final String[] titles = {"ID venta", "ID producto", "Producto", "Cantidad vendida", "Precio unidad", "Costo de venta", "Precio en venta", "Total", "Timestamp", "¿Por kg?"};
 
     public SalesReport(String key) {
         super(key);
-        initComponents();
-        loadTargets();
-        retrieveData();
     }
     
     private void retrieveData() {
@@ -301,5 +300,12 @@ public final class SalesReport extends AbstractDashboardBase {
         GUICommons.setTextToField(lblEnd, getTranslateBy(KeysEnum.SALES_REPORT_LBL_END_DATE.getKey()));
         GUICommons.setTextToButton(btnFilterNow, getTranslateBy(KeysEnum.SALES_REPORT_BTN_FILTER_NOW.getKey()));
         GUICommons.setTextToButton(btnDownloadReport, getTranslateBy(KeysEnum.SALES_REPORT_BTN_DOWNLOAD_REPORT.getKey()));
+    }
+
+    @Override
+    public void init() {
+        initComponents();
+        loadTargets();
+        retrieveData();
     }
 }

@@ -13,32 +13,27 @@ import com.blo.sales.v2.model.mapper.CategoryEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import jakarta.inject.Singleton;
+
+@Singleton
 public class CategoriesModelImpl implements ICategoriesModel {
     
     private static final GUILogger logger = GUILogger.getLogger(CategoriesModelImpl.class.getName());
 
     private static final Connection conn = DBConnection.getConnection();
 
-    private static final CategoryEntityMapper categoryMapper = CategoryEntityMapper.getInstance();
+    @Inject
+    private CategoryEntityMapper categoryMapper;
    
-    private static final WrapperCategoriesEntityMapper wrapperCategoriesEntityMapper = WrapperCategoriesEntityMapper.getInstance();
-
-    public static CategoriesModelImpl instance;
+    @Inject
+    private WrapperCategoriesEntityMapper wrapperCategoriesEntityMapper;
     
-    private CategoriesModelImpl() { }
-    
-    public static CategoriesModelImpl getInstance() {
-        if (instance == null) {
-            instance = new CategoriesModelImpl();
-        }
-        return instance;
-    }
-
     @Override
     public PojoIntCategory registerCategory(PojoIntCategory category) throws BloSalesV2Exception {
         try {

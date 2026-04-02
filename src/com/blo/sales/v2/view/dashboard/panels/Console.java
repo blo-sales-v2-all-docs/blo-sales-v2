@@ -18,12 +18,6 @@ public final class Console extends AbstractDashboardBase {
 
     public Console(String key) {
         super(key);
-        initComponents();
-        loadTargets();
-        txtArea.setBackground(Color.BLACK);
-        txtArea.setForeground(Color.WHITE);
-        txtArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        txtArea.append(logger.getLogs());
     }
     
     @SuppressWarnings("unchecked")
@@ -91,5 +85,15 @@ public final class Console extends AbstractDashboardBase {
     public void loadTargets() {
         GUICommons.setTextToButton(btnDownloadLogs, getTranslateBy(KeysEnum.CONSOLE_BTN_DOWNLOAD_LOGS.getKey()));
         txtArea.setText(BloSalesV2Utils.EMPTY_STRING);
+    }
+
+    @Override
+    public void init() {
+        initComponents();
+        loadTargets();
+        txtArea.setBackground(Color.BLACK);
+        txtArea.setForeground(Color.WHITE);
+        txtArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        txtArea.append(logger.getLogs());
     }
 }

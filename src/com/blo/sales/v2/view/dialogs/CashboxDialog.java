@@ -52,8 +52,9 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         WrapperPojoNotes pasives,
         Consumer<T> callback
     ) {
-        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
         initComponents();
+        dialogSizeHandler();
         loadTargets();
         this.callback = callback;
         this.actives = actives;

@@ -9,35 +9,30 @@ import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtorsDetails;
 import com.blo.sales.v2.model.IDebtorsModel;
-import com.blo.sales.v2.model.impl.DebtorsModelImpl;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+@Singleton
 public class DebtorsControllerImpl implements IDebtorsController {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsControllerImpl.class.getName());
-        
-    private static final IDebtorsModel model = DebtorsModelImpl.getInstance();
     
-    private static final IProductsController productsController = ProductsControllerImpl.getInstance();
+    @Inject
+    private IDebtorsModel model;
     
-    private static final ISalesController salesController = SalesControllerImpl.getInstance();
+    @Inject
+    private IProductsController productsController;
     
-    private static final IDebtorsSalesController debtorsSales = DebtorsSalesControllerImpl.getInstance();
+    @Inject
+    private ISalesController salesController;
     
-    private static DebtorsControllerImpl instance;
-    
-    private DebtorsControllerImpl() { }
-    
-    public static DebtorsControllerImpl getInstance() {
-        if (instance == null) {
-            instance = new DebtorsControllerImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private IDebtorsSalesController debtorsSales;
 
     @Override
     public WrapperPojoIntDebtors getAllDebtors() throws BloSalesV2Exception {

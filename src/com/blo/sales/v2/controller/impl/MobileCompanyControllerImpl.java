@@ -4,26 +4,18 @@ import com.blo.sales.v2.controller.IMobileCompanyController;
 import com.blo.sales.v2.controller.pojos.PojoIntMobileCompany;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntMobilesCompanies;
 import com.blo.sales.v2.model.IMobileCompanyModel;
-import com.blo.sales.v2.model.impl.MobileCompanyModelImpl;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class MobileCompanyControllerImpl implements IMobileCompanyController {
     
     private static final GUILogger logger = GUILogger.getLogger(MobileCompanyControllerImpl.class.getName());
     
-    private static final IMobileCompanyModel model = MobileCompanyModelImpl.getInstance();
-    
-    private static MobileCompanyControllerImpl instance;
-    
-    private MobileCompanyControllerImpl() { }
-    
-    public static MobileCompanyControllerImpl getInstance() {
-        if (instance == null) {
-            instance = new MobileCompanyControllerImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private IMobileCompanyModel model;
 
     @Override
     public WrapperPojoIntMobilesCompanies getMobilesCompanies() throws BloSalesV2Exception {

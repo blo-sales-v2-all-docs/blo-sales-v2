@@ -6,19 +6,10 @@ import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoNote;
 import com.blo.sales.v2.view.pojos.enums.TypeNoteEnum;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class PojoNoteMapper implements IToInner<PojoIntNote, PojoNote>, IToOuter<PojoIntNote, PojoNote> {
-    
-    private static PojoNoteMapper instance;
-    
-    private PojoNoteMapper() { }
-    
-    public static PojoNoteMapper getInstance() {
-        if (instance == null) {
-            instance = new PojoNoteMapper();
-        }
-        return instance;
-    }
     
     @Override
     public PojoIntNote toInner(PojoNote outer) {

@@ -8,28 +8,21 @@ import com.blo.sales.v2.model.mapper.PriceHistoryEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Singleton
 public class PricesHistoryModelImpl implements IPricesHistoryModel {
     
     private static final GUILogger logger = GUILogger.getLogger(PricesHistoryModelImpl.class.getName());
     
     private static final Connection conn = DBConnection.getConnection();
     
-    private static final PriceHistoryEntityMapper mapper = PriceHistoryEntityMapper.getInstance();
-    
-    private static PricesHistoryModelImpl instance;
-    
-    private PricesHistoryModelImpl() { }
-    
-    public static PricesHistoryModelImpl getInstance() {
-        if (instance == null) {
-            instance = new PricesHistoryModelImpl();
-        }
-        return instance;
-    }
+    @Inject
+    private PriceHistoryEntityMapper mapper;
 
     @Override
     public PojoIntPriceHistory addPriceHistory(PojoIntPriceHistory priceHistory) throws BloSalesV2Exception {

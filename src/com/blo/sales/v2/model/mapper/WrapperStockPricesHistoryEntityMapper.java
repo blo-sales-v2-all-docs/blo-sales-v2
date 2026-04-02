@@ -4,22 +4,15 @@ import com.blo.sales.v2.controller.pojos.PojoIntStockPriceHistory;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntStockPriceHistory;
 import com.blo.sales.v2.model.entities.WrapperStockPricesHistoryEntity;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperStockPricesHistoryEntityMapper implements IToOuter<WrapperStockPricesHistoryEntity, WrapperPojoIntStockPriceHistory> {
     
-    private static final StockPriceHistoryEntityMapper mapper = StockPriceHistoryEntityMapper.getInstance();
-    
-    private static WrapperStockPricesHistoryEntityMapper instance;
-    
-    private WrapperStockPricesHistoryEntityMapper() { }
-    
-    public static WrapperStockPricesHistoryEntityMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperStockPricesHistoryEntityMapper();
-        }
-        return instance;
-    }
+    @Inject
+    private StockPriceHistoryEntityMapper mapper;
 
     @Override
     public WrapperPojoIntStockPriceHistory toOuter(WrapperStockPricesHistoryEntity inner) {

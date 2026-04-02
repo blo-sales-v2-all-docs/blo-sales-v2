@@ -4,22 +4,15 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoDebtor;
 import com.blo.sales.v2.view.pojos.WrapperPojoDebtors;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class WrapperDebtorsMapper implements IToOuter<WrapperPojoIntDebtors, WrapperPojoDebtors> {
     
-    private static WrapperDebtorsMapper instance;
-    
-    private static final DebtorMapper mapper = DebtorMapper.getInstance();
-    
-    private WrapperDebtorsMapper() { }
-    
-    public static WrapperDebtorsMapper getInstance() {
-        if (instance == null) {
-            instance = new WrapperDebtorsMapper();
-        }
-        return instance;
-    }
+    @Inject
+    private DebtorMapper mapper;
     
     @Override
     public WrapperPojoDebtors toOuter(WrapperPojoIntDebtors inner) {

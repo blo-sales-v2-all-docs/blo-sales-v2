@@ -16,9 +16,10 @@ public final class SelectorDialog<T> extends AbstractDialogBase {
     private DefaultListModel<String> modeloLista;
 
     public SelectorDialog(Component parent, String title, List<T> items, Consumer<T> callback) {
-        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
         this.items = items;
         initComponents();
+        dialogSizeHandler();
         loadTargets();
         modeloLista = new DefaultListModel<>();
         loadData();
