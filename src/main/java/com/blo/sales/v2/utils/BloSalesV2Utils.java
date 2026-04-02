@@ -94,6 +94,8 @@ public final class BloSalesV2Utils {
     
     public static final long DEBTORS_PAYMENTS = 1;
     
+    public static final String ERROR_PRODUCT_IS_NOT_BY_KG = "Este producto no tiene la propiedad 'venta por kg' activada. \n Verifica el producto";
+    
     public static final String COMMON_RULE = "Ups. Error inesperado";
     
     /** codigos de error */
@@ -144,6 +146,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_PAYMENT_CARD_NOT_COMPLETE = "020";
     
     public static final String CODE_PAYMENTS_CARD_NOT_EQUALS = "021";
+    
+    public static final String CODE_PRODUCT_IS_NOT_BY_KG = "022";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     
