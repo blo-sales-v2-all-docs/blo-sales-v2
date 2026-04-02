@@ -20,6 +20,7 @@ import com.blo.sales.v2.view.mappers.PojoSaleProductDataMapper;
 import com.blo.sales.v2.view.mappers.WrapperDebtorsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoProductsMapper;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
+import com.blo.sales.v2.view.pojos.PojoPaymentTypeAux;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.pojos.PojoSaleProductData;
 import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
@@ -414,6 +415,11 @@ public final class Sales extends AbstractDashboardBase {
                     final var type = PaymentTypeEnum.getByIndex(
                         Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
                     );
+                    final var paymentTypeAux = new PojoPaymentTypeAux();
+                    paymentTypeAux.setCardpay(cardPay);
+                    paymentTypeAux.setCash(cash);
+                    paymentTypeAux.setReference(reference);
+                    paymentTypeAux.setPaymentType(type);
                 }
             );
             payment.setVisible(true);
@@ -678,6 +684,7 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
             GUICommons.addDoubleClickOnTable(tblProductsSales, id -> removeItemFromSale(Long.parseLong(String.format("%s", id))));
             GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
+            GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer index) -> openPaymentCard(index));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
