@@ -1,26 +1,14 @@
 package com.blo.sales.v2.model.entities;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class WrapperSaleStockEntity {
+@Setter
+@Getter
+public @ToString class WrapperSaleStockEntity {
     
     private List<SaleProductEntity> salesStock;
-
-    public List<SaleProductEntity> getSalesStock() {
-        return salesStock;
-    }
-
-    public void setSalesStock(List<SaleProductEntity> salesStock) {
-        this.salesStock = salesStock;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("WrapperSaleStockEntity{");
-        sb.append("salesStock=").append(salesStock);
-        sb.append('}');
-        return sb.toString();
-    }
     
 }

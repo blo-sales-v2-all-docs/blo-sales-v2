@@ -2,8 +2,13 @@ package com.blo.sales.v2.model.entities;
 
 import com.blo.sales.v2.model.entities.enums.PaymentTypeEntityEnum;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class SaleAndProductEntity {
+@Setter
+@Getter
+public @ToString class SaleAndProductEntity {
     
     private long id_sale;
     
@@ -26,112 +31,4 @@ public class SaleAndProductEntity {
     private boolean kg;
     
     private PaymentTypeEntityEnum payment_type;
-
-    public long getId_sale() {
-        return id_sale;
-    }
-
-    public void setId_sale(long id_sale) {
-        this.id_sale = id_sale;
-    }
-
-    public long getId_product() {
-        return id_product;
-    }
-
-    public void setId_product(long id_product) {
-        this.id_product = id_product;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public BigDecimal getQuantity_on_sale() {
-        return quantity_on_sale;
-    }
-
-    public void setQuantity_on_sale(BigDecimal quantity_on_sale) {
-        this.quantity_on_sale = quantity_on_sale;
-    }
-
-    public BigDecimal getTotal_on_sale() {
-        return total_on_sale;
-    }
-
-    public void setTotal_on_sale(BigDecimal total_on_sale) {
-        this.total_on_sale = total_on_sale;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getCost_of_sale() {
-        return cost_of_sale;
-    }
-
-    public void setCost_of_sale(BigDecimal cost_of_sale) {
-        this.cost_of_sale = cost_of_sale;
-    }
-
-    public boolean isKg() {
-        return kg;
-    }
-
-    public void setKg(boolean kg) {
-        this.kg = kg;
-    }
-
-    public BigDecimal getProduct_total_on_sale() {
-        return product_total_on_sale;
-    }
-
-    public void setProduct_total_on_sale(BigDecimal product_total_on_sale) {
-        this.product_total_on_sale = product_total_on_sale;
-    }
-
-    public PaymentTypeEntityEnum getPayment_type() {
-        return payment_type;
-    }
-
-    public void setPayment_type(PaymentTypeEntityEnum payment_type) {
-        this.payment_type = payment_type;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("SaleAndProductEntity{");
-        sb.append("id_sale=").append(id_sale);
-        sb.append(", id_product=").append(id_product);
-        sb.append(", product=").append(product);
-        sb.append(", quantity_on_sale=").append(quantity_on_sale);
-        sb.append(", price=").append(price);
-        sb.append(", cost_of_sale=").append(cost_of_sale);
-        sb.append(", total_on_sale=").append(total_on_sale);
-        sb.append(", product_total_on_sale=").append(product_total_on_sale);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", kg=").append(kg);
-        sb.append(", payment_type=").append(payment_type);
-        sb.append('}');
-        return sb.toString();
-    }
-
 }

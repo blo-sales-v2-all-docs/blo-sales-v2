@@ -18,7 +18,7 @@ public class SaleEntityMapper implements IToInner<SaleEntity, PojoIntSale>, IToO
         }
         final var inner = new SaleEntity();
         inner.setId_sale(outer.getIdSale());
-        inner.setSales_status(SaleStatusEntityEnum.valueOf(outer.getSaleStatus().name()));
+        inner.setSale_status(SaleStatusEntityEnum.valueOf(outer.getSaleStatus().name()));
         inner.setTotal(outer.getTotal());
         inner.setTimestamp(outer.getTimestamp());
         return inner;

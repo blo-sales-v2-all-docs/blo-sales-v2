@@ -1,8 +1,13 @@
 package com.blo.sales.v2.model.entities;
 
 import com.blo.sales.v2.model.entities.enums.TypeNoteEntityEnum;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class NoteEntity {
+@Setter
+@Getter
+public @ToString class NoteEntity {
     
     private long id_note;
     
@@ -13,57 +18,4 @@ public class NoteEntity {
     private String timestamp;
     
     private TypeNoteEntityEnum type_note;
-
-    public long getId_note() {
-        return id_note;
-    }
-
-    public void setId_note(long id_note) {
-        this.id_note = id_note;
-    }
-
-    public long getFk_user() {
-        return fk_user;
-    }
-
-    public void setFk_user(long fk_user) {
-        this.fk_user = fk_user;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public TypeNoteEntityEnum getType_note() {
-        return type_note;
-    }
-
-    public void setType_note(TypeNoteEntityEnum type_note) {
-        this.type_note = type_note;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("NoteEntity{");
-        sb.append("id_note=").append(id_note);
-        sb.append(", fk_user=").append(fk_user);
-        sb.append(", note=").append(note);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", type_note=").append(type_note);
-        sb.append('}');
-        return sb.toString();
-    }
 }

@@ -2,8 +2,13 @@ package com.blo.sales.v2.model.entities;
 
 import com.blo.sales.v2.model.entities.enums.SaleStatusEntityEnum;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class SaleEntity {
+@Setter
+@Getter
+public @ToString class SaleEntity {
     
     private long id_sale;
     
@@ -12,48 +17,5 @@ public class SaleEntity {
     private SaleStatusEntityEnum sale_status;
     
     private String timestamp;
-
-    public long getId_sale() {
-        return id_sale;
-    }
-
-    public void setId_sale(long id_sale) {
-        this.id_sale = id_sale;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    public SaleStatusEntityEnum getSale_status() {
-        return sale_status;
-    }
-
-    public void setSales_status(SaleStatusEntityEnum sale_status) {
-        this.sale_status = sale_status;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("SaleEntity{");
-        sb.append("id_sale=").append(id_sale);
-        sb.append(", total=").append(total);
-        sb.append(", sale_status=").append(sale_status);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append('}');
-        return sb.toString();
-    }
+    
 }

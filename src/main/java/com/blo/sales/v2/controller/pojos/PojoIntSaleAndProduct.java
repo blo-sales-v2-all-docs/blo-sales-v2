@@ -2,8 +2,13 @@ package com.blo.sales.v2.controller.pojos;
 
 import com.blo.sales.v2.controller.pojos.enums.PaymentTypeIntEnum;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class PojoIntSaleAndProduct {
+@Setter
+@Getter
+public @ToString class PojoIntSaleAndProduct {
     
     private long idSale;
     
@@ -26,113 +31,4 @@ public class PojoIntSaleAndProduct {
     private PaymentTypeIntEnum paymentType;
     
     private boolean kg;
-
-    public long getIdSale() {
-        return idSale;
-    }
-
-    public void setIdSale(long idSale) {
-        this.idSale = idSale;
-    }
-
-    public long getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(long idProduct) {
-        this.idProduct = idProduct;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public BigDecimal getQuantityOnSale() {
-        return quantityOnSale;
-    }
-
-    public void setQuantityOnSale(BigDecimal quantityOnSale) {
-        this.quantityOnSale = quantityOnSale;
-    }
-
-    public BigDecimal getTotalOnSale() {
-        return totalOnSale;
-    }
-
-    public void setTotalOnSale(BigDecimal totalOnSale) {
-        this.totalOnSale = totalOnSale;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getCostOfSale() {
-        return costOfSale;
-    }
-
-    public void setCostOfSale(BigDecimal costOfSale) {
-        this.costOfSale = costOfSale;
-    }
-
-    public boolean isKg() {
-        return kg;
-    }
-
-    public void setKg(boolean kg) {
-        this.kg = kg;
-    }
-
-    public BigDecimal getProductTotalOnSale() {
-        return productTotalOnSale;
-    }
-
-    public void setProductTotalOnSale(BigDecimal productTotalOnSale) {
-        this.productTotalOnSale = productTotalOnSale;
-    }
-
-    public PaymentTypeIntEnum getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(PaymentTypeIntEnum paymentType) {
-        this.paymentType = paymentType;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PojoIntSaleAndProduct{");
-        sb.append("idSale=").append(idSale);
-        sb.append(", idProduct=").append(idProduct);
-        sb.append(", product=").append(product);
-        sb.append(", quantityOnSale=").append(quantityOnSale);
-        sb.append(", price=").append(price);
-        sb.append(", costOfSale=").append(costOfSale);
-        sb.append(", totalOnSale=").append(totalOnSale);
-        sb.append(", productTotalOnSale=").append(productTotalOnSale);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", kg=").append(kg);
-        sb.append(", paymentType=").append(paymentType);
-        sb.append('}');
-        return sb.toString();
-    }
-
-
 }

@@ -150,7 +150,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
                 item.setQunatity_sale(data.getBigDecimal(BloSalesV2Columns.QUANTITY_ON_SALE));
                 item.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
                 item.setTotal_on_sale(data.getBigDecimal(BloSalesV2Columns.TOTAL_ON_SALE));
-                item.setIs_live(data.getBoolean(BloSalesV2Columns.IS_LIVE));
+                item.set_live(data.getBoolean(BloSalesV2Columns.IS_LIVE));
                 lst.add(item);
             }
             logger.info("datos encontrados %s", lst.size());

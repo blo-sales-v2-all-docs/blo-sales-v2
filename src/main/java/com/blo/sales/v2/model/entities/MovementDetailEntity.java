@@ -3,8 +3,13 @@ package com.blo.sales.v2.model.entities;
 import com.blo.sales.v2.model.entities.enums.ReasonsEntityEnum;
 import com.blo.sales.v2.model.entities.enums.TypesEntityEnum;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class MovementDetailEntity {
+@Setter
+@Getter
+public @ToString class MovementDetailEntity {
     
     private long id_movement;
     
@@ -21,85 +26,4 @@ public class MovementDetailEntity {
     private String username;
     
     private BigDecimal quantity;
-
-    public long getId_movement() {
-        return id_movement;
-    }
-
-    public void setId_movement(long id_movement) {
-        this.id_movement = id_movement;
-    }
-
-    public TypesEntityEnum getType() {
-        return type;
-    }
-
-    public void setType(TypesEntityEnum type) {
-        this.type = type;
-    }
-
-    public ReasonsEntityEnum getReason() {
-        return reason;
-    }
-
-    public void setReason(ReasonsEntityEnum reason) {
-        this.reason = reason;
-    }
-
-    public long getId_product() {
-        return id_product;
-    }
-
-    public void setId_product(long id_product) {
-        this.id_product = id_product;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MovementDetailEntity{");
-        sb.append("id_movement=").append(id_movement);
-        sb.append(", type=").append(type);
-        sb.append(", reason=").append(reason);
-        sb.append(", id_product=").append(id_product);
-        sb.append(", product=").append(product);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", username=").append(username);
-        sb.append(", quantity=").append(quantity);
-        sb.append('}');
-        return sb.toString();
-    }
-
 }

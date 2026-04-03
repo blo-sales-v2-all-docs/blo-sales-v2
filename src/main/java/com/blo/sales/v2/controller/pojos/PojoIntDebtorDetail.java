@@ -1,8 +1,13 @@
 package com.blo.sales.v2.controller.pojos;
 
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class PojoIntDebtorDetail {
+@Setter
+@Getter
+public @ToString class PojoIntDebtorDetail {
     
     private long idDebtor;
     
@@ -19,85 +24,4 @@ public class PojoIntDebtorDetail {
     private BigDecimal totalOnSale;
     
     private String timestamp;
-
-    public long getIdDebtor() {
-        return idDebtor;
-    }
-
-    public void setIdDebtor(long idDebtor) {
-        this.idDebtor = idDebtor;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getDebt() {
-        return debt;
-    }
-
-    public void setDebt(BigDecimal debt) {
-        this.debt = debt;
-    }
-
-    public String getPayments() {
-        return payments;
-    }
-
-    public void setPayments(String payments) {
-        this.payments = payments;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public BigDecimal getQuantitySale() {
-        return quantitySale;
-    }
-
-    public void setQuantitySale(BigDecimal quantitySale) {
-        this.quantitySale = quantitySale;
-    }
-
-    public BigDecimal getTotalOnSale() {
-        return totalOnSale;
-    }
-
-    public void setTotalOnSale(BigDecimal totalOnSale) {
-        this.totalOnSale = totalOnSale;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PojoIntDebtorDetail{");
-        sb.append("idDebtor=").append(idDebtor);
-        sb.append(", name=").append(name);
-        sb.append(", debt=").append(debt);
-        sb.append(", payments=").append(payments);
-        sb.append(", product=").append(product);
-        sb.append(", quantitySale=").append(quantitySale);
-        sb.append(", totalOnSale=").append(totalOnSale);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append('}');
-        return sb.toString();
-    }
-
 }

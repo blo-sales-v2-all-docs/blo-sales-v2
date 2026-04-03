@@ -6,6 +6,7 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
+import com.blo.sales.v2.view.commons.GUILogger;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 public final class PaymentCardDialog<T> extends AbstractDialogBase {
+    
+    private static final GUILogger logger = GUILogger.getLogger(PaymentCardDialog.class.getName());
     
     /** llaves de mapa */
     public static final String CARD_PAY = "CARD_PAY";
@@ -159,7 +162,8 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
             paymentData.put(TYPE, type);
             callback.accept((T) paymentData);
         } catch (BloSalesV2Exception ex) {
-            Logger.getLogger(PaymentCardDialog.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnDoPayActionPerformed
 

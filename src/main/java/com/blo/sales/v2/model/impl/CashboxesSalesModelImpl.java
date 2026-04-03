@@ -114,7 +114,7 @@ public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
                 sale = new SaleEntity();
                 sale.setId_sale(data.getLong(BloSalesV2Columns.ID_SALE));
                 sale.setTotal(data.getBigDecimal(BloSalesV2Columns.TOTAL));
-                sale.setSales_status(SaleStatusEntityEnum.valueOf(data.getString(BloSalesV2Columns.SALE_STATUS)));
+                sale.setSale_status(SaleStatusEntityEnum.valueOf(data.getString(BloSalesV2Columns.SALE_STATUS)));
                 sale.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
                 detail.setSale(sale);
                 

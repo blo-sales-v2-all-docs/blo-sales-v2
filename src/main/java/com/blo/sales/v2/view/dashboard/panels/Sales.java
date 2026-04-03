@@ -470,7 +470,10 @@ public final class Sales extends AbstractDashboardBase {
             // valida si se puede con pesos solamente si el producto se vende por kg
             var onSaleQuantity = new BigDecimal(BigInteger.ZERO);
             var onSalePrice = new BigDecimal(BigInteger.ZERO);
-            if (quantity.toLowerCase().startsWith("p") && productFound.isKg()) {
+            final var isSartByKg = quantity.toLowerCase().startsWith("p");
+            /** valida que el producto y lo que se compra funcione si es por kg */
+            BloSalesV2Utils.validateRule(isSartByKg && !productFound.isKg(), BloSalesV2Utils.CODE_PRODUCT_IS_NOT_BY_KG, BloSalesV2Utils.ERROR_PRODUCT_IS_NOT_BY_KG);
+            if (isSartByKg && productFound.isKg()) {
                 // Extraemos el valor numérico después de la 'P'
                 final var cash = new BigDecimal(quantity.substring(1));
                 final var price = productFound.getPrice();

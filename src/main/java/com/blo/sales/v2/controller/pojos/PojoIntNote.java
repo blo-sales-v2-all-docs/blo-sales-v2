@@ -1,8 +1,13 @@
 package com.blo.sales.v2.controller.pojos;
 
 import com.blo.sales.v2.controller.pojos.enums.TypeNoteIntEnum;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class PojoIntNote {
+@Setter
+@Getter
+public @ToString class PojoIntNote {
     
     private long idNote;
     
@@ -13,58 +18,4 @@ public class PojoIntNote {
     private String timesamp;
     
     private TypeNoteIntEnum typeNote;
-
-    public long getIdNote() {
-        return idNote;
-    }
-
-    public void setIdNote(long idNote) {
-        this.idNote = idNote;
-    }
-
-    public long getFkUser() {
-        return fkUser;
-    }
-
-    public void setFkUser(long fkUser) {
-        this.fkUser = fkUser;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public String getTimesamp() {
-        return timesamp;
-    }
-
-    public void setTimesamp(String timesamp) {
-        this.timesamp = timesamp;
-    }
-
-    public TypeNoteIntEnum getTypeNote() {
-        return typeNote;
-    }
-
-    public void setTypeNote(TypeNoteIntEnum typeNote) {
-        this.typeNote = typeNote;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PojoIntNote{");
-        sb.append("idNote=").append(idNote);
-        sb.append(", fkUser=").append(fkUser);
-        sb.append(", note=").append(note);
-        sb.append(", timesamp=").append(timesamp);
-        sb.append(", typeNote=").append(typeNote);
-        sb.append('}');
-        return sb.toString();
-    }
-
 }

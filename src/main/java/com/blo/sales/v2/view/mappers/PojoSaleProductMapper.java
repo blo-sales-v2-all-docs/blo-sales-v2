@@ -21,7 +21,7 @@ public class PojoSaleProductMapper implements IToOuter<PojoIntSaleProduct, PojoS
         outer.setTotalOnSale(inner.getTotalOnSale());
         outer.setTimestamp(inner.getTimestamp());
         outer.setProductTotalOnSale(inner.getProductTotalOnSale());
-        outer.setIsLive(inner.isLive());
+        outer.setLive(inner.isLive());
         return outer;
     }
     

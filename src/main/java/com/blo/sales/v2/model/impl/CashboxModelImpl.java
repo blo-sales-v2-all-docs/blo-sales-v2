@@ -182,7 +182,7 @@ public class CashboxModelImpl implements ICashboxModel {
                 lst.add(cashbox);
             }
             logger.info("cashboxes %s", lst.size());
-            out.setCashbocesInfo(lst);
+            out.setCashboxesInfo(lst);
             return cashboxesDetailsMapper.toOuter(out);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

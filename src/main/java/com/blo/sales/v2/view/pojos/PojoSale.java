@@ -2,8 +2,13 @@ package com.blo.sales.v2.view.pojos;
 
 import com.blo.sales.v2.view.pojos.enums.SalesStatusEnum;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class PojoSale {
+@Setter
+@Getter
+public @ToString class PojoSale {
     
     private long idSale;
 
@@ -12,49 +17,4 @@ public class PojoSale {
     private SalesStatusEnum saleStatus;
 
     private String timestamp;
-    
-    public long getIdSale() {
-        return idSale;
-    }
-
-    public void setIdSale(long idSale) {
-        this.idSale = idSale;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    public SalesStatusEnum getSaleStatus() {
-        return saleStatus;
-    }
-
-    public void setSaleStatus(SalesStatusEnum saleStatus) {
-        this.saleStatus = saleStatus;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PojoSale{");
-        sb.append("idSale=").append(idSale);
-        sb.append(", total=").append(total);
-        sb.append(", saleStatus=").append(saleStatus);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append('}');
-        return sb.toString();
-    }
-
 }
