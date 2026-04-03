@@ -1,7 +1,9 @@
 package com.blo.sales.v2.utils;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
@@ -14,8 +16,6 @@ import java.util.regex.Pattern;
  * Símbolos: ¿ -> \u00bf ¡ -> \u00a1
  */
 public final class BloSalesV2Utils {
-    
-    public static final String VERSION = "v2.8.5-RELEASE";
     
     private static final String RELEASE = "RELEASE";
     
@@ -152,6 +152,33 @@ public final class BloSalesV2Utils {
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     
     private BloSalesV2Utils() { }
+    
+    private static final Properties properties = new Properties();
+    
+    
+    
+    static {
+        try (InputStream is = BloSalesV2Utils.class.getClassLoader().getResourceAsStream("properties.properties")) {
+            if (is == null) {
+                throw new RuntimeException("No se pudo encontrar database.properties");
+            }
+            properties.load(is);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static String getProp(String key) {
+        final var prop = properties.getProperty(key);
+        if (prop.trim().isBlank()) {
+            return EMPTY_STRING;
+        }
+        return prop.trim();
+    }
+    
+    public static String getVersion() {
+        return getProp(PropsKeysEnum.APP_VERSION.getKey());
+    }
    
     /**
      * Metodo que valida reglas de negocio y lanza una excepcion
@@ -214,14 +241,14 @@ public final class BloSalesV2Utils {
      * @return 
      */
     public static long getIdPaymentProduct() {
-        if (BloSalesV2Utils.VERSION.lastIndexOf(RELEASE) == 7) {
+        if (getVersion().lastIndexOf(RELEASE) == 7) {
             return 1L;
         }
         return 1000L;
     }
     
     public static long getTopUpIdComission() {
-        if (BloSalesV2Utils.VERSION.lastIndexOf(RELEASE) == 7) {
+        if (getVersion().lastIndexOf(RELEASE) == 7) {
             return 494L;
         }
         return 1016L;
