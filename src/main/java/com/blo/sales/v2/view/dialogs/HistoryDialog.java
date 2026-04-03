@@ -1,0 +1,155 @@
+package com.blo.sales.v2.view.dialogs;
+
+import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVCols;
+import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVPlugin;
+import com.blo.sales.v2.translate.KeysEnum;
+import com.blo.sales.v2.view.commons.AbstractDialogBase;
+import com.blo.sales.v2.view.commons.GUICommons;
+import com.blo.sales.v2.view.pojos.WrapperPojoMovementsDetail;
+import java.awt.Component;
+import java.util.ArrayList;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+public final class HistoryDialog extends AbstractDialogBase {
+    
+    private static final String[] titles = {"ID Movimiento", "Tipo de movimiento", "Razón de movimiento", "Producto", "Cantidad", "Timestamp", "Usuario"};
+
+    private final WrapperPojoMovementsDetail history;
+    
+    private final String title;
+    
+    public HistoryDialog(Component parent, String title, WrapperPojoMovementsDetail history) {
+        super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, true);
+        dialogSizeHandler();
+        this.history = history;
+        this.title = title;
+        initComponents();
+        loadData();
+        loadTargets();
+    }
+    
+    private void loadData() {
+        GUICommons.loadTitleOnTable(tblData, titles, false);
+         final var model = (DefaultTableModel) tblData.getModel();
+            model.setRowCount(0);
+            history.getHistory().forEach(c -> {
+                final Object[] row = {
+                    c.getIdMovement(),
+                    c.getType().name(),
+                    c.getReason().name(),
+                    c.getProduct(),
+                    c.getQuantity(),
+                    parserTimestamp(c.getTimestamp()),
+                    c.getUsername()
+                };
+                model.addRow(row);
+            });
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblData = new javax.swing.JTable();
+        btnClose = new javax.swing.JButton();
+        btnDownloadMovements = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        tblData.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblData);
+
+        btnClose.setText("Cerrar");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnDownloadMovements.setText("descargar_movimientos");
+        btnDownloadMovements.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDownloadMovementsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnDownloadMovements)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClose)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClose)
+                    .addComponent(btnDownloadMovements))
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnDownloadMovementsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadMovementsActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tblData.getModel();
+        final var bloSalesRow = new BloSalesV2CSVCols();
+        final var r = new ArrayList<Object[]>();
+        final Object[] firstRow = {title};
+        r.add(firstRow);
+        for (var i = 0; i < tblData.getRowCount(); i++) {
+            final Object[] row = {
+                String.valueOf(model.getValueAt(i, 0)),
+                String.valueOf(model.getValueAt(i, 1)),
+                String.valueOf(model.getValueAt(i, 2)),
+                String.valueOf(model.getValueAt(i, 3)),
+                String.valueOf(model.getValueAt(i, 4)),
+                String.valueOf(model.getValueAt(i, 5)),
+                String.valueOf(model.getValueAt(i, 6)),
+            };
+            r.add(row);
+        }
+        bloSalesRow.setCols(r);
+        BloSalesV2CSVPlugin.exportFile(titles, bloSalesRow, title, false);
+    }//GEN-LAST:event_btnDownloadMovementsActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnDownloadMovements;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblData;
+    // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToButton(btnClose, getTranslateBy(KeysEnum.COMMON_BTN_CLOSE.getKey()));
+        GUICommons.setTextToButton(btnDownloadMovements, getTranslateBy(KeysEnum.STOCK_DLG_BTN_DOWNLOAD_HISTORY.getKey()));
+    }
+}

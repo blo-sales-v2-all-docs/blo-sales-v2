@@ -1,0 +1,29 @@
+package com.blo.sales.v2.model.mapper;
+
+import com.blo.sales.v2.controller.pojos.PojoIntCashboxDetail;
+import com.blo.sales.v2.controller.pojos.enums.ActiveCostIntEnum;
+import com.blo.sales.v2.controller.pojos.enums.CashboxStatusIntEnum;
+import com.blo.sales.v2.model.entities.CashboxDetailEntity;
+import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Singleton;
+
+@Singleton
+public class CashboxDetailEntityMapper implements IToOuter<CashboxDetailEntity, PojoIntCashboxDetail>{
+    
+    @Override
+    public PojoIntCashboxDetail toOuter(CashboxDetailEntity inner) {
+        if (inner == null) {
+            return null;
+        }
+        final var outer = new PojoIntCashboxDetail();
+        outer.setAmount(inner.getAmount());
+        outer.setConcept(inner.getConcept());
+        outer.setIdCashbox(inner.getId_cashbox());
+        outer.setStatus(CashboxStatusIntEnum.valueOf(inner.getStatus().name()));
+        outer.setTimestamp(inner.getTimestamp());
+        outer.setConceptAmount(inner.getConcept_amount());
+        outer.setType(ActiveCostIntEnum.valueOf(inner.getType().name()));
+        return outer;
+    }
+    
+}

@@ -1,0 +1,311 @@
+package com.blo.sales.v2.view.dashboard.panels;
+
+import com.blo.sales.v2.controller.ISalesController;
+import com.blo.sales.v2.plugins.sales.report.BloSalesV2SalesReportPlugin;
+import com.blo.sales.v2.translate.KeysEnum;
+import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.view.commons.AbstractDashboardBase;
+import com.blo.sales.v2.view.commons.CommonAlerts;
+import com.blo.sales.v2.view.commons.GUICommons;
+import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.mappers.WrapperPojoSalesAndStockMapper;
+import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
+import com.blo.sales.v2.view.pojos.WrapperPojoSalesAndStock;
+import jakarta.inject.Inject;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+public final class SalesReport extends AbstractDashboardBase {
+    
+    private static final GUILogger logger = GUILogger.getLogger(SalesReport.class.getName());
+    
+    @Inject
+    private ISalesController salesController;
+    
+    @Inject
+    private WrapperPojoSalesAndStockMapper mapper;
+    
+    private static final String[] titles = {"ID venta", "ID producto", "Producto", "Cantidad vendida", "Precio unidad", "Costo de venta", "Precio en venta", "Total", "Timestamp", "¿Por kg?"};
+
+    public SalesReport(String key) {
+        super(key);
+    }
+    
+    private void retrieveData() {
+        try {
+            final var allSales = mapper.toOuter(salesController.retrieveAllSalesDetail());
+            getTotal(allSales);
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        dtChooserInit = new com.toedter.calendar.JDateChooser();
+        lblInit = new javax.swing.JLabel();
+        lblEnd = new javax.swing.JLabel();
+        dtChooserEnd = new com.toedter.calendar.JDateChooser();
+        btnFilterNow = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSales = new javax.swing.JTable();
+        lblTotalBruto = new javax.swing.JLabel();
+        btnDownloadReport = new javax.swing.JButton();
+
+        lblInit.setText("fecha_inicio");
+
+        lblEnd.setText("fecha_fin");
+
+        btnFilterNow.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnFilterNow.setText("filtrar_ahora");
+        btnFilterNow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterNowActionPerformed(evt);
+            }
+        });
+
+        tblSales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblSales);
+
+        btnDownloadReport.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDownloadReport.setText("descargar_reporte");
+        btnDownloadReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDownloadReportActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblInit)
+                            .addComponent(dtChooserInit, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(dtChooserEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnFilterNow)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblTotalBruto, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                                .addGap(508, 508, 508))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnDownloadReport)
+                                .addContainerGap())))
+                    .addComponent(jScrollPane1)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblInit)
+                        .addComponent(lblEnd))
+                    .addComponent(lblTotalBruto, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(dtChooserInit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dtChooserEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnFilterNow, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDownloadReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnFilterNowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterNowActionPerformed
+        final var initDate = GUICommons.getDateFromDateChooser(dtChooserInit);
+        final var endDate = GUICommons.getDateFromDateChooser(dtChooserEnd);
+        applyFilter(initDate, endDate);
+    }//GEN-LAST:event_btnFilterNowActionPerformed
+
+    private void btnDownloadReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadReportActionPerformed
+        try {
+            final var total = GUICommons.getTextFromField(lblTotalBruto, false).split("\\$")[1].trim();
+            final var model = (DefaultTableModel) tblSales.getModel();
+            parserTableToLst(model);
+            BloSalesV2SalesReportPlugin.createReport(parserTableToLst(model), new BigDecimal(total));
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
+    }//GEN-LAST:event_btnDownloadReportActionPerformed
+
+    public void applyFilter(String initDate, String endDate) {
+        final var model = (DefaultTableModel) tblSales.getModel();
+        final var sorter = new TableRowSorter<>(model);
+        tblSales.setRowSorter(sorter);
+
+        // se aplica filtro
+        sorter.setRowFilter(new RowFilter<DefaultTableModel, Integer>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
+                final var dateSelected = entry.getStringValue(8).trim();
+                if (dateSelected.isEmpty()) return false;
+                try {
+                    // formato requerido -> 2026-03-17T18:34:39.761059288 
+                    final var revertedTimestamp = revertTimestap(dateSelected);
+                    final var strDate = revertedTimestamp.substring(0, 10);
+                    if (!endDate.isBlank()) {
+                        return strDate.compareTo(initDate) >= 0 && strDate.compareTo(endDate) <= 0;
+                    } else {
+                        return strDate.equals(initDate);
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                    return false;
+                }
+            }
+        });
+        
+        final var totalSale = getBrutalTotalFromLst(parserTableToLst(model));
+        GUICommons.setTextToField(lblTotalBruto, "Total: $" + totalSale);
+    }
+    
+    private WrapperPojoSalesAndStock parserTableToLst(DefaultTableModel model) {
+        final var lst = new WrapperPojoSalesAndStock();
+        final var items = new ArrayList<PojoSaleAndProduct>();
+        PojoSaleAndProduct item = null;
+        
+        for (var i = 0; i < tblSales.getRowCount(); i++) {
+            // Convertimos el índice de la vista al índice real del modelo
+            final var modelIndex = tblSales.convertRowIndexToModel(i);
+
+            item = new PojoSaleAndProduct();
+            item.setIdSale(Long.parseLong(model.getValueAt(modelIndex, 0).toString()));
+            item.setIdProduct(Long.parseLong(model.getValueAt(modelIndex, 1).toString()));
+            item.setProduct(model.getValueAt(modelIndex, 2).toString());
+            item.setQuantityOnSale(new BigDecimal(model.getValueAt(modelIndex, 3).toString()));
+            item.setPrice(new BigDecimal(model.getValueAt(modelIndex, 4).toString()));
+            item.setCostOfSale(new BigDecimal(model.getValueAt(modelIndex, 5).toString()));
+            item.setProductTotalOnSale(new BigDecimal(model.getValueAt(modelIndex, 6).toString()));
+            item.setTotalOnSale(new BigDecimal(model.getValueAt(modelIndex, 7).toString()));
+            item.setTimestamp(model.getValueAt(modelIndex, 8).toString());
+            item.setKg((boolean) model.getValueAt(modelIndex, 9));
+
+            items.add(item);
+        }
+        lst.setSalesDetail(items);
+        return lst;
+    }
+    
+    private BigDecimal getTotal(WrapperPojoSalesAndStock wrapper) {
+        GUICommons.loadTitleOnTable(tblSales, titles, false);
+        if (wrapper.getSalesDetail() == null || wrapper.getSalesDetail().isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        final var model = (DefaultTableModel) tblSales.getModel();
+        model.setRowCount(0);
+        wrapper.getSalesDetail().forEach(d -> {
+                final Object[] row = {
+                    d.getIdSale(),
+                    d.getIdProduct(),
+                    d.getProduct(),
+                    d.getQuantityOnSale(),
+                    d.getPrice(),
+                    d.getCostOfSale(),
+                    d.getProductTotalOnSale(),
+                    d.getTotalOnSale(),
+                    parserTimestamp(d.getTimestamp()),
+                    d.isKg()
+                };
+                model.addRow(row);
+            });
+        model.fireTableDataChanged(); 
+        tblSales.repaint();
+        tblSales.revalidate();
+        return getBrutalTotalFromLst(wrapper);
+    }
+    
+     /**
+     * Metodo que regresa el total de una lista, filtra repetidos (idSale / totalOnSale)
+     * @return 
+     */
+    private BigDecimal getBrutalTotalFromLst(WrapperPojoSalesAndStock wrapper) {
+        return wrapper.getSalesDetail().stream().collect(Collectors.toMap(
+                PojoSaleAndProduct::getIdSale,
+                obj -> obj,
+                (existente, reemplazo) -> existente // Si hay duplicado, se queda con el primero
+            )).
+                values().
+                stream().
+                map(PojoSaleAndProduct::getTotalOnSale).
+                reduce(BigDecimal.ZERO, (acc, curr) -> acc.add(curr));
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDownloadReport;
+    private javax.swing.JButton btnFilterNow;
+    private com.toedter.calendar.JDateChooser dtChooserEnd;
+    private com.toedter.calendar.JDateChooser dtChooserInit;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblEnd;
+    private javax.swing.JLabel lblInit;
+    private javax.swing.JLabel lblTotalBruto;
+    private javax.swing.JTable tblSales;
+    // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToField(lblInit, getTranslateBy(KeysEnum.SALES_REPORT_LBL_INIT_DATE.getKey()));
+        GUICommons.setTextToField(lblEnd, getTranslateBy(KeysEnum.SALES_REPORT_LBL_END_DATE.getKey()));
+        GUICommons.setTextToButton(btnFilterNow, getTranslateBy(KeysEnum.SALES_REPORT_BTN_FILTER_NOW.getKey()));
+        GUICommons.setTextToButton(btnDownloadReport, getTranslateBy(KeysEnum.SALES_REPORT_BTN_DOWNLOAD_REPORT.getKey()));
+    }
+
+    @Override
+    public void init() {
+        initComponents();
+        loadTargets();
+        retrieveData();
+    }
+}

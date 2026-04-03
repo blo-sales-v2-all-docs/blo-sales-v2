@@ -1,0 +1,31 @@
+package com.blo.sales.v2.view.mappers;
+
+import com.blo.sales.v2.controller.pojos.PojoIntSaleAndProduct;
+import com.blo.sales.v2.utils.IToOuter;
+import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
+import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
+import jakarta.inject.Singleton;
+
+@Singleton
+public class PojoSaleAndProductMapper implements IToOuter<PojoIntSaleAndProduct, PojoSaleAndProduct>{
+    
+    @Override
+    public PojoSaleAndProduct toOuter(PojoIntSaleAndProduct inner) {
+        if (inner == null) {
+            return null;
+        }
+        final var outer = new PojoSaleAndProduct();
+        outer.setIdProduct(inner.getIdProduct());
+        outer.setIdSale(inner.getIdSale());
+        outer.setProduct(inner.getProduct());
+        outer.setQuantityOnSale(inner.getQuantityOnSale());
+        outer.setTotalOnSale(inner.getTotalOnSale());
+        outer.setTimestamp(inner.getTimestamp());
+        outer.setCostOfSale(inner.getCostOfSale());
+        outer.setPrice(inner.getPrice());
+        outer.setKg(inner.isKg());
+        outer.setProductTotalOnSale(inner.getProductTotalOnSale());
+        outer.setPaymentType(PaymentTypeEnum.valueOf(inner.getPaymentType().name()));
+        return outer;
+    }
+}
