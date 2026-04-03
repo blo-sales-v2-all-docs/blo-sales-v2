@@ -13,7 +13,10 @@ public class UserMapper implements IToInner<PojoIntUser, PojoUser> {
         if (outer == null) {
             return null;
         }
-        return new PojoIntUser(outer.getUsername(), outer.getPassword());
+        final var inner = new PojoIntUser();
+        inner.setPassword(outer.getPassword());
+        inner.setUserName(outer.getUsername());
+        return inner;
     }
     
 }

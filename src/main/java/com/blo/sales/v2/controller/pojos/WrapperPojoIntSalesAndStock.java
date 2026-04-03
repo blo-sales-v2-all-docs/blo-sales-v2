@@ -1,25 +1,13 @@
 package com.blo.sales.v2.controller.pojos;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class WrapperPojoIntSalesAndStock {
+@Setter
+@Getter
+public @ToString class WrapperPojoIntSalesAndStock {
     
     private List<PojoIntSaleAndProduct> salesDetail;
-
-    public List<PojoIntSaleAndProduct> getSalesDetail() {
-        return salesDetail;
-    }
-
-    public void setSalesDetail(List<PojoIntSaleAndProduct> salesDetail) {
-        this.salesDetail = salesDetail;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("WrapperPojoIntSalesAndStock{");
-        sb.append("salesDetail=").append(salesDetail);
-        sb.append('}');
-        return sb.toString();
-    }
 }

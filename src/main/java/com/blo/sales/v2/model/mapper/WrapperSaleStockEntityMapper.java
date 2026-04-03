@@ -26,7 +26,7 @@ public class WrapperSaleStockEntityMapper implements IToOuter<WrapperSaleStockEn
             inner.getSalesStock().forEach(s -> salesStock.add(mapper.toOuter(s)));
         }
         
-        out.setSalesStocks(salesStock);
+        out.setSalesStock(salesStock);
         return out;
         
     }

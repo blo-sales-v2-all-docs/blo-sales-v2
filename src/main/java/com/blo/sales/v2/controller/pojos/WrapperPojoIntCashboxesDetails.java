@@ -1,26 +1,14 @@
 package com.blo.sales.v2.controller.pojos;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class WrapperPojoIntCashboxesDetails {
+@Setter
+@Getter
+public @ToString class WrapperPojoIntCashboxesDetails {
     
     private List<PojoIntCashboxDetail> cashboxesInfo;
-
-    public List<PojoIntCashboxDetail> getCashboxesInfo() {
-        return cashboxesInfo;
-    }
-
-    public void setCashboxesInfo(List<PojoIntCashboxDetail> cashboxesInfo) {
-        this.cashboxesInfo = cashboxesInfo;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("WrapperPojoIntCashboxesDetails{");
-        sb.append("cashboxesInfo=").append(cashboxesInfo);
-        sb.append('}');
-        return sb.toString();
-    }
 
 }
