@@ -574,6 +574,7 @@ public final class Sales extends AbstractDashboardBase {
             tblProductsSales.repaint();
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             GUICommons.setTextToField(lblResult, totalSale);
+            GUICommons.setTextToField(nmbCalcPay, BloSalesV2Utils.EMPTY_STRING);
             retrieveProducts();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
