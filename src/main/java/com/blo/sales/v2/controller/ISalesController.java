@@ -12,10 +12,23 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Clase controlador para flujo de ventas
+ * @version 1.0.0
+ * @author BLO
+ */
 public interface ISalesController {
     
     PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception;
-            
+
+    /**
+     * Flujo que registra una venta, reduce unidades de stock, agrega dinero en cashbox
+     * @param totalSale
+     * @param productsInfo
+     * @param idUser
+     * @return Venta registrada
+     * @throws BloSalesV2Exception 
+     */
     PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, long idUser) throws BloSalesV2Exception;
     
     PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception;

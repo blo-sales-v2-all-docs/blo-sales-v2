@@ -72,7 +72,7 @@ public class ProductsControllerImpl implements IProductsController {
 
     @Override
     public WrapperPojoIntProducts getAllProducts() throws BloSalesV2Exception {
-        logger.equals("recuperando todos los productos");
+        logger.info("recuperando todos los productos");
         return model.getAllProducts();
     }
 

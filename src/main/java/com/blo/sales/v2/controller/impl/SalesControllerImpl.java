@@ -1,6 +1,7 @@
 package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.ICashboxController;
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.IDebtorsSalesController;
 import com.blo.sales.v2.controller.IHistoryController;
@@ -38,8 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Singleton
-public class SalesControllerImpl implements ISalesController {
+public @Singleton class SalesControllerImpl implements ISalesController {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesControllerImpl.class.getName());
     
@@ -70,98 +70,111 @@ public class SalesControllerImpl implements ISalesController {
     @Inject
     private IDebtorsSalesController debtorsSalesController;
     
+    @Inject
+    private IDBTransactionManagerController managerController;
+    
     @Override
     public PojoIntSale registerSale(
             BigDecimal totalSale,
             List<PojoIntSaleProductData> products,
             long idUser
     ) throws BloSalesV2Exception {
-        /** validaciones */
-        final var productsFound = productsController.getAllProducts().getProducts();
-        for (final var product: products) {
-            final var productFound = filterProductById(productsFound, product.getIdProduct());
-            // validar que el producto de entrada exista en el stock
-            BloSalesV2Utils.validateRule(
-                    productFound == null,
-                    BloSalesV2Utils.CODE_PRODUCT_NOT_FOUND,
-                    productFound.getProduct() + BloSalesV2Utils.PRODUCT_NOT_FOUND
-            );
-            // valida que el exista suficiente cantidad de producto
-            BloSalesV2Utils.validateRule(
-                    productFound.getQuantity().compareTo(product.getQuantityOnSale()) < 0,
-                    BloSalesV2Utils.CODE_PRODUCT_INSUFFICIENT,
-                    productFound.getProduct() + BloSalesV2Utils.PRODUCT_INSUFFICIENT
-            );
+        try {
+            // desactivar autocommit de la bd
+            managerController.disableAutocommit();
+            /** validaciones */
+            final var productsFound = productsController.getAllProducts().getProducts();
+            for (final var product: products) {
+                final var productFound = filterProductById(productsFound, product.getIdProduct());
+                // validar que el producto de entrada exista en el stock
+                BloSalesV2Utils.validateRule(
+                        productFound == null,
+                        BloSalesV2Utils.CODE_PRODUCT_NOT_FOUND,
+                        productFound.getProduct() + BloSalesV2Utils.PRODUCT_NOT_FOUND
+                );
+                // valida que el exista suficiente cantidad de producto
+                BloSalesV2Utils.validateRule(
+                        productFound.getQuantity().compareTo(product.getQuantityOnSale()) < 0,
+                        BloSalesV2Utils.CODE_PRODUCT_INSUFFICIENT,
+                        productFound.getProduct() + BloSalesV2Utils.PRODUCT_INSUFFICIENT
+                );
+            }
+            userController.getUserById(idUser);
+            final var timestamp = BloSalesV2Utils.getTimestamp();
+            // registro de venta
+            final var sale = new PojoIntSale();
+            sale.setSaleStatus(SalesStatusIntEnum.CLOSE);
+            sale.setTotal(totalSale);
+            sale.setTimestamp(timestamp);
+            final var saleSaved = saleModel.registerSale(sale);
+            logger.info("venta registrada %s", String.valueOf(saleSaved));
+            for (final var p: products) {
+                final var productFound = filterProductById(productsFound, p.getIdProduct());
+                // registro de movimiento previo a resta
+                final var movementBef = new PojoIntMovement();
+                movementBef.setFkProduct(p.getIdProduct());
+                movementBef.setFkUser(idUser);
+                movementBef.setQuantity(productFound.getQuantity());
+                movementBef.setReason(ReasonsEntityEnum.SALE);
+                movementBef.setTimestamp(timestamp);
+                movementBef.setType(TypesEntityEnum.NOT_MODIFIED);
+                historyController.registerMovement(movementBef);
+                logger.info("registro de movimiento previo a resta %s", String.valueOf(movementBef));
+
+                // registro de movimiento
+                final var movement = new PojoIntMovement();
+                movement.setFkProduct(p.getIdProduct());
+                movement.setFkUser(idUser);
+                movement.setQuantity(p.getQuantityOnSale());
+                movement.setReason(ReasonsEntityEnum.SALE);
+                movement.setTimestamp(timestamp);
+                movement.setType(TypesEntityEnum.OUTPUT);
+                historyController.registerMovement(movement);
+                // registro de movimiento en venta
+                final var saleProduct = new PojoIntSaleProduct();
+                saleProduct.setFkProduct(p.getIdProduct());
+                saleProduct.setFkSale(saleSaved.getIdSale());
+                saleProduct.setQuantityOnSale(p.getQuantityOnSale());
+                saleProduct.setTimestamp(timestamp);
+                saleProduct.setProductTotalOnSale(p.getProductBuyTotal());
+                saleProduct.setTotalOnSale(totalSale);
+                // guardar relacion venta-product
+                salesProductsController.addSalesProduct(saleProduct);
+                // actualizar cantidad en el stock
+                final var newQuantity = productFound.getQuantity().subtract(p.getQuantityOnSale());
+                productFound.setQuantity(newQuantity);
+                logger.info("producto actualizado %s", String.valueOf(productFound));
+                productsController.updateProductInfo(productFound, ReasonsIntEnum.SALE, idUser, TypesIntEnum.ADJUST);
+            }
+            /** se agrega el dinero a la caja */
+            // recupera caja abierta
+            var openCashbox = cashboxController.getOpenCashbox();
+            // si no existe se crea
+            if (openCashbox == null) {
+                logger.info("cashbox inexistente");
+                final var newCashbox = new PojoIntCashbox();
+                newCashbox.setFkUser(idUser);
+                newCashbox.setAmount(BigDecimal.ZERO);
+                newCashbox.setStatus(CashboxStatusIntEnum.OPEN);
+                newCashbox.setTimestamp(timestamp);
+                openCashbox = cashboxController.addCashbox(newCashbox);
+            }
+            logger.info("cashbox %s", String.valueOf(openCashbox));
+            // se suma la cantidad de la venta al monto de la caja abierta
+            final var amount = openCashbox.getAmount().add(totalSale);
+            openCashbox.setAmount(amount);
+            openCashbox.setTimestamp(timestamp);
+            // actualizar cantidad en la caja
+            logger.info("actualizando caja abierta %s", String.valueOf(openCashbox));
+            cashboxController.updateCAshbox(openCashbox, openCashbox.getIdCashbox());
+            managerController.doCommit();
+            return saleSaved;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            managerController.enableAutocommit();
         }
-        userController.getUserById(idUser);
-        final var timestamp = BloSalesV2Utils.getTimestamp();
-        // registro de venta
-        final var sale = new PojoIntSale();
-        sale.setSaleStatus(SalesStatusIntEnum.CLOSE);
-        sale.setTotal(totalSale);
-        sale.setTimestamp(timestamp);
-        final var saleSaved = saleModel.registerSale(sale);
-        logger.info("venta registrada %s", String.valueOf(saleSaved));
-        for (final var p: products) {
-            final var productFound = filterProductById(productsFound, p.getIdProduct());
-            // registro de movimiento previo a resta
-            final var movementBef = new PojoIntMovement();
-            movementBef.setFkProduct(p.getIdProduct());
-            movementBef.setFkUser(idUser);
-            movementBef.setQuantity(productFound.getQuantity());
-            movementBef.setReason(ReasonsEntityEnum.SALE);
-            movementBef.setTimestamp(timestamp);
-            movementBef.setType(TypesEntityEnum.NOT_MODIFIED);
-            historyController.registerMovement(movementBef);
-            logger.info("registro de movimiento previo a resta %s", String.valueOf(movementBef));
-            
-            // registro de movimiento
-            final var movement = new PojoIntMovement();
-            movement.setFkProduct(p.getIdProduct());
-            movement.setFkUser(idUser);
-            movement.setQuantity(p.getQuantityOnSale());
-            movement.setReason(ReasonsEntityEnum.SALE);
-            movement.setTimestamp(timestamp);
-            movement.setType(TypesEntityEnum.OUTPUT);
-            historyController.registerMovement(movement);
-            // registro de movimiento en venta
-            final var saleProduct = new PojoIntSaleProduct();
-            saleProduct.setFkProduct(p.getIdProduct());
-            saleProduct.setFkSale(saleSaved.getIdSale());
-            saleProduct.setQuantityOnSale(p.getQuantityOnSale());
-            saleProduct.setTimestamp(timestamp);
-            saleProduct.setProductTotalOnSale(p.getProductBuyTotal());
-            saleProduct.setTotalOnSale(totalSale);
-            // guardar relacion venta-product
-            salesProductsController.addSalesProduct(saleProduct);
-            // actualizar cantidad en el stock
-            final var newQuantity = productFound.getQuantity().subtract(p.getQuantityOnSale());
-            productFound.setQuantity(newQuantity);
-            logger.info("producto actualizado %s", String.valueOf(productFound));
-            productsController.updateProductInfo(productFound, ReasonsIntEnum.SALE, idUser, TypesIntEnum.ADJUST);
-        }
-        /** se agrega el dinero a la caja */
-        // recupera caja abierta
-        var openCashbox = cashboxController.getOpenCashbox();
-        // si no existe se crea
-        if (openCashbox == null) {
-            logger.info("cashbox inexistente");
-            final var newCashbox = new PojoIntCashbox();
-            newCashbox.setFkUser(idUser);
-            newCashbox.setAmount(BigDecimal.ZERO);
-            newCashbox.setStatus(CashboxStatusIntEnum.OPEN);
-            newCashbox.setTimestamp(timestamp);
-            openCashbox = cashboxController.addCashbox(newCashbox);
-        }
-        logger.info("cashbox %s", String.valueOf(openCashbox));
-        // se suma la cantidad de la venta al monto de la caja abierta
-        final var amount = openCashbox.getAmount().add(totalSale);
-        openCashbox.setAmount(amount);
-        openCashbox.setTimestamp(timestamp);
-        // actualizar cantidad en la caja
-        logger.info("actualizando caja abierta %s", String.valueOf(openCashbox));
-        cashboxController.updateCAshbox(openCashbox, openCashbox.getIdCashbox());
-        return saleSaved;
     }
     
     @Override

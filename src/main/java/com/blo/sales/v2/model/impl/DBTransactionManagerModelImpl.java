@@ -7,22 +7,23 @@ import jakarta.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
+import com.blo.sales.v2.view.commons.GUILogger;
 
 /**
- *
- * Implementacion de interfaz Transaction
- * 
- * @author orlndo
+ * Implementacion de interfaz TransactionManagement
+ * @version 1.0.0
+ * @author BLO
  */
 public @Singleton class DBTransactionManagerModelImpl implements IDBTransactionManagerModel {
     
-    private static final Connection connection = DBConnection.getConnection();
-
+    private static final GUILogger logger = GUILogger.getLogger(DBTransactionManagerModelImpl.class.getName());
+    
     @Override
     public void disableAutocommit() throws BloSalesV2Exception {
         try {
-            connection.setAutoCommit(false);
+            DBConnection.getConnection().setAutoCommit(false);
         } catch (SQLException ex) {
+            logger.error("Error al ejecutar commit en la base de datos: {}", ex.getMessage(), ex);
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }
@@ -30,8 +31,12 @@ public @Singleton class DBTransactionManagerModelImpl implements IDBTransactionM
     @Override
     public void doCommit() throws BloSalesV2Exception {
         try {
-            connection.commit();
+            final var conn = DBConnection.getConnection();
+            if (conn != null && !conn.getAutoCommit()) {
+                conn.commit();
+            }
         } catch (SQLException ex) {
+            logger.error("Error al ejecutar commit en la base de datos: {}", ex.getMessage(), ex);
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }
@@ -39,8 +44,12 @@ public @Singleton class DBTransactionManagerModelImpl implements IDBTransactionM
     @Override
     public void enableAutocommit() throws BloSalesV2Exception {
         try {
-            connection.setAutoCommit(true);
+            final var conn = DBConnection.getConnection();
+            if (conn != null) {
+                conn.setAutoCommit(true);
+            }
         } catch (SQLException ex) {
+            logger.error("Error al ejecutar commit en la base de datos: {}", ex.getMessage(), ex);
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }

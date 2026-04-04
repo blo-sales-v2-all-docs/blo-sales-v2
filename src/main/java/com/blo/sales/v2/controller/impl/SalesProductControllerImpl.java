@@ -9,8 +9,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-@Singleton
-public class SalesProductControllerImpl implements ISalesProductController {
+public @Singleton class SalesProductControllerImpl implements ISalesProductController {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesProductControllerImpl.class.getName());
     
