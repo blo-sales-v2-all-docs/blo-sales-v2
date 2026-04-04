@@ -355,6 +355,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 
     /**
      * Metodo copia de registro de venta, no se guarda automaticamente, auxiliar para registro de flujos alternos
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param totalSale
      * @param products
      * @param idUser
