@@ -40,34 +40,47 @@ public class ProductsControllerImpl implements IProductsController {
     @Inject
     private IStockPricesHistoryController historyPrices;
 
+    @Inject
+    private DBTransactionManagerControllerImpl dbTransactionManager;
+    
     @Override
     public PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception {
-        product.setTimestamp(BloSalesV2Utils.getTimestamp());
-        BloSalesV2Utils.validateRule(
-                product.getFkCategory() == BloSalesV2Utils.DEBTORS_PAYMENTS,
-                BloSalesV2Utils.CODE_CATEGORY_PROTECTED,
-                BloSalesV2Utils.CATEGORY_PROTECTED
-        );
-        final var productBarCode = model.getProductByBarCode(product.getBarCode());
-        BloSalesV2Utils.validateRule(
-                productBarCode != null,
-                BloSalesV2Utils.CODE_BAR_CODE_REGISTERED,
-                BloSalesV2Utils.BAR_CODE_EXCEPTION
-        );
-        /** valida la existencia de la categoria */
-        final var categoryFound = categoriesController.getCategoryById(product.getFkCategory());
-        BloSalesV2Utils.validateRule(
-                categoryFound.getIdCategory() == 0,
-                BloSalesV2Utils.CODE_CATEGORY_NOT_FOUND,
-                BloSalesV2Utils.CATEGORY_NOT_FOUND
-        );
-        final var productSaved = model.registerProduct(product);
-        logger.info("producto guardado: %s", String.valueOf(productSaved));
-        final var itemPrice = new PojoIntPriceHistory();
-        itemPrice.setCostOfSale(product.getCostOfSale());
-        itemPrice.setPrice(product.getPrice());
-        historyPrices.addPriceOnHistory(itemPrice, productSaved.getIdProduct());
-        return productSaved;
+        try {
+            product.setTimestamp(BloSalesV2Utils.getTimestamp());
+            BloSalesV2Utils.validateRule(
+                    product.getFkCategory() == BloSalesV2Utils.DEBTORS_PAYMENTS,
+                    BloSalesV2Utils.CODE_CATEGORY_PROTECTED,
+                    BloSalesV2Utils.CATEGORY_PROTECTED
+            );
+            final var productBarCode = model.getProductByBarCode(product.getBarCode());
+            BloSalesV2Utils.validateRule(
+                    productBarCode != null,
+                    BloSalesV2Utils.CODE_BAR_CODE_REGISTERED,
+                    BloSalesV2Utils.BAR_CODE_EXCEPTION
+            );
+            /** valida la existencia de la categoria */
+            final var categoryFound = categoriesController.getCategoryById(product.getFkCategory());
+            BloSalesV2Utils.validateRule(
+                    categoryFound.getIdCategory() == 0,
+                    BloSalesV2Utils.CODE_CATEGORY_NOT_FOUND,
+                    BloSalesV2Utils.CATEGORY_NOT_FOUND
+            );
+            // desactivar guardado
+            dbTransactionManager.disableAutocommit();
+            final var productSaved = model.registerProduct(product);
+            logger.info("producto guardado: %s", String.valueOf(productSaved));
+            final var itemPrice = new PojoIntPriceHistory();
+            itemPrice.setCostOfSale(product.getCostOfSale());
+            itemPrice.setPrice(product.getPrice());
+            historyPrices.addPriceOnHistory(itemPrice, productSaved.getIdProduct());
+            dbTransactionManager.doCommit();
+            return productSaved;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbTransactionManager.enableAutocommit();
+        }
     }
 
     @Override

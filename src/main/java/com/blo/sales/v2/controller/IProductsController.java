@@ -13,6 +13,12 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
  */
 public interface IProductsController {
     
+    /**
+     * Metodo que guarda la informacion de un nuevo producto
+     * @param product
+     * @return producto guardado
+     * @throws BloSalesV2Exception 
+     */
     PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception;
     
     /**

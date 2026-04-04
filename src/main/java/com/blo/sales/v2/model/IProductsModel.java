@@ -11,6 +11,13 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
  */
 public interface IProductsModel {
     
+    /**
+     * Metodo utilizad para registrar un producto en la bd
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param product
+     * @return producto guardado
+     * @throws BloSalesV2Exception 
+     */
     PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception;
     
     /**

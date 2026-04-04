@@ -6,7 +6,6 @@ import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.mapper.ProductEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import com.blo.sales.v2.model.IProductsModel;
@@ -35,7 +34,6 @@ public @Singleton class ProductsModelImpl implements IProductsModel {
         try {
             final var conn = DBConnection.getConnection();
             logger.info("registrando producto [%s]", String.valueOf(product));
-            DBConnection.disableAutocommit();
             final var innerProduct = mapper.toInner(product);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
@@ -55,19 +53,11 @@ public @Singleton class ProductsModelImpl implements IProductsModel {
             if (rs.next()) {
                 innerProduct.setId_product(rs.getInt(1));
             }
-            DBConnection.doCommit();
             logger.info("producto registrado [%s]", String.valueOf(innerProduct));
             return mapper.toOuter(innerProduct);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
