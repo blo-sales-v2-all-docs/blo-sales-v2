@@ -2,6 +2,7 @@ package com.blo.sales.v2;
 
 import com.blo.sales.v2.view.LoginFrm;
 import com.blo.sales.v2.config.BloSalesV2SingletonConfig;
+import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.io.BufferedReader;
@@ -60,7 +61,7 @@ public class AppMain {
                 .collect(Collectors.joining("\n"));
 
             // Imprimimos el banner en la consola
-            System.out.println(banner);
+            System.out.println(banner.replace("{version}", BloSalesV2Utils.getVersion()));
             
             // Opcional: Una línea de espacio extra
             System.out.println("\n");

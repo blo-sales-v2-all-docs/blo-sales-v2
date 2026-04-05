@@ -20,8 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-@Singleton
-public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
+public @Singleton class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
@@ -38,7 +37,6 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
         try {
             logger.info("agregando item en historial de precios %s", String.valueOf(item));
             final var entity = mapper.toInner(item);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRICE_HISTORY_RELATIONSHIP, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, entity.getFk_product());
             ps.setLong(2, entity.getFk_price_history());
@@ -53,18 +51,10 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
             }
             
             logger.info("item guardado %s", String.valueOf(entity));
-            DBConnection.doCommit();
             return mapper.toOuter(entity);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 

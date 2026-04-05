@@ -8,8 +8,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-@Singleton
-public class DebtorsSalesControllerImpl implements IDebtorsSalesController {
+public @Singleton class DebtorsSalesControllerImpl implements IDebtorsSalesController {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsSalesControllerImpl.class.getName());
     

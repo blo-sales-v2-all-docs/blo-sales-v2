@@ -6,7 +6,6 @@ import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.mapper.ProductEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import com.blo.sales.v2.model.IProductsModel;
@@ -20,12 +19,9 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
-@Singleton
-public class ProductsModelImpl implements IProductsModel {
+public @Singleton class ProductsModelImpl implements IProductsModel {
     
     private static final GUILogger logger = GUILogger.getLogger(ProductsModelImpl.class.getName());
-    
-    private static final Connection conn = DBConnection.getConnection();
     
     @Inject
     private ProductEntityMapper mapper;
@@ -36,8 +32,8 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("registrando producto [%s]", String.valueOf(product));
-            DBConnection.disableAutocommit();
             final var innerProduct = mapper.toInner(product);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
@@ -57,25 +53,18 @@ public class ProductsModelImpl implements IProductsModel {
             if (rs.next()) {
                 innerProduct.setId_product(rs.getInt(1));
             }
-            DBConnection.doCommit();
             logger.info("producto registrado [%s]", String.valueOf(innerProduct));
             return mapper.toOuter(innerProduct);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
     @Override
     public WrapperPojoIntProducts getAllProducts() throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando todos los productos");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ALL_PRODUCTS);
             final var rs = ps.executeQuery();
@@ -106,9 +95,9 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public PojoIntProduct updateProductInfo(PojoIntProduct product) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("actualizando informacion del producto %s", String.valueOf(product));
             final var innerProduct = mapper.toInner(product);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_PRODUCT);
             ps.setString(1, innerProduct.getProduct());
             ps.setBigDecimal(2, innerProduct.getQuantity());
@@ -121,25 +110,18 @@ public class ProductsModelImpl implements IProductsModel {
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            DBConnection.doCommit();
             logger.info("producto actualizado [%s]", String.valueOf(product));
             return mapper.toOuter(innerProduct);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
     @Override
     public PojoIntProduct getProductById(long idProduct) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando producto por id = %s", idProduct);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ONE_PRODUCT);
             ps.setLong(1, idProduct);
@@ -166,6 +148,7 @@ public class ProductsModelImpl implements IProductsModel {
     @Override
     public PojoIntProduct getProductByBarCode(String barCode) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando producto por bar code = %s", barCode);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_PRODUCT_BY_BAR_CODE);
             ps.setString(1, barCode);

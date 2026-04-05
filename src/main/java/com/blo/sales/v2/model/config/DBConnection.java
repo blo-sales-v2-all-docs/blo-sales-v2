@@ -1,46 +1,43 @@
 package com.blo.sales.v2.model.config;
 
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import com.blo.sales.v2.utils.PropsKeysEnum;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    // Datos de configuración
-    /**
-     * modificar el id del producto pago
-     * 1: PRE / PRO
-     * 1000: DEV
-     * com.blo.sales.v2.controller.impl.DebtorsControllerImpl.ID_PRODUCT_PAY
-     * */
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/blo-sales-v2";
-    private static final String RELEASE = "RELEASE";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
     
-    // Objeto de conexión
-    private static Connection conexion = null;
+    private static Connection connection = null;
+    
+    private static final String RELEASE = "RELEASE";
+    
+    private static final String URL = BloSalesV2Utils.getProp(PropsKeysEnum.DB_URL.getKey());
 
+    private static final String USER = BloSalesV2Utils.getProp(PropsKeysEnum.DB_USERNAME.getKey());
+    
+    private static final String PASSWORD = BloSalesV2Utils.getProp(PropsKeysEnum.DB_PASSWORD.getKey());
+    
     public static Connection getConnection() {
         try {
-            if (conexion == null || conexion.isClosed()) {
+            if (connection == null || connection.isClosed()) {
                 // Registrar el driver (opcional en versiones nuevas, pero seguro)
-                Class.forName("com.mysql.cj.jdbc.Driver");
+                Class.forName(BloSalesV2Utils.getProp(PropsKeysEnum.DB_DRIVER.getKey()));
                 
                 // Establecer la conexión
-                conexion = DriverManager.getConnection(getUrl(), USER, PASSWORD);
+                connection = DriverManager.getConnection(getUrl(), USER, PASSWORD);
                 final var env = getUrl().substring(getUrl().lastIndexOf("-") + 1);
                 System.out.println("Conexi\u00f3n establecida con \u00e9xito. [" + env + "]");
             }
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Error al conectar: " + e.getMessage());
         }
-        return conexion;
+        return connection;
     }
     
     private static String getUrl() {
         var subfijo = "-dev";
-        if (BloSalesV2Utils.VERSION.lastIndexOf(RELEASE) == 7) {
+        if (BloSalesV2Utils.getVersion().lastIndexOf(RELEASE) == 7) {
             subfijo = "-pre";
         }
         return URL.concat(subfijo);
@@ -50,23 +47,27 @@ public class DBConnection {
      * privene un guardado de cambios en la base de datos
      * @throws SQLException 
      */
+    @Deprecated(forRemoval = true)
     public static void disableAutocommit() throws SQLException {
-        conexion.setAutoCommit(false);
+        connection.setAutoCommit(false);
     }
     
     /**
      * realiza commit
      * @throws SQLException 
      */
+    @Deprecated(forRemoval = true)
     public static void doCommit() throws SQLException {
-        conexion.commit();
+        connection.commit();
     }
     
     /**
      * Activa autocommit
      * @throws SQLException 
      */
+    @Deprecated(forRemoval = true)
     public static void enableAutocommit() throws SQLException {
-        conexion.setAutoCommit(true);
+        connection.setAutoCommit(true);
     }
+    
 }

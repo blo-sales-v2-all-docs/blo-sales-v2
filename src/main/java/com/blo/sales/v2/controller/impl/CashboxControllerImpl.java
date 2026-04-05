@@ -18,8 +18,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-@Singleton
-public class CashboxControllerImpl implements ICashboxController {
+public @Singleton class CashboxControllerImpl implements ICashboxController {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxControllerImpl.class.getName());
     

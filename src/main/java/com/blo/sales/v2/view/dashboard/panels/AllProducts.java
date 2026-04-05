@@ -321,18 +321,13 @@ public final class AllProducts extends AbstractDashboardBase {
                 reasonEnum = ReasonsEnum.findReasonByReason(reason);
             }
             newData.setQuantity(GUICommons.getNumberFromJText(nmbQuantity, GUICommons.DIGITS_OF_QUANTITY));
-            productsController.updateProductInfo(
+            productsController.updateProductInfoSavingPriceOnHistory(
                 productMapper.toInner(newData),
                 ReasonsIntEnum.valueOf(reasonEnum.name()),
                 getUserData().getIdUser(),
                 TypesIntEnum.valueOf(type.name()));
             GUICommons.addFilter(tblProducts, "", "");
             GUICommons.setTextToField(txtSearcher, BloSalesV2Utils.EMPTY_STRING);
-            // se guarda precio en historial
-            final var itemHistory = new PojoPriceHistory();
-            itemHistory.setCostOfSale(newData.getCostOfSale());
-            itemHistory.setPrice(newData.getPrice());
-            stockPricesHistoryController.addPriceOnHistory(priceHistoryMapper.toInner(itemHistory), newData.getIdProduct());
             loadTitlesAndData();
             initPanelManagement();
         } catch (BloSalesV2Exception ex) {

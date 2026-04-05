@@ -378,7 +378,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         content.setLayout(new BorderLayout());
         setTitle(getTranslateBy(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
         optAddSaleActionPerformed(null);
-        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.VERSION);
+        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.getVersion());
         GUICommons.allWindow(this);
     }
     

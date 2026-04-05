@@ -29,7 +29,6 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
         try {
             logger.info("guardando relacion deudor venta");
             final var relationInner = mapper.toInner(debtor);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_DEBTOR_SALE, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, relationInner.getFk_debtor());
             ps.setLong(2, relationInner.getFk_sale());
@@ -42,19 +41,11 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
             if (rs.next()) {
                 relationInner.setId_debtor_sale(rs.getLong(1));
             }
-            DBConnection.doCommit();
             logger.info("relacion guardada exitosamente %s", String.valueOf(relationInner));
             return mapper.toOuter(relationInner);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 

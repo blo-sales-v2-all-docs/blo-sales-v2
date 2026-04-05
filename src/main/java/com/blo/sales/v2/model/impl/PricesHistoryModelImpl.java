@@ -29,7 +29,6 @@ public class PricesHistoryModelImpl implements IPricesHistoryModel {
         try {
             logger.info("guardando precio en historial %s", String.valueOf(priceHistory));
             final var entity = mapper.toInner(priceHistory);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRICE_HISTORY_ITEM, Statement.RETURN_GENERATED_KEYS);
             ps.setBigDecimal(1, entity.getPrice());
             ps.setBigDecimal(2, entity.getCost_of_sale());
@@ -41,19 +40,11 @@ public class PricesHistoryModelImpl implements IPricesHistoryModel {
             if (rs.next()) {
                 entity.setId_price_history(rs.getLong(1));
             }
-            DBConnection.doCommit();
             logger.info("item guardado [%s]", String.valueOf(entity));
             return mapper.toOuter(entity);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
     

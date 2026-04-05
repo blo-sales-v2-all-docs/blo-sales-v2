@@ -17,8 +17,7 @@ import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-@Singleton
-public class DebtorsControllerImpl implements IDebtorsController {
+public @Singleton class DebtorsControllerImpl implements IDebtorsController {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsControllerImpl.class.getName());
     

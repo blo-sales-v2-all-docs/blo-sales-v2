@@ -12,18 +12,61 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Clase controlador para flujo de ventas
+ * @version 1.0.0
+ * @author BLO
+ */
 public interface ISalesController {
     
+    /**
+     * Metodo auxiliar que actualiza el registro de de una venta, para completar los datos de una venta
+     * @param paymentData
+     * @return datos guardados
+     * @throws BloSalesV2Exception 
+     */
     PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception;
-            
+
+    /**
+     * Flujo que registra una venta, reduce unidades de stock, agrega dinero en cashbox
+     * @param totalSale
+     * @param productsInfo
+     * @param idUser
+     * @return Venta registrada
+     * @throws BloSalesV2Exception 
+     */
     PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, long idUser) throws BloSalesV2Exception;
     
     PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception;
     
+    /**
+     * Flujo que registra una venta con un nuevo deudor
+     * @param totalSale
+     * @param productsInfo
+     * @param idUser
+     * @param debtorData
+     * @return Deudor registrado
+     * @throws BloSalesV2Exception 
+     */
     PojoIntDebtor registerSaleWithNewDebtor(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo,long idUser, PojoIntDebtor debtorData) throws BloSalesV2Exception;
     
     PojoIntDebtor registerSaleWithDebtor(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, BigDecimal partialPay, String partialPayments, long idUser, long idDebtor) throws BloSalesV2Exception;
     
+    /**
+     * Metodo copia de registro de venta, no se guarda automaticamente, auxiliar para registro de flujos alternos
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param totalSale
+     * @param products
+     * @param idUser
+     * @return venta registrada
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntSale registerSaleCommitNotEnabled(
+        BigDecimal totalSale,
+        List<PojoIntSaleProductData> products,
+        long idUser
+    ) throws BloSalesV2Exception;
+            
     WrapperPojoIntSalesAndStock retrieveAllSalesDetail() throws BloSalesV2Exception;
     
     WrapperPojoIntSalesAndStock retrieveSalesByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception;

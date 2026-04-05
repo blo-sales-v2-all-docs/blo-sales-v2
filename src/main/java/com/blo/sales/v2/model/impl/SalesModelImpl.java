@@ -24,15 +24,11 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-@Singleton
-public class SalesModelImpl implements ISalesModel {
-    
-    private static final Connection conn = DBConnection.getConnection();
+public @Singleton class SalesModelImpl implements ISalesModel {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesModelImpl.class.getName());
     
@@ -51,9 +47,9 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public PojoIntSale registerSale(PojoIntSale sale) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("se comienza a registrar venta");
             final var innerSale = saleMapper.toInner(sale);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_SALE, Statement.RETURN_GENERATED_KEYS);
             ps.setBigDecimal(1, innerSale.getTotal());
             ps.setString(2, innerSale.getSale_status().name());
@@ -67,28 +63,20 @@ public class SalesModelImpl implements ISalesModel {
             if (rs.next()) {
                 innerSale.setId_sale(rs.getLong(1));
             }
-            DBConnection.doCommit();
             logger.info("venta registrada %s", String.valueOf(innerSale));
             return saleMapper.toOuter(innerSale);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
     
     @Override
     public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("se comienza a registrar datos del tipo de pago %s", String.valueOf(paymentData));
             final var inner = paymentTypeInfoMapper.toInner(paymentData);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.ADD_PAYMENT_BY_CARD, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, inner.getPayment_type().name());
             ps.setString(2, inner.getReference());
@@ -104,19 +92,13 @@ public class SalesModelImpl implements ISalesModel {
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
     @Override
     public WrapperPojoIntSalesAndStock retrieveAllSalesDetail() throws BloSalesV2Exception {
          try {
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando relacion ventas y productos");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALES_DETAIL);
             final var data = ps.executeQuery();
@@ -149,6 +131,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public WrapperPojoIntSalesAndStock retrieveSalesByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando relacion ventas y productos");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALE_CLOSED);
             ps.setString(1, saleStatus.name());
@@ -182,6 +165,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public WrapperPojoIntSales retrieveSalesDataByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando ventas %s", saleStatus.name());
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALE_BY_STATUS);
             ps.setString(1, saleStatus.name());
@@ -209,6 +193,7 @@ public class SalesModelImpl implements ISalesModel {
     @Override
     public boolean setCashboxSale(long idSale) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("enviando a cashbox la venta %s", idSale);
             DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.SET_ON_CASHBOX);

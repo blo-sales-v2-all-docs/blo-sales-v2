@@ -21,8 +21,7 @@ import java.util.ArrayList;
 
 import jakarta.inject.Singleton;
 
-@Singleton
-public class CategoriesModelImpl implements ICategoriesModel {
+public @Singleton class CategoriesModelImpl implements ICategoriesModel {
     
     private static final GUILogger logger = GUILogger.getLogger(CategoriesModelImpl.class.getName());
 
@@ -39,9 +38,6 @@ public class CategoriesModelImpl implements ICategoriesModel {
         try {
             logger.info("registrando categoria %s", String.valueOf(category));
             final var data = categoryMapper.toInner(category);
-            // 1. Desactivar el AutoCommit para iniciar la transacción
-            DBConnection.disableAutocommit();
-            // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_CATEGORY, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, data.getCategory());
             ps.setString(2, data.getDescription());
@@ -53,20 +49,11 @@ public class CategoriesModelImpl implements ICategoriesModel {
             if (rs.next()) {
                 data.setId_category(rs.getInt(1));
             }
-            // 3. Si todo salió bien, confirmamos los cambios en la DB
-            DBConnection.doCommit();
             logger.info("categoria registrada %s", String.valueOf(data));
             return categoryMapper.toOuter(data);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
@@ -97,7 +84,6 @@ public class CategoriesModelImpl implements ICategoriesModel {
     @Override
     public PojoIntCategory updateCategory(long id, PojoIntCategory newData) throws BloSalesV2Exception {
         try {
-            DBConnection.disableAutocommit();
             final var category = getCategoryById(id);
             final var categoryFound = categoryMapper.toInner(category);
             categoryFound.setCategory(newData.getCategory());
@@ -110,18 +96,10 @@ public class CategoriesModelImpl implements ICategoriesModel {
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            DBConnection.doCommit();
             return categoryMapper.toOuter(categoryFound);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 

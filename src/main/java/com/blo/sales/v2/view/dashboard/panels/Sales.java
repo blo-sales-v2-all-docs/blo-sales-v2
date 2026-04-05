@@ -427,7 +427,7 @@ public final class Sales extends AbstractDashboardBase {
                         if (type.compareTo(PaymentTypeEnum.BOTH) == 0) {
                             cash = totalSale.subtract(cardPay);
                         }
-                        final var registeredSale = salesController.registerSale(totalSale, getProductData(), getUserData().getIdUser());
+                        final var registeredSale = salesController.registerSaleCommitNotEnabled(totalSale, getProductData(), getUserData().getIdUser());
                         /** se arma pago */
                         final var paymentTypeAux = new PojoPaymentTypeInfo();
                         paymentTypeAux.setCardPay(cardPay);
@@ -574,6 +574,7 @@ public final class Sales extends AbstractDashboardBase {
             tblProductsSales.repaint();
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             GUICommons.setTextToField(lblResult, totalSale);
+            GUICommons.setTextToField(nmbCalcPay, BloSalesV2Utils.EMPTY_STRING);
             retrieveProducts();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());

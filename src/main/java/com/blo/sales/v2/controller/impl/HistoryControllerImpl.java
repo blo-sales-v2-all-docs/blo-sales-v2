@@ -9,8 +9,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-@Singleton
-public class HistoryControllerImpl implements IHistoryController {
+public @Singleton class HistoryControllerImpl implements IHistoryController {
     
     private static final GUILogger logger = GUILogger.getLogger(HistoryControllerImpl.class.getName());
     

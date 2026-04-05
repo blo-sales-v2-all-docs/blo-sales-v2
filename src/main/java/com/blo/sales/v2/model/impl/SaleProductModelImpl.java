@@ -20,12 +20,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-@Singleton
-public class SaleProductModelImpl implements ISaleProductModel {
+public @Singleton class SaleProductModelImpl implements ISaleProductModel {
     
     private static final GUILogger logger = GUILogger.getLogger(SaleProductModelImpl.class.getName());
-    
-    private static final Connection conn = DBConnection.getConnection();
     
     @Inject
     private SaleProductEntityMapper mapper;
@@ -36,8 +33,8 @@ public class SaleProductModelImpl implements ISaleProductModel {
     @Override
     public PojoIntSaleProduct addSaleProduct(PojoIntSaleProduct sale) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("guardando relacion venta producto");
-            DBConnection.disableAutocommit();
             final var saleProduct = mapper.toInner(sale);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_SALE_PRODUCT, Statement.RETURN_GENERATED_KEYS);
@@ -54,26 +51,19 @@ public class SaleProductModelImpl implements ISaleProductModel {
             final var rs = ps.getGeneratedKeys();
             if (rs.next()){
                 saleProduct.setId_sale_product(rs.getLong(1));
-                DBConnection.doCommit();
             }
             logger.info("relacion guardada ", String.valueOf(saleProduct));
             return mapper.toOuter(saleProduct);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
     @Override
     public PojoIntSaleProduct getRelationship(long fkSale, long fkProduct) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando relacion fkSale = %s y fkProduct = %s", fkSale, fkProduct);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALES_PRODUCT);
             ps.setLong(1, fkSale);
@@ -101,6 +91,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
     @Override
     public PojoIntSaleProduct updateRelationship(PojoIntSaleProduct data) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("actualizando relacion %s", String.valueOf(data));
             final var innerInfo = mapper.toInner(data);
             DBConnection.disableAutocommit();
@@ -134,6 +125,7 @@ public class SaleProductModelImpl implements ISaleProductModel {
     @Override
     public WrapperPojoIntSaleStock getSalesStockLiveByIdSale(long fkSale) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("Recuperando relacion entre ventas y stock que no han sido eliminadas %s", fkSale);
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALES_PRODUCT_BY_FK_SALE);
             ps.setLong(1, fkSale);

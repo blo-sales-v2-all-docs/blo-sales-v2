@@ -21,15 +21,11 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
- 
-@Singleton
-public class CashboxModelImpl implements ICashboxModel {
-    
-    private static final Connection conn = DBConnection.getConnection();
+
+public @Singleton class CashboxModelImpl implements ICashboxModel {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxModelImpl.class.getName());
         
@@ -45,7 +41,7 @@ public class CashboxModelImpl implements ICashboxModel {
     @Override
     public PojoIntCashbox addCashbox(PojoIntCashbox cashbox) throws BloSalesV2Exception {
         try {
-            DBConnection.disableAutocommit();
+            final var conn = DBConnection.getConnection();
             final var cashboxInner = mapper.toInner(cashbox);
             logger.info("guardando cashbox %s", String.valueOf(cashbox));
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_CASHBOX, Statement.RETURN_GENERATED_KEYS);
@@ -60,26 +56,19 @@ public class CashboxModelImpl implements ICashboxModel {
             final var rs = ps.getGeneratedKeys();
             if (rs.next()){
                 cashboxInner.setId_cashbox(rs.getLong(1));
-                DBConnection.doCommit();
             }
             logger.info("cashbox guardada %s", String.valueOf(cashboxInner));
             return mapper.toOuter(cashboxInner);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
     @Override
     public PojoIntCashbox getOpenCashbox() throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_OPEN_CASHBOX);
             ps.setString(1, CashboxEntityEnum.OPEN.name());
             final var data = ps.executeQuery();
@@ -105,8 +94,8 @@ public class CashboxModelImpl implements ICashboxModel {
     @Override
     public PojoIntCashbox updateCashbox(PojoIntCashbox cashbox, long idCashbox) throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             logger.info("actualizando [%s] %s", idCashbox, String.valueOf(cashbox));
-            DBConnection.disableAutocommit();
             final var cashboxInner = mapper.toInner(cashbox);
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_CASHBOX);
             ps.setString(1, cashboxInner.getTimestamp());
@@ -117,25 +106,18 @@ public class CashboxModelImpl implements ICashboxModel {
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            DBConnection.doCommit();
             logger.info("cashbox actualizada %s", String.valueOf(cashbox));
             return mapper.toOuter(cashboxInner);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
     
     @Override
     public WrapperPojoIntCashboxes getAllCashboxes() throws BloSalesV2Exception {
         try {
+            final var conn = DBConnection.getConnection();
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ALL_CASHBOXES_AND_USERS);
             final var data = ps.executeQuery();
             final var out = new WrapperCashboxesEntity();
@@ -164,6 +146,7 @@ public class CashboxModelImpl implements ICashboxModel {
     @Override
     public WrapperPojoIntCashboxesDetails getCashboxesDetail() throws BloSalesV2Exception {
          try {
+             final var conn = DBConnection.getConnection();
              logger.info("detalles de cashboxes flow");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_CASHBOXES_DATA);
             final var data = ps.executeQuery();
