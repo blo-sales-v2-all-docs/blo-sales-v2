@@ -1,6 +1,7 @@
 package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntPriceHistory;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IPricesHistoryModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
@@ -10,7 +11,6 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -19,14 +19,17 @@ public class PricesHistoryModelImpl implements IPricesHistoryModel {
     
     private static final GUILogger logger = GUILogger.getLogger(PricesHistoryModelImpl.class.getName());
     
-    private static final Connection conn = DBConnection.getConnection();
-    
     @Inject
     private PriceHistoryEntityMapper mapper;
 
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
+    
     @Override
     public PojoIntPriceHistory addPriceHistory(PojoIntPriceHistory priceHistory) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
+        	transactionManager.disableAutocommit();
             logger.info("guardando precio en historial %s", String.valueOf(priceHistory));
             final var entity = mapper.toInner(priceHistory);
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRICE_HISTORY_ITEM, Statement.RETURN_GENERATED_KEYS);

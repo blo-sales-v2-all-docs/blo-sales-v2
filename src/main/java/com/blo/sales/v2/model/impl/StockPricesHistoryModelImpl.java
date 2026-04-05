@@ -2,6 +2,7 @@ package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntStockPricesHistory;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntStockPriceHistory;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IStockPricesHistoryModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -20,7 +21,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public @Singleton class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
+@Singleton
+public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
     
     private static final Connection conn = DBConnection.getConnection();
     
@@ -31,10 +33,15 @@ public @Singleton class StockPricesHistoryModelImpl implements IStockPricesHisto
     
     @Inject
     private WrapperStockPricesHistoryEntityMapper wrapperMapper;
+    
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
 
     @Override
     public PojoIntStockPricesHistory addPriceOnHistory(PojoIntStockPricesHistory item) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
+        	transactionManager.disableAutocommit();
             logger.info("agregando item en historial de precios %s", String.valueOf(item));
             final var entity = mapper.toInner(item);
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRICE_HISTORY_RELATIONSHIP, Statement.RETURN_GENERATED_KEYS);

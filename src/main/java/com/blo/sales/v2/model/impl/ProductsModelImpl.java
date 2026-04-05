@@ -8,6 +8,8 @@ import com.blo.sales.v2.model.mapper.ProductEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IProductsModel;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.entities.ProductEntity;
@@ -19,7 +21,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.ArrayList;
 
-public @Singleton class ProductsModelImpl implements IProductsModel {
+@Singleton
+public class ProductsModelImpl implements IProductsModel {
     
     private static final GUILogger logger = GUILogger.getLogger(ProductsModelImpl.class.getName());
     
@@ -28,11 +31,15 @@ public @Singleton class ProductsModelImpl implements IProductsModel {
     
     @Inject
     private WrapperProductsEntityMapper wrapperMapper;
+    
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
 
     @Override
     public PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("registrando producto [%s]", String.valueOf(product));
             final var innerProduct = mapper.toInner(product);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
@@ -96,6 +103,7 @@ public @Singleton class ProductsModelImpl implements IProductsModel {
     public PojoIntProduct updateProductInfo(PojoIntProduct product) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("actualizando informacion del producto %s", String.valueOf(product));
             final var innerProduct = mapper.toInner(product);
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_PRODUCT);

@@ -4,6 +4,7 @@ import com.blo.sales.v2.controller.pojos.PojoIntLoggedInUser;
 import com.blo.sales.v2.controller.pojos.PojoIntNote;
 import com.blo.sales.v2.controller.pojos.PojoIntUser;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntNotes;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IUserModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -22,7 +23,6 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -31,8 +31,6 @@ import java.util.ArrayList;
 public class UserModelImpl implements IUserModel {
     
     private static final GUILogger logger = GUILogger.getLogger(UserModelImpl.class.getName());
-    
-    private static final Connection conn = DBConnection.getConnection();
     
     @Inject
     private UserLoggedEntityMapper userEntityMapper;
@@ -45,6 +43,9 @@ public class UserModelImpl implements IUserModel {
     
     @Inject
     private NoteEntityMapper noteMapper;
+    
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
     
     @Override
     public PojoIntLoggedInUser doLogin(PojoIntUser userData) throws BloSalesV2Exception {
@@ -63,6 +64,7 @@ public class UserModelImpl implements IUserModel {
     }
     
     private UserEntity selectUserEntity(String username, String password) throws SQLException, BloSalesV2Exception {
+    	final var conn = DBConnection.getConnection();
         final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_USER_ROL);
         ps.setString(1, username);
         ps.setString(2, password);
@@ -76,6 +78,7 @@ public class UserModelImpl implements IUserModel {
     }
     
     private void userExists(String username) throws SQLException, BloSalesV2Exception {
+    	final var conn = DBConnection.getConnection();
         final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ONLY_ID_USERS);
         ps.setString(1, username);
         final var rs = ps.executeQuery();
@@ -85,6 +88,7 @@ public class UserModelImpl implements IUserModel {
     @Override
     public PojoIntUser getUserById(long id) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_ID_FROM_USER);
             ps.setLong(1, id);
             final var rs = ps.executeQuery();
@@ -104,9 +108,10 @@ public class UserModelImpl implements IUserModel {
     @Override
     public PojoIntNote addNote(PojoIntNote note) throws BloSalesV2Exception {
          try {
+        	 final var conn = DBConnection.getConnection();
+        	 transactionManager.disableAutocommit();
             logger.info("se comienza a registrar venta");
             final var innerNote = noteMapper.toInner(note);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_NOTES, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, innerNote.getNote());
             ps.setString(2, innerNote.getTimestamp());
@@ -120,25 +125,18 @@ public class UserModelImpl implements IUserModel {
             if (rs.next()) {
                 innerNote.setFk_user(rs.getInt(1));
             }
-            DBConnection.doCommit();
             logger.info("nota registrada %s", String.valueOf(note));
             return noteMapper.toOuter(innerNote);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
     @Override
     public WrapperPojoIntNotes getNotesByUserId(long idUser) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
             logger.info("recuperando notas");
             final var ps = conn.prepareStatement(BloSalesV2Queries.GET_NOTES_BY_ID_USER);
             ps.setLong(1, idUser);
@@ -167,8 +165,9 @@ public class UserModelImpl implements IUserModel {
     @Override
     public PojoIntNote updateNote(PojoIntNote note) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
+        	transactionManager.disableAutocommit();
             logger.info("Actualizando [%s]", String.valueOf(note));
-            DBConnection.disableAutocommit();
             final var noteInner = noteMapper.toInner(note);
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_NOTE);
             ps.setString(1, noteInner.getNote());
@@ -178,42 +177,28 @@ public class UserModelImpl implements IUserModel {
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            DBConnection.doCommit();
             logger.info("nota actualizada %s", String.valueOf(noteInner));
             return noteMapper.toOuter(noteInner);
         } catch (SQLException e) {
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }        
     }
 
     @Override
     public void deleteNote(long idNote) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
+        	transactionManager.disableAutocommit();
             logger.info("eliminando nota por id=%s", idNote);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.DELETE_NOTE);
             ps.setLong(1, idNote);
             final var rowsAffected = ps.executeUpdate();
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_DELETING_DATA_ON_DATA_BASE);
             logger.info("nota eliminada");
-            DBConnection.doCommit();
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 }

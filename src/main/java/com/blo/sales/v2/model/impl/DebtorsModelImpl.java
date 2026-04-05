@@ -3,6 +3,7 @@ package com.blo.sales.v2.model.impl;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtorsDetails;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IDebtorsModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -23,7 +24,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public @Singleton class DebtorsModelImpl implements IDebtorsModel {
+@Singleton
+public class DebtorsModelImpl implements IDebtorsModel {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsModelImpl.class.getName());
     
@@ -35,11 +37,15 @@ public @Singleton class DebtorsModelImpl implements IDebtorsModel {
     
     @Inject
     private WrapperDebtorsDetailsEntityMapper debtorsDetailsMapper;
+    
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
 
     @Override
     public PojoIntDebtor saveDebtor(PojoIntDebtor debtor) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("guardando deudor %s", String.valueOf(debtor));
             final var data = mapper.toInner(debtor);
             // 1. Desactivar el AutoCommit para iniciar la transacción
@@ -93,7 +99,7 @@ public @Singleton class DebtorsModelImpl implements IDebtorsModel {
     public PojoIntDebtor updateDebtor(PojoIntDebtor debtor, long idDebtor) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
-            DBConnection.disableAutocommit();
+            transactionManager.disableAutocommit();
             final var debtorMapped = mapper.toInner(debtor);
             logger.info("actualizando deudor");
             debtorMapped.setName(debtor.getName());
@@ -108,19 +114,11 @@ public @Singleton class DebtorsModelImpl implements IDebtorsModel {
             if (rowsAffected == 0) {
                 throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
             }
-            DBConnection.doCommit();
             logger.info("deudor actualizado %s", String.valueOf(debtorMapped));
             return mapper.toOuter(debtorMapped);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
@@ -186,8 +184,8 @@ public @Singleton class DebtorsModelImpl implements IDebtorsModel {
     public void deleteDebtor(long idDebtor) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("eliminando deudor por id %s", idDebtor);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.DEBTOR_DELETE);
             ps.setLong(1, idDebtor);
             final var rowsAffected = ps.executeUpdate();
@@ -195,17 +193,9 @@ public @Singleton class DebtorsModelImpl implements IDebtorsModel {
                 throw new BloSalesV2Exception(BloSalesV2Utils.SQL_DELETE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_DELETING_DATA_ON_DATA_BASE);
             }
             logger.info("deudor eliminado");
-            DBConnection.doCommit();
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
     

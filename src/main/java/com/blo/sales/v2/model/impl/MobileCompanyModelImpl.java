@@ -2,6 +2,7 @@ package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntMobileCompany;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntMobilesCompanies;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IMobileCompanyModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -15,15 +16,12 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 @Singleton
 public class MobileCompanyModelImpl implements IMobileCompanyModel {
-    
-    private static final Connection conn = DBConnection.getConnection();
     
     private static final GUILogger logger = GUILogger.getLogger(MobileCompanyModelImpl.class.getName());
     
@@ -32,10 +30,14 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     
     @Inject
     private WrapperMobilesCompaniesEntityMapper companiesMobilesMapper;
+    
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
 
     @Override
     public WrapperPojoIntMobilesCompanies getMobilesCompanies() throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
             final var ps = conn.prepareStatement(BloSalesV2Queries.RETRIEVE_ALL_MOBILES_COMPANIES);
             final var rs = ps.executeQuery();
             final var wrapper = new WrapperMobilesCompaniesEntity();
@@ -59,9 +61,10 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     @Override
     public PojoIntMobileCompany createMobileCompany(PojoIntMobileCompany company) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
+        	transactionManager.disableAutocommit();
             final var entity = mobileCompanyMapper.toInner(company);
             logger.info("Guardando [%s]", String.valueOf(company));
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_MOBILE_COMPANY, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, entity.getMobile_company());
             
@@ -74,25 +77,18 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
             if (rs.next()) {
                 entity.setId_mobile_company(rs.getLong(1));
             }
-            DBConnection.doCommit();
             logger.info("datos guardados %s", String.valueOf(entity));
             return mobileCompanyMapper.toOuter(entity);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
     @Override
     public PojoIntMobileCompany getCompanyMobileById(long id) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
             logger.info("recuperando compania mobile by id [%s]", id);
             final var ps = conn.prepareStatement(BloSalesV2Queries.RETRIEVE_MOBILE_COMPANY_BY_ID);
             ps.setLong(1, id);
@@ -112,9 +108,10 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     @Override
     public PojoIntMobileCompany updateCompanyMobile(PojoIntMobileCompany companyData, long id) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
+        	transactionManager.disableAutocommit();
             final var innerCompany = mobileCompanyMapper.toInner(companyData);
             logger.info("Actualizando compania %s por id %s", String.valueOf(companyData), id);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_MOBILE_COMPANY);
             ps.setString(1, innerCompany.getMobile_company());
             ps.setLong(2, id);
@@ -123,20 +120,11 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            DBConnection.doCommit();
-            
             logger.info("Compania actualizada %s", String.valueOf(companyData));
             return mobileCompanyMapper.toOuter(innerCompany);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
     

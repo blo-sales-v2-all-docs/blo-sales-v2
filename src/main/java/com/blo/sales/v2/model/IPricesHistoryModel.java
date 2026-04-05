@@ -12,6 +12,7 @@ public interface IPricesHistoryModel {
     
     /**
      * Metodo que guarda un precio en el historial
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param priceHistory
      * @return precio guardado

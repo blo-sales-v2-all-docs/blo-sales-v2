@@ -14,7 +14,8 @@ public interface ICategoriesModel {
     
     /**
      * guarda una categoria en la base de datos
-     * 
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param category
      * @return categoria guardada
      * @throws BloSalesV2Exception 
@@ -30,6 +31,8 @@ public interface ICategoriesModel {
     
     /**
      * Actualiza una categoria
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param id
      * @param newData
      * @return categoria actualizada

@@ -14,6 +14,7 @@ public interface IDebtorsModel {
     
     /**
      * Metodo que guarda a un nuevo deudor
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param debtor
      * @return Deudor guardado
@@ -29,12 +30,38 @@ public interface IDebtorsModel {
      */
     PojoIntDebtor getDebtorById(long idDebtor) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que actualiza los datos de un deudor
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param debtor
+     * @param idDebtor
+     * @return deudor actualizado
+     * @throws BloSalesV2Exception
+     */
     PojoIntDebtor updateDebtor(PojoIntDebtor debtor, long idDebtor) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera todos los deudores
+     * @return lista de deudores
+     * @throws BloSalesV2Exception
+     */
     WrapperPojoIntDebtors getAllDebtors() throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera los deudores con detalles
+     * @return lista de deudores
+     * @throws BloSalesV2Exception
+     */
     WrapperPojoIntDebtorsDetails getDebtorsDetails() throws BloSalesV2Exception;
     
+    /**
+     * Metodo que elimina un deudor por id
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param idDebtor
+     * @throws BloSalesV2Exception
+     */
     void deleteDebtor(long idDebtor) throws BloSalesV2Exception;
     
 }

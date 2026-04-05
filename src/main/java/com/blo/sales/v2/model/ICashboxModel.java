@@ -14,6 +14,7 @@ public interface ICashboxModel {
     
     /**
      * Crea una nueva cashbox en la bd
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param cashbox
      * @return
@@ -23,6 +24,7 @@ public interface ICashboxModel {
     
     /**
      * Actualiza la informacion de una cashbox en la bd
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param cashbox
      * @param idCashbox
@@ -38,7 +40,17 @@ public interface ICashboxModel {
      */
     PojoIntCashbox getOpenCashbox() throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera todas las cashboxes existentes en la db
+     * @return cashboxes
+     * @throws BloSalesV2Exception
+     */
     WrapperPojoIntCashboxes getAllCashboxes() throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera una cashbox especifica con sus relaciones
+     * @return cashbox details
+     * @throws BloSalesV2Exception
+     */
     WrapperPojoIntCashboxesDetails getCashboxesDetail() throws BloSalesV2Exception;
 }

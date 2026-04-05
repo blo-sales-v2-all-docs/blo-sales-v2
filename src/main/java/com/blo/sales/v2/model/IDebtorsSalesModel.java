@@ -12,6 +12,7 @@ public interface IDebtorsSalesModel {
     
     /**
      * Metodo que guarda la relacion deudor-venta
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param debtor
      * @return relacion deudor-venta
@@ -19,6 +20,13 @@ public interface IDebtorsSalesModel {
      */
     PojoIntDebtorSale addRelationship(PojoIntDebtorSale debtor) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que elimina la relacion deudor-venta
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param fkDebtor
+     * @throws BloSalesV2Exception
+     */
     void deleteRelationhip(long fkDebtor) throws BloSalesV2Exception;
     
 }

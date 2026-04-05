@@ -13,6 +13,7 @@ public interface IStockPricesHistoryModel {
     
     /**
      * Funcion que guarda un precio en el historial
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param item
      * @return
@@ -20,6 +21,12 @@ public interface IStockPricesHistoryModel {
      */
     PojoIntStockPricesHistory addPriceOnHistory(PojoIntStockPricesHistory item) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera el historial de precios de un producto
+     * @param idProduct
+     * @return lista con el historial de precios
+     * @throws BloSalesV2Exception
+     */
     WrapperPojoIntStockPriceHistory getPriceFromProduct(long idProduct) throws BloSalesV2Exception;
     
 }

@@ -4,7 +4,6 @@ import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.view.commons.GUILogger;

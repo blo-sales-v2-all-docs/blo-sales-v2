@@ -4,6 +4,7 @@ import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxes;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesDetails;
 import com.blo.sales.v2.model.ICashboxModel;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
@@ -25,7 +26,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public @Singleton class CashboxModelImpl implements ICashboxModel {
+@Singleton
+public class CashboxModelImpl implements ICashboxModel {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxModelImpl.class.getName());
         
@@ -38,10 +40,14 @@ public @Singleton class CashboxModelImpl implements ICashboxModel {
     @Inject
     private WrapperCashboxesDetailsEntityMapper cashboxesDetailsMapper;
     
+    @Inject
+    private IDBTransactionManagerModel transactionManagerModel;
+    
     @Override
     public PojoIntCashbox addCashbox(PojoIntCashbox cashbox) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManagerModel.disableAutocommit();
             final var cashboxInner = mapper.toInner(cashbox);
             logger.info("guardando cashbox %s", String.valueOf(cashbox));
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_CASHBOX, Statement.RETURN_GENERATED_KEYS);
@@ -95,6 +101,7 @@ public @Singleton class CashboxModelImpl implements ICashboxModel {
     public PojoIntCashbox updateCashbox(PojoIntCashbox cashbox, long idCashbox) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManagerModel.disableAutocommit();
             logger.info("actualizando [%s] %s", idCashbox, String.valueOf(cashbox));
             final var cashboxInner = mapper.toInner(cashbox);
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_CASHBOX);

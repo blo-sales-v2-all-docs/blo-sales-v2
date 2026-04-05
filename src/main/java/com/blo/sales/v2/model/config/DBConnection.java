@@ -42,32 +42,4 @@ public class DBConnection {
         }
         return URL.concat(subfijo);
     }
-    
-    /**
-     * privene un guardado de cambios en la base de datos
-     * @throws SQLException 
-     */
-    @Deprecated(forRemoval = true)
-    public static void disableAutocommit() throws SQLException {
-        connection.setAutoCommit(false);
-    }
-    
-    /**
-     * realiza commit
-     * @throws SQLException 
-     */
-    @Deprecated(forRemoval = true)
-    public static void doCommit() throws SQLException {
-        connection.commit();
-    }
-    
-    /**
-     * Activa autocommit
-     * @throws SQLException 
-     */
-    @Deprecated(forRemoval = true)
-    public static void enableAutocommit() throws SQLException {
-        connection.setAutoCommit(true);
-    }
-    
 }

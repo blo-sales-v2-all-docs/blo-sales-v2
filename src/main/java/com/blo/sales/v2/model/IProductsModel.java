@@ -13,6 +13,7 @@ public interface IProductsModel {
     
     /**
      * Metodo utilizad para registrar un producto en la bd
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param product
      * @return producto guardado
@@ -29,6 +30,7 @@ public interface IProductsModel {
     
     /**
      * Metodo que actualiza informacion de un producto en la bd
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param product
      * @return producto actualizado
@@ -36,8 +38,20 @@ public interface IProductsModel {
      */
     PojoIntProduct updateProductInfo(PojoIntProduct product) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera un producto especifico por id
+     * @param idProduct
+     * @return producto encontrado
+     * @throws BloSalesV2Exception
+     */
     PojoIntProduct getProductById(long idProduct) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera un producto usando el codigo de barras
+     * @param barCode
+     * @return producto encontrado
+     * @throws BloSalesV2Exception
+     */
     PojoIntProduct getProductByBarCode(String barCode) throws BloSalesV2Exception;
     
 }

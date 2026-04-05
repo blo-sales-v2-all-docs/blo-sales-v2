@@ -5,6 +5,7 @@ import com.blo.sales.v2.controller.pojos.PojoIntSale;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSales;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSalesAndStock;
 import com.blo.sales.v2.controller.pojos.enums.SalesStatusIntEnum;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.ISalesModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -28,7 +29,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public @Singleton class SalesModelImpl implements ISalesModel {
+@Singleton
+public class SalesModelImpl implements ISalesModel {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesModelImpl.class.getName());
     
@@ -44,10 +46,14 @@ public @Singleton class SalesModelImpl implements ISalesModel {
     @Inject
     private PaymentTypeInfoEntityMapper paymentTypeInfoMapper;
 
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
+    
     @Override
     public PojoIntSale registerSale(PojoIntSale sale) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("se comienza a registrar venta");
             final var innerSale = saleMapper.toInner(sale);
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_SALE, Statement.RETURN_GENERATED_KEYS);
@@ -75,6 +81,7 @@ public @Singleton class SalesModelImpl implements ISalesModel {
     public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("se comienza a registrar datos del tipo de pago %s", String.valueOf(paymentData));
             final var inner = paymentTypeInfoMapper.toInner(paymentData);
             final var ps = conn.prepareStatement(BloSalesV2Queries.ADD_PAYMENT_BY_CARD, Statement.RETURN_GENERATED_KEYS);
@@ -132,6 +139,7 @@ public @Singleton class SalesModelImpl implements ISalesModel {
     public WrapperPojoIntSalesAndStock retrieveSalesByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("recuperando relacion ventas y productos");
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_SALE_CLOSED);
             ps.setString(1, saleStatus.name());
@@ -194,15 +202,14 @@ public @Singleton class SalesModelImpl implements ISalesModel {
     public boolean setCashboxSale(long idSale) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("enviando a cashbox la venta %s", idSale);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.SET_ON_CASHBOX);
             ps.setLong(1, idSale);
             final var rowsAffected = ps.executeUpdate();
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            DBConnection.doCommit();
             return true;
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

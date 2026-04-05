@@ -2,6 +2,7 @@ package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProduct;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSaleStock;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.ISaleProductModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -15,12 +16,12 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public @Singleton class SaleProductModelImpl implements ISaleProductModel {
+@Singleton
+public class SaleProductModelImpl implements ISaleProductModel {
     
     private static final GUILogger logger = GUILogger.getLogger(SaleProductModelImpl.class.getName());
     
@@ -30,10 +31,14 @@ public @Singleton class SaleProductModelImpl implements ISaleProductModel {
     @Inject
     private WrapperSaleStockEntityMapper saleStockEntityMapper;
     
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
+    
     @Override
     public PojoIntSaleProduct addSaleProduct(PojoIntSaleProduct sale) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("guardando relacion venta producto");
             final var saleProduct = mapper.toInner(sale);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
@@ -92,9 +97,9 @@ public @Singleton class SaleProductModelImpl implements ISaleProductModel {
     public PojoIntSaleProduct updateRelationship(PojoIntSaleProduct data) throws BloSalesV2Exception {
         try {
             final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             logger.info("actualizando relacion %s", String.valueOf(data));
             final var innerInfo = mapper.toInner(data);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_SALE_PRODUCT_RELATIONSHIP);
             ps.setBigDecimal(1, innerInfo.getQunatity_sale());
             ps.setBigDecimal(2, innerInfo.getTotal_on_sale());
@@ -106,19 +111,11 @@ public @Singleton class SaleProductModelImpl implements ISaleProductModel {
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
-            DBConnection.doCommit();
             logger.info("actualizacion completa");
             return mapper.toOuter(innerInfo);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
