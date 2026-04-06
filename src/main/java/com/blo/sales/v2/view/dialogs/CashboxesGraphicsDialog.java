@@ -9,6 +9,7 @@ import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartFactory;
@@ -52,7 +53,7 @@ public class CashboxesGraphicsDialog extends AbstractDialogBase {
         for (final var item : cashboxesDetails.getCashboxesInfo()) {
         	// recuperar todos los datos de una venta
         	final var cashboxData = cashboxesDetails.getCashboxesInfo().
-        			stream().filter(c -> c.getIdCashbox() == item.getIdCashbox()).toList();
+        			stream().filter(c -> c.getIdCashbox() == item.getIdCashbox()).collect(Collectors.toList());
         	// recuperar suma de costos
         	final var costs = getAmoutFrom(ActivesCostsEnum.PASIVO, cashboxData);
         	logger.info("COSTOS = %s, de %s", costs, item.getIdCashbox());
