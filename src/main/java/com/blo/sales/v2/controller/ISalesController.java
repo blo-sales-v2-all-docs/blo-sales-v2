@@ -40,6 +40,14 @@ public interface ISalesController {
      */
     PojoIntSale registerSale(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, long idUser) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que registra la comision de una venta
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param idUser
+     * @return
+     * @throws BloSalesV2Exception 
+     */
     PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception;
     
     /**
