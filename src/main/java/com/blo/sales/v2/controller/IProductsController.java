@@ -21,6 +21,8 @@ public interface IProductsController {
      */
     PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception;
     
+    PojoIntProduct updateProductInfoNoCommitEnabled(PojoIntProduct product, ReasonsIntEnum reasons, long idUser, TypesIntEnum type) throws BloSalesV2Exception;
+    
     /**
      * Actualiza la informacion de un producto
      * @param product

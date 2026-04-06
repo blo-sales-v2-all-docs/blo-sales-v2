@@ -149,7 +149,8 @@ public class ProductsControllerImpl implements IProductsController {
      * @return
      * @throws BloSalesV2Exception 
      */
-    private PojoIntProduct updateProductInfoNoCommitEnabled(PojoIntProduct product, ReasonsIntEnum reasons, long idUser, TypesIntEnum type) throws BloSalesV2Exception {
+    @Override
+    public PojoIntProduct updateProductInfoNoCommitEnabled(PojoIntProduct product, ReasonsIntEnum reasons, long idUser, TypesIntEnum type) throws BloSalesV2Exception {
         logger.info("validando informacion de producto");
         dbTransactionManager.disableAutocommit();
         /** validaciones */

@@ -22,9 +22,6 @@ public @Singleton class CashboxesActivesCostsModelImpl implements ICashboxesActi
     private CashboxesActivesCostsEntityMapper mapper;
     
     @Inject
-    private IDBTransactionManagerModel transactionModel;
-
-    @Inject
     private IDBTransactionManagerModel dbTransactionManager;
     
     @Override

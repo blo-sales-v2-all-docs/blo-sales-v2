@@ -12,6 +12,7 @@ public interface ICashboxesActivesCostsController {
     
     /**
      * Metodo que guarda relacion cashbox-activos/costos
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param data
      * @return relacion guardada

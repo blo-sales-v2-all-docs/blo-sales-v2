@@ -10,7 +10,6 @@ import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dialogs.PaymentCardDialog;
-import com.blo.sales.v2.view.mappers.DebtorMapper;
 import com.blo.sales.v2.view.mappers.PojoPaymentTypeInfoMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorsDetailsMapper;
 import com.blo.sales.v2.view.pojos.PojoDebtorDetail;
@@ -381,7 +380,7 @@ public final class Debtors extends AbstractDashboardBase {
                             cash = totalDebt.subtract(cardPay);
                         }
                         
-                        /*final var registeredSale = debtors.addPayment(paysAdded, getUserData().getIdUser(), debtorSelected.getIdDebtor());
+                        final var registeredSale = debtors.addPaymentNotCommitEnabled(paysAdded, getUserData().getIdUser(), debtorSelected.getIdDebtor());
                         final var paymentTypeAux = new PojoPaymentTypeInfo();
                         paymentTypeAux.setCardPay(cardPay);
                         paymentTypeAux.setCash(cash);
@@ -389,7 +388,7 @@ public final class Debtors extends AbstractDashboardBase {
                         paymentTypeAux.setPaymentType(type);
                         paymentTypeAux.setTotalToPay(paysAdded);
                         paymentTypeAux.setIdSale(registeredSale.getIdSale());
-                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));*/
+                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));
                         
                         loadDataAndTitles();
                         disabledButtons();

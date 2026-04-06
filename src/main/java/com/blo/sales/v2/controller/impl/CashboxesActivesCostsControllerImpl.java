@@ -1,6 +1,7 @@
 package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.ICashboxesActivesCostsController;
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxesActivesCosts;
 import com.blo.sales.v2.model.ICashboxesActivesCostsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -15,9 +16,13 @@ public @Singleton class CashboxesActivesCostsControllerImpl implements ICashboxe
     @Inject
     private ICashboxesActivesCostsModel model;
 
+    @Inject
+    private IDBTransactionManagerController idbtm;
+    
     @Override
     public PojoIntCashboxesActivesCosts addRelationship(PojoIntCashboxesActivesCosts data) throws BloSalesV2Exception {
         logger.info("agregando relacion");
+        idbtm.disableAutocommit();
         return model.addRelationship(data);
     }
     

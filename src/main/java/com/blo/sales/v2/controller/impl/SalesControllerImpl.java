@@ -201,6 +201,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     @Override
     public boolean setCashboxSale(long idSale) throws BloSalesV2Exception {
         logger.info("acualizando la venta %s", idSale);
+        managerController.disableAutocommit();
         return saleModel.setCashboxSale(idSale);
     }
     
@@ -350,17 +351,8 @@ public @Singleton class SalesControllerImpl implements ISalesController {
         return debtorsSalesController.addRelationship(debtorSale);
     }
 
-    /**
-     * Funcion que guarda una venta
-     * <br>
-     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
-     * @param totalSale
-     * @param products
-     * @param idUser
-     * @return
-     * @throws BloSalesV2Exception 
-     */
-    private PojoIntSale registerSaleCommitNotEnabled(
+    @Override
+    public PojoIntSale registerSaleCommitNotEnabled(
         BigDecimal totalSale,
         List<PojoIntSaleProductData> products,
         long idUser
@@ -428,7 +420,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             final var newQuantity = productFound.getQuantity().subtract(p.getQuantityOnSale());
             productFound.setQuantity(newQuantity);
             logger.info("producto actualizado %s", String.valueOf(productFound));
-            productsController.updateProductInfo(productFound, ReasonsIntEnum.SALE, idUser, TypesIntEnum.ADJUST);
+            productsController.updateProductInfoNoCommitEnabled(productFound, ReasonsIntEnum.SALE, idUser, TypesIntEnum.ADJUST);
         }
         /** se agrega el dinero a la caja */
         // recupera caja abierta
@@ -472,6 +464,28 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             managerController.enableAutocommit();
         }
     }
+    
+    @Override
+    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
+         try {
+            managerController.disableAutocommit();
+            logger.info("registrando datos de pago [%s]", String.valueOf(paymentData));
+            final var paysAdded = paymentData.getCardPay().add(paymentData.getCash());
+            if (paysAdded.compareTo(paymentData.getTotalToPay()) < 0) {
+                throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
+            }
+            final var saleUpdated = saleModel.registerPaymentTypeData(paymentData);
+            managerController.doCommit();
+            return saleUpdated;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            managerController.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            managerController.enableAutocommit();
+        }
+    }
+
     
     /**
      * Metodo que hace la actualizacion de la venta

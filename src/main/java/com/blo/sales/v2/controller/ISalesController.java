@@ -78,7 +78,35 @@ public interface ISalesController {
     
     WrapperPojoIntSales retrieveSalesDataByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que marca la venta como registrada en una cashbox
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param idSale
+     * @return
+     * @throws BloSalesV2Exception 
+     */
     boolean setCashboxSale(long idSale) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que registra una venta en la bd.
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param totalSale
+     * @param products
+     * @param idUser
+     * @return venta registrada
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntSale registerSaleCommitNotEnabled(BigDecimal totalSale, List<PojoIntSaleProductData> products, long idUser) throws BloSalesV2Exception;
+    
     PojoIntSaleDeletedDetail deleteSaleProduct(long idUser, long idSale, long idProduct, String reason) throws BloSalesV2Exception;
+    
+    /**
+     * Metodo que permite actualizar el tipo de pago
+     * @param paymentData
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception;
 }
