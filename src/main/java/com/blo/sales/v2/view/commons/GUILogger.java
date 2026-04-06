@@ -49,6 +49,12 @@ public final class GUILogger {
         row.append(_str);
         Logger.getLogger(className).log(Level.INFO, _str);
     }
+    
+    public void warn(String str) {
+        final var _str = String.format("%s [%s] WARNING - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
+        row.append(_str);
+        Logger.getLogger(className).log(Level.INFO, _str);
+    }
        
     public String getLogs() {
         if (row == null) {

@@ -30,6 +30,7 @@ public @Singleton class CategoriesControllerImpl implements ICategoriesControlle
             transactionController.doCommit();
             return savedCategory;
         } catch (BloSalesV2Exception ex) {
+            transactionController.doRollback();
             throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
         } finally {
             transactionController.enableAutocommit();
@@ -51,6 +52,7 @@ public @Singleton class CategoriesControllerImpl implements ICategoriesControlle
             transactionController.doCommit();
             return updatedCategory;
         } catch (BloSalesV2Exception ex) {
+            transactionController.doRollback();
             throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
         } finally {
             transactionController.enableAutocommit();

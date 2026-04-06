@@ -13,10 +13,18 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
  */
 public interface ICashboxController {
     
+    /**
+     * Metodo que registra una cashbox en la db
+     * @param cashbox
+     * @param activesCosts
+     * @return cashsbox registrada
+     * @throws BloSalesV2Exception 
+     */
     PojoIntCashbox closeCashbox(PojoIntCashbox cashbox, WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception;
     
     /**
      * Crea una nueva cashbox abierta
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param cashbox
      * @return cashbox
@@ -26,6 +34,7 @@ public interface ICashboxController {
     
     /**
      * Actualiza la informacion de una cashbox
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param cashbox
      * @param idCashbox

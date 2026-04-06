@@ -2,6 +2,7 @@ package com.blo.sales.v2.model;
 
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntActivesCosts;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+
 /**
  * Clase modelo para operaciones de activos y costos en la bd
  * @version 1.0.0

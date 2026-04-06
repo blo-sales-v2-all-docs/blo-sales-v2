@@ -14,14 +14,13 @@ import jakarta.inject.Singleton;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@Singleton
-public class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsModel {
+public @Singleton class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsModel {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxesActivesCostsModelImpl.class.getName());
     
     @Inject
     private CashboxesActivesCostsEntityMapper mapper;
-
+    
     @Inject
     private IDBTransactionManagerModel dbTransactionManager;
     

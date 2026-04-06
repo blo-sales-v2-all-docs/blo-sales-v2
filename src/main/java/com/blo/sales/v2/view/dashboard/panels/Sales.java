@@ -394,7 +394,7 @@ public final class Sales extends AbstractDashboardBase {
     
     /** abre la ventana para pagos por tarjeta */
     private void openPaymentCard(int item) {
-        if (item == 1) {
+        if (item == PaymentTypeEnum.TRANSFER.getIndex()) {
             totalSale = totalSale.
                     multiply(new BigDecimal("1.05")).
                     setScale(2, RoundingMode.HALF_UP);
@@ -427,8 +427,15 @@ public final class Sales extends AbstractDashboardBase {
                         if (type.compareTo(PaymentTypeEnum.BOTH) == 0) {
                             cash = totalSale.subtract(cardPay);
                         }
-                        final var registeredSale = salesController.registerSaleCommitNotEnabled(totalSale, getProductData(), getUserData().getIdUser());
-                        /** se arma pago */
+                        final var paymentTypeAux = new PojoPaymentTypeInfo();
+                        paymentTypeAux.setCardPay(cardPay);
+                        paymentTypeAux.setCash(cash);
+                        paymentTypeAux.setReference(reference);
+                        paymentTypeAux.setPaymentType(type);
+                        paymentTypeAux.setTotalToPay(totalSale);
+                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux), totalSale, getProductData(), getUserData().getIdUser());
+                        /*final var registeredSale = salesController.registerSaleCommitNotEnabled(totalSale, getProductData(), getUserData().getIdUser());
+                        /** se arma pago *
                         final var paymentTypeAux = new PojoPaymentTypeInfo();
                         paymentTypeAux.setCardPay(cardPay);
                         paymentTypeAux.setCash(cash);
@@ -436,7 +443,7 @@ public final class Sales extends AbstractDashboardBase {
                         paymentTypeAux.setPaymentType(type);
                         paymentTypeAux.setTotalToPay(totalSale);
                         paymentTypeAux.setIdSale(registeredSale.getIdSale());
-                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));
+                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));*/
                         
                         disableButtons();
                         GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));

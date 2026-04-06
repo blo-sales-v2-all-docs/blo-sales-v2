@@ -87,6 +87,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             return saleRegistered;
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
+            managerController.doRollback();
             throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
         } finally {
             managerController.enableAutocommit();
@@ -112,6 +113,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             return debtor;
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
+            managerController.doRollback();
             throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
         } finally {
             managerController.enableAutocommit();
@@ -149,43 +151,27 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             }
             final var allProductsSum = productsInfo.stream().
                     map(PojoIntSaleProductData::getProductBuyTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
+            /** esta operacion es usada para validar que aunque el pago sea mayor que el precio del producto no sea borrado el deudor */
             final var newDebt = currentDebt.add(allProductsSum).subtract(partialPay);
             logger.info("nueva deuda (%s + %s - %s = %s)", currentDebt, allProductsSum, partialPay, newDebt);
             if (newDebt.compareTo(BigDecimal.ZERO) > 0) {
                 logger.info("aun hay deuda");
-                registerSale(partialPay, productsInfo, idUser);
+                //registerSaleCommitNotEnabled(partialPay, productsInfo, idUser);
                 debtorFound.setPayments(partialPayments);
                 logger.info("debtor found actualizado %s", String.valueOf(debtorFound));
                 // se guarda relacion
-                final var regiteredSale = registerSale(BigDecimal.ZERO, productsInfo, idUser);
+                final var regiteredSale = registerSaleCommitNotEnabled(partialPay, productsInfo, idUser);
                 registereRelationship(idDebtor, regiteredSale.getIdSale(), regiteredSale.getTimestamp());
-                return debtorsController.updateDebtor(debtorFound, idDebtor);
+                final var debtorUpdatd = debtorsController.updateDebtor(debtorFound, idDebtor);
+                managerController.doCommit();
+                return debtorUpdatd;
             }
             logger.info("se ha pagado toda la deuda");
-            registerSale(totalSale, productsInfo, idUser);
+            registerSaleCommitNotEnabled(totalSale, productsInfo, idUser);
             debtorsSalesController.deleteRelationhip(idDebtor);
             debtorsController.deleteDebtor(idDebtor);
-            return null;
-        } catch (BloSalesV2Exception ex) {
-            logger.error(ex.getMessage());
-            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
-        } finally {
-            managerController.enableAutocommit();
-        }
-    }
-    
-    @Override
-    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
-        try {
-            managerController.disableAutocommit();
-            logger.info("registrando datos de pago [%s]", String.valueOf(paymentData));
-            final var paysAdded = paymentData.getCardPay().add(paymentData.getCash());
-            if (paysAdded.compareTo(paymentData.getTotalToPay()) < 0) {
-                throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
-            }
-            final var saleUpdated = saleModel.registerPaymentTypeData(paymentData);
             managerController.doCommit();
-            return saleUpdated;
+            return null;
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
@@ -215,6 +201,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     @Override
     public boolean setCashboxSale(long idSale) throws BloSalesV2Exception {
         logger.info("acualizando la venta %s", idSale);
+        managerController.disableAutocommit();
         return saleModel.setCashboxSale(idSale);
     }
     
@@ -323,6 +310,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     @Override
     public PojoIntSale registerTopUpComission(long idUser) throws BloSalesV2Exception {
         // recuperar datos de la comision
+        managerController.disableAutocommit();
         final var comissionData = productsController.getProductById(BloSalesV2Utils.getTopUpIdComission());
         final var productsInfo = new ArrayList<PojoIntSaleProductData>();
         final var item = new PojoIntSaleProductData();
@@ -332,7 +320,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
         item.setQuantityOnSale(BigDecimal.ZERO);
         productsInfo.add(item);
         logger.info(String.format("guardando la comision [%s]", String.valueOf(item)));
-        return registerSale(comissionData.getPrice(), productsInfo, idUser);
+        return registerSaleCommitNotEnabled(comissionData.getPrice(), productsInfo, idUser);
     }
     
     /**
@@ -348,6 +336,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     
     /**
      * registra la relacion deudor-venta
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param idDebtor
      * @param idSale
@@ -432,7 +421,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             final var newQuantity = productFound.getQuantity().subtract(p.getQuantityOnSale());
             productFound.setQuantity(newQuantity);
             logger.info("producto actualizado %s", String.valueOf(productFound));
-            productsController.updateProductInfo(productFound, ReasonsIntEnum.SALE, idUser, TypesIntEnum.ADJUST);
+            productsController.updateProductInfoNoCommitEnabled(productFound, ReasonsIntEnum.SALE, idUser, TypesIntEnum.ADJUST);
         }
         /** se agrega el dinero a la caja */
         // recupera caja abierta
@@ -456,5 +445,64 @@ public @Singleton class SalesControllerImpl implements ISalesController {
         logger.info("actualizando caja abierta %s", String.valueOf(openCashbox));
         cashboxController.updateCAshbox(openCashbox, openCashbox.getIdCashbox());
         return saleSaved;
+    }
+
+    @Override
+    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData, BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, long idUser) throws BloSalesV2Exception {
+        try {
+            managerController.disableAutocommit();
+            final var registeredSale = registerSaleCommitNotEnabled(totalSale, productsInfo, idUser);
+            paymentData.setIdSale(registeredSale.getIdSale());
+            final var addedPaymentTyp = updateSaleWithPaymentInfo(paymentData);
+            logger.info("pago con tarjeta guardado %s en la venta %s", String.valueOf(addedPaymentTyp), registeredSale.getIdSale());
+            managerController.doCommit();
+            return addedPaymentTyp;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            managerController.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            managerController.enableAutocommit();
+        }
+    }
+    
+    @Override
+    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
+         try {
+            managerController.disableAutocommit();
+            logger.info("registrando datos de pago [%s]", String.valueOf(paymentData));
+            final var paysAdded = paymentData.getCardPay().add(paymentData.getCash());
+            if (paysAdded.compareTo(paymentData.getTotalToPay()) < 0) {
+                throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
+            }
+            final var saleUpdated = saleModel.registerPaymentTypeData(paymentData);
+            managerController.doCommit();
+            return saleUpdated;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            managerController.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            managerController.enableAutocommit();
+        }
+    }
+
+    
+    /**
+     * Metodo que hace la actualizacion de la venta
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param paymentData
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    private PojoIntPaymentTypeInfo updateSaleWithPaymentInfo(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
+        logger.info("registrando datos de pago [%s]", String.valueOf(paymentData));
+        final var paysAdded = paymentData.getCardPay().add(paymentData.getCash());
+        if (paysAdded.compareTo(paymentData.getTotalToPay()) < 0) {
+            throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
+        }
+        final var saleUpdated = saleModel.registerPaymentTypeData(paymentData);
+        return saleUpdated;
     }
 }

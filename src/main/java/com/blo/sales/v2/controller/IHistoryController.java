@@ -13,6 +13,7 @@ public interface IHistoryController {
     
     /**
      * Registro de un movimiento en la bd
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param movement
      * @return movimiento registrado

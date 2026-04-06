@@ -13,6 +13,7 @@ public interface ISalesProductController {
     
     /**
      * Guarda la relacion venta producto con toda la informacion de la venta y producto
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param salesProduct
      * @return

@@ -28,4 +28,9 @@ public interface IDBTransactionManagerModel {
      */
     void enableAutocommit() throws BloSalesV2Exception;
     
+    /**
+     * Hace rollback de cambios
+     * @throws BloSalesV2Exception 
+     */
+    void doRollback() throws BloSalesV2Exception;
 }

@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IPricesHistoryController;
 import com.blo.sales.v2.controller.pojos.PojoIntPriceHistory;
 import com.blo.sales.v2.model.IPricesHistoryModel;
@@ -14,10 +15,14 @@ public @Singleton class PricesHistoryControllerImpl implements IPricesHistoryCon
     
     @Inject
     private IPricesHistoryModel model;
+    
+    @Inject
+    private IDBTransactionManagerController idbtm;
 
     @Override
     public PojoIntPriceHistory addPriceHistory(PojoIntPriceHistory priceHistory) throws BloSalesV2Exception {
         logger.info("Guardando informacion de precio %s", String.valueOf(priceHistory));
+        idbtm.disableAutocommit();
         return model.addPriceHistory(priceHistory);
     }
     

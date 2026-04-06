@@ -61,8 +61,8 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     @Override
     public PojoIntMobileCompany createMobileCompany(PojoIntMobileCompany company) throws BloSalesV2Exception {
         try {
-        	final var conn = DBConnection.getConnection();
-        	transactionManager.disableAutocommit();
+            final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             final var entity = mobileCompanyMapper.toInner(company);
             logger.info("Guardando [%s]", String.valueOf(company));
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_MOBILE_COMPANY, Statement.RETURN_GENERATED_KEYS);
@@ -88,7 +88,7 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     @Override
     public PojoIntMobileCompany getCompanyMobileById(long id) throws BloSalesV2Exception {
         try {
-        	final var conn = DBConnection.getConnection();
+            final var conn = DBConnection.getConnection();
             logger.info("recuperando compania mobile by id [%s]", id);
             final var ps = conn.prepareStatement(BloSalesV2Queries.RETRIEVE_MOBILE_COMPANY_BY_ID);
             ps.setLong(1, id);
@@ -108,8 +108,8 @@ public class MobileCompanyModelImpl implements IMobileCompanyModel {
     @Override
     public PojoIntMobileCompany updateCompanyMobile(PojoIntMobileCompany companyData, long id) throws BloSalesV2Exception {
         try {
-        	final var conn = DBConnection.getConnection();
-        	transactionManager.disableAutocommit();
+            final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             final var innerCompany = mobileCompanyMapper.toInner(companyData);
             logger.info("Actualizando compania %s por id %s", String.valueOf(companyData), id);
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_MOBILE_COMPANY);

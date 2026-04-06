@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IMobileCompanyController;
 import com.blo.sales.v2.controller.pojos.PojoIntMobileCompany;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntMobilesCompanies;
@@ -16,6 +17,9 @@ public class MobileCompanyControllerImpl implements IMobileCompanyController {
     
     @Inject
     private IMobileCompanyModel model;
+    
+    @Inject
+    private IDBTransactionManagerController dbtc;
 
     @Override
     public WrapperPojoIntMobilesCompanies getMobilesCompanies() throws BloSalesV2Exception {
@@ -25,8 +29,20 @@ public class MobileCompanyControllerImpl implements IMobileCompanyController {
 
     @Override
     public PojoIntMobileCompany createMobileCompany(PojoIntMobileCompany company) throws BloSalesV2Exception {
-        logger.info("Creando compania %s", String.valueOf(company));
-        return model.createMobileCompany(company);
+        try {
+            dbtc.disableAutocommit();
+            logger.info("Creando compania %s", String.valueOf(company));
+            final var companyCreated = model.createMobileCompany(company);
+            dbtc.doCommit();
+            logger.info("Compania creada");
+            return companyCreated;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbtc.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbtc.enableAutocommit();
+        }
     }
 
     @Override
@@ -37,8 +53,20 @@ public class MobileCompanyControllerImpl implements IMobileCompanyController {
 
     @Override
     public PojoIntMobileCompany updateCompanyMobile(PojoIntMobileCompany companyData, long id) throws BloSalesV2Exception {
-        logger.info("Actualizando company %s [%s]", id, String.valueOf(companyData));
-        return model.updateCompanyMobile(companyData, id);
+        try {
+            dbtc.disableAutocommit();
+            logger.info("Actualizando company %s [%s]", id, String.valueOf(companyData));
+            final var companyUpdated = model.updateCompanyMobile(companyData, id);
+            dbtc.doCommit();
+            logger.info("compania actualizada");
+            return companyUpdated;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbtc.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbtc.enableAutocommit();
+        }
     }
     
 }

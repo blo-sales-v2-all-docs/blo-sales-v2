@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IHistoryController;
 import com.blo.sales.v2.controller.pojos.PojoIntMovement;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntMovementsDetail;
@@ -9,15 +10,20 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-public @Singleton class HistoryControllerImpl implements IHistoryController {
+@Singleton
+public class HistoryControllerImpl implements IHistoryController {
     
     private static final GUILogger logger = GUILogger.getLogger(HistoryControllerImpl.class.getName());
     
     @Inject
     private IHistoryModel model;
+    
+    @Inject
+    private IDBTransactionManagerController transactionManager;
 
     @Override
     public PojoIntMovement registerMovement(PojoIntMovement movement) throws BloSalesV2Exception {
+        transactionManager.disableAutocommit();
         logger.info("guardando movimiento %s", String.valueOf(movement));
         return model.registerMovement(movement);
     }

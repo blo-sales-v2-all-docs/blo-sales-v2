@@ -1,6 +1,7 @@
 package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.ICashboxesSalesController;
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxSale;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesSalesDetails;
 import com.blo.sales.v2.model.ICashboxesSalesModel;
@@ -16,10 +17,14 @@ public class CashboxesSalesControllerImpl implements ICashboxesSalesController {
     
     @Inject
     private ICashboxesSalesModel cashboxSalesModel;
+    
+    @Inject
+    private IDBTransactionManagerController dbtm;
 
     @Override
     public PojoIntCashboxSale addCashboxSale(long idCashbox, long idSale) throws BloSalesV2Exception {
         logger.info("Guardando relacion cashbox [%s] - sale [%s]", idCashbox, idSale);
+        dbtm.disableAutocommit();
         return cashboxSalesModel.addCashboxSale(idCashbox, idSale);
     }
 

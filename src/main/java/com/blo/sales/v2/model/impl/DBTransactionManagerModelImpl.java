@@ -22,7 +22,7 @@ public @Singleton class DBTransactionManagerModelImpl implements IDBTransactionM
         try {
             DBConnection.getConnection().setAutoCommit(false);
         } catch (SQLException ex) {
-            logger.error("Error al ejecutar commit en la base de datos: {}", ex.getMessage(), ex);
+            logger.error("Error al ejecutar commit en la base de datos: %s", ex.getMessage(), ex);
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }
@@ -35,7 +35,7 @@ public @Singleton class DBTransactionManagerModelImpl implements IDBTransactionM
                 conn.commit();
             }
         } catch (SQLException ex) {
-            logger.error("Error al ejecutar commit en la base de datos: {}", ex.getMessage(), ex);
+            logger.error("Error al ejecutar commit en la base de datos: %s", ex.getMessage(), ex);
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }
@@ -48,7 +48,21 @@ public @Singleton class DBTransactionManagerModelImpl implements IDBTransactionM
                 conn.setAutoCommit(true);
             }
         } catch (SQLException ex) {
-            logger.error("Error al ejecutar commit en la base de datos: {}", ex.getMessage(), ex);
+            logger.error("Error al ejecutar commit en la base de datos: %s", ex.getMessage(), ex);
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        }
+    }
+
+    @Override
+    public void doRollback() throws BloSalesV2Exception {
+        try {
+            final var conn = DBConnection.getConnection();
+            if (conn != null) {
+                logger.warn("Ejecutando Rollback: deshaciendo cambios en la base de datos.");
+                conn.rollback();
+            }
+        } catch (SQLException ex) {
+            logger.error("Error al ejecutar commit en la base de datos: %s", ex.getMessage(), ex);
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }

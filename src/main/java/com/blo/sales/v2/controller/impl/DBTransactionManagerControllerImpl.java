@@ -25,5 +25,10 @@ public @Singleton class DBTransactionManagerControllerImpl implements IDBTransac
     public void enableAutocommit() throws BloSalesV2Exception {
         model.enableAutocommit();
     }
+
+    @Override
+    public void doRollback() throws BloSalesV2Exception {
+        model.doRollback();
+    }
     
 }
