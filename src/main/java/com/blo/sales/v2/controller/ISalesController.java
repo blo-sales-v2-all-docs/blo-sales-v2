@@ -65,24 +65,15 @@ public interface ISalesController {
      * @throws BloSalesV2Exception 
      */
     PojoIntDebtor registerSaleWithDebtor(BigDecimal totalSale, List<PojoIntSaleProductData> productsInfo, BigDecimal partialPay, String partialPayments, long idUser, long idDebtor) throws BloSalesV2Exception;
-    
-    /**
-     * Metodo copia de registro de venta, no se guarda automaticamente, auxiliar para registro de flujos alternos
-     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
-     * @param totalSale
-     * @param products
-     * @param idUser
-     * @return venta registrada
-     * @throws BloSalesV2Exception 
-     */
-    PojoIntSale registerSaleCommitNotEnabled(
-        BigDecimal totalSale,
-        List<PojoIntSaleProductData> products,
-        long idUser
-    ) throws BloSalesV2Exception;
             
     WrapperPojoIntSalesAndStock retrieveAllSalesDetail() throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera las ventas del dia con status de CLOSE
+     * @param saleStatus
+     * @return
+     * @throws BloSalesV2Exception 
+     */
     WrapperPojoIntSalesAndStock retrieveSalesByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception;
     
     WrapperPojoIntSales retrieveSalesDataByStatus(SalesStatusIntEnum saleStatus) throws BloSalesV2Exception;

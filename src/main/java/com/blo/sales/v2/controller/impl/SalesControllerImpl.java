@@ -350,8 +350,17 @@ public @Singleton class SalesControllerImpl implements ISalesController {
         return debtorsSalesController.addRelationship(debtorSale);
     }
 
-    @Override
-    public PojoIntSale registerSaleCommitNotEnabled(
+    /**
+     * Funcion que guarda una venta
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param totalSale
+     * @param products
+     * @param idUser
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    private PojoIntSale registerSaleCommitNotEnabled(
         BigDecimal totalSale,
         List<PojoIntSaleProductData> products,
         long idUser
