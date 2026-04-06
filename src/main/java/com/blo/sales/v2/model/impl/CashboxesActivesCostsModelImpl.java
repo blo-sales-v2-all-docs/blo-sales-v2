@@ -2,6 +2,7 @@ package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxesActivesCosts;
 import com.blo.sales.v2.model.ICashboxesActivesCostsModel;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.mapper.CashboxesActivesCostsEntityMapper;
@@ -10,24 +11,24 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@Singleton
-public class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsModel {
-    
-    private static final Connection conn = DBConnection.getConnection();
+public @Singleton class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsModel {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxesActivesCostsModelImpl.class.getName());
     
     @Inject
     private CashboxesActivesCostsEntityMapper mapper;
-
+    
+    @Inject
+    private IDBTransactionManagerModel dbTransactionManager;
+    
     @Override
     public PojoIntCashboxesActivesCosts addRelationship(PojoIntCashboxesActivesCosts data) throws BloSalesV2Exception {
         try {
-            DBConnection.disableAutocommit();
+            final var conn = DBConnection.getConnection();
+            dbTransactionManager.disableAutocommit();
             logger.info("guardando %s", String.valueOf(data));
             final var dataInner = mapper.toInner(data);
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
@@ -42,20 +43,12 @@ public class CashboxesActivesCostsModelImpl implements ICashboxesActivesCostsMod
             final var rs = ps.getGeneratedKeys();
             if (rs.next()){
                 dataInner.setId_cashboxes_actives_costs(rs.getLong(1));
-                DBConnection.doCommit();
             }
             logger.info("registro guardado ");
             return mapper.toOuter(dataInner);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
     

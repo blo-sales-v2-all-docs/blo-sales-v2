@@ -169,7 +169,7 @@ public final class LoginFrm extends AbstractFrameBase {
 
     @Override
     public void loadTargets() {
-        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.VERSION);
+        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.getVersion());
         GUICommons.setTextToButton(btnLogin, getTranslateBy(KeysEnum.LOGIN_BTN_LOGN.getKey()));
         GUICommons.setTextToField(lblPassword, getTranslateBy(KeysEnum.LOGIN_LBL_PASSWROD.getKey()));
         GUICommons.setTextToField(lblUsername, getTranslateBy(KeysEnum.LOGIN_LBL_USERNAME.getKey()));

@@ -4,6 +4,7 @@ import com.blo.sales.v2.controller.IActivesCostsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.ICashboxesActivesCostsController;
 import com.blo.sales.v2.controller.ICashboxesSalesController;
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxesActivesCosts;
@@ -18,8 +19,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-@Singleton
-public class CashboxControllerImpl implements ICashboxController {
+public @Singleton class CashboxControllerImpl implements ICashboxController {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxControllerImpl.class.getName());
     
@@ -38,9 +38,13 @@ public class CashboxControllerImpl implements ICashboxController {
     @Inject
     private ICashboxesSalesController cashboxesSalesController;
     
+    @Inject
+    private IDBTransactionManagerController transactionManager;
+    
     @Override
     public PojoIntCashbox addCashbox(PojoIntCashbox cashbox) throws BloSalesV2Exception {
         logger.info("creando caja de dinero");
+        transactionManager.disableAutocommit();
         return model.addCashbox(cashbox);
     }
 
@@ -52,6 +56,7 @@ public class CashboxControllerImpl implements ICashboxController {
 
     @Override
     public PojoIntCashbox updateCAshbox(PojoIntCashbox cashbox, long idCashbox) throws BloSalesV2Exception {
+        transactionManager.disableAutocommit();
         logger.info("actualizando cashbox byId = %s", idCashbox);
         return model.updateCashbox(cashbox, idCashbox);
     }
@@ -64,34 +69,43 @@ public class CashboxControllerImpl implements ICashboxController {
 
     @Override
     public PojoIntCashbox closeCashbox(PojoIntCashbox cashbox, WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception {
-        cashbox.setStatus(CashboxStatusIntEnum.CLOSE);
-        logger.info("cerrando caja %s", String.valueOf(cashbox));
-        updateCAshbox(cashbox, cashbox.getIdCashbox());
-        logger.info("guardando costos %s", activesCosts.getActivesCosts().size());
-        if (activesCosts.getActivesCosts() != null && !activesCosts.getActivesCosts().isEmpty()) {
-            final var saved = activesCostsController.addActiveCost(activesCosts);
-            logger.info("se han guardado los activos y costos %s", saved.getActivesCosts().size());
-            // guardar las relaciones
-            for (final var ac: saved.getActivesCosts()) {
-                final var item = new PojoIntCashboxesActivesCosts();
-                item.setFkActivesCosts(ac.getIdActiveCosts());
-                item.setFkCashbox(cashbox.getIdCashbox());
-                item.setTimestamp(cashbox.getTimestamp());
-                final var relationSaved = cashboxesAactivesCostsController.addRelationship(item);
-                logger.info("relacion guardada en la db [%s]", String.valueOf(relationSaved));
+        try {
+            transactionManager.disableAutocommit();
+            cashbox.setStatus(CashboxStatusIntEnum.CLOSE);
+            logger.info("cerrando caja %s", String.valueOf(cashbox));
+            updateCAshbox(cashbox, cashbox.getIdCashbox());
+            logger.info("guardando costos %s", activesCosts.getActivesCosts().size());
+            if (activesCosts.getActivesCosts() != null && !activesCosts.getActivesCosts().isEmpty()) {
+                final var saved = activesCostsController.addActiveCost(activesCosts);
+                logger.info("se han guardado los activos y costos %s", saved.getActivesCosts().size());
+                // guardar las relaciones
+                for (final var ac: saved.getActivesCosts()) {
+                    final var item = new PojoIntCashboxesActivesCosts();
+                    item.setFkActivesCosts(ac.getIdActiveCosts());
+                    item.setFkCashbox(cashbox.getIdCashbox());
+                    item.setTimestamp(cashbox.getTimestamp());
+                    final var relationSaved = cashboxesAactivesCostsController.addRelationship(item);
+                    logger.info("relacion guardada en la db [%s]", String.valueOf(relationSaved));
+                }
             }
-        }
-        // cerrar ventas del dia
-        logger.info("cerrando ventas del dia");
-        final var sales = salesController.retrieveSalesDataByStatus(SalesStatusIntEnum.CLOSE);
-        if (sales.getSales() != null && !sales.getSales().isEmpty()) {
-            for (final var s: sales.getSales()) {
-                salesController.setCashboxSale(s.getIdSale());
-                // guardando relacion caja de dinero - venta
-                cashboxesSalesController.addCashboxSale(cashbox.getIdCashbox(), s.getIdSale());
+            // cerrar ventas del dia
+            logger.info("cerrando ventas del dia");
+            final var sales = salesController.retrieveSalesDataByStatus(SalesStatusIntEnum.CLOSE);
+            if (sales.getSales() != null && !sales.getSales().isEmpty()) {
+                for (final var s: sales.getSales()) {
+                    salesController.setCashboxSale(s.getIdSale());
+                    // guardando relacion caja de dinero - venta
+                    cashboxesSalesController.addCashboxSale(cashbox.getIdCashbox(), s.getIdSale());
+                }
             }
+            transactionManager.doCommit();
+            return cashbox;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            transactionManager.enableAutocommit();
         }
-        return cashbox;
     }
 
     @Override

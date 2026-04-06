@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IPricesHistoryController;
 import com.blo.sales.v2.controller.IStockPricesHistoryController;
 import com.blo.sales.v2.controller.pojos.PojoIntPriceHistory;
@@ -12,8 +13,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-@Singleton
-public class StockPricesHistoryControllerImpl implements IStockPricesHistoryController {
+public @Singleton class StockPricesHistoryControllerImpl implements IStockPricesHistoryController {
 
     private static final GUILogger logger = GUILogger.getLogger(StockPricesHistoryControllerImpl.class.getName());
     
@@ -22,10 +22,14 @@ public class StockPricesHistoryControllerImpl implements IStockPricesHistoryCont
     
     @Inject
     private IPricesHistoryController pricesController;
+    
+    @Inject
+    private IDBTransactionManagerController idbtm;
 
     @Override
     public PojoIntStockPricesHistory addPriceOnHistory(PojoIntPriceHistory priceItem, long idProduct) throws BloSalesV2Exception {
         logger.info("guardando item %s", String.valueOf(priceItem));
+        idbtm.disableAutocommit();
         final var saved = pricesController.addPriceHistory(priceItem);
         logger.info("precio guardado %s", String.valueOf(saved));
         final var item = new PojoIntStockPricesHistory();

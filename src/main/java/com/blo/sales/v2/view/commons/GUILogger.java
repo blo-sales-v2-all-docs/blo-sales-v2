@@ -32,6 +32,12 @@ public final class GUILogger {
         Logger.getLogger(className).log(Level.SEVERE, _str);
     }
     
+    public void error(String str, Object... args) {
+        final var _str = String.format("%s [%s] ERROR - %s \n", BloSalesV2Utils.getTimestamp(), className, String.format(str, args));
+        row.append(_str);
+        Logger.getLogger(className).log(Level.SEVERE, _str);
+    }
+    
     public void info(String str, Object... args) {
         final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, String.format(str, args));
         row.append(_str);
@@ -40,6 +46,12 @@ public final class GUILogger {
     
     public void info(String str) {
         final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
+        row.append(_str);
+        Logger.getLogger(className).log(Level.INFO, _str);
+    }
+    
+    public void warn(String str) {
+        final var _str = String.format("%s [%s] WARNING - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
         row.append(_str);
         Logger.getLogger(className).log(Level.INFO, _str);
     }

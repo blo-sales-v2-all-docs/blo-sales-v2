@@ -3,6 +3,7 @@ package com.blo.sales.v2.model.impl;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxSale;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesSalesDetails;
 import com.blo.sales.v2.model.ICashboxesSalesModel;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
@@ -26,15 +27,12 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 @Singleton
 public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
-    
-    private static final Connection conn = DBConnection.getConnection();
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxesSalesModelImpl.class.getName());
     
@@ -44,11 +42,15 @@ public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
     @Inject
     private WrapperCashboxesSalesDetailEntityMapper wrapperCashboxesSalesDetailsMapper;
     
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
+    
     @Override
     public PojoIntCashboxSale addCashboxSale(long idCashbox, long idSale) throws BloSalesV2Exception {
         logger.info("guardando datos cashbox - sale");
         try {
-            DBConnection.disableAutocommit();
+            final var conn = DBConnection.getConnection();
+            transactionManager.disableAutocommit();
             // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_CASHBOX_SALE_RELATIONSHIP, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, idCashbox);
@@ -63,7 +65,6 @@ public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
             
             if (rs.next()){
                 out.setId_cashbox_sale(rs.getLong(1));
-                DBConnection.doCommit();
                 final var fkSale = new SaleEntity();
                 fkSale.setId_sale(idSale);
                 final var fkCashbox = new CashboxEntity();
@@ -76,13 +77,6 @@ public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
@@ -90,6 +84,7 @@ public class CashboxesSalesModelImpl implements ICashboxesSalesModel {
     public WrapperPojoIntCashboxesSalesDetails getCashboxSalesDetailById(long idCashbox) throws BloSalesV2Exception {
         try {
             logger.info("recuperando todas las categorias");
+            final var conn = DBConnection.getConnection();
             final var ps = conn.prepareStatement(BloSalesV2Queries.GET_CASHBOXES_ALL_DATA_DETAIL_BY_CASHBOX_ID);
             ps.setLong(1, idCashbox);
             final var data = ps.executeQuery();

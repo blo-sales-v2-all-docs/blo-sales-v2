@@ -210,6 +210,7 @@ public final class DebtorsDialog<T> extends AbstractDialogBase {
             debtor.setDebt(BigDecimal.ZERO);
             GUICommons.enabledButton(btnSaveRegister);
             GUICommons.disabledButton(btnRegister);
+            GUICommons.disabledComponent(txtName);
         } catch (BloSalesV2Exception ex) {
         }
     }//GEN-LAST:event_btnRegisterActionPerformed

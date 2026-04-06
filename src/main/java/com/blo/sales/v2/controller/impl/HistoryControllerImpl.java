@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IHistoryController;
 import com.blo.sales.v2.controller.pojos.PojoIntMovement;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntMovementsDetail;
@@ -16,9 +17,13 @@ public class HistoryControllerImpl implements IHistoryController {
     
     @Inject
     private IHistoryModel model;
+    
+    @Inject
+    private IDBTransactionManagerController transactionManager;
 
     @Override
     public PojoIntMovement registerMovement(PojoIntMovement movement) throws BloSalesV2Exception {
+        transactionManager.disableAutocommit();
         logger.info("guardando movimiento %s", String.valueOf(movement));
         return model.registerMovement(movement);
     }

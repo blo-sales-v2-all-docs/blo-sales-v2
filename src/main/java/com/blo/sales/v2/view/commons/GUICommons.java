@@ -316,6 +316,14 @@ public final class GUICommons {
         box.setEnabled(true);
     }
     
+    public static void disabledComponent(JTextField txt) {
+        txt.setEnabled(false);
+    }
+    
+    public static void enabledComponent(JTextField txt) {
+        txt.setEnabled(true);
+    }
+    
     /**
      * Habilita un boton
      * @param btn 

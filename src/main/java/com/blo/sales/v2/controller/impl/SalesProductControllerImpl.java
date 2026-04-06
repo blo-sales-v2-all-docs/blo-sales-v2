@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.ISalesProductController;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProduct;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSaleStock;
@@ -9,17 +10,20 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-@Singleton
-public class SalesProductControllerImpl implements ISalesProductController {
+public @Singleton class SalesProductControllerImpl implements ISalesProductController {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesProductControllerImpl.class.getName());
     
     @Inject
     private ISaleProductModel model;
     
+    @Inject
+    private IDBTransactionManagerController transactionManager;
+    
     @Override
     public PojoIntSaleProduct addSalesProduct(PojoIntSaleProduct salesProduct) throws BloSalesV2Exception {
         logger.info("guardando relacion venta producto");
+        transactionManager.disableAutocommit();
         return model.addSaleProduct(salesProduct);
     }
 

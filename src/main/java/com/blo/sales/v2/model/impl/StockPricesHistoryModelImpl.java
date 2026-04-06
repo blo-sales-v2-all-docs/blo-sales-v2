@@ -2,6 +2,7 @@ package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntStockPricesHistory;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntStockPriceHistory;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IStockPricesHistoryModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -32,13 +33,17 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
     
     @Inject
     private WrapperStockPricesHistoryEntityMapper wrapperMapper;
+    
+    @Inject
+    private IDBTransactionManagerModel transactionManager;
 
     @Override
     public PojoIntStockPricesHistory addPriceOnHistory(PojoIntStockPricesHistory item) throws BloSalesV2Exception {
         try {
+        	final var conn = DBConnection.getConnection();
+        	transactionManager.disableAutocommit();
             logger.info("agregando item en historial de precios %s", String.valueOf(item));
             final var entity = mapper.toInner(item);
-            DBConnection.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_PRICE_HISTORY_RELATIONSHIP, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, entity.getFk_product());
             ps.setLong(2, entity.getFk_price_history());
@@ -53,18 +58,10 @@ public class StockPricesHistoryModelImpl implements IStockPricesHistoryModel {
             }
             
             logger.info("item guardado %s", String.valueOf(entity));
-            DBConnection.doCommit();
             return mapper.toOuter(entity);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 

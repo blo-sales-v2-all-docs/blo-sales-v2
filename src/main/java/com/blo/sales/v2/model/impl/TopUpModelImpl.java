@@ -3,6 +3,7 @@ package com.blo.sales.v2.model.impl;
 import com.blo.sales.v2.controller.pojos.PojoIntTopUp;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntTopUp;
 import com.blo.sales.v2.controller.pojos.enums.TopUpSearchStatusIntEnum;
+import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.ITopUpModel;
 import com.blo.sales.v2.model.config.DBConnection;
 import com.blo.sales.v2.model.constants.BloSalesV2Columns;
@@ -36,13 +37,16 @@ public class TopUpModelImpl implements ITopUpModel {
     
     @Inject
     private WrapperTopUpsEntityMapper wrapperToUpsMapper;
+    
+    @Inject
+    private IDBTransactionManagerModel transactionModel;
 
     @Override
     public PojoIntTopUp addTopUp(PojoIntTopUp data) throws BloSalesV2Exception {
         try {
             logger.info("Guardando [%s]", String.valueOf(data));
             final var innerData = topUpEntityMapper.toInner(data);
-            DBConnection.disableAutocommit();
+            transactionModel.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_TOP_UP, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, innerData.getFk_user().getId_user());
             ps.setLong(2, innerData.getFk_mobile_company().getId_mobile_company());
@@ -60,18 +64,10 @@ public class TopUpModelImpl implements ITopUpModel {
                 innerData.setId_top_up(rs.getLong(1));
             }
             logger.info("TopUp guardada con exito [%s]", String.valueOf(innerData));
-            DBConnection.doCommit();
             return topUpEntityMapper.toOuter(innerData);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException ex) {
-                logger.error(ex.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 
@@ -80,7 +76,7 @@ public class TopUpModelImpl implements ITopUpModel {
         try {
             final var innerData = topUpEntityMapper.toInner(data);
             logger.info("Actualizando informacion %s con id %s", String.valueOf(innerData), idTopUp);
-            DBConnection.disableAutocommit();
+            transactionModel.disableAutocommit();
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_TP_UP);
             ps.setLong(1, innerData.getFk_user().getId_user());
             ps.setLong(2, innerData.getFk_mobile_company().getId_mobile_company());
@@ -95,18 +91,10 @@ public class TopUpModelImpl implements ITopUpModel {
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
             
             logger.info("Datos actualizados %s", String.valueOf(innerData));
-            DBConnection.doCommit();
             return topUpEntityMapper.toOuter(innerData);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-        } finally {
-            try {
-                DBConnection.enableAutocommit();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
-            }
         }
     }
 

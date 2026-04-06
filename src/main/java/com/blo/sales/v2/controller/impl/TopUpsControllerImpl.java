@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IMobileCompanyController;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.ITopUpsController;
@@ -26,31 +27,55 @@ public class TopUpsControllerImpl implements ITopUpsController {
     
     @Inject
     private ISalesController salesController;
+    
+    @Inject
+    private IDBTransactionManagerController dbtc;
 
     @Override
     public PojoIntTopUp addTopUp(PojoIntTopUp data, long idCompany) throws BloSalesV2Exception {
-        logger.info("guardando recarga telefonica", String.valueOf(data));
-        final var companyFound = mobileCompanyController.getCompanyMobileById(idCompany);
-        logger.info("Compania encontrada %s", String.valueOf(companyFound));
-        BloSalesV2Utils.validateRule(companyFound == null, BloSalesV2Utils.CODE_COMPANY_NOT_FOUND, BloSalesV2Utils.ERROR_COMPANY_NOT_FOUND);
-        data.setFkMobileCompany(companyFound);
-        // guardando comision
-        salesController.registerTopUpComission(data.getFkUser().getIdUser());
-        logger.info("comision guardada");
-        return model.addTopUp(data);
+        try {
+            logger.info("guardando recarga telefonica", String.valueOf(data));
+            dbtc.disableAutocommit();
+            final var companyFound = mobileCompanyController.getCompanyMobileById(idCompany);
+            logger.info("Compania encontrada %s", String.valueOf(companyFound));
+            BloSalesV2Utils.validateRule(companyFound == null, BloSalesV2Utils.CODE_COMPANY_NOT_FOUND, BloSalesV2Utils.ERROR_COMPANY_NOT_FOUND);
+            data.setFkMobileCompany(companyFound);
+            // guardando comision
+            salesController.registerTopUpComission(data.getFkUser().getIdUser());
+            logger.info("comision guardada");
+            final var topUpSaved = model.addTopUp(data);
+            dbtc.doCommit();
+            logger.info("recarga guardada %s", String.valueOf(topUpSaved));
+            return topUpSaved;
+        } catch(BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbtc.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbtc.enableAutocommit();
+        }
     }
 
     @Override
     public WrapperPojoIntTopUp closeTopUps(WrapperPojoIntTopUp topUps) throws BloSalesV2Exception {
-        logger.info("actualizando topUps %s", topUps.getTopUps().size());
-        if (topUps.getTopUps() != null && !topUps.getTopUps().isEmpty()) {
-            for(final var element: topUps.getTopUps()) {
-                element.setChecked(true);
-                model.updateTopUp(element, element.getIdTopUp());
+        try {
+            logger.info("actualizando topUps %s", topUps.getTopUps().size());
+            dbtc.disableAutocommit();
+            if (topUps.getTopUps() != null && !topUps.getTopUps().isEmpty()) {
+                for(final var element: topUps.getTopUps()) {
+                    element.setChecked(true);
+                    model.updateTopUp(element, element.getIdTopUp());
+                }
+                logger.info("Se han cerrado las recargas");
             }
-            logger.info("Se han cerrado las recargas");
+            return topUps;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbtc.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbtc.enableAutocommit();
         }
-        return topUps;
     }
 
     @Override

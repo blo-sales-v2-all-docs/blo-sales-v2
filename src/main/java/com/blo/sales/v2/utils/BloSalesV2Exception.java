@@ -1,9 +1,12 @@
 package com.blo.sales.v2.utils;
 
+import lombok.Getter;
+
 public class BloSalesV2Exception extends Exception {
     
     private final String message;
     
+    @Getter
     private final String code;
     
     public BloSalesV2Exception(String code, String message) {

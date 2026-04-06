@@ -1,8 +1,15 @@
 package com.blo.sales.v2.view.dialogs;
 
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
+import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.pojos.PojoCashboxDetail;
 import com.blo.sales.v2.view.pojos.WrapperPojoCashboxesDetails;
+import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
+
 import java.awt.Component;
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -12,12 +19,18 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class CashboxesGraphicsDialog extends AbstractDialogBase {
+	
+	private static final GUILogger logger = GUILogger.getLogger(CashboxesGraphicsDialog.class.getName());
     
     private static final String EVOLUTION_OF = "Evoluci\u00f3n de: ";
     
     private static final String REGISTER_HOUR = "Fecha de Registro";
     
     private static final String CASHBOX = "Caja";
+    
+    private static final String COSTS = "Gasto";
+    
+    private static final String ACTIVES = "Ingresos";    
     
     private final WrapperPojoCashboxesDetails cashboxesDetails;
 
@@ -37,12 +50,23 @@ public class CashboxesGraphicsDialog extends AbstractDialogBase {
 
         // 1. Llenar Dataset usando el Timestamp
         for (final var item : cashboxesDetails.getCashboxesInfo()) {
+        	// recuperar todos los datos de una venta
+        	final var cashboxData = cashboxesDetails.getCashboxesInfo().
+        			stream().filter(c -> c.getIdCashbox() == item.getIdCashbox()).toList();
+        	// recuperar suma de costos
+        	final var costs = getAmoutFrom(ActivesCostsEnum.PASIVO, cashboxData);
+        	logger.info("COSTOS = %s, de %s", costs, item.getIdCashbox());
+        	// recuperar suma de activos
+        	final var actives = getAmoutFrom(ActivesCostsEnum.ACTIVO, cashboxData);
+        	logger.info("ACTIVOS = %s, de %s", actives, item.getIdCashbox());
             // Extraemos solo la hora del timestamp para que el eje X sea legible
             // Ejemplo: "2026-02-08T10:05:51.535" -> "10:05:51"
             final var fullTimestamp = item.getTimestamp();
             final var date = fullTimestamp.split("T")[0];
 
             dataset.addValue(item.getAmount(), CASHBOX, date);
+            dataset.addValue(costs, COSTS, date);
+            dataset.addValue(actives, ACTIVES, date);
         }
 
         // 2. Crear Chart con etiquetas de tiempo
@@ -82,6 +106,13 @@ public class CashboxesGraphicsDialog extends AbstractDialogBase {
         this.setSize(800, 600);
     }
     
+    private BigDecimal getAmoutFrom(ActivesCostsEnum type, List<PojoCashboxDetail> cashboxData) {
+    	return cashboxData.stream().
+    		filter(c -> c.getType().compareTo(type) == 0).
+    		map(PojoCashboxDetail::getConceptAmount).
+    		reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -102,6 +133,7 @@ public class CashboxesGraphicsDialog extends AbstractDialogBase {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     @Override
     public void loadTargets() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
