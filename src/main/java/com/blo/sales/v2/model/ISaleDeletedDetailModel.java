@@ -1,11 +1,12 @@
 package com.blo.sales.v2.model;
 
 import com.blo.sales.v2.controller.pojos.PojoIntSaleDeletedDetail;
+import com.blo.sales.v2.controller.pojos.WrapperPojoIntSalesDeletedDetails;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
  * Clase modelo utilizada para guardar los datos de una cancelacion de venta en la db
- * @version 1.0.0
+ * @version 1.2.0
  * @author BLO
  *
  */
@@ -21,4 +22,10 @@ public interface ISaleDeletedDetailModel {
 	 */
     PojoIntSaleDeletedDetail addSaleDeletedDetail(PojoIntSaleDeletedDetail detail) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que recupera todos los datos de ventas canceladas de la db
+     * @return ventas canceladas
+     * @throws BloSalesV2Exception 
+     */
+    WrapperPojoIntSalesDeletedDetails getSalesDeleted() throws BloSalesV2Exception;
 }

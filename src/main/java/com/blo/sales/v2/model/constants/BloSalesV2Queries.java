@@ -111,6 +111,8 @@ public final class BloSalesV2Queries {
     
     public static final String INSERT_SALE_DELETED_DETAIL = "INSERT INTO sale_deleted_detail(fk_sale_product, fk_user, reason, timestamp) VALUES (?, ?, ?, ?)";
     
+    public static final String SELECT_DELETEDS_SALES_DETAIL = "SELECT sdd.id_sale_deleted, sdd.fk_sale_product, s.product, sdd.reason, u.username, sdd.fk_user , sdd.timestamp  FROM sale_deleted_detail sdd  INNER JOIN sale_product sp ON sp.id_sale_product = sdd.fk_sale_product INNER JOIN stock s ON s.id_product = sp.fk_product INNER JOIN users u ON u.id_user = sdd.fk_user";
+    
     /** compañia telefonica */
     public static final String INSERT_MOBILE_COMPANY = "INSERT INTO mobile_company(company) VALUES (?)";
     

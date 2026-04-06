@@ -123,4 +123,8 @@ public final class BloSalesV2Columns {
     public static final String TOTAL_CASH = "total_cash";
     
     public static final String TOTAL_CARD = "total_card";
+    
+    public static final String ID_SALE_DELETED = "id_sale_deleted";
+    
+    public static final String FK_SALE_PRODUCT = "fk_sale_product";
 }

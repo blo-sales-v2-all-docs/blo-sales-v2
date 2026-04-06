@@ -21,6 +21,8 @@ public class SaleDeletedDetailEntityMapper implements
         inner.setId_sale_deleted(outer.getIdSaleDeleted());
         inner.setReason(outer.getReason());
         inner.setTimestamp(outer.getTimestamp());
+        inner.setUsername(outer.getUsername());
+        inner.setProduct(outer.getProduct());
         return inner;
     }
 
@@ -35,6 +37,8 @@ public class SaleDeletedDetailEntityMapper implements
         outer.setIdSaleDeleted(inner.getId_sale_deleted());
         outer.setReason(inner.getReason());
         outer.setTimestamp(inner.getTimestamp());
+        outer.setUsername(inner.getUsername());
+        outer.setProduct(inner.getProduct());
         return outer;
     }
     

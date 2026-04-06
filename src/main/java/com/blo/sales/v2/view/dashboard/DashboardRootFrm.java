@@ -16,6 +16,7 @@ import com.blo.sales.v2.view.dashboard.panels.MobileCompanies;
 import com.blo.sales.v2.view.dashboard.panels.Notes;
 import com.blo.sales.v2.view.dashboard.panels.RegisterProduct;
 import com.blo.sales.v2.view.dashboard.panels.Sales;
+import com.blo.sales.v2.view.dashboard.panels.SalesCanceled;
 import com.blo.sales.v2.view.dashboard.panels.SalesReport;
 import com.blo.sales.v2.view.dashboard.panels.SalesToday;
 import com.blo.sales.v2.view.dashboard.panels.TopUps;
@@ -28,32 +29,6 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     
     @Inject
     private Injector injector;
-    
-    private RegisterProduct registerProduct;
-    
-    private Categories categories;
-    
-    private AllProducts allProducts;
-    
-    private Sales sales;
-    
-    private Console console;
-    
-    private Debtors debtors;
-    
-    private CashboxOpen cashboxOpen;
-    
-    private SalesToday salesToday;
-    
-    private AllCashboxes allCashboxes;
-    
-    private Notes notes;
-    
-    private SalesReport salesReport;
-    
-    private MobileCompanies mobileCompanies;
-    
-    private TopUps topUps;
     
     private PojoLoggedInUser userData;
     
@@ -83,6 +58,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         optAllCashboxes = new javax.swing.JMenuItem();
         sprt01 = new javax.swing.JPopupMenu.Separator();
         optSalesReport = new javax.swing.JMenuItem();
+        optCanceledSales = new javax.swing.JMenuItem();
         optNotes = new javax.swing.JMenuItem();
         optDebtors = new javax.swing.JMenuItem();
         itmTopUp = new javax.swing.JMenu();
@@ -185,6 +161,14 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         });
         itmContability.add(optSalesReport);
 
+        optCanceledSales.setText("Ventas canceladas");
+        optCanceledSales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optCanceledSalesActionPerformed(evt);
+            }
+        });
+        itmContability.add(optCanceledSales);
+
         itmAdmon.add(itmContability);
 
         optNotes.setText("Notas Rápidas");
@@ -270,69 +254,60 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     }// </editor-fold>//GEN-END:initComponents
 
     private void optRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optRegisterActionPerformed
-        registerProduct = new RegisterProduct(KeysEnum.DASHBOARD_TITLES_REGISTER_PRODUCT.getKey());
-        handlerDashboard(registerProduct);
+        handlerDashboard(new RegisterProduct(KeysEnum.DASHBOARD_TITLES_REGISTER_PRODUCT.getKey()));
     }//GEN-LAST:event_optRegisterActionPerformed
 
     private void optCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optCategoryActionPerformed
-        categories = new Categories(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey());
-        handlerDashboard(categories);
+        handlerDashboard(new Categories(KeysEnum.DASHBOARD_TITLES_CATEGORIES.getKey()));
     }//GEN-LAST:event_optCategoryActionPerformed
 
     private void optStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optStockActionPerformed
-        allProducts = new AllProducts(KeysEnum.DASHBOARD_TITLES_VIEW_ALL_PRODUCTS.getKey());
-        handlerDashboard(allProducts);
+        handlerDashboard(new AllProducts(KeysEnum.DASHBOARD_TITLES_VIEW_ALL_PRODUCTS.getKey()));
     }//GEN-LAST:event_optStockActionPerformed
 
     private void optAddSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAddSaleActionPerformed
-        sales = new Sales(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey());
-        handlerDashboard(sales);
+        handlerDashboard(new Sales(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
     }//GEN-LAST:event_optAddSaleActionPerformed
 
     private void optConsoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optConsoleActionPerformed
-        console = new Console(KeysEnum.DASHBOARD_TITLES_CONSOLE.getKey());
-        handlerDashboard(console);
+        handlerDashboard(new Console(KeysEnum.DASHBOARD_TITLES_CONSOLE.getKey()));
     }//GEN-LAST:event_optConsoleActionPerformed
 
     private void optDebtorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optDebtorsActionPerformed
-        debtors = new Debtors(KeysEnum.DASHBOARD_TITLES_DEBTORS.getKey());
-        handlerDashboard(debtors);
+        handlerDashboard(new Debtors(KeysEnum.DASHBOARD_TITLES_DEBTORS.getKey()));
     }//GEN-LAST:event_optDebtorsActionPerformed
 
     private void optOpoenCashboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optOpoenCashboxActionPerformed
-        cashboxOpen = new CashboxOpen(KeysEnum.DASHBOARD_TITLES_OPEN_CASHBOX.getKey());
-        handlerDashboard(cashboxOpen);
+        handlerDashboard(new CashboxOpen(KeysEnum.DASHBOARD_TITLES_OPEN_CASHBOX.getKey()));
     }//GEN-LAST:event_optOpoenCashboxActionPerformed
 
     private void optViewSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optViewSalesActionPerformed
-        salesToday = new SalesToday(KeysEnum.DASHBOARD_TITLES_VIEW_SALES_TODAY.getKey());
-        handlerDashboard(salesToday);
+        handlerDashboard(new SalesToday(KeysEnum.DASHBOARD_TITLES_VIEW_SALES_TODAY.getKey()));
     }//GEN-LAST:event_optViewSalesActionPerformed
 
     private void optAllCashboxesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAllCashboxesActionPerformed
-        allCashboxes = new AllCashboxes(KeysEnum.DASHBOARD_TITLES_ALL_CASHBOXES.getKey());
-        handlerDashboard(allCashboxes);
+        handlerDashboard(new AllCashboxes(KeysEnum.DASHBOARD_TITLES_ALL_CASHBOXES.getKey()));
     }//GEN-LAST:event_optAllCashboxesActionPerformed
 
     private void optNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optNotesActionPerformed
-        notes = new Notes(KeysEnum.DASHBOARD_TITLES_FAST_NOTES.getKey());
-        handlerDashboard(notes);
+        handlerDashboard(new Notes(KeysEnum.DASHBOARD_TITLES_FAST_NOTES.getKey()));
     }//GEN-LAST:event_optNotesActionPerformed
 
     private void optSalesReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optSalesReportActionPerformed
-        salesReport = new SalesReport(KeysEnum.DASHBOARD_TITLES_ALL_SALES.getKey());
-        handlerDashboard(salesReport);
+        handlerDashboard(new SalesReport(KeysEnum.DASHBOARD_TITLES_ALL_SALES.getKey()));
     }//GEN-LAST:event_optSalesReportActionPerformed
 
     private void optMobileCompaniesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optMobileCompaniesActionPerformed
-        mobileCompanies = new MobileCompanies(KeysEnum.DASHBOARD_TITLES_MOBILE_COMPANIES.getKey());
-        handlerDashboard(mobileCompanies);
+        handlerDashboard(new MobileCompanies(KeysEnum.DASHBOARD_TITLES_MOBILE_COMPANIES.getKey()));
     }//GEN-LAST:event_optMobileCompaniesActionPerformed
 
     private void optTopUpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optTopUpsActionPerformed
-        topUps = new TopUps(KeysEnum.DASHBOARD_TITLES_TOP_UPS.getKey());
-        handlerDashboard(topUps);
+        handlerDashboard(new TopUps(KeysEnum.DASHBOARD_TITLES_TOP_UPS.getKey()));
     }//GEN-LAST:event_optTopUpsActionPerformed
+
+    private void optCanceledSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optCanceledSalesActionPerformed
+        handlerDashboard(new SalesCanceled(KeysEnum.DASHBOARD_TITLES_CANCELED_SALES.getKey()));
+    }//GEN-LAST:event_optCanceledSalesActionPerformed
     
     private void handlerDashboard(AbstractDashboardBase dashboard) {
         if (injector == null) {
@@ -359,6 +334,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenuBar mnuBar;
     private javax.swing.JMenuItem optAddSale;
     private javax.swing.JMenuItem optAllCashboxes;
+    private javax.swing.JMenuItem optCanceledSales;
     private javax.swing.JMenuItem optCategory;
     private javax.swing.JMenuItem optConsole;
     private javax.swing.JMenuItem optDebtors;

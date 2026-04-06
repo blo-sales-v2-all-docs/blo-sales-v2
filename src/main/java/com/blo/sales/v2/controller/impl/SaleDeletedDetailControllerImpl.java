@@ -3,6 +3,7 @@ package com.blo.sales.v2.controller.impl;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.ISaleDeletedDetailController;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleDeletedDetail;
+import com.blo.sales.v2.controller.pojos.WrapperPojoIntSalesDeletedDetails;
 import com.blo.sales.v2.model.ISaleDeletedDetailModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -25,6 +26,12 @@ public class SaleDeletedDetailControllerImpl implements ISaleDeletedDetailContro
         logger.info("Guardando rzon de baja %s", String.valueOf(detail));
         transactionManagerController.disableAutocommit();
         return model.addSaleDeletedDetail(detail);
+    }
+
+    @Override
+    public WrapperPojoIntSalesDeletedDetails getSalesDeleted() throws BloSalesV2Exception {
+        logger.info("recuperando ventas canceladas");
+        return model.getSalesDeleted();
     }
     
 }

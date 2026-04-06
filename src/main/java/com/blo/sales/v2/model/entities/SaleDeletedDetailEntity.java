@@ -17,4 +17,8 @@ public @ToString class SaleDeletedDetailEntity {
     private String reason;
     
     private String timestamp;
+    
+    private String product;
+    
+    private String username;
 }
