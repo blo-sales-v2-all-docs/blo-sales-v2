@@ -36,6 +36,7 @@ public @Singleton class SalesProductControllerImpl implements ISalesProductContr
     @Override
     public PojoIntSaleProduct updateRelationship(PojoIntSaleProduct data) throws BloSalesV2Exception {
         logger.info("Actualizando relacion");
+        transactionManager.disableAutocommit();
         return model.updateRelationship(data);
     }
 

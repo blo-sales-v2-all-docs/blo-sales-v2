@@ -21,6 +21,17 @@ public interface IProductsController {
      */
     PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception;
     
+    /**
+     * Actualiza informacion de un producto
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param product
+     * @param reasons
+     * @param idUser
+     * @param type
+     * @return
+     * @throws BloSalesV2Exception
+     */
     PojoIntProduct updateProductInfoNoCommitEnabled(PojoIntProduct product, ReasonsIntEnum reasons, long idUser, TypesIntEnum type) throws BloSalesV2Exception;
     
     /**

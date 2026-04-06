@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.ISaleDeletedDetailController;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleDeletedDetail;
 import com.blo.sales.v2.model.ISaleDeletedDetailModel;
@@ -16,9 +17,13 @@ public class SaleDeletedDetailControllerImpl implements ISaleDeletedDetailContro
     @Inject
     private ISaleDeletedDetailModel model;
 
+    @Inject
+    private IDBTransactionManagerController transactionManagerController;
+    
     @Override
     public PojoIntSaleDeletedDetail addSaleDeletedDetail(PojoIntSaleDeletedDetail detail) throws BloSalesV2Exception {
         logger.info("Guardando rzon de baja %s", String.valueOf(detail));
+        transactionManagerController.disableAutocommit();
         return model.addSaleDeletedDetail(detail);
     }
     

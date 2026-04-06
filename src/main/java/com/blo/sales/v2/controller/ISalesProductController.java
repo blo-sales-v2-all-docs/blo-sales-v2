@@ -23,6 +23,14 @@ public interface ISalesProductController {
     
     PojoIntSaleProduct getRelationship(long idSale, long idProduct) throws BloSalesV2Exception;
     
+    /**
+     * Actualiza la relacion venta-producto
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param data
+     * @return
+     * @throws BloSalesV2Exception
+     */
     PojoIntSaleProduct updateRelationship(PojoIntSaleProduct data) throws BloSalesV2Exception;
     
     WrapperPojoIntSaleStock getSalesStockLiveByIdSale(long idSale) throws BloSalesV2Exception;
