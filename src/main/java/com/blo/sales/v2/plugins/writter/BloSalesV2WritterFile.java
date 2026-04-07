@@ -8,6 +8,11 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+/**
+ * Plugin utilizado para escribir archivos de texto plano en la pc
+ * @version 1.0.0
+ * @author BLO
+ */
 public final class BloSalesV2WritterFile {
     
     private BloSalesV2WritterFile() { }

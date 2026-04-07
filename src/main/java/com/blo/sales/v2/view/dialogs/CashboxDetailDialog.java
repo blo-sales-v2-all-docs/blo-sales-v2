@@ -1,7 +1,7 @@
 package com.blo.sales.v2.view.dialogs;
 
-import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVCols;
-import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVPlugin;
+import com.blo.sales.v2.plugins.csv.BloSalesV2CSVCols;
+import com.blo.sales.v2.plugins.csv.BloSalesV2CSVPlugin;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.GUICommons;

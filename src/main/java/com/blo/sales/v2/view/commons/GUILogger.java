@@ -10,13 +10,10 @@ public final class GUILogger {
     
     private static final Map<String, GUILogger> instances = new HashMap<>();
     
-    private final StringBuilder row;
-    
     private final String className;
     
     private GUILogger(String className) {
         this.className = className;
-        this.row = new StringBuilder();
     }
     
     public static GUILogger getLogger(String classFrom) {
@@ -28,38 +25,26 @@ public final class GUILogger {
     
     public void error(String str) {
         final var _str = String.format("%s [%s] ERROR - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
-        row.append(_str);
         Logger.getLogger(className).log(Level.SEVERE, _str);
     }
     
     public void error(String str, Object... args) {
         final var _str = String.format("%s [%s] ERROR - %s \n", BloSalesV2Utils.getTimestamp(), className, String.format(str, args));
-        row.append(_str);
         Logger.getLogger(className).log(Level.SEVERE, _str);
     }
     
     public void info(String str, Object... args) {
         final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, String.format(str, args));
-        row.append(_str);
         Logger.getLogger(className).log(Level.INFO, _str);
     }
     
     public void info(String str) {
         final var _str = String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
-        row.append(_str);
         Logger.getLogger(className).log(Level.INFO, _str);
     }
     
     public void warn(String str) {
         final var _str = String.format("%s [%s] WARNING - %s \n", BloSalesV2Utils.getTimestamp(), className, str);
-        row.append(_str);
         Logger.getLogger(className).log(Level.INFO, _str);
-    }
-       
-    public String getLogs() {
-        if (row == null) {
-            return "[" + BloSalesV2Utils.getTimestamp() + "]";
-        }
-        return row.toString();
     }
 }

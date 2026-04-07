@@ -1,4 +1,4 @@
-package com.blo.sales.v2.plugins.xlxs;
+package com.blo.sales.v2.plugins.csv;
 
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import java.io.BufferedWriter;
@@ -10,6 +10,11 @@ import java.util.stream.Collectors;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+/**
+ * Plugin utilizado para generar archivos en formato csv
+ * @version 1.0.0
+ * @author BLO
+ */
 public final class BloSalesV2CSVPlugin {
     
     private static final String CSV_SEPARATOR = ";";

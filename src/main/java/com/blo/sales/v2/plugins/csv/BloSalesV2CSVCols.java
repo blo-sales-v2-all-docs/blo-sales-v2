@@ -1,4 +1,4 @@
-package com.blo.sales.v2.plugins.xlxs;
+package com.blo.sales.v2.plugins.csv;
 
 import java.util.List;
 

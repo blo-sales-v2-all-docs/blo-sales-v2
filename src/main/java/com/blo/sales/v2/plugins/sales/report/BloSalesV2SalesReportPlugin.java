@@ -1,7 +1,7 @@
 package com.blo.sales.v2.plugins.sales.report;
 
-import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVPlugin;
-import com.blo.sales.v2.plugins.xlxs.BloSalesV2CSVCols;
+import com.blo.sales.v2.plugins.csv.BloSalesV2CSVPlugin;
+import com.blo.sales.v2.plugins.csv.BloSalesV2CSVCols;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.pojos.PojoSaleAndProduct;
 import com.blo.sales.v2.view.pojos.WrapperPojoSalesAndStock;
@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Plugin utilizado para crear reportes de ventas en formato csv
+ * @version 1.0.0
+ * @author BLO
+ */
 public final class BloSalesV2SalesReportPlugin {
     
     private static final int PAYMENTS = 1;
