@@ -106,14 +106,22 @@
                             </goals>
                             <configuration>
                                 <target>
-                                    <echo file="${project.build.directory}/exe-linux.sh" append="false">
-                                        <![CDATA[#!/bin/bash
-                                        # Brindar permisos en linux
-                                        # chmod +x exe-linux.sh
+                                    <echo file="${project.build.directory}/exe-linux.sh" append="false"><![CDATA[#!/bin/bash
                                         # Script generado para BloSales v2
+                                        # Brindar permisos manualmente si es necesario: chmod +x exe-linux.sh
                                         FECHA=$(date +"%Y-%m-%d_%H-%M")
                                         java -jar ${project.build.finalName}-jar-with-dependencies.jar >> "log_$FECHA.txt" 2>&1]]></echo>
+
                                     <chmod file="${project.build.directory}/exe-linux.sh" perm="755"/>
+
+                                    <echo file="${project.build.directory}/exe-windows.bat" append="false"><![CDATA[@echo off
+                                        :: Generar formato de fecha y hora para el nombre del archivo (YYYY-MM-DD_HH-mm)
+                                        set FECHA=%date:~10,4%-%date:~4,2%-%date:~7,2%_%time:~0,2%-%time:~3,2%
+                                        :: Eliminar espacios en blanco (por si la hora es menor a 10)
+                                        set FECHA=%FECHA: =0%
+
+                                        echo Iniciando BloSales v2...
+                                        java -jar ${project.build.finalName}-jar-with-dependencies.jar >> "log_%FECHA%.txt" 2>&1]]></echo>
                                 </target>
                             </configuration>
                         </execution>
