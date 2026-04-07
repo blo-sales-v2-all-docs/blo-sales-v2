@@ -6,7 +6,7 @@
     
     <groupId>com.blo.sales</groupId>
     <artifactId>BloSalesV2</artifactId>
-    <version>2.12.2-SNAPSHOT</version>
+    <version>2.12.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -115,13 +115,31 @@
                                     <chmod file="${project.build.directory}/exe-linux.sh" perm="755"/>
 
                                     <echo file="${project.build.directory}/exe-windows.bat" append="false"><![CDATA[@echo off
-                                        :: Generar formato de fecha y hora para el nombre del archivo (YYYY-MM-DD_HH-mm)
-                                        set FECHA=%date:~10,4%-%date:~4,2%-%date:~7,2%_%time:~0,2%-%time:~3,2%
-                                        :: Eliminar espacios en blanco (por si la hora es menor a 10)
-                                        set FECHA=%FECHA: =0%
+										setlocal enabledelayedexpansion
+										cd /d "%~dp0"
+										for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
+										set FECHA=!datetime:~0,4!-!datetime:~4,2!-!datetime:~6,2!_!datetime:~8,2!-!datetime:~10,2!
+										set LOG_FILE=log_!FECHA!.txt
 
-                                        echo Iniciando BloSales v2...
-                                        java -jar ${project.build.finalName}-jar-with-dependencies.jar >> "log_%FECHA%.txt" 2>&1]]></echo>
+										echo =====================================================
+										echo    INICIANDO ${project.artifactId} - SISTEMA DE VENTAS
+										echo =====================================================
+
+										if not exist "${project.build.finalName}-jar-with-dependencies.jar" (
+											echo [ERROR] No se encontro el archivo JAR: ${project.build.finalName}-jar-with-dependencies.jar
+											pause
+											exit
+										)
+
+										echo Registrando logs en: !LOG_FILE!
+										java -jar "${project.build.finalName}-jar-with-dependencies.jar" >> "!LOG_FILE!" 2>&1
+
+										if %errorlevel% neq 0 (
+											echo.
+											echo [ALERTA] La aplicacion se detuvo con codigo: %errorlevel%
+											echo Revisa el archivo !LOG_FILE! para mas detalles.
+											pause
+										)]]></echo>
                                 </target>
                             </configuration>
                         </execution>
