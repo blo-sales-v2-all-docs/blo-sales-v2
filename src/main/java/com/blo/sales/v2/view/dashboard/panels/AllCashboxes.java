@@ -98,7 +98,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
             GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()), total));
         }
         if (type.getIndex() == 1) {
-            GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()), total));
+            GUICommons.setTextToField(lblCosts, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()), total));
         }
         return model;
     }
