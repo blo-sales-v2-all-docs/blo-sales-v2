@@ -16,6 +16,7 @@ import com.blo.sales.v2.view.pojos.WrapperPojoCashboxesDetails;
 import com.blo.sales.v2.view.mappers.WrapperPojoCashboxesSalesDetailMapper;
 import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
 import jakarta.inject.Inject;
+import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
@@ -69,6 +70,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
                         final var modelCosts = new DefaultListModel<String>();
                         lstActives.setModel(costsAndActivesHandler(cashboxFound, ActivesCostsEnum.ACTIVO, modelActives));
                         lstCosts.setModel(costsAndActivesHandler(cashboxFound, ActivesCostsEnum.PASIVO, modelCosts));
+                        indicatorHandler();
                     }
                 });
             }
@@ -76,6 +78,18 @@ public final class AllCashboxes extends AbstractDashboardBase {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
+    }
+    
+    private void indicatorHandler() {
+        try {
+            final var actives = new BigDecimal(GUICommons.getTextFromField(lblActives, false).split(" ")[1]);
+            final var costs = new BigDecimal(GUICommons.getTextFromField(lblCosts, false).split(" ")[1]);
+            var color = Color.RED;
+            if (actives.compareTo(costs) > 0) {
+                color = Color.GREEN;
+            }
+            GUICommons.setColorToLabel(lblHealth, color, color);
+        } catch (BloSalesV2Exception ex) { }
     }
     
     /**
@@ -98,7 +112,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
             GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()), total));
         }
         if (type.getIndex() == 1) {
-            GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()), total));
+            GUICommons.setTextToField(lblCosts, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()), total));
         }
         return model;
     }
@@ -141,6 +155,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
         lblCosts = new javax.swing.JLabel();
         btnViewDetails = new javax.swing.JButton();
         btnViewGraphic = new javax.swing.JButton();
+        lblHealth = new javax.swing.JLabel();
 
         tblCashboxes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -187,9 +202,12 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1288, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblActives)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblActives)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblHealth, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblCosts)
@@ -209,10 +227,11 @@ public final class AllCashboxes extends AbstractDashboardBase {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblActives)
-                        .addComponent(lblCosts))
+                        .addComponent(lblCosts)
+                        .addComponent(lblHealth, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnViewDetails, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,6 +280,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblActives;
     private javax.swing.JLabel lblCosts;
+    private javax.swing.JLabel lblHealth;
     private javax.swing.JList<String> lstActives;
     private javax.swing.JList<String> lstCosts;
     private javax.swing.JTable tblCashboxes;

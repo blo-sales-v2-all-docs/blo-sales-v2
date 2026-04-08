@@ -474,4 +474,15 @@ public final class GUICommons {
             action.accept(id);
         }
     }
+    
+    /**
+     * Metodo que se utiliza para colorear el fondo de un lbl con texto blanco
+     * @param lbl
+     * @param color 
+     */
+    public static void setColorToLabel(JLabel lbl, Color bgColor, Color txtColor) {
+        lbl.setOpaque(true);
+        lbl.setBackground(bgColor);
+        lbl.setForeground(txtColor);
+    }
 }
