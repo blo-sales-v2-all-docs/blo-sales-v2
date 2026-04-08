@@ -402,6 +402,7 @@ public final class TopUps extends AbstractDashboardBase {
         GUICommons.setTextToButton(btnFilterApply, getTranslateBy(KeysEnum.TOP_UPS_BTN_APPLY_FILTER.getKey()));
         GUICommons.setTextToButton(btnCloseTopUps, getTranslateBy(KeysEnum.TOP_UPS_BTN_CLOSE_NOW.getKey()));
         GUICommons.setTextToField(lblTotalAmount, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(lblNumReference, getTranslateBy(KeysEnum.TOP_UPS_LBL_REFERENCE.getKey()));
     }
 
     @Override

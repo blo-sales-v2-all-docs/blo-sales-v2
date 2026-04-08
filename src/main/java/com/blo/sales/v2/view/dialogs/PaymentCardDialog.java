@@ -12,8 +12,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 public final class PaymentCardDialog<T> extends AbstractDialogBase {
@@ -34,6 +32,7 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
         super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
         initComponents();
         dialogSizeHandler();
+        loadTargets();
         this.callback = callback;
         this.pay = pay;
         init();
@@ -181,6 +180,7 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
         GUICommons.setTextToField(lblCash, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
         GUICommons.setTextToField(lblReference, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
         GUICommons.setTextToCheckbox(chcbkxComplete, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_CMBX_COMPLETE.getKey()));
+        GUICommons.setTextToField(lblPaymentByCard, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD.getKey()));
     }
     
     private void init() {

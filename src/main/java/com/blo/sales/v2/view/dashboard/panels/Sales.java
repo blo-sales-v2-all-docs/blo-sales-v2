@@ -434,16 +434,6 @@ public final class Sales extends AbstractDashboardBase {
                         paymentTypeAux.setPaymentType(type);
                         paymentTypeAux.setTotalToPay(totalSale);
                         salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux), totalSale, getProductData(), getUserData().getIdUser());
-                        /*final var registeredSale = salesController.registerSaleCommitNotEnabled(totalSale, getProductData(), getUserData().getIdUser());
-                        /** se arma pago *
-                        final var paymentTypeAux = new PojoPaymentTypeInfo();
-                        paymentTypeAux.setCardPay(cardPay);
-                        paymentTypeAux.setCash(cash);
-                        paymentTypeAux.setReference(reference);
-                        paymentTypeAux.setPaymentType(type);
-                        paymentTypeAux.setTotalToPay(totalSale);
-                        paymentTypeAux.setIdSale(registeredSale.getIdSale());
-                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));*/
                         
                         disableButtons();
                         GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));

@@ -138,6 +138,11 @@ public final class GUICommons {
     });
     }
     
+    /**
+     * Metodo que emite un evento cuando se cambia el estado del combobox
+     * @param cmbx
+     * @param action 
+     */
     public static void addChangeEventOnComboBox(JComboBox cmbx, Consumer<Integer> action) {
         cmbx.addActionListener(new ActionListener() {
             @Override

@@ -16,6 +16,7 @@ import com.blo.sales.v2.view.pojos.WrapperPojoCashboxesDetails;
 import com.blo.sales.v2.view.mappers.WrapperPojoCashboxesSalesDetailMapper;
 import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
 import jakarta.inject.Inject;
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,15 +67,8 @@ public final class AllCashboxes extends AbstractDashboardBase {
                         GUICommons.enabledButton(btnViewDetails);
                         final var modelActives = new DefaultListModel<String>();
                         final var modelCosts = new DefaultListModel<String>();
-                        final var baseStr = "%s=$%s";
-                        getElementsByFilter(cashboxFound, ActivesCostsEnum.ACTIVO).forEach(e -> {
-                            modelActives.addElement(String.format(baseStr, e.getConcept(), e.getConceptAmount()));
-                        });
-                        lstActives.setModel(modelActives);
-                        getElementsByFilter(cashboxFound, ActivesCostsEnum.PASIVO).forEach(e -> {
-                            modelCosts.addElement(String.format(baseStr, e.getConcept(), e.getConceptAmount()));
-                        });
-                        lstCosts.setModel(modelCosts);
+                        lstActives.setModel(costsAndActivesHandler(cashboxFound, ActivesCostsEnum.ACTIVO, modelActives));
+                        lstCosts.setModel(costsAndActivesHandler(cashboxFound, ActivesCostsEnum.PASIVO, modelCosts));
                     }
                 });
             }
@@ -84,8 +78,29 @@ public final class AllCashboxes extends AbstractDashboardBase {
         }
     }
     
-    private List<PojoCashboxDetail> getElementsByFilter(List<PojoCashboxDetail> lst, ActivesCostsEnum type) {
-        return lst.stream().filter(c -> c.getType().compareTo(type) == 0).collect(Collectors.toList());
+    /**
+     * Metodo que hace la suma de activos y costos para mostrarlos en pantalla, ademas de llenar el modelo para ser enviado a una lista en la vista
+     * @param lst
+     * @param type
+     * @param model
+     * @return 
+     */
+    private DefaultListModel costsAndActivesHandler(List<PojoCashboxDetail> lst, ActivesCostsEnum type, DefaultListModel model) {
+        final var baseStr = "%s=$%s";
+        final var total = lst.stream().
+                filter(e -> e.getType().getIndex() == type.getIndex()).
+                map(e -> {
+                    model.addElement(String.format(baseStr, e.getConcept(), e.getConceptAmount()));
+                    return e.getConceptAmount();
+                }).
+                reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (type.getIndex() == 0) {
+            GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()), total));
+        }
+        if (type.getIndex() == 1) {
+            GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()), total));
+        }
+        return model;
     }
     
     private void cashboxesOnTable(WrapperPojoCashboxesDetails cashboxes) {
@@ -253,8 +268,8 @@ public final class AllCashboxes extends AbstractDashboardBase {
 
     @Override
     public void loadTargets() {
-        GUICommons.setTextToField(lblActives, getTranslateBy(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()));
-        GUICommons.setTextToField(lblCosts, getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()));
+        GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()), "0"));
+        GUICommons.setTextToField(lblCosts, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()), "0"));
         GUICommons.setTextToButton(btnViewDetails, getTranslateBy(KeysEnum.CASHBOXES_BTN_VIEW_DETAILS.getKey()));
         GUICommons.disabledButton(btnViewDetails);
         GUICommons.setTextToButton(btnViewGraphic, getTranslateBy(KeysEnum.CASHBOXES_BTN_GRAPHICS.getKey()));

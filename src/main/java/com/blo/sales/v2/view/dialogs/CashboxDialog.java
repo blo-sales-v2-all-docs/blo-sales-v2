@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
@@ -61,6 +62,7 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         this.pasives = pasives;
         this.cashboxData = cashboxData;
         lstCosts = new ArrayList<>();
+        loadActivesCosts();
         modelActives = new DefaultListModel();
         modelPasives = new DefaultListModel();
         dataNewCashbox = new PojoDialogCashboxData();
@@ -97,8 +99,6 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        cmbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Activo", "2 Gasto" }));
 
         lblamountOnCashbox.setText("monto total de ventas");
 
@@ -148,7 +148,7 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblTotalToCashbox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(btnSave)))
                 .addContainerGap())
         );
@@ -189,8 +189,8 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(nmbAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                                        .addComponent(cmbxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cmbxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnContinue))))
@@ -233,19 +233,14 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         try {
             final var concept = GUICommons.getTextFromField(txtCategoryName, true);
             final var amount = GUICommons.getNumberFromJText(nmbAmount, GUICommons.DIGITS_OF_CURRENCY);
-            final var type = GUICommons.getValueFromComboBox(cmbxType);
-            // se agrega concepto a lista de activos pasivos
-            var typeConcept = ActivesCostsEnum.ACTIVO;
-            if (type.equals("2 Gasto")) {
-                typeConcept = ActivesCostsEnum.PASIVO;
-            }
+            final var indexSelected = cmbxType.getSelectedIndex();
+            final var typeConcept = ActivesCostsEnum.getByIndex(indexSelected);
             final var data = createItem(amount, concept, typeConcept);
             lstCosts.add(data);
-            // guardar el concepto en las listas
-            if (typeConcept.compareTo(ActivesCostsEnum.ACTIVO) == 0) {
+            if (indexSelected == ActivesCostsEnum.ACTIVO.getIndex()) {
                 addActive(data, amount);
             }
-            if (typeConcept.compareTo(ActivesCostsEnum.PASIVO) == 0) {
+            if (indexSelected == ActivesCostsEnum.PASIVO.getIndex()) {
                 addCost(data, amount);
             }
             dataNewCashbox.setTotalActives(totalActives);
@@ -385,6 +380,14 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
             totalActivesCosts = totalActivesCosts.add(amount);
             GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
         }
+    }
+    
+    private void loadActivesCosts() {
+        final var typesModel = new DefaultComboBoxModel<String>();
+        for (final var item : ActivesCostsEnum.getVisiblesTypes()) {
+            typesModel.addElement(item.getTarget());
+        }
+        cmbxType.setModel(typesModel);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

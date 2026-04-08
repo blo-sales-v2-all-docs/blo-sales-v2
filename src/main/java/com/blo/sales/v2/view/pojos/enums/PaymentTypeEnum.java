@@ -2,26 +2,21 @@ package com.blo.sales.v2.view.pojos.enums;
 
 import java.util.Arrays;
 import java.util.List;
+import lombok.Getter;
 
 public enum PaymentTypeEnum {
     
     CASH("Efectivo", 0), TRANSFER("Pago con tarjeta", 1), BOTH("Ambos", 2);
     
+    @Getter
     private final String paymentTypeTarget;
     
+    @Getter
     private final int index;
     
     private PaymentTypeEnum(String paymentTypeTarget, int index) {
         this.paymentTypeTarget = paymentTypeTarget;
         this.index = index;
-    }
-
-    public String getPaymentTypeTarget() {
-        return paymentTypeTarget;
-    }
-
-    public int getIndex() {
-        return index;
     }
     
     public static List<PaymentTypeEnum> getVisiblesTypes() {
