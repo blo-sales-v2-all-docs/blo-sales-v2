@@ -98,6 +98,8 @@ public final class BloSalesV2Utils {
     
     public static final String COMMON_RULE = "Ups. Error inesperado";
     
+    public static final String ERROR_FORMAT_ACTIVE_COST = "Error en el formato de activo/costos";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -148,6 +150,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_PAYMENTS_CARD_NOT_EQUALS = "021";
     
     public static final String CODE_PRODUCT_IS_NOT_BY_KG = "022";
+    
+    public static final String CODE_FORMAT_ACTIVE_COST = "023";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

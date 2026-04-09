@@ -4,6 +4,7 @@ import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
+import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.pojos.PojoActiveCost;
 import com.blo.sales.v2.view.pojos.PojoCashbox;
@@ -13,10 +14,8 @@ import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
@@ -347,9 +346,8 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
     private void removeActive(String item) {
         final var indexSelected = lstActives.getSelectedIndex();
         if (indexSelected != -1) {
-                final var props = item.split(",");
-                // formato de item: item 0, concepto=Cuenta de ayer, monto=750, tipo=ACTIVO, completo=false
-                final var amount = new BigDecimal(props[2].split("=")[1].trim());
+            try {
+                final var amount = getAmountFromItemList(item);
                 // resta en la cuenta de activos
                 totalActives = totalActives.subtract(amount);
                 GUICommons.setTextToField(lblActivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_ACTIVES.getKey()), totalActives));
@@ -359,27 +357,39 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
                 // se resta al total de activos a neto
                 totalActivesCosts = totalActivesCosts.subtract(amount);
                 GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
+            } catch(BloSalesV2Exception ex) {
+                CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
             }
+        }
     }
     
     private void removePasive(String item) {
         final var indexSelected = lstPasives.getSelectedIndex();
         if (indexSelected != -1) {
-            final var props = Arrays.asList(item.split(",")).stream().
-                    map(i -> i.trim()).
-                    collect(Collectors.toCollection(ArrayList::new));
-            // formato de item: item 0, concepto=Cuenta de ayer, monto=750, tipo=ACTIVO, completo=false
-            final var amount = new BigDecimal(props.get(2).split("=")[1].trim());
-            // resta en la cuenta de activos
-            totalPasives = totalPasives.subtract(amount);
-            GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), totalPasives));
-            // se elimina del arreglo y de la lista
-            lstCosts.removeIf(i -> i.toString().equals(item));
-            modelPasives.remove(indexSelected);
-            // se resta al total de activos a neto
-            totalActivesCosts = totalActivesCosts.add(amount);
-            GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
+            try {
+                final var amount = getAmountFromItemList(item);
+                // resta en la cuenta de activos
+                totalPasives = totalPasives.subtract(amount);
+                GUICommons.setTextToField(lblPasivesTotal, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_TOTAL_COSTS.getKey()), totalPasives));
+                // se elimina del arreglo y de la lista
+                lstCosts.removeIf(i -> i.toString().equals(item));
+                modelPasives.remove(indexSelected);
+                // se resta al total de activos a neto
+                totalActivesCosts = totalActivesCosts.add(amount);
+                GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
+            } catch (BloSalesV2Exception ex) {
+                CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+            }
         }
+    }
+    
+    private BigDecimal getAmountFromItemList(String item) throws BloSalesV2Exception {
+        var props = item.split(",");
+        if (props.length < PojoActiveCost.INDEX_AMOUNT) {
+            throw new BloSalesV2Exception(BloSalesV2Utils.CODE_FORMAT_ACTIVE_COST, BloSalesV2Utils.ERROR_FORMAT_ACTIVE_COST);
+        }
+        final var amount = props[PojoActiveCost.INDEX_AMOUNT].split(PojoActiveCost.SEPARATOR)[1].trim();
+        return new BigDecimal(amount);
     }
     
     private void loadActivesCosts() {

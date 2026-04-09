@@ -9,6 +9,10 @@ import lombok.Setter;
 @Getter
 public class PojoActiveCost {
     
+    public static final String SEPARATOR = ":";
+    
+    public static final int INDEX_AMOUNT = 1;
+    
     private long idActiveCosts;
     
     private String concept;
