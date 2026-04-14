@@ -85,6 +85,8 @@ public final class BloSalesV2Queries {
     public static final String INSERT_DEBTOR_SALE = "INSERT INTO debtor_sale(fk_debtor, fk_sale, timestamp) VALUES (?, ?, ?)";
 
     public static final String DELETE_DEBTOR_SALE = "DELETE FROM debtor_sale WHERE debtor_sale.fk_debtor = ?";
+    
+    public static final String SELECT_DEBTOR_SALE_PRODUCTS_INFO = "SELECT d.id_debtor, d.name, s.id_sale, s.timestamp, s.payment_type, s.authorization, s2.product, d.payments FROM debtors d INNER JOIN debtor_sale ds ON d.id_debtor=ds.fk_debtor INNER JOIN sales s ON s.id_sale = ds.fk_sale INNER JOIN sale_product sp ON sp.fk_sale = s.id_sale INNER JOIN stock s2 ON s2.id_product = sp.fk_product WHERE sp.is_live = TRUE AND d.id_debtor = ?";
     /** activos pasivos */
     public static final String INSERT_ACTIVE_COSTS = "INSERT INTO actives_costs(concept, amount, type, complete) VALUES (?, ?, ?, ?)";
     

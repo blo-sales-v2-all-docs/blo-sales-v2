@@ -1,11 +1,12 @@
 package com.blo.sales.v2.model;
 
 import com.blo.sales.v2.controller.pojos.PojoIntDebtorSale;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtorSaleProductInfo;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
  * Clase modelo para operaciones deudor-venta en la bd
- * @version 1.0.0
+ * @version 1.2.0
  * @author BLO
  */
 public interface IDebtorsSalesModel {
@@ -28,5 +29,13 @@ public interface IDebtorsSalesModel {
      * @throws BloSalesV2Exception
      */
     void deleteRelationhip(long fkDebtor) throws BloSalesV2Exception;
+    
+    /**
+     * Metodo que recupera la informacion de productos de un deudor
+     * @param idDebtor
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntDebtorSaleProductInfo retrieveSalesProductsDataByIdDebtor(long idDebtor) throws BloSalesV2Exception;
     
 }

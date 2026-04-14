@@ -5,6 +5,7 @@ import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.IDebtorsSalesController;
 import com.blo.sales.v2.controller.IProductsController;
 import com.blo.sales.v2.controller.ISalesController;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtSettlement;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
@@ -17,6 +18,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Singleton
 public class DebtorsControllerImpl implements IDebtorsController {
@@ -126,8 +128,16 @@ public class DebtorsControllerImpl implements IDebtorsController {
         }
         // pago completo
         logger.info("pago completo");
-        debtorFound.setDebt(BigDecimal.ZERO);
-        debtorFound.setPayments(BloSalesV2Utils.EMPTY_STRING);
+        final var salesProductData = debtorsSales.retrieveSalesProductsDataByIdDebtor(idDebtor);
+        logger.info("informacion de productos en venta con deudor %s", String.valueOf(salesProductData));
+        final var settlement = new PojoIntDebtSettlement();
+        settlement.setDebtor(debtorFound.getName());
+        settlement.setFkSale(saleSaved.getIdSale());
+        settlement.setTimestamp(BloSalesV2Utils.getSQLTimestamp());
+        settlement.setPayments(salesProductData.getPayments());
+        settlement.setProductsDetails(salesProductData.getProducts());
+        
+        logger.info("eliminando relacion");
         debtorsSales.deleteRelationhip(idDebtor);
         deleteDebtor(idDebtor);
         final var debtorTmp = new PojoIntDebtor();

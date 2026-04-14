@@ -154,6 +154,7 @@ import com.blo.sales.v2.view.mappers.WrapperPojoTopUpsMapper;
 import com.google.inject.AbstractModule;
 import jakarta.inject.Singleton;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
+import com.blo.sales.v2.model.mapper.DebtorSaleProductInfoEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperSalesDeletedDetailsEntityMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleDeletedDetailMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoSalesDeletedDetailsMapper;
@@ -291,6 +292,6 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(PojoPaymentTypeInfoMapper.class).in(Singleton.class);
         bind(PaymentTypeInfoEntityMapper.class).in(Singleton.class);
         bind(WrapperSalesDeletedDetailsEntityMapper.class).in(Singleton.class);
-
+        bind(DebtorSaleProductInfoEntityMapper.class).in(Singleton.class);
     }
 }

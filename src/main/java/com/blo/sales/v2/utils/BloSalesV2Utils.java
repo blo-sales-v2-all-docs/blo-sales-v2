@@ -2,6 +2,8 @@ package com.blo.sales.v2.utils;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Properties;
 import java.util.regex.Pattern;
@@ -200,6 +202,11 @@ public final class BloSalesV2Utils {
         return LocalDateTime.now() + "";
     }
     
+    public static Timestamp getSQLTimestamp() {
+        final var now = Instant.now();
+        return Timestamp.from(now);
+    }
+    
     public static boolean validateTextWithPattern(String pattern, String txt) {
         final var patternCompile = Pattern.compile(pattern);
         final var matcher = patternCompile.matcher(txt);
@@ -245,10 +252,11 @@ public final class BloSalesV2Utils {
      * @return 
      */
     public static long getIdPaymentProduct() {
-        if (getVersion().lastIndexOf(RELEASE) == 7) {
+        /*if (getVersion().lastIndexOf(RELEASE) == 7) {
             return 1L;
         }
-        return 1000L;
+        return 1000L;*/
+        return 1L;
     }
     
     public static long getTopUpIdComission() {
