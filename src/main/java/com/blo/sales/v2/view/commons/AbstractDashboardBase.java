@@ -8,7 +8,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Arrays;
 import java.util.Locale;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import lombok.Getter;
+import lombok.Setter;
 
 public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     
@@ -18,6 +21,9 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     
     @Getter
     private final String title;
+    
+    @Setter
+    private JTable mainTable;
     
     private PojoLoggedInUser userData;
     
@@ -39,6 +45,13 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     
     public String getTranslateBy(String key) {
         return translate.get(key);
+    }
+    
+    public DefaultTableModel getDefaultTableModel() {
+        if (mainTable == null) {
+            return null;
+        }
+        return (DefaultTableModel) mainTable.getModel();
     }
     
     /**
@@ -70,6 +83,11 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
         return String.format("%s%s", onText.substring(0, 1).toUpperCase(), onText.substring(1).toLowerCase());
     }
     
+    /**
+     * Metodo que se utiliza para separar los pagos mediante guiones
+     * @param payments
+     * @return 
+     */
     public String formatPayments(String payments) {
         final var paymentsSplit = Arrays.asList(payments.split(BloSalesV2Utils.SEPARATOR_PAYMENTS));
         if (!payments.isEmpty()) {

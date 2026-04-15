@@ -10,7 +10,6 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorSettlementsMapper;
 import com.blo.sales.v2.view.pojos.WrapperPojoDebtSettlement;
 import jakarta.inject.Inject;
-import javax.swing.table.DefaultTableModel;
 
 public final class DebtorsSettlements extends AbstractDashboardBase {
     
@@ -68,13 +67,14 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
 
     @Override
     public void loadTargets() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void init() {
         try {
             initComponents();
+            setMainTable(tblDebtHistory);
             final var history = wrapperDebtorSettlements.toOuter(settlementsController.getDebtorsPaymentsHistory());
             GUICommons.loadTitleOnTable(tblDebtHistory, titles, true);
             loadDataOnTable(history);
@@ -85,7 +85,6 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
     }
     
     private void loadDataOnTable(WrapperPojoDebtSettlement data) {
-        final var model = (DefaultTableModel) tblDebtHistory.getModel();
         if (data.getDebtSettlements() != null && !data.getDebtSettlements().isEmpty()) {
             for (final var item: data.getDebtSettlements()) {
                 final Object[] row = {
@@ -95,9 +94,9 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
                     formatPayments(item.getPayments()),
                     parserTimestamp(item.getTimestamp())
                 };
-                model.addRow(row);
+                getDefaultTableModel().addRow(row);
             }
-            tblDebtHistory.setModel(model);
+            tblDebtHistory.setModel(getDefaultTableModel());
         }
         
     }

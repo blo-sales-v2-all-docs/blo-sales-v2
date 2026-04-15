@@ -17,13 +17,11 @@ import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dialogs.HistoryDialog;
 import com.blo.sales.v2.view.dialogs.PricesEvolutionDialog;
-import com.blo.sales.v2.view.mappers.PojoPriceHistoryMapper;
 import com.blo.sales.v2.view.mappers.ProductMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoCategoriesMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoMovementsDetailMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoProductsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoStockPriceHistoryMapper;
-import com.blo.sales.v2.view.pojos.PojoPriceHistory;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.pojos.enums.ReasonsEnum;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
@@ -31,10 +29,7 @@ import com.blo.sales.v2.view.pojos.enums.TypesEnum;
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
 
 public final class AllProducts extends AbstractDashboardBase {
     
@@ -60,9 +55,6 @@ public final class AllProducts extends AbstractDashboardBase {
     
     @Inject
     private WrapperPojoCategoriesMapper categoriesMapper;
-    
-    @Inject
-    private PojoPriceHistoryMapper priceHistoryMapper;
     
     @Inject
     private WrapperPojoStockPriceHistoryMapper pricesEvolutionPriceMapper;
@@ -402,19 +394,18 @@ public final class AllProducts extends AbstractDashboardBase {
 
     private void btnDownloadStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadStockActionPerformed
         // recuperar todos los registro de la tabla
-        DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
         final var bloSalesRow = new BloSalesV2CSVCols();
         final var r = new ArrayList<Object[]>();
         for (var i = 0; i < tblProducts.getRowCount(); i++) {
             final Object[] row = {
-                String.valueOf(model.getValueAt(i, 0)),
-                String.valueOf(model.getValueAt(i, 1)),
-                String.valueOf(model.getValueAt(i, 2)),
-                String.valueOf(model.getValueAt(i, 4)),
-                String.valueOf(model.getValueAt(i, 5)),
-                String.valueOf(model.getValueAt(i, 6)),
-                String.valueOf(model.getValueAt(i, 7)),
-                String.valueOf(model.getValueAt(i, 3)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 0)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 1)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 2)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 4)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 5)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 6)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 7)),
+                String.valueOf(getDefaultTableModel().getValueAt(i, 3)),
                 BloSalesV2Utils.EMPTY_STRING,
                 BloSalesV2Utils.EMPTY_STRING,
                 BloSalesV2Utils.EMPTY_STRING
@@ -434,8 +425,7 @@ public final class AllProducts extends AbstractDashboardBase {
             final var categories = categoriesMapper.toOuter(categoriesController.getAllCategories());
             if (getUserData().getRole().equals(RolesEnum.ROOT)) {
                 GUICommons.loadTitleOnTable(tblProducts, titles, false);
-                final var model = (DefaultTableModel) tblProducts.getModel();
-                model.setRowCount(0);
+                getDefaultTableModel().setRowCount(0);
                 productsData.getProducts().forEach(p -> {
                     /** filtro para buscar nombre de categorias */
                     final var category = categories.getCategories().stream().filter(c -> c.getIdCategory() == p.getFkCategory()).findFirst().get();
@@ -449,7 +439,7 @@ public final class AllProducts extends AbstractDashboardBase {
                         p.isKg() ? "SI": "NO",
                         category.getCategory()
                     };
-                    model.addRow(row);
+                    getDefaultTableModel().addRow(row);
                 });
             }
             /** se actualiza cuando hay un cambio en algun producto */
@@ -535,6 +525,7 @@ public final class AllProducts extends AbstractDashboardBase {
     @Override
     public void init() {
         initComponents();
+        setMainTable(tblProducts);
         initComboBox();
         loadTargets();
         lblIdProduct.setVisible(false);

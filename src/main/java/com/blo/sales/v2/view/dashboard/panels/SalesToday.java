@@ -15,7 +15,6 @@ import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.stream.Collectors;
-import javax.swing.table.DefaultTableModel;
 
 public final class SalesToday extends AbstractDashboardBase {
     
@@ -49,8 +48,7 @@ public final class SalesToday extends AbstractDashboardBase {
         if (wrapper.getSalesDetail() == null || wrapper.getSalesDetail().isEmpty()) {
             return BigDecimal.ZERO;
         }
-        final var model = (DefaultTableModel) tblSummary.getModel();
-        model.setRowCount(0);
+        getDefaultTableModel().setRowCount(0);
         wrapper.getSalesDetail().sort(Comparator.comparing(PojoSaleAndProduct::getIdSale).reversed());
         wrapper.getSalesDetail().forEach(d -> {
                 final Object[] row = {
@@ -63,9 +61,9 @@ public final class SalesToday extends AbstractDashboardBase {
                     d.getPaymentType().getPaymentTypeTarget(),
                     parserTimestamp(d.getTimestamp())
                 };
-                model.addRow(row);
+                getDefaultTableModel().addRow(row);
             });
-        model.fireTableDataChanged(); 
+        getDefaultTableModel().fireTableDataChanged(); 
         tblSummary.repaint();
         tblSummary.revalidate();
         return doSumFrom(wrapper);
@@ -171,6 +169,7 @@ public final class SalesToday extends AbstractDashboardBase {
     @Override
     public void init() {
         initComponents();
+        setMainTable(tblSummary);
         loadData();
         GUICommons.addDoubleClickOnTable(tblSummary, id -> removeSale(Long.parseLong(String.valueOf(id))));
     }

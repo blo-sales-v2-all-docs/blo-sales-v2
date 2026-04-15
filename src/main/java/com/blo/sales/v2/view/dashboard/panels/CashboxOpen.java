@@ -21,7 +21,6 @@ import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.blo.sales.v2.view.pojos.enums.TypeNoteEnum;
 import jakarta.inject.Inject;
 import java.util.stream.Collectors;
-import javax.swing.table.DefaultTableModel;
 
 public final class CashboxOpen extends AbstractDashboardBase {
     
@@ -158,7 +157,6 @@ public final class CashboxOpen extends AbstractDashboardBase {
     private void loadDataAndTitles(PojoCashbox cashbox) throws BloSalesV2Exception {
         final String[] titles = {"ID", "Monto", "Gestionada por", "Fecha"};
         GUICommons.loadTitleOnTable(tblCashboxes, titles, false);
-        final var model = (DefaultTableModel) tblCashboxes.getModel();
         if (cashbox != null) {
             final Object[] row = {
                 cashbox.getIdCashbox(),
@@ -166,7 +164,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
                 cashbox.getUserFrom(),
                 parserTimestamp(cashbox.getTimestamp())
             };
-            model.addRow(row);
+            getDefaultTableModel().addRow(row);
         }
     }
     
@@ -185,6 +183,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
     public void init() {
         try {
             initComponents();
+            setMainTable(tblCashboxes);
             loadTargets();
             loadDataAndCashbox();
             this.notes = mapperNotes.toOuter(userController.getNotesByUserId(getUserData().getIdUser()));

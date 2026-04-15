@@ -19,13 +19,11 @@ import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.table.DefaultTableModel;
 
 public final class Debtors extends AbstractDashboardBase {
     
@@ -61,7 +59,6 @@ public final class Debtors extends AbstractDashboardBase {
         final String[] titles = {"ID", "Nombre", "Debe", "Timestamp"};
         GUICommons.loadTitleOnTable(tblDebtors, titles, false);
         final var allDebtors = retrieveDebtorsDetails();
-        final var model = (DefaultTableModel) tblDebtors.getModel();
         if (allDebtors.getDebtors() != null && !allDebtors.getDebtors().isEmpty()) {
             final var debtorsFilter = allDebtors.getDebtors().stream().collect(Collectors.toMap(
                     PojoDebtorDetail::getName, // Clave para identificar duplicados
@@ -78,7 +75,7 @@ public final class Debtors extends AbstractDashboardBase {
                     d.getDebt(),
                     parserTimestamp(d.getTimestamp())
                 };
-                model.addRow(row);
+                getDefaultTableModel().addRow(row);
             }
         }
     }
@@ -316,14 +313,8 @@ public final class Debtors extends AbstractDashboardBase {
                 areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
                 GUICommons.setTextToField(txtName, debtorSelected.getName());
                 GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
-                Arrays.stream(debtorSelected.getPayments().split(BloSalesV2Utils.SEPARATOR_PAYMENTS)).forEach(p -> {
-                    final var arrayTimes = p.split(BloSalesV2Utils.TIMESTAMP);
-                    if (arrayTimes.length == 2) {
-                        final var pay = arrayTimes[0];
-                        final var timestamp = parserTimestamp(arrayTimes[1]);
-                        areaPayments.append(String.format("%s - %s \n", pay, timestamp));
-                    }
-                });
+                final var payments = formatPayments(debtorSelected.getPayments());
+                areaPayments.append(payments);
                 final var model = new DefaultListModel<String>();
                 debtorDetail.forEach(d -> model.addElement(String.format("%s - %s [%s]", d.getProduct(), d.getQuantitySale(), parserTimestamp(d.getTimestamp()))));
                 lstProducts.setModel(model);
@@ -444,6 +435,7 @@ public final class Debtors extends AbstractDashboardBase {
     public void init() {
         try {
             initComponents();
+            setMainTable(tblDebtors);
             loadTargets();
             disabledButtons();
             loadDataAndTitles();

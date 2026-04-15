@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
 
 public final class Sales extends AbstractDashboardBase {
     
@@ -492,7 +491,6 @@ public final class Sales extends AbstractDashboardBase {
                 }
                 totalSale = totalSale.add(onSalePrice);
             }
-            final var model = (DefaultTableModel) tblProductsSales.getModel();
             final Object[] productInfoData = {
                 productFound.getIdProduct(),
                 productFound.getProduct(),
@@ -500,7 +498,7 @@ public final class Sales extends AbstractDashboardBase {
                 productFound.getPrice(),
                 onSalePrice
             };
-            model.addRow(productInfoData);
+            getDefaultTableModel().addRow(productInfoData);
             /** se almacena siempre el valor total */
             storeTotalSale = totalSale;
             GUICommons.setTextToField(txtSearch, BloSalesV2Utils.EMPTY_STRING);
@@ -566,8 +564,7 @@ public final class Sales extends AbstractDashboardBase {
     private void resetFields() {
         try {
             GUICommons.setTextToField(nmbQuantity, "1");
-            final var model = (DefaultTableModel) tblProductsSales.getModel();
-            model.setRowCount(0);
+            getDefaultTableModel().setRowCount(0);
             tblProductsSales.repaint();
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             GUICommons.setTextToField(lblResult, totalSale);
@@ -580,11 +577,10 @@ public final class Sales extends AbstractDashboardBase {
     }
     
     private void addElementByKeyEnter() {
-        final var model = (DefaultTableModel) tblProductsSales.getModel();
         final var indexSelected = tblProductsSales.getSelectedRow();
         if (indexSelected != -1) {
             final var filaModelo = tblProductsSales.convertRowIndexToModel(indexSelected);
-            final var idProduct = Long.parseLong(model.getValueAt(filaModelo, 0).toString());
+            final var idProduct = Long.parseLong(getDefaultTableModel().getValueAt(filaModelo, 0).toString());
             final var productFound = products.stream().filter(p -> p.getIdProduct() == idProduct).findFirst().orElse(null);
             try {
                 BloSalesV2Utils.validateRule(
@@ -598,7 +594,7 @@ public final class Sales extends AbstractDashboardBase {
                     return;
                 }
                 // validar que existan productos suficientes
-                var quantitySale = new BigDecimal(model.getValueAt(filaModelo, 2).toString());
+                var quantitySale = new BigDecimal(getDefaultTableModel().getValueAt(filaModelo, 2).toString());
                 // se suma uno a la actual cantidad de producto
                 quantitySale = quantitySale.add(BigDecimal.ONE);
                 BloSalesV2Utils.validateRule(
@@ -609,10 +605,10 @@ public final class Sales extends AbstractDashboardBase {
                 totalSale = totalSale.add(productFound.getPrice());
                 GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
                 // cantidad comprada col
-                model.setValueAt(quantitySale, filaModelo, 2);
+                getDefaultTableModel().setValueAt(quantitySale, filaModelo, 2);
                 //total
                 final var totalProduct = productFound.getPrice().multiply(quantitySale);
-                model.setValueAt(totalProduct, filaModelo, 4);
+                getDefaultTableModel().setValueAt(totalProduct, filaModelo, 4);
             } catch (BloSalesV2Exception ex) {
                 logger.error(ex.getMessage());
                 CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -624,31 +620,30 @@ public final class Sales extends AbstractDashboardBase {
      * Elimina un item de una tabla
      */
     private void removeItemFromSale(long id) {
-        final var model = (DefaultTableModel) tblProductsSales.getModel();
         // elimina un item de la lista
         final var indexSelected = tblProductsSales.getSelectedRow();
         if (indexSelected != -1) {
             final var filaModelo = tblProductsSales.convertRowIndexToModel(indexSelected);
-            var quantityOnSale = new BigDecimal(model.getValueAt(filaModelo, 2).toString());
+            var quantityOnSale = new BigDecimal(getDefaultTableModel().getValueAt(filaModelo, 2).toString());
             // resta una unidad al total
             final var productFound = products.stream().filter(p -> p.getIdProduct() == id).findFirst().orElse(null);
             if (!productFound.isKg()) {
-                final var price = new BigDecimal(model.getValueAt(filaModelo, 3).toString());
+                final var price = new BigDecimal(getDefaultTableModel().getValueAt(filaModelo, 3).toString());
                 totalSale = totalSale.subtract(price);
                 quantityOnSale = quantityOnSale.subtract(BigDecimal.ONE);
                 // si la cantidad es 0 se elimina la fila
                 if (quantityOnSale.compareTo(BigDecimal.ZERO) == 0) {
-                    model.removeRow(indexSelected);
+                    getDefaultTableModel().removeRow(indexSelected);
                 } else {
                     final var totalOnSale = quantityOnSale.multiply(price);
-                    model.setValueAt(quantityOnSale, filaModelo, 2);
-                    model.setValueAt(totalOnSale, filaModelo, 4);
+                    getDefaultTableModel().setValueAt(quantityOnSale, filaModelo, 2);
+                    getDefaultTableModel().setValueAt(totalOnSale, filaModelo, 4);
                 }
             } else {
                 // recuperar cantidad comprada
-                final var kgSold = new BigDecimal(model.getValueAt(filaModelo, 4).toString());
+                final var kgSold = new BigDecimal(getDefaultTableModel().getValueAt(filaModelo, 4).toString());
                 totalSale = totalSale.subtract(kgSold);
-                model.removeRow(indexSelected);
+                getDefaultTableModel().removeRow(indexSelected);
             }
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
             if (totalSale.compareTo(BigDecimal.ZERO) == 0) {
@@ -704,6 +699,7 @@ public final class Sales extends AbstractDashboardBase {
     public void init() {
         try {
             initComponents();
+            setMainTable(tblProductsSales);
             loadTargets();
             loadPaymentsType();
             totalSale = BigDecimal.ZERO;

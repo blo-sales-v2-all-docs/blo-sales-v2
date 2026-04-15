@@ -51,6 +51,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
     @Override
     public void init() {
         initComponents();
+        setMainTable(tblCashboxes);
         loadCashboxData();
         loadTargets();
     }
@@ -127,8 +128,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
             )).values()
             .stream()
             .collect(Collectors.toList());
-            final var model = (DefaultTableModel) tblCashboxes.getModel();
-            model.setRowCount(0);
+            getDefaultTableModel().setRowCount(0);
             cashboxesFilter.sort(Comparator.comparing(PojoCashboxDetail::getIdCashbox).reversed());
             cashboxesFilter.forEach(c -> {
                 final Object[] row = {
@@ -137,7 +137,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     c.getStatus().name(),
                     parserTimestamp(c.getTimestamp())
                 };
-                model.addRow(row);
+                getDefaultTableModel().addRow(row);
             });
     }
 
@@ -228,10 +228,10 @@ public final class AllCashboxes extends AbstractDashboardBase {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblHealth, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblActives)
-                        .addComponent(lblCosts)
-                        .addComponent(lblHealth, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblCosts))
                     .addComponent(btnViewDetails, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

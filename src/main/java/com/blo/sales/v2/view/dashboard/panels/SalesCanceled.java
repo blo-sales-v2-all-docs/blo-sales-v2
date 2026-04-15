@@ -9,7 +9,6 @@ import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.mappers.WrapperPojoSalesDeletedDetailsMapper;
 import jakarta.inject.Inject;
-import javax.swing.table.DefaultTableModel;
 
 public final class SalesCanceled extends AbstractDashboardBase {
     
@@ -80,6 +79,7 @@ public final class SalesCanceled extends AbstractDashboardBase {
     public void init() {
         try {
             initComponents();
+            setMainTable(tblSalesCanceled);
             GUICommons.loadTitleOnTable(tblSalesCanceled, titles, false);
             loadDataOnTbl();
         } catch (BloSalesV2Exception e) {
@@ -90,8 +90,7 @@ public final class SalesCanceled extends AbstractDashboardBase {
     
     private void loadDataOnTbl() throws BloSalesV2Exception {
         final var salesCanceled  = wrapperSalesDeletedMapper.toOuter(saleDeleted.getSalesDeleted());
-            final var model = (DefaultTableModel) tblSalesCanceled.getModel();
-            model.setRowCount(0);
+            getDefaultTableModel().setRowCount(0);
             for (final var item: salesCanceled.getSalesDeleted()) {
                 Object[] row = {
                     item.getIdSaleDeleted(),
@@ -100,8 +99,8 @@ public final class SalesCanceled extends AbstractDashboardBase {
                     parserTimestamp(item.getTimestamp()),
                     item.getUsername()
                 };
-                model.addRow(row);
+                getDefaultTableModel().addRow(row);
             }
-            tblSalesCanceled.setModel(model);
+            tblSalesCanceled.setModel(getDefaultTableModel());
     }
 }
