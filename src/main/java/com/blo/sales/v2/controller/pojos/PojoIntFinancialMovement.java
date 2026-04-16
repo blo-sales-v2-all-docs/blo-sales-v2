@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class PojoIntFinancialHistory {
+public class PojoIntFinancialMovement {
     
     private long idFinancialMovement;
     
-    private long idAccount;
+    private long fkAccount;
     
     private long fkUser;
     
@@ -19,5 +19,7 @@ public class PojoIntFinancialHistory {
     private ReasonsIntEnum reason;
     
     private TypesIntEnum type;
+    
+    private String timestamp;
     
 }
