@@ -208,6 +208,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     @Override
     public PojoIntSaleDeletedDetail deleteSaleProduct(long idUser, long idSale, long idProduct, String reason) throws BloSalesV2Exception {
 	    try {
+                logger.info("eliminando venta");
 	    	managerController.disableAutocommit();
 	    	final var output = new PojoIntSaleDeletedDetail();
 	        // recuperar todas las ventas
@@ -264,7 +265,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 	        
 	        // restar el precio del producto a la venta
 	        var totalOnSale = relationFound.getTotalOnSale();
-	        totalOnSale = totalOnSale.subtract(productFound.getPrice());
+	        totalOnSale = totalOnSale.subtract(relationFound.getProductTotalOnSale());
 	        relationFound.setTotalOnSale(BigDecimal.ZERO);
 	        relationFound.setLive(false);
 	        relationFound.setTimestamp(timestamp);
@@ -280,7 +281,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 	                BloSalesV2Utils.CODE_CASHBOX_NOT_DEVOLUTION,
 	                BloSalesV2Utils.ERROR_CASHBOX_NOT_DEVOLUTION
 	        );
-	        var currentTotal = currentCashbox.getAmount().subtract(productFound.getPrice());
+	        var currentTotal = currentCashbox.getAmount().subtract(totalOnSale);
 	        currentCashbox.setAmount(currentTotal);
 	        currentCashbox.setTimestamp(timestamp);
 	        logger.info("datos de la caja actualizar %s", String.valueOf(currentCashbox));
