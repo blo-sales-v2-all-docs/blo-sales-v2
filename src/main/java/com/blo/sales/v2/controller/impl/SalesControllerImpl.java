@@ -208,7 +208,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     @Override
     public PojoIntSaleDeletedDetail deleteSaleProduct(long idUser, long idSale, long idProduct, String reason) throws BloSalesV2Exception {
 	    try {
-                logger.info("eliminando venta");
+                logger.info("flujo para eliminar venta");
 	    	managerController.disableAutocommit();
 	    	final var output = new PojoIntSaleDeletedDetail();
 	        // recuperar todas las ventas
@@ -225,7 +225,9 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 	                BloSalesV2Utils.CODE_SALES_PRODUCT_NOT_FOUND,
 	                BloSalesV2Utils.SALES_PRODUCT_NOT_FOUND
 	        );
-	        
+	        // almacenar el dinero del producto en la venta
+                final var productTotalOnSale = relationFound.getProductTotalOnSale();
+                
 	        // validar producto
 	        final var productFound = productsController.getProductById(relationFound.getFkProduct());
 	        BloSalesV2Utils.validateRule(
@@ -281,7 +283,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 	                BloSalesV2Utils.CODE_CASHBOX_NOT_DEVOLUTION,
 	                BloSalesV2Utils.ERROR_CASHBOX_NOT_DEVOLUTION
 	        );
-	        var currentTotal = currentCashbox.getAmount().subtract(totalOnSale);
+	        var currentTotal = currentCashbox.getAmount().subtract(productTotalOnSale);
 	        currentCashbox.setAmount(currentTotal);
 	        currentCashbox.setTimestamp(timestamp);
 	        logger.info("datos de la caja actualizar %s", String.valueOf(currentCashbox));
@@ -301,12 +303,13 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 	        
 	        // evita borrar actualizaciones
 	        if (!reduced.isEmpty()) {
-	            // actualizar cantidades en todas las ventas
+	            // actualizar el total de dinero en las ventas abiertas
 	            for (final var item: reduced) {
 	                item.setTotalOnSale(totalOnSale);
 	                salesProductsController.updateRelationship(item);
 	            }
 	        }
+                // guardar el motivo de cancelacion
 	        final var salesDeletedDetailSaved = salesDeletedController.addSaleDeletedDetail(output);
 	        logger.info("detalle de venta guardado %s", String.valueOf(salesDeletedDetailSaved));
 	        managerController.doCommit();
