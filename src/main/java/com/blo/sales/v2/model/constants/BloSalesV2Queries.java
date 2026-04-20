@@ -146,13 +146,13 @@ public final class BloSalesV2Queries {
     public static final String SELECT_SETTLEMENTS_INFO = "SELECT id_debt_settlement, fk_sale, debtor, products_details, payments, timestamp FROM debt_settlements";
     
     /** proveedores */
-    public static final String ADD_PROVIDER = "INSERT INTO vendors(fk_user, brand, contact, visit_days, pre_sale, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+    public static final String ADD_PROVIDER = "INSERT INTO vendors(fk_user, name, brand, contact, visit_days, pre_sale, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    public static final String GET_PROVIDER_BY_CONTACT = "SELECT id_vendor, brand, contact, visit_days, pre_sale, timestamp FROM vendors WHERE contact = ? LIMIT 1";
+    public static final String GET_PROVIDER_BY_CONTACT = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, timestamp FROM vendors WHERE contact = ? LIMIT 1";
     
-    public static final String GET_PROVIDER_BY_ID = "SELECT id_vendor, brand, contact, visit_days, pre_sale, timestamp FROM vendors WHERE id_vendor = ?";
+    public static final String GET_PROVIDER_BY_ID = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, timestamp FROM vendors WHERE id_vendor = ?";
     
-    public static final String GET_PROVIDERS = "SELECT id_vendor, brand, contact, visit_days, pre_sale, timestamp FROM vendors";
+    public static final String GET_PROVIDERS = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, timestamp FROM vendors";
     
-    public static final String UPDATE_PROVIDER = "UPDATE vendors SET brand = ?, contact = ?, visit_days = ?, timestamp = ? WHERE id_vendor = ?";
+    public static final String UPDATE_PROVIDER = "UPDATE vendors SET name = ?, brand = ?, contact = ?, visit_days = ?, timestamp = ? WHERE id_vendor = ?";
 }

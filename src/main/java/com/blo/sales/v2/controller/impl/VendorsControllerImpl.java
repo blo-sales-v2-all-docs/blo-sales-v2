@@ -33,6 +33,7 @@ public class VendorsControllerImpl implements IVendorsController {
             dbt.disableAutocommit();
             final var contactVendor = getVendorByContact(vendor.getContact());
             BloSalesV2Utils.validateRule(contactVendor != null, BloSalesV2Utils.CODE_VENDOR_CONTACT_EXISTS, BloSalesV2Utils.ERROR_VENDOR_CONTACT_EXISTS);
+            vendor.setTimestamp(BloSalesV2Utils.getTimestamp());
             final var vendorSaved = vendorsModel.addVendor(vendor);
             dbt.doCommit();
             logger.info("proveedor guardado %s", String.valueOf(vendorSaved));

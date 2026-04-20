@@ -1,12 +1,16 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
+import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.components.CheckboxDays;
+import com.blo.sales.v2.view.mappers.PojoVendorMapper;
+import com.blo.sales.v2.view.pojos.PojoVendor;
 import jakarta.inject.Inject;
 
 public class AddVendor extends AbstractDashboardBase {
@@ -15,7 +19,13 @@ public class AddVendor extends AbstractDashboardBase {
     
     @Inject
     private CheckboxDays week;
-
+    
+    @Inject
+    private PojoVendorMapper vendorMapper;
+    
+    @Inject
+    private IVendorsController vendorController;
+    
     public AddVendor(String key) {
         super(key);
     }
@@ -115,7 +125,15 @@ public class AddVendor extends AbstractDashboardBase {
             final var contact = GUICommons.getTextFromField(txtContact, true);
             final var brand = GUICommons.getTextFromField(txtBrand, true);
             final var isPreSale = GUICommons.isCheckedCkeckBox(chbxPreSale);
-            final var visitDays = week.getJsonWithDaysSelected();
+            final var vendor = new PojoVendor();
+            vendor.setBrand(brand);
+            vendor.setContact(contact);
+            vendor.setFkUser(getUserData().getIdUser());
+            vendor.setPreSale(isPreSale);
+            vendor.setVisitDays(week.getJsonWithDaysSelected());
+            vendor.setName(vendorName);
+            vendorController.addVendor(vendorMapper.toInner(vendor));
+            resetFields();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -127,7 +145,7 @@ public class AddVendor extends AbstractDashboardBase {
         GUICommons.setTextToField(lblVendorName, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_VENDOR_NAME.getKey()));
         GUICommons.setTextToField(lblContact, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_CONTACT.getKey()));
         GUICommons.setTextToField(lblBrand, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_BRAND.getKey()));
-        GUICommons.setTextToCheckbox(chbxPreSale, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_VISIT_DAYS.getKey()));
+        GUICommons.setTextToCheckbox(chbxPreSale, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_PRE_SALE.getKey()));
         GUICommons.setTextToField(lblVisitDats, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_VISIT_DAYS.getKey()));
     }
 
@@ -137,6 +155,12 @@ public class AddVendor extends AbstractDashboardBase {
         week.setContainer(pnlAreaVisitDays);
         loadTargets();
         week.createCheckboxDaysList();
+    }
+    
+    private void resetFields() {
+        GUICommons.setTextToField(lblVendorName, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(lblContact, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(lblBrand, BloSalesV2Utils.EMPTY_STRING);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

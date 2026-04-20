@@ -1,8 +1,8 @@
-package com.blo.sales.v2.controller.pojos;
+package com.blo.sales.v2.view.pojos;
 
 import lombok.Data;
 
-public @Data class PojoIntVendor {
+public @Data class PojoVendor {
     
     private long idVendor;
     

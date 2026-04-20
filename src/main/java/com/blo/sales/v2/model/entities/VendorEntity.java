@@ -8,6 +8,8 @@ public @Data class VendorEntity {
     
     private long fk_user;
     
+    private String name;
+    
     private String brand;
     
     private String visit_days;

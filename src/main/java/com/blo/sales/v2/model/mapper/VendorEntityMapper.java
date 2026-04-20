@@ -15,6 +15,7 @@ public class VendorEntityMapper implements IToInner<VendorEntity, PojoIntVendor>
             return null;
         }
         final var inner = new VendorEntity();
+        inner.setName(outer.getName());
         inner.setBrand(outer.getBrand());
         inner.setContact(outer.getContact());
         inner.setFk_user(outer.getFkUser());
@@ -32,6 +33,7 @@ public class VendorEntityMapper implements IToInner<VendorEntity, PojoIntVendor>
         }
         final var outer = new PojoIntVendor();
         outer.setBrand(inner.getBrand());
+        outer.setName(inner.getName());
         outer.setContact(inner.getContact());
         outer.setFkUser(inner.getFk_user());
         outer.setIdVendor(inner.getId_vendor());

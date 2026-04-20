@@ -43,11 +43,12 @@ public class VendorsModelImpl implements IVendorsModel {
             final var data = vendorMapper.toInner(vendor);
             final var ps = conn.prepareStatement(BloSalesV2Queries.ADD_PROVIDER, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, data.getFk_user());
-            ps.setString(2, data.getBrand());
-            ps.setString(3, data.getContact());
-            ps.setString(4, data.getVisit_days());
-            ps.setBoolean(5, data.isPre_sale());
-            ps.setString(6, data.getTimestamp());
+            ps.setString(2, data.getName());
+            ps.setString(3, data.getBrand());
+            ps.setString(4, data.getContact());
+            ps.setString(5, data.getVisit_days());
+            ps.setBoolean(6, data.isPre_sale());
+            ps.setString(7, data.getTimestamp());
             
             final var rowsAffected = ps.executeUpdate();
             
@@ -77,6 +78,7 @@ public class VendorsModelImpl implements IVendorsModel {
             while(data.next()) {
                 vendor = new VendorEntity();
                 vendor.setId_vendor(data.getLong(BloSalesV2Columns.ID_VENDOR));
+                vendor.setName(data.getString(BloSalesV2Columns.NAME));
                 vendor.setBrand(data.getString(BloSalesV2Columns.BRAND));
                 vendor.setContact(data.getString(BloSalesV2Columns.CONTACT));
                 vendor.setVisit_days(data.getString(BloSalesV2Columns.VISIT_DAYS));
@@ -103,6 +105,7 @@ public class VendorsModelImpl implements IVendorsModel {
             while(data.next()) {
                 vendor = new VendorEntity();
                 vendor.setId_vendor(data.getLong(BloSalesV2Columns.ID_VENDOR));
+                vendor.setName(data.getString(BloSalesV2Columns.NAME));
                 vendor.setBrand(data.getString(BloSalesV2Columns.BRAND));
                 vendor.setContact(data.getString(BloSalesV2Columns.CONTACT));
                 vendor.setVisit_days(data.getString(BloSalesV2Columns.VISIT_DAYS));
@@ -130,6 +133,7 @@ public class VendorsModelImpl implements IVendorsModel {
             while(data.next()) {
                 vendor = new VendorEntity();
                 vendor.setId_vendor(data.getLong(BloSalesV2Columns.ID_VENDOR));
+                vendor.setName(data.getString(BloSalesV2Columns.NAME));
                 vendor.setBrand(data.getString(BloSalesV2Columns.BRAND));
                 vendor.setContact(data.getString(BloSalesV2Columns.CONTACT));
                 vendor.setVisit_days(data.getString(BloSalesV2Columns.VISIT_DAYS));
@@ -154,11 +158,12 @@ public class VendorsModelImpl implements IVendorsModel {
             dbt.disableAutocommit();
             final var data = vendorMapper.toInner(vendorData);
             final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_PROVIDER);
-            ps.setString(1, data.getBrand());
-            ps.setString(2, data.getContact());
-            ps.setString(3, data.getVisit_days());
-            ps.setString(4, data.getTimestamp());
-            ps.setLong(5, data.getId_vendor());
+            ps.setString(1, data.getName());
+            ps.setString(2, data.getBrand());
+            ps.setString(3, data.getContact());
+            ps.setString(4, data.getVisit_days());
+            ps.setString(5, data.getTimestamp());
+            ps.setLong(6, data.getId_vendor());
             
             final var rowsAffected = ps.executeUpdate();
             
