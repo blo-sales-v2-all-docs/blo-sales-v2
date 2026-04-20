@@ -178,7 +178,7 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
         GUICommons.setTextToField(lblTotalToPay, getTranslateBy(KeysEnum.DLG_PAYMENTS_LBL_TOTAL.getKey()));
         GUICommons.setTextToButton(btnDoPay, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD.getKey()));
         GUICommons.setTextToField(lblCash, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
-        GUICommons.setTextToField(lblReference, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
+        GUICommons.setTextToField(lblReference, getTranslateBy(KeysEnum.TOP_UPS_LBL_REFERENCE.getKey()));
         GUICommons.setTextToCheckbox(chcbkxComplete, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_CMBX_COMPLETE.getKey()));
         GUICommons.setTextToField(lblPaymentByCard, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD.getKey()));
     }

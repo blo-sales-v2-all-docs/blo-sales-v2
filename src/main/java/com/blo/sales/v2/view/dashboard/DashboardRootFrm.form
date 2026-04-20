@@ -104,6 +104,16 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optCanceledSalesActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="sprt02">
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="optDigitalWallet">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Cartera digital"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optDigitalWalletActionPerformed"/>
+                  </Events>
+                </MenuItem>
               </SubComponents>
             </Menu>
             <Menu class="javax.swing.JMenu" name="itmDebtors">

@@ -5,8 +5,14 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntFinancialHistory;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IFinancialHistoryModel;
 import com.blo.sales.v2.model.config.DBConnection;
+import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
+import com.blo.sales.v2.model.entities.FinancialMovementEntity;
+import com.blo.sales.v2.model.entities.WrapperFinancialHistoryEntity;
+import com.blo.sales.v2.model.entities.enums.ReasonsEntityEnum;
+import com.blo.sales.v2.model.entities.enums.TypesEntityEnum;
 import com.blo.sales.v2.model.mapper.FinancialMovementEntityMapper;
+import com.blo.sales.v2.model.mapper.WrapperFinancialMovementEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -14,6 +20,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 @Singleton
 public class FinancialHistoryModelImpl implements IFinancialHistoryModel {
@@ -25,6 +32,9 @@ public class FinancialHistoryModelImpl implements IFinancialHistoryModel {
     
     @Inject
     private FinancialMovementEntityMapper financialMovementMapper;
+    
+    @Inject
+    private WrapperFinancialMovementEntityMapper wrapperMapper;
 
     @Override
     public PojoIntFinancialMovement addMovement(PojoIntFinancialMovement movement) throws BloSalesV2Exception {
@@ -57,7 +67,33 @@ public class FinancialHistoryModelImpl implements IFinancialHistoryModel {
 
     @Override
     public WrapperPojoIntFinancialHistory retrieveFinancialHistoryByAccountId(long accountId) throws BloSalesV2Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            final var conn = DBConnection.getConnection();
+            logger.info("recuperando movimientos %s", accountId);
+            // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
+            final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_DIGITAL_WALLET);
+            ps.setLong(1, accountId);
+            final var results = ps.executeQuery();
+            
+            final var outer = new WrapperFinancialHistoryEntity();
+            final var lst = new ArrayList<FinancialMovementEntity>();
+            FinancialMovementEntity item = null;
+            while(results.next()) {
+                item = new FinancialMovementEntity();
+                item.setId_financial_movement(results.getLong(BloSalesV2Columns.ID_FINANCIAL_MOVEMENT));
+                item.setAmount(results.getBigDecimal(BloSalesV2Columns.AMOUNT));
+                item.setReason(ReasonsEntityEnum.valueOf(results.getString(BloSalesV2Columns.REASON)));
+                item.setType(TypesEntityEnum.valueOf(results.getString(BloSalesV2Columns.TYPE)));
+                item.setTimestamp(results.getString(BloSalesV2Columns.TIMESTAMP));
+                lst.add(item);
+            }
+            outer.setHistory(lst);
+            logger.info("registros encontrados %s", lst.size());
+            return wrapperMapper.toOuter(outer);
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        }
     }
     
 }
