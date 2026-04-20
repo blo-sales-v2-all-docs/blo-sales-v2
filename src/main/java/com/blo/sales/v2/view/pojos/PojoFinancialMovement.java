@@ -20,6 +20,8 @@ public class PojoFinancialMovement {
     
     private TypesEnum type;
     
+    private String authorization;
+    
     private String timestamp;
     
 }

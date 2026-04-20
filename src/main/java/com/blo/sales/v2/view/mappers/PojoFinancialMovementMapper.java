@@ -26,6 +26,7 @@ public class PojoFinancialMovementMapper implements IToInner<PojoIntFinancialMov
         inner.setReason(ReasonsIntEnum.valueOf(outer.getReason().name()));
         inner.setTimestamp(outer.getTimestamp());
         inner.setType(TypesIntEnum.valueOf(outer.getType().name()));
+        inner.setAuthorization(outer.getAuthorization());
         return inner;
     }
 
@@ -42,6 +43,7 @@ public class PojoFinancialMovementMapper implements IToInner<PojoIntFinancialMov
         outer.setReason(ReasonsEnum.valueOf(inner.getReason().name()));
         outer.setTimestamp(inner.getTimestamp());
         outer.setType(TypesEnum.valueOf(inner.getType().name()));
+        outer.setAuthorization(inner.getAuthorization());
         return outer;
     }
     

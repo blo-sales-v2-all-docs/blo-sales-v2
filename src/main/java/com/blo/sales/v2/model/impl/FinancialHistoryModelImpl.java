@@ -43,14 +43,14 @@ public class FinancialHistoryModelImpl implements IFinancialHistoryModel {
             transactionManagerModel.disableAutocommit();
             logger.info("guardando movimiento %s", String.valueOf(movement));
             final var innerData = financialMovementMapper.toInner(movement);
-            // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_FINANCIAL_MOVEMENT, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, innerData.getFk_account());
             ps.setLong(2, innerData.getFk_user());
             ps.setBigDecimal(3, innerData.getAmount());
             ps.setString(4, innerData.getReason().name());
             ps.setString(5, innerData.getType().name());
-            ps.setString(6, innerData.getTimestamp());
+            ps.setString(6, innerData.getAuthorization());
+            ps.setString(7, innerData.getTimestamp());
             final var rowsAffected = ps.executeUpdate();
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_ADD_EXCEPTION_CODE, BloSalesV2Utils.ERROR_SAVED_ON_DATA_BASE);
             final var rsKeys = ps.getGeneratedKeys();
@@ -70,7 +70,6 @@ public class FinancialHistoryModelImpl implements IFinancialHistoryModel {
         try {
             final var conn = DBConnection.getConnection();
             logger.info("recuperando movimientos %s", accountId);
-            // 2. Usar prepareStatement con RETURN_GENERATED_KEYS (Más estándar que prepareCall para INSERT)
             final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_DIGITAL_WALLET);
             ps.setLong(1, accountId);
             final var results = ps.executeQuery();
@@ -84,6 +83,7 @@ public class FinancialHistoryModelImpl implements IFinancialHistoryModel {
                 item.setAmount(results.getBigDecimal(BloSalesV2Columns.AMOUNT));
                 item.setReason(ReasonsEntityEnum.valueOf(results.getString(BloSalesV2Columns.REASON)));
                 item.setType(TypesEntityEnum.valueOf(results.getString(BloSalesV2Columns.TYPE)));
+                item.setAuthorization(results.getString(BloSalesV2Columns.REFERENCE));
                 item.setTimestamp(results.getString(BloSalesV2Columns.TIMESTAMP));
                 lst.add(item);
             }

@@ -20,6 +20,7 @@ public class FinancialMovementEntityMapper implements IToInner<FinancialMovement
         }
         final var inner = new FinancialMovementEntity();
         inner.setAmount(outer.getAmount());
+        inner.setAuthorization(outer.getAuthorization());
         inner.setFk_account(outer.getFkAccount());
         inner.setFk_user(outer.getFkUser());
         inner.setId_financial_movement(outer.getIdFinancialMovement());
@@ -36,6 +37,7 @@ public class FinancialMovementEntityMapper implements IToInner<FinancialMovement
         }
         final var outer = new PojoIntFinancialMovement();
         outer.setAmount(inner.getAmount());
+        outer.setAuthorization(inner.getAuthorization());
         outer.setFkAccount(inner.getFk_account());
         outer.setFkUser(inner.getFk_user());
         outer.setIdFinancialMovement(inner.getId_financial_movement());

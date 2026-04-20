@@ -30,7 +30,7 @@ public class AccountsControllerImpl implements IAccountsController {
     private IFinancialHistoryController financialHistoryController;
 
     @Override
-    public PojoIntAccount addMoney(long idAccount, BigDecimal amount) throws BloSalesV2Exception {
+    public PojoIntAccount addMoney(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception {
         try {
             logger.info("agregando dinero");
             dbtm.disableAutocommit();
@@ -50,7 +50,7 @@ public class AccountsControllerImpl implements IAccountsController {
     }
 
     @Override
-    public PojoIntAccount substractMoney(long idAccount, long idUser, BigDecimal amount) throws BloSalesV2Exception {
+    public PojoIntAccount substractMoney(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception {
         try {
             logger.info("restando dinero");
             dbtm.disableAutocommit();
@@ -72,6 +72,7 @@ public class AccountsControllerImpl implements IAccountsController {
             prevMovFinancialHistory.setReason(ReasonsIntEnum.HISTORY_MOV_PREV);
             prevMovFinancialHistory.setTimestamp(BloSalesV2Utils.getTimestamp());
             prevMovFinancialHistory.setType(TypesIntEnum.HISTORY_MOVEMENT);
+            prevMovFinancialHistory.setAuthorization(authorization);
             final var prevMovement = financialHistoryController.addMovement(prevMovFinancialHistory);
             logger.info("registrando previo movimiento financiero %s", String.valueOf(prevMovement));
             
@@ -87,6 +88,7 @@ public class AccountsControllerImpl implements IAccountsController {
             aftMovFinancial.setReason(ReasonsIntEnum.HISTORY_MOV_AFT);
             aftMovFinancial.setTimestamp(BloSalesV2Utils.getTimestamp());
             aftMovFinancial.setType(TypesIntEnum.HISTORY_MOVEMENT);
+            aftMovFinancial.setAuthorization(authorization);
             final var aftMovement = financialHistoryController.addMovement(aftMovFinancial);
             logger.info("movimiento posterior registrado %s", String.valueOf(aftMovement));
             

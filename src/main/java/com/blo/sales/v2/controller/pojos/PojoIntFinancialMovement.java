@@ -20,6 +20,8 @@ public class PojoIntFinancialMovement {
     
     private TypesIntEnum type;
     
+    private String authorization;
+    
     private String timestamp;
     
 }

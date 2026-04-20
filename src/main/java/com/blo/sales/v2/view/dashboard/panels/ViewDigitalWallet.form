@@ -52,17 +52,19 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblCurrentAccount" alignment="0" min="-2" pref="226" max="-2" attributes="0"/>
-                          <Component id="lblAddQuantity" alignment="0" min="-2" pref="215" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblCurrentAccount" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="nmbQuantity" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="nmbQuantity" max="32767" attributes="0"/>
+                                  <Component id="lblAddQuantity" pref="215" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lblPrevisualization" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="lblPrevisualization" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="btnSave" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
+                          <Component id="btnSave" alignment="1" min="-2" pref="198" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="1056" max="32767" attributes="0"/>
+                      <EmptySpace pref="932" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

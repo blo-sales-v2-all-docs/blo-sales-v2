@@ -15,7 +15,7 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(ViewDigitalWallet.class.getName());
     
-    private static final String[] tblTitles = {"ID movimiento", "Monto", "Razón", "Tipo de movimiento", "Timestamp"};
+    private static final String[] tblTitles = {"ID movimiento", "Monto", "Razón", "Tipo de movimiento", "Autorizacion" , "Timestamp"};
     
     @Inject
     private IFinancialHistoryController historyController;
@@ -57,15 +57,16 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCurrentAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAddQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblCurrentAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nmbQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nmbQuantity)
+                            .addComponent(lblAddQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(lblPrevisualization, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1056, Short.MAX_VALUE))
+                        .addComponent(lblPrevisualization, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(932, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,6 +162,7 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
                         mov.getAmount(),
                         mov.getReason().getReasonTarget(),
                         mov.getType(),
+                        mov.getAuthorization(),
                         parserTimestamp(mov.getTimestamp())
                     };
                     getDefaultTableModel().addRow(row);

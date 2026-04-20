@@ -20,6 +20,8 @@ public class FinancialMovementEntity {
     
     private TypesEntityEnum type;
     
+    private String authorization;
+    
     private String timestamp;
     
 }
