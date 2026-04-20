@@ -94,6 +94,10 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_PAYMENTS_CARD_NOT_EQUALS = "La suma de los pagos no coinciden";
     
+    public static final String ERROR_VENDOR_CONTACT_EXISTS = "Este contacto ya est\u00e1 registrado con otro proveedor";
+    
+    public static final String ERROR_VENDOR_NOT_EXITS = "Este proveedor ya existe";
+    
     public static final long DEBTORS_PAYMENTS = 1;
     
     public static final String ERROR_PRODUCT_IS_NOT_BY_KG = "Este producto no tiene la propiedad 'venta por kg' activada. \n Verifica el producto";
@@ -154,6 +158,10 @@ public final class BloSalesV2Utils {
     public static final String CODE_PRODUCT_IS_NOT_BY_KG = "022";
     
     public static final String CODE_FORMAT_ACTIVE_COST = "023";
+    
+    public static final String CODE_VENDOR_CONTACT_EXISTS = "024";
+    
+    public static final String CODE_VENDOR_NOT_EXITS = "025";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

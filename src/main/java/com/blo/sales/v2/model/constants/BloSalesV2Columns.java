@@ -134,4 +134,14 @@ public final class BloSalesV2Columns {
     
     public static final String DEBTOR = "debtor";
     
+    public static final String ID_VENDOR = "id_vendor";
+    
+    public static final String BRAND = "brand";
+    
+    public static final String CONTACT = "contact";
+    
+    public static final String VISIT_DAYS = "visit_days";
+    
+    public static final String PRE_SALE = "pre_sale";
+    
 }

@@ -19,6 +19,7 @@ import com.blo.sales.v2.controller.ISalesProductController;
 import com.blo.sales.v2.controller.IStockPricesHistoryController;
 import com.blo.sales.v2.controller.ITopUpsController;
 import com.blo.sales.v2.controller.IUserController;
+import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.controller.impl.ActivesCostsControllerImpl;
 import com.blo.sales.v2.controller.impl.CashboxControllerImpl;
 import com.blo.sales.v2.controller.impl.CashboxesActivesCostsControllerImpl;
@@ -38,6 +39,7 @@ import com.blo.sales.v2.controller.impl.SalesProductControllerImpl;
 import com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl;
 import com.blo.sales.v2.controller.impl.TopUpsControllerImpl;
 import com.blo.sales.v2.controller.impl.UserControllerImpl;
+import com.blo.sales.v2.controller.impl.VendorsControllerImpl;
 import com.blo.sales.v2.model.IActivesCostsModel;
 import com.blo.sales.v2.model.ICashboxModel;
 import com.blo.sales.v2.model.ICashboxesActivesCostsModel;
@@ -157,11 +159,15 @@ import com.google.inject.AbstractModule;
 import jakarta.inject.Singleton;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IDebtorSettlementsModel;
+import com.blo.sales.v2.model.IVendorsModel;
 import com.blo.sales.v2.model.impl.DebtorSettlementsModelImpl;
+import com.blo.sales.v2.model.impl.VendorsModelImpl;
 import com.blo.sales.v2.model.mapper.DebtorSaleProductInfoEntityMapper;
 import com.blo.sales.v2.model.mapper.DebtorSettlementEntityMapper;
+import com.blo.sales.v2.model.mapper.VendorEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperDebtorSettlementEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperSalesDeletedDetailsEntityMapper;
+import com.blo.sales.v2.model.mapper.WrapperVendorsEntityMapper;
 import com.blo.sales.v2.view.mappers.PojoDebtSettlementMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleDeletedDetailMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorSettlementsMapper;
@@ -194,6 +200,7 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(IUserController.class).to(UserControllerImpl.class).in(Singleton.class);
         bind(IDBTransactionManagerController.class).to(DBTransactionManagerControllerImpl.class).in(Singleton.class);
         bind(IDebtorSettlementsController.class).to(DebtorSettlementsControllerImpl.class).in(Singleton.class);
+        bind(IVendorsController.class).to(VendorsControllerImpl.class).in(Singleton.class);
 
         /**
          * models
@@ -217,7 +224,11 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(IUserModel.class).to(UserModelImpl.class).in(Singleton.class);
         bind(IDBTransactionManagerModel.class).to(DBTransactionManagerModelImpl.class).in(Singleton.class);
         bind(IDebtorSettlementsModel.class).to(DebtorSettlementsModelImpl.class).in(Singleton.class);
+        bind(IVendorsModel.class).to(VendorsModelImpl.class).in(Singleton.class);
 
+        /**
+         * mappers view
+         */
         bind(CategoryMapper.class).in(Singleton.class);
         bind(DebtorMapper.class).in(Singleton.class);
         bind(DebtorSaleMapper.class).in(Singleton.class);
@@ -258,7 +269,11 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(WrapperPojoSalesDeletedDetailsMapper.class).in(Singleton.class);
         bind(PojoDebtSettlementMapper.class).in(Singleton.class);
         bind(WrapperPojoDebtorSettlementsMapper.class).in(Singleton.class);
+        bind(WrapperVendorsEntityMapper.class).in(Singleton.class);
         
+        /**
+         * mappers entity
+         */
         bind(ActiveCostEntityMapper.class).in(Singleton.class);
         bind(CashboxDetailEntityMapper.class).in(Singleton.class);
         bind(CashboxEntityMapper.class).in(Singleton.class);
@@ -307,5 +322,7 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(DebtorSaleProductInfoEntityMapper.class).in(Singleton.class);
         bind(DebtorSettlementEntityMapper.class).in(Singleton.class);
         bind(WrapperDebtorSettlementEntityMapper.class).in(Singleton.class);
+        bind(VendorEntityMapper.class).in(Singleton.class);
+        bind(WrapperVendorsEntityMapper.class).in(Singleton.class);
     }
 }
