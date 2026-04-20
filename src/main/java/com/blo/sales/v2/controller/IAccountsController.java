@@ -16,11 +16,13 @@ public interface IAccountsController {
      * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param idAccount
+     * @param idUser
      * @param amount
+     * @param authorization
      * @return
      * @throws BloSalesV2Exception 
      */
-    PojoIntAccount addMoney(long idAccount, BigDecimal amount) throws BloSalesV2Exception;
+    PojoIntAccount addMoney(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception;
     
     /**
      * Metodo que se encarga de resar dinero a una cuenta
@@ -29,10 +31,11 @@ public interface IAccountsController {
      * @param idAccount
      * @param idUser
      * @param amount
+     * @param authorization
      * @return
      * @throws BloSalesV2Exception 
      */
-    PojoIntAccount substractMoney(long idAccount, long idUser, BigDecimal amount) throws BloSalesV2Exception;
+    PojoIntAccount substractMoney(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception;
     
     /**
      * Metodo que recupera una cuenta por id

@@ -150,5 +150,7 @@ public final class BloSalesV2Queries {
     
     public static final String UPDATE_ACCOUNT = "UPDATE accounts SET account = ?, control_amount = ?, timestamp =? WHERE id_account = ?";
     
-    public static final String INSERT_FINANCIAL_MOVEMENT = "INSERT INTO financial_history(fk_account, fk_user, amount, reason, type, timestamp) values(?, ?, ?, ?, ?, ?)";
+    public static final String INSERT_FINANCIAL_MOVEMENT = "INSERT INTO financial_history(fk_account, fk_user, amount, reason, type, authorization, timestamp) values(?, ?, ?, ?, ?, ?, ?)";
+    
+    public static final String SELECT_DIGITAL_WALLET = "SELECT id_financial_movement, amount, reason, type, fh.authorization, fh.timestamp FROM financial_history fh INNER JOIN accounts a ON fh.fk_account = a.id_account WHERE a.id_account = ?";
 }

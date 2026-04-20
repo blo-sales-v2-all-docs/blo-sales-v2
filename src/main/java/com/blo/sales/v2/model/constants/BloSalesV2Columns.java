@@ -140,4 +140,6 @@ public final class BloSalesV2Columns {
     
     public static final String CONTROL_AMOUNT = "control_amount";
     
+    public static final String ID_FINANCIAL_MOVEMENT = "id_financial_movement";
+       
 }

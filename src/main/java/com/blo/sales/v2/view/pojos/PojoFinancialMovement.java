@@ -1,12 +1,12 @@
-package com.blo.sales.v2.controller.pojos;
+package com.blo.sales.v2.view.pojos;
 
-import com.blo.sales.v2.controller.pojos.enums.ReasonsIntEnum;
-import com.blo.sales.v2.controller.pojos.enums.TypesIntEnum;
+import com.blo.sales.v2.view.pojos.enums.ReasonsEnum;
+import com.blo.sales.v2.view.pojos.enums.TypesEnum;
 import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class PojoIntFinancialMovement {
+public class PojoFinancialMovement {
     
     private long idFinancialMovement;
     
@@ -16,9 +16,9 @@ public class PojoIntFinancialMovement {
     
     private BigDecimal amount;
     
-    private ReasonsIntEnum reason;
+    private ReasonsEnum reason;
     
-    private TypesIntEnum type;
+    private TypesEnum type;
     
     private String authorization;
     

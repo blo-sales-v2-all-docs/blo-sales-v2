@@ -41,7 +41,9 @@ public enum KeysEnum {
     // dialogo de pago por tarjeta
     DLG_PAYMENTS_LBL_TOTAL("dlg-payemtns-card.lbl.total"), DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD("dlg-payemtns-card.lbl.payment-by-card"), DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH("dlg-payemtns-card.lbl.payment-cash"), DLG_PAYMENTS_CARD_BTN_PAY("dlg-payemtns-card.btn.pay"), DLG_PAYMENTS_CARD_CMBX_COMPLETE("dlg-payemtns-card.cmbx.complete"), COMMON_TTL_PAYMENT_BY_CARD("common.ttl.payment-by-card"), TOP_UPS_LBL_REFERENCE("top-ups.lbl.reference-number"),
     //
-    DASHBOARD_TITLES_DEBTOR_SETTLEMENTS("dashboard.titles.debtor-settlements");
+    DASHBOARD_TITLES_DEBTOR_SETTLEMENTS("dashboard.titles.debtor-settlements"),
+    // cuenta digital
+    DASHBOARD_TITLES_VIEW_DIGITAL_WALLET("dashboard.titles.view-digital-wallet"), DIGITAL_WALLET_LBL_CURRENT_ACCOUNT("digital-wallet.lbl.current-account"), DIGITAL_ACCOUNT_LBL_ADD_CASH_ON_WALLET_DIGITAL("digital-wallet.lbl.add-cash-on-digital-wallet");
     
     
     private final String key;
