@@ -174,6 +174,7 @@ import com.blo.sales.v2.view.mappers.PojoSaleDeletedDetailMapper;
 import com.blo.sales.v2.view.mappers.PojoVendorMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorSettlementsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoSalesDeletedDetailsMapper;
+import com.blo.sales.v2.view.mappers.WrapperPojoVendorsMapper;
 
 public class BloSalesV2SingletonConfig extends AbstractModule {
 
@@ -273,6 +274,7 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(WrapperPojoDebtorSettlementsMapper.class).in(Singleton.class);
         bind(WrapperVendorsEntityMapper.class).in(Singleton.class);
         bind(PojoVendorMapper.class).in(Singleton.class);
+        bind(WrapperPojoVendorsMapper.class).in(Singleton.class);
         
         /**
          * mappers entity

@@ -21,6 +21,7 @@ import com.blo.sales.v2.view.dashboard.panels.SalesCanceled;
 import com.blo.sales.v2.view.dashboard.panels.SalesReport;
 import com.blo.sales.v2.view.dashboard.panels.SalesToday;
 import com.blo.sales.v2.view.dashboard.panels.TopUps;
+import com.blo.sales.v2.view.dashboard.panels.Vendors;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.google.inject.Injector;
 import jakarta.inject.Inject;
@@ -204,6 +205,11 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         itmVendors.add(optAddVendor);
 
         optViewProviders.setText("Ver proveedores");
+        optViewProviders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optViewProvidersActionPerformed(evt);
+            }
+        });
         itmVendors.add(optViewProviders);
 
         itmAdmon.add(itmVendors);
@@ -333,6 +339,10 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private void optAddVendorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAddVendorActionPerformed
         handlerDashboard(new AddVendor(KeysEnum.DASHBOARD_TITLES_ADD_VENDOR.getKey()));
     }//GEN-LAST:event_optAddVendorActionPerformed
+
+    private void optViewProvidersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optViewProvidersActionPerformed
+        handlerDashboard(new Vendors(KeysEnum.DASHBOARD_TITLES_VIEW_VENDORS.getKey()));
+    }//GEN-LAST:event_optViewProvidersActionPerformed
     
     private void handlerDashboard(AbstractDashboardBase dashboard) {
         if (injector == null) {

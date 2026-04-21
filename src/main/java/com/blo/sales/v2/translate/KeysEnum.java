@@ -42,8 +42,8 @@ public enum KeysEnum {
     DLG_PAYMENTS_LBL_TOTAL("dlg-payemtns-card.lbl.total"), DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD("dlg-payemtns-card.lbl.payment-by-card"), DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH("dlg-payemtns-card.lbl.payment-cash"), DLG_PAYMENTS_CARD_BTN_PAY("dlg-payemtns-card.btn.pay"), DLG_PAYMENTS_CARD_CMBX_COMPLETE("dlg-payemtns-card.cmbx.complete"), COMMON_TTL_PAYMENT_BY_CARD("common.ttl.payment-by-card"), TOP_UPS_LBL_REFERENCE("top-ups.lbl.reference-number"),
     //deudores-pagos
     DASHBOARD_TITLES_DEBTOR_SETTLEMENTS("dashboard.titles.debtor-settlements"),
-    DASHBOARD_TITLES_ADD_VENDOR("dashboard.titles.add-vendor"), ADD_VENDOR_LBL_VENDOR_NAME("add-vendor.lbl.vendor-name"), ADD_VENDOR_LBL_CONTACT("add-vendor.lbl.contact"), ADD_VENDOR_LBL_BRAND("add-vendor.lbl.brand"), ADD_VENDOR_LBL_VISIT_DAYS("add-vendor.lbl.visit-days"), ADD_VENDOR_LBL_PRE_SALE("add-vendor.lbl.pre-sale")
-    
+    DASHBOARD_TITLES_ADD_VENDOR("dashboard.titles.add-vendor"), ADD_VENDOR_LBL_VENDOR_NAME("add-vendor.lbl.vendor-name"), ADD_VENDOR_LBL_CONTACT("add-vendor.lbl.contact"), ADD_VENDOR_LBL_BRAND("add-vendor.lbl.brand"), ADD_VENDOR_LBL_VISIT_DAYS("add-vendor.lbl.visit-days"), ADD_VENDOR_LBL_PRE_SALE("add-vendor.lbl.pre-sale"),
+    DASHBOARD_TITLES_VIEW_VENDORS("dashboard.titles.view-vendors")
     
     
     
