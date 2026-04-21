@@ -12,6 +12,17 @@ import java.math.BigDecimal;
 public interface IAccountsController {
     
     /**
+     * Metodo que guarda dinero a una cuenta
+     * @param idAccount
+     * @param idUser
+     * @param amount
+     * @param authorization
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntAccount addMoney(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception;
+    
+    /**
      * Metodo que se encarga de agregar dinero a una cuenta
      * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
@@ -22,7 +33,7 @@ public interface IAccountsController {
      * @return
      * @throws BloSalesV2Exception 
      */
-    PojoIntAccount addMoney(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception;
+    PojoIntAccount addMoneyNotCommit(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception;
     
     /**
      * Metodo que se encarga de resar dinero a una cuenta
@@ -35,7 +46,7 @@ public interface IAccountsController {
      * @return
      * @throws BloSalesV2Exception 
      */
-    PojoIntAccount substractMoney(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception;
+    PojoIntAccount substractMoneyNotCommit(long idAccount, long idUser, BigDecimal amount, String authorization) throws BloSalesV2Exception;
     
     /**
      * Metodo que recupera una cuenta por id

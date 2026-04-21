@@ -173,6 +173,7 @@ import com.blo.sales.v2.model.mapper.FinancialMovementEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperDebtorSettlementEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperFinancialMovementEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperSalesDeletedDetailsEntityMapper;
+import com.blo.sales.v2.view.mappers.PojoAccountMapper;
 import com.blo.sales.v2.view.mappers.PojoDebtSettlementMapper;
 import com.blo.sales.v2.view.mappers.PojoFinancialMovementMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleDeletedDetailMapper;
@@ -277,6 +278,7 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(WrapperPojoDebtorSettlementsMapper.class).in(Singleton.class);
         bind(PojoFinancialMovementMapper.class).in(Singleton.class);
         bind(WrapperPojoFinancialHistoryMapper.class).in(Singleton.class);
+        bind(PojoAccountMapper.class).in(Singleton.class);
         
         bind(ActiveCostEntityMapper.class).in(Singleton.class);
         bind(CashboxDetailEntityMapper.class).in(Singleton.class);

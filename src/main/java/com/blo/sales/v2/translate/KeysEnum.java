@@ -43,7 +43,7 @@ public enum KeysEnum {
     //
     DASHBOARD_TITLES_DEBTOR_SETTLEMENTS("dashboard.titles.debtor-settlements"),
     // cuenta digital
-    DASHBOARD_TITLES_VIEW_DIGITAL_WALLET("dashboard.titles.view-digital-wallet"), DIGITAL_WALLET_LBL_CURRENT_ACCOUNT("digital-wallet.lbl.current-account"), DIGITAL_ACCOUNT_LBL_ADD_CASH_ON_WALLET_DIGITAL("digital-wallet.lbl.add-cash-on-digital-wallet");
+    DASHBOARD_TITLES_VIEW_DIGITAL_WALLET("dashboard.titles.view-digital-wallet"), DIGITAL_WALLET_LBL_CURRENT_ACCOUNT("digital-wallet.lbl.current-account"), DIGITAL_ACCOUNT_LBL_ADD_CASH_ON_WALLET_DIGITAL("digital-wallet.lbl.add-cash-on-digital-wallet"), DIGITAL_WALLET_LBL_REFERENCE_NUMBER("digital-wallet.lbl.reference-number"), DIGITAL_WALLET_LBL_TOTAL_ACCOUNT("digital-wallet.lbl.total-account");
     
     
     private final String key;

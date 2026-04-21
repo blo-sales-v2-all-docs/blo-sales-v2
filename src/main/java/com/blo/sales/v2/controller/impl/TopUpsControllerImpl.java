@@ -15,6 +15,7 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.math.BigDecimal;
 
 @Singleton
 public class TopUpsControllerImpl implements ITopUpsController {
@@ -51,7 +52,7 @@ public class TopUpsControllerImpl implements ITopUpsController {
             // restar dinero de cuenta digital
             final var walletDigital = accountsController.getAccountById(AccountsIntEnum.DIGITAL_WALLET.getId());
             logger.info("moviendo dinero digital a dinero fisico");
-            accountsController.substractMoney(
+            accountsController.substractMoneyNotCommit(
                     walletDigital.getIdAccount(),
                     data.getFkUser().getIdUser(),
                     data.getAmount(),
