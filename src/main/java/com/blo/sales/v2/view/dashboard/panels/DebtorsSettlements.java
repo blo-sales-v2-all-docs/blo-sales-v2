@@ -7,6 +7,7 @@ import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.dialogs.DebtorSettlementDetailDialog;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorSettlementsMapper;
 import com.blo.sales.v2.view.pojos.WrapperPojoDebtSettlement;
 import jakarta.inject.Inject;
@@ -15,7 +16,7 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsSettlements.class.getName());
     
-    private static final String[] titles = {"Id historial de pago", "Deudor", "Productos", "Pagos", "Timestamp"};
+    private static final String[] titles = {"Id historial de pago", "Deudor", "Timestamp"};
     
     @Inject
     private IDebtorSettlementsController settlementsController;
@@ -76,8 +77,24 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
             initComponents();
             setMainTable(tblDebtHistory);
             final var history = wrapperDebtorSettlements.toOuter(settlementsController.getDebtorsPaymentsHistory());
-            GUICommons.loadTitleOnTable(tblDebtHistory, titles, true);
+            GUICommons.loadTitleOnTable(tblDebtHistory, titles, false);
             loadDataOnTable(history);
+            if (history.getDebtSettlements() != null && !history.getDebtSettlements().isEmpty()) {
+                GUICommons.addDoubleClickOnTable(tblDebtHistory, (Long id) -> {
+                    final var debtor = history.getDebtSettlements().stream().
+                            filter(d -> d.getIdDebtSettlement() == id).
+                            findFirst().
+                            orElse(null);
+                    if (debtor != null) {
+                        final var settlement = new DebtorSettlementDetailDialog(
+                                this,
+                                String.format(getTranslateBy(KeysEnum.SETTLEMENT_DLG_TITLE.getKey()), debtor.getDebtor()),
+                                debtor
+                        );
+                        settlement.setVisible(true);
+                    }
+                });
+            }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -90,8 +107,6 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
                 final Object[] row = {
                     item.getIdDebtSettlement(),
                     item.getDebtor(),
-                    item.getProductsDetails(),
-                    formatPayments(item.getPayments()),
                     parserTimestamp(item.getTimestamp())
                 };
                 getDefaultTableModel().addRow(row);

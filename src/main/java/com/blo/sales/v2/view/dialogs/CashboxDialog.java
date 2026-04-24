@@ -6,6 +6,7 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
+import com.blo.sales.v2.view.pojos.PojoAccount;
 import com.blo.sales.v2.view.pojos.PojoActiveCost;
 import com.blo.sales.v2.view.pojos.PojoCashbox;
 import com.blo.sales.v2.view.pojos.PojoDialogCashboxData;
@@ -43,6 +44,8 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
     private WrapperPojoNotes pasives;
     
     private PojoCashbox cashboxData;
+    
+    private final PojoAccount account;
 
     public CashboxDialog(
         Component parent,
@@ -50,6 +53,7 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         PojoCashbox cashboxData,
         WrapperPojoNotes actives,
         WrapperPojoNotes pasives,
+        PojoAccount account,
         Consumer<T> callback
     ) {
         super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
@@ -60,6 +64,7 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         this.actives = actives;
         this.pasives = pasives;
         this.cashboxData = cashboxData;
+        this.account = account;
         lstCosts = new ArrayList<>();
         loadActivesCosts();
         modelActives = new DefaultListModel();
@@ -259,6 +264,11 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         final var salesToDay = createItem(cashboxData.getAmount(), getTranslateBy(KeysEnum.DLG_CASHBOX_TRG_SALES_TODAY.getKey()), ActivesCostsEnum.ACTIVO);
         lstCosts.add(salesToDay);
         addActive(salesToDay, salesToDay.getAmount());
+        // agregr como activo la cuenta digital
+        if (account != null) {
+            final var digitalWallet = createItem(account.getControlAmount(), account.getAccount(), ActivesCostsEnum.ACTIVO);
+            addActive(digitalWallet, account.getControlAmount());
+        }
         if (actives != null) {
             // hay activos
             for (final var note: actives.getNotes()) {

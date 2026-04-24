@@ -92,8 +92,6 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
             ps.setLong(1, idDebtor);
             final var rs = ps.executeQuery();
             
-            BloSalesV2Utils.validateRule(!rs.next(), BloSalesV2Utils.CODE_PRODUCT_NOT_FOUND, BloSalesV2Utils.ERROR_PRODUCT_NOT_FOUND);
-            
             logger.info("informacion recuperada");
             
             DebtorSaleProductInfoEntity debtorSaleProductInfo = null;
@@ -113,23 +111,27 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
             logger.info("detalles encontrados %s", lst.size());
             if (!lst.isEmpty()) {
                 logger.info("parseando informacion");
+                // toma el primer item para recuperar informacion basica
                 final var firstDetail = lst.get(0);
                 final var output = debtorSaleProductInfoEntityMapper.toOuter(firstDetail);
-                final var products = lst.stream().map(DebtorSaleProductInfoEntity::getProduct).collect(Collectors.toList());
-                output.setProducts(String.join(BloSalesV2Utils.SEPARATOR_PAYMENTS, products));
-                
-                final var idSales = lst.stream().map(DebtorSaleProductInfoEntity::getId_sale).collect(Collectors.toList());
-                
+                // recupera el id de todos los productos del deudor, guarda la informacion en una lista y la guarda en una propiedad
+                final var gson = new Gson();
+                final var products = lst.stream().
+                        map(DebtorSaleProductInfoEntity::getProduct).collect(Collectors.toList());
+                output.setProducts(gson.toJson(products));
+                // recupera el id de las ventas asociadas a ese deudor y la guarda en una propiedad del deudor
+                final var idSales = lst.stream().
+                        map(DebtorSaleProductInfoEntity::getId_sale).collect(Collectors.toList());
                 output.setIdSales(idSales);
-                
+                // recupera los tipos de pago del deudor y los guarda en una propiedad
                 final var idsPaymentsType = lst.stream().
                         map(info -> PaymentTypeIntEnum.valueOf(info.getPayment_type().name())).
                         collect(Collectors.toList());
                 output.setPaymentType(idsPaymentsType);
-                
                 return output;
             }
-            return null;
+            logger.error("no hay datos sobre el deudor");
+            throw new BloSalesV2Exception(BloSalesV2Utils.CODE_DEBTOR_NOT_FOUND, BloSalesV2Utils.DEBTOR_NOT_FOUND);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
