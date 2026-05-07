@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 
-public final class ViewOrdersByStatus extends AbstractDashboardBase {
+public final class ViewOrders extends AbstractDashboardBase {
     
-    private static final GUILogger logger = GUILogger.getLogger(ViewOrdersByStatus.class.getName());
+    private static final GUILogger logger = GUILogger.getLogger(ViewOrders.class.getName());
     
     private static final String[] titles = {"ID orden", "ID vendedor", "Nombre de proveedor", "Marca", "Monto", "Factura/referencia", "Fecha de entrega estimada", "Estado de orden", "Fecha de creación de orden"};
 
@@ -34,7 +34,7 @@ public final class ViewOrdersByStatus extends AbstractDashboardBase {
     /** variable globala para opreaciones de orden seleccionada */
     private PojoOrderVendor orderVendor;
     
-    public ViewOrdersByStatus(String title) {
+    public ViewOrders(String title) {
         super(title);
     }
 
@@ -188,7 +188,7 @@ public final class ViewOrdersByStatus extends AbstractDashboardBase {
             );
             resetInfo();
         } catch (BloSalesV2Exception ex) {
-            System.getLogger(ViewOrdersByStatus.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(ViewOrders.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }//GEN-LAST:event_btnCloseOrderActionPerformed
 

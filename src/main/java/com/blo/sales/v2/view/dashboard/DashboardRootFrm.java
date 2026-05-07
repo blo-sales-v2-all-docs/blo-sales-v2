@@ -24,7 +24,7 @@ import com.blo.sales.v2.view.dashboard.panels.SalesToday;
 import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.dashboard.panels.Vendors;
 import com.blo.sales.v2.view.dashboard.panels.ViewDigitalWallet;
-import com.blo.sales.v2.view.dashboard.panels.ViewOrdersByStatus;
+import com.blo.sales.v2.view.dashboard.panels.ViewOrders;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.google.inject.Injector;
 import jakarta.inject.Inject;
@@ -390,7 +390,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     }//GEN-LAST:event_optOpenOrderActionPerformed
 
     private void optByStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optByStatusActionPerformed
-        handlerDashboard(new ViewOrdersByStatus(KeysEnum.DASHBOARD_TITLES_VIEW_ORDERS.getKey()));
+        handlerDashboard(new ViewOrders(KeysEnum.DASHBOARD_TITLES_VIEW_ORDERS.getKey()));
     }//GEN-LAST:event_optByStatusActionPerformed
     
     private void handlerDashboard(AbstractDashboardBase dashboard) {
