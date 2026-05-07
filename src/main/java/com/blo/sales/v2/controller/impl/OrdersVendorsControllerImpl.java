@@ -53,12 +53,6 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     }
 
     @Override
-    public WrapperPojoIntOrdersVendors getAllOrdersByVendorId(long idVendor) throws BloSalesV2Exception {
-        logger.info("recuperando todas las ordenes del vendedor [%s]", idVendor);
-        return model.getAllOrdersByVendorId(idVendor);
-    }
-
-    @Override
     public PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, String invoice, long idOrder) throws BloSalesV2Exception {
         try {
             // desactivar la funcion para guardar en la db
@@ -73,6 +67,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             if (reason.equals(StatusMovementProviderIntEnum.DELIVERED)) {
                 orderFound.setInvoice(invoice);
             }
+            orderFound.setTimestamp(BloSalesV2Utils.getTimestamp());
             logger.info("guardando informacion de orden %s", String.valueOf(orderFound));
             final var orderUpdated = model.updateOrder(orderFound);
             logger.info("informacion actualizada %s", String.valueOf(orderUpdated));
@@ -88,9 +83,9 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     }
 
     @Override
-    public WrapperPojoIntOrdersVendors getOrdersByStatus(StatusMovementProviderIntEnum status) throws BloSalesV2Exception {
-        logger.info("recuperando todas las ordenes con status=%s", String.valueOf(status));
-        return model.getOrdersByStatus(status);
+    public WrapperPojoIntOrdersVendors getOrders() throws BloSalesV2Exception {
+        logger.info("recuperando todas las ordenes");
+        return model.getOrders();
     }
 
     @Override

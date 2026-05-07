@@ -2,7 +2,6 @@ package com.blo.sales.v2.model;
 
 import com.blo.sales.v2.controller.pojos.PojoIntOrderVendor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
-import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
@@ -23,14 +22,6 @@ public interface IOrdersVendorsModel {
     PojoIntOrderVendor addOrder(PojoIntOrderVendor movement) throws BloSalesV2Exception;
     
     /**
-     * Funcion que recupera todo el historial de movimientos de un proveedor por id
-     * @param idVendor
-     * @return 
-     * @throws com.blo.sales.v2.utils.BloSalesV2Exception 
-     */
-    WrapperPojoIntOrdersVendors getAllOrdersByVendorId(long idVendor) throws BloSalesV2Exception;
-    
-    /**
      * Funcion que actualiza una orden de proveedor en la db
      * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
@@ -41,12 +32,11 @@ public interface IOrdersVendorsModel {
     PojoIntOrderVendor updateOrder(PojoIntOrderVendor order) throws BloSalesV2Exception;
     
     /**
-     * Funcion que recupera ordenes por un status
-     * @param status
+     * Funcion que recupera todas las ordenes
      * @return
      * @throws BloSalesV2Exception 
      */
-    WrapperPojoIntOrdersVendors getOrdersByStatus(StatusMovementProviderIntEnum status) throws BloSalesV2Exception;
+    WrapperPojoIntOrdersVendors getOrders() throws BloSalesV2Exception;
     
     /**
      * Funcion que recupera una orden por id

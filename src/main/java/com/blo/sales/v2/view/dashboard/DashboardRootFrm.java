@@ -72,9 +72,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         optViewProviders = new javax.swing.JMenuItem();
         itmOrders = new javax.swing.JMenu();
         optOpenOrder = new javax.swing.JMenuItem();
-        itmViewOrders = new javax.swing.JMenu();
         optByStatus = new javax.swing.JMenuItem();
-        optByVendors = new javax.swing.JMenuItem();
         optNotes = new javax.swing.JMenuItem();
         itmTopUp = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
@@ -243,20 +241,13 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         });
         itmOrders.add(optOpenOrder);
 
-        itmViewOrders.setText("Ver ordenes");
-
-        optByStatus.setText("Por status");
+        optByStatus.setText("Ver ordenes");
         optByStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optByStatusActionPerformed(evt);
             }
         });
-        itmViewOrders.add(optByStatus);
-
-        optByVendors.setText("Por proveedores");
-        itmViewOrders.add(optByVendors);
-
-        itmOrders.add(itmViewOrders);
+        itmOrders.add(optByStatus);
 
         itmAdmon.add(itmOrders);
 
@@ -429,7 +420,6 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenu itmStock;
     private javax.swing.JMenu itmTopUp;
     private javax.swing.JMenu itmVendors;
-    private javax.swing.JMenu itmViewOrders;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lblVersion;
@@ -438,7 +428,6 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenuItem optAddVendor;
     private javax.swing.JMenuItem optAllCashboxes;
     private javax.swing.JMenuItem optByStatus;
-    private javax.swing.JMenuItem optByVendors;
     private javax.swing.JMenuItem optCanceledSales;
     private javax.swing.JMenuItem optCategory;
     private javax.swing.JMenuItem optDebtors;

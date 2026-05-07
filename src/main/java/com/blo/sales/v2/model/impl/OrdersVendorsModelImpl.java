@@ -2,7 +2,6 @@ package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntOrderVendor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
-import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import jakarta.inject.Singleton;
@@ -68,22 +67,38 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
     }
 
     @Override
-    public WrapperPojoIntOrdersVendors getAllOrdersByVendorId(long idVendor) throws BloSalesV2Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public PojoIntOrderVendor updateOrder(PojoIntOrderVendor order) throws BloSalesV2Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            dbtm.disableAutocommit();
+            final var conn = DBConnection.getConnection();
+            final var data = orderVendorMapper.toInner(order);
+            logger.info("guardando orden %s", String.valueOf(order));
+            final var ps = conn.prepareStatement(BloSalesV2Queries.UPDATE_ORDER);
+            ps.setBigDecimal(1, order.getAmount());
+            ps.setString(2, order.getStatusOrder().name());
+            ps.setString(3, order.getInvoice());
+            ps.setString(4, order.getTimestamp());
+            ps.setString(5, order.getDeadline());
+            ps.setLong(6, order.getIdOrderVendor());
+            
+            final var rowsAffected = ps.executeUpdate();
+            
+            BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
+            
+            logger.info("informacion de orden guardad exitosamente %s", String.valueOf(data));
+            return orderVendorMapper.toOuter(data);
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        }
     }
 
     @Override
-    public WrapperPojoIntOrdersVendors getOrdersByStatus(StatusMovementProviderIntEnum status) throws BloSalesV2Exception {
+    public WrapperPojoIntOrdersVendors getOrders() throws BloSalesV2Exception {
         try {
-            logger.info("recuperando pedidos por estatus %s", String.valueOf(status));
+            logger.info("recuperando pedidos");
             final var conn = DBConnection.getConnection();
-            final var ps = conn.prepareStatement(BloSalesV2Queries.GET_ORDERS_BY_STATUS);
-            ps.setString(1, status.name());
+            final var ps = conn.prepareStatement(BloSalesV2Queries.GET_ORDERS);
             
             final var rs = ps.executeQuery();
             
@@ -113,7 +128,32 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
 
     @Override
     public PojoIntOrderVendor getOrderById(long idOrder) throws BloSalesV2Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            logger.info("recuperando orden por id %s", idOrder);
+            final var conn = DBConnection.getConnection();
+            final var ps = conn.prepareStatement(BloSalesV2Queries.GET_ORDER_BY_ID);
+            ps.setLong(1, idOrder);
+            
+            final var rs = ps.executeQuery();
+            
+            OrderVendorEntity item = null;
+            while(rs.next()) {
+                item = new OrderVendorEntity();
+                item.setAmount(rs.getBigDecimal(BloSalesV2Columns.AMOUNT));
+                item.setDeadline(rs.getString(BloSalesV2Columns.DEADLINE));
+                item.setFk_vendor(rs.getLong(BloSalesV2Columns.FK_VENDOR));
+                item.setId_order_vendor(rs.getLong(BloSalesV2Columns.ID_ORDER_VENDOR));
+                item.setInvoice(rs.getString(BloSalesV2Columns.INVOICE));
+                item.setName(rs.getString(BloSalesV2Columns.NAME));
+                item.setStatus_order(StatusOrderVendorEntityEnum.valueOf(rs.getString(BloSalesV2Columns.STATUS_ORDER)));
+                item.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
+            }
+            logger.info("registro encontrado [%s]", String.valueOf(item));
+            return orderVendorMapper.toOuter(item);
+        } catch(SQLException e) {
+            logger.error(e.getMessage());
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        }
     }
     
 }

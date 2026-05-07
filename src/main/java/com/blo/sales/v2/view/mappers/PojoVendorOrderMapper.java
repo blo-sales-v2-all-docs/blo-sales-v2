@@ -37,7 +37,7 @@ public class PojoVendorOrderMapper implements IToInner<PojoIntOrderVendor, PojoO
         outer.setAmount(inner.getAmount());
         outer.setDeadline(inner.getDeadline());
         outer.setFkVendor(inner.getFkVendor());
-        outer.setIdOrderVendor(outer.getIdOrderVendor());
+        outer.setIdOrderVendor(inner.getIdOrderVendor());
         outer.setInvoice(inner.getInvoice());
         outer.setStatusOrder(StatusOrderProviderEnum.valueOf(inner.getStatusOrder().name()));
         outer.setTimestamp(inner.getTimestamp());

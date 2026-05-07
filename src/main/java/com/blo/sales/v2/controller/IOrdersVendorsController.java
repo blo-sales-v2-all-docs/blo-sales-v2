@@ -21,14 +21,6 @@ public interface IOrdersVendorsController {
     PojoIntOrderVendor highOrder(PojoIntOrderVendor order) throws BloSalesV2Exception;
     
     /**
-     * Funcion que recupera todo el historial de movimientos de un proveedor por id
-     * @param idVendor
-     * @return 
-     * @throws com.blo.sales.v2.utils.BloSalesV2Exception 
-     */
-    WrapperPojoIntOrdersVendors getAllOrdersByVendorId(long idVendor) throws BloSalesV2Exception;
-    
-    /**
      * Funcion que cierra un pedido
      * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
@@ -42,11 +34,10 @@ public interface IOrdersVendorsController {
     
     /**
      * Funcion que recupera ordenes por un status
-     * @param status
      * @return
      * @throws BloSalesV2Exception 
      */
-    WrapperPojoIntOrdersVendors getOrdersByStatus(StatusMovementProviderIntEnum status) throws BloSalesV2Exception;
+    WrapperPojoIntOrdersVendors getOrders() throws BloSalesV2Exception;
     
     /**
      * Funcion que recupera una orden por id

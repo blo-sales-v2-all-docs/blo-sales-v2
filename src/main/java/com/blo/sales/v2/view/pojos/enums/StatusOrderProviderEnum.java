@@ -6,7 +6,7 @@ import lombok.Getter;
 
 public enum StatusOrderProviderEnum {
     
-    PENDIG("Pendiente de entrega", 0), CANCELLED("Cancelado", 1), DELIVERED("Entregado", 2);
+    PENDIG("Pendiente de entrega", 0), DELIVERED("Entregado", 1), CANCELLED("Cancelado", 2);
     
     @Getter
     private final String target;
@@ -19,8 +19,8 @@ public enum StatusOrderProviderEnum {
         this.index = index;
     }
     
-    public static List<StatusOrderProviderEnum> getVisiblesTypes() {
-         return Arrays.asList(StatusOrderProviderEnum.values());
+    public static List<StatusOrderProviderEnum> getVisiblesTypes(int sinceIndex) {
+         return Arrays.asList(StatusOrderProviderEnum.values()).subList(sinceIndex, StatusOrderProviderEnum.values().length);
     }
     
     public static StatusOrderProviderEnum getByIndex(int index) {

@@ -175,26 +175,14 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optOpenOrderActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <Menu class="javax.swing.JMenu" name="itmViewOrders">
+                <MenuItem class="javax.swing.JMenuItem" name="optByStatus">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Ver ordenes"/>
                   </Properties>
-                  <SubComponents>
-                    <MenuItem class="javax.swing.JMenuItem" name="optByStatus">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Por status"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optByStatusActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="optByVendors">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Por proveedores"/>
-                      </Properties>
-                    </MenuItem>
-                  </SubComponents>
-                </Menu>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optByStatusActionPerformed"/>
+                  </Events>
+                </MenuItem>
               </SubComponents>
             </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="optNotes">
