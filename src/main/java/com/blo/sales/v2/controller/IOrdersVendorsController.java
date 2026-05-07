@@ -4,6 +4,7 @@ import com.blo.sales.v2.controller.pojos.PojoIntOrderVendor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
 import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import java.math.BigDecimal;
 
 /**
  * Clase controlador para movimientos de proveedores
@@ -22,15 +23,16 @@ public interface IOrdersVendorsController {
     
     /**
      * Funcion que cierra un pedido
-     * <br>
-     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param reason
+     * @param amount
+     * @param brand
      * @param invoice
-     * @param idMovement
+     * @param idUser
+     * @param idOrder
      * @return
      * @throws BloSalesV2Exception 
      */
-    PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, String invoice, long idMovement) throws BloSalesV2Exception;
+    PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, BigDecimal amount, String brand, String invoice, long idUser, long idOrder) throws BloSalesV2Exception;
     
     /**
      * Funcion que recupera ordenes por un status

@@ -25,6 +25,7 @@ public class PojoVendorOrderMapper implements IToInner<PojoIntOrderVendor, PojoO
         inner.setStatusOrder(StatusMovementProviderIntEnum.valueOf(outer.getStatusOrder().name()));
         inner.setTimestamp(outer.getTimestamp());
         inner.setVendorName(outer.getVendorName());
+        inner.setBrand(outer.getBrand());
         return inner;
     }
 
@@ -42,6 +43,7 @@ public class PojoVendorOrderMapper implements IToInner<PojoIntOrderVendor, PojoO
         outer.setStatusOrder(StatusOrderProviderEnum.valueOf(inner.getStatusOrder().name()));
         outer.setTimestamp(inner.getTimestamp());
         outer.setVendorName(inner.getVendorName());
+        outer.setBrand(inner.getBrand());
         return outer;
     }
     

@@ -23,4 +23,6 @@ public class OrderVendorEntity {
     
     private String name;
     
+    private String brand;
+    
 }

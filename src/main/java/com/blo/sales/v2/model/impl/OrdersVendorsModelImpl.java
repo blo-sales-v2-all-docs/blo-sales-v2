@@ -115,6 +115,7 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
                 item.setName(rs.getString(BloSalesV2Columns.NAME));
                 item.setStatus_order(StatusOrderVendorEntityEnum.valueOf(rs.getString(BloSalesV2Columns.STATUS_ORDER)));
                 item.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
+                item.setBrand(rs.getString(BloSalesV2Columns.BRAND));
                 lst.add(item);
             }
             out.setOrders(lst);

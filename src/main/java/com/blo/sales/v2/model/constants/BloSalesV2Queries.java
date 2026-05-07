@@ -170,7 +170,7 @@ public final class BloSalesV2Queries {
     
     public static final String UPDATE_ORDER = "UPDATE orders_vendor SET amount = ?, status_order = ?, invoice = ?, timestamp = ?, deadline = ? WHERE id_order_vendor = ?";
     
-    public static final String GET_ORDERS = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor";
+    public static final String GET_ORDERS = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, v.brand FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor";
     
     public static final String GET_ORDER_BY_ID = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor WHERE ov.id_order_vendor = ? LIMIT 1";
 }

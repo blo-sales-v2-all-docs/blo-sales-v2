@@ -6,17 +6,24 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import jakarta.inject.Singleton;
 import com.blo.sales.v2.controller.IOrdersVendorsController;
+import com.blo.sales.v2.controller.IUserController;
+import com.blo.sales.v2.controller.pojos.PojoIntNote;
 import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
+import com.blo.sales.v2.controller.pojos.enums.TypeNoteIntEnum;
 import com.blo.sales.v2.model.IOrdersVendorsModel;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Singleton
 public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     
     private static final GUILogger logger = GUILogger.getLogger(OrdersVendorsControllerImpl.class.getName());
+    
+    @Inject
+    private IUserController userController;
     
     @Inject
     private IOrdersVendorsModel model;
@@ -53,7 +60,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     }
 
     @Override
-    public PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, String invoice, long idOrder) throws BloSalesV2Exception {
+    public PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, BigDecimal amount, String brand, String invoice, long idUser, long idOrder) throws BloSalesV2Exception {
         try {
             // desactivar la funcion para guardar en la db
             dbTransactionManager.disableAutocommit();
@@ -67,10 +74,23 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             if (reason.equals(StatusMovementProviderIntEnum.DELIVERED)) {
                 orderFound.setInvoice(invoice);
             }
-            orderFound.setTimestamp(BloSalesV2Utils.getTimestamp());
+            final var timestamp = BloSalesV2Utils.getTimestamp();
+            orderFound.setTimestamp(timestamp);
             logger.info("guardando informacion de orden %s", String.valueOf(orderFound));
             final var orderUpdated = model.updateOrder(orderFound);
             logger.info("informacion actualizada %s", String.valueOf(orderUpdated));
+            // guardar la orden en las notas como un pasivo solamente si fue entregado
+            if (reason.compareTo(StatusMovementProviderIntEnum.DELIVERED) == 0) {
+                logger.info("guardando una nota");
+                final var note = new PojoIntNote();
+                final var concept = "PAGO de orden de %s [%s], no. de factura: %s; por: $%s";
+                note.setFkUser(idUser);
+                note.setNote(String.format(concept, brand, reason, invoice, amount));
+                note.setTimesamp(timestamp);
+                note.setTypeNote(TypeNoteIntEnum.PASIVO);
+                final var noteSaved = userController.addNoteNotCommit(note);
+                logger.info("nota guardada %s", String.valueOf(noteSaved));
+            }
             dbTransactionManager.doCommit();
             return orderUpdated;
         } catch (BloSalesV2Exception ex) {

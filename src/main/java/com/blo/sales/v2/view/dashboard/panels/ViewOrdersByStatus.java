@@ -21,7 +21,7 @@ public final class ViewOrdersByStatus extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(ViewOrdersByStatus.class.getName());
     
-    private static final String[] titles = {"ID orden", "ID vendedor", "Nombre de proveedor", "Monto", "Factura/referencia", "Fecha de entrega estimada", "Estado de orden", "Fecha de creación de orden"};
+    private static final String[] titles = {"ID orden", "ID vendedor", "Nombre de proveedor", "Marca", "Monto", "Factura/referencia", "Fecha de entrega estimada", "Estado de orden", "Fecha de creación de orden"};
 
     @Inject
     private IOrdersVendorsController ordersVendorController;
@@ -178,7 +178,14 @@ public final class ViewOrdersByStatus extends AbstractDashboardBase {
         try {
             final var invoice = GUICommons.getTextFromField(txtInvoice, true);
             final var reason = StatusOrderProviderEnum.getByIndex(cmbxCloseOrderReasons.getSelectedIndex() + 1);
-            ordersVendorController.closeOrder(StatusMovementProviderIntEnum.valueOf(reason.name()), invoice, orderVendor.getIdOrderVendor());
+            ordersVendorController.closeOrder(
+                    StatusMovementProviderIntEnum.valueOf(reason.name()),
+                    orderVendor.getAmount(),
+                    orderVendor.getBrand(),
+                    invoice,
+                    getUserData().getIdUser(),
+                    orderVendor.getIdOrderVendor()
+            );
             resetInfo();
         } catch (BloSalesV2Exception ex) {
             System.getLogger(ViewOrdersByStatus.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -209,6 +216,7 @@ public final class ViewOrdersByStatus extends AbstractDashboardBase {
                 order.getIdOrderVendor(),
                 order.getFkVendor(),
                 order.getVendorName(),
+                order.getBrand(),
                 order.getAmount(),
                 order.getInvoice(),
                 order.getDeadline(),
@@ -242,6 +250,7 @@ public final class ViewOrdersByStatus extends AbstractDashboardBase {
     }
     
     private void resetInfo() throws BloSalesV2Exception {
+        getDefaultTableModel().setRowCount(0);
         wrapperOrders = vendorsOrdersMapper.toOuter(ordersVendorController.getOrders());
         applyFilterOnTable(wrapperOrders.getOrders(), null);
         GUICommons.addDoubleClickOnTable(tblOrders, (Long idOrder) -> closeOrder(idOrder));

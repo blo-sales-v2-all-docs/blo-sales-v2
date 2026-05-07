@@ -23,4 +23,6 @@ public class PojoIntOrderVendor {
     
     private String vendorName;
     
+    private String brand;
+    
 }
