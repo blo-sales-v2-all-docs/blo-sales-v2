@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -209,6 +210,15 @@ public final class GUICommons {
                 BloSalesV2Utils.ERROR_PATTERN);
         
         return new BigDecimal(txt);
+    }
+    
+    /**
+     * Metodo que recupera el valor de un spinner
+     * @param spinner
+     * @return 
+     */
+    public static BigDecimal getNumberFromComponent(JSpinner spinner) {
+        return new BigDecimal(String.valueOf(spinner.getValue()));
     }
     
     /**
@@ -479,7 +489,8 @@ public final class GUICommons {
     /**
      * Metodo que se utiliza para colorear el fondo de un lbl con texto blanco
      * @param lbl
-     * @param color 
+     * @param bgColor
+     * @param txtColor
      */
     public static void setColorToLabel(JLabel lbl, Color bgColor, Color txtColor) {
         lbl.setOpaque(true);
