@@ -559,6 +559,13 @@ public final class AllProducts extends AbstractDashboardBase {
             spinner.addChangeListener((ChangeEvent e) -> {
                 reasonHandler(String.valueOf(spinner.getValue()));
             });
+            final var editor = (JSpinner.DefaultEditor) spinner.getEditor();
+            editor.getTextField().addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    reasonHandler(editor.getTextField().getText());
+                }
+            });
             pnl.add(spinner);
         }
         pnl.revalidate();
@@ -571,10 +578,14 @@ public final class AllProducts extends AbstractDashboardBase {
      */
     private void reasonHandler(String tmpQuantity) {
         lstReason.setVisible(true);
-        if (tmpQuantity.isBlank()) {
+        if (
+                tmpQuantity.isBlank() ||
+                !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.QUANTITY_REGEX, tmpQuantity)
+            ) {
             lstReason.setVisible(false);
             return;
         }
+            
         final var quantity = new BigDecimal(tmpQuantity.trim());
         final var quantityCompared = currentQuantity.compareTo(quantity);
         logger.info("CurrentQuantity %s tmpQuantity %s result %s", currentQuantity, tmpQuantity, quantityCompared);

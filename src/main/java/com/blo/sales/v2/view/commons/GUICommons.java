@@ -2,7 +2,9 @@ package com.blo.sales.v2.view.commons;
 
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import static com.blo.sales.v2.utils.BloSalesV2Utils.QUANTITY_REGEX;
 import static com.blo.sales.v2.utils.BloSalesV2Utils.validateRule;
+import static com.blo.sales.v2.utils.BloSalesV2Utils.validateTextWithPattern;
 import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -216,9 +218,15 @@ public final class GUICommons {
      * Metodo que recupera el valor de un spinner
      * @param spinner
      * @return 
+     * @throws com.blo.sales.v2.utils.BloSalesV2Exception 
      */
-    public static BigDecimal getNumberFromComponent(JSpinner spinner) {
-        return new BigDecimal(String.valueOf(spinner.getValue()));
+    public static BigDecimal getNumberFromComponent(JSpinner spinner) throws BloSalesV2Exception {
+        final var txt = String.valueOf(spinner.getValue()).trim();
+        final var isNumberValid = validateTextWithPattern(QUANTITY_REGEX, txt);
+        
+        BloSalesV2Utils.validateRule(!isNumberValid, BloSalesV2Utils.CODE_PATTERN_ERROR, BloSalesV2Utils.ERROR_PATTERN);
+        
+        return new BigDecimal(txt);
     }
     
     /**
