@@ -51,7 +51,7 @@ public final class ViewOrders extends AbstractDashboardBase {
         pnlCtrlCloseOrder = new javax.swing.JPanel();
         cmbxCloseOrderReasons = new javax.swing.JComboBox<>();
         txtInvoice = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblNoInvoice = new javax.swing.JLabel();
         btnCloseOrder = new javax.swing.JButton();
 
         btnApplyFilter.setText("aplicar_filtro");
@@ -78,7 +78,7 @@ public final class ViewOrders extends AbstractDashboardBase {
 
         lblFilterOrderStatus.setText("filtrar_por_estado_de_orden");
 
-        jLabel1.setText("no_de_factura");
+        lblNoInvoice.setText("no_de_factura");
 
         btnCloseOrder.setText("cerrar_orden");
         btnCloseOrder.addActionListener(this::btnCloseOrderActionPerformed);
@@ -91,7 +91,7 @@ public final class ViewOrders extends AbstractDashboardBase {
                 .addContainerGap()
                 .addGroup(pnlCtrlCloseOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCtrlCloseOrderLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblNoInvoice)
                         .addGap(18, 18, 18)
                         .addComponent(txtInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
                     .addComponent(cmbxCloseOrderReasons, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -109,7 +109,7 @@ public final class ViewOrders extends AbstractDashboardBase {
                         .addGap(18, 18, 18)
                         .addGroup(pnlCtrlCloseOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addComponent(lblNoInvoice))
                         .addGap(0, 24, Short.MAX_VALUE))
                     .addComponent(btnCloseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -188,7 +188,8 @@ public final class ViewOrders extends AbstractDashboardBase {
             );
             resetInfo();
         } catch (BloSalesV2Exception ex) {
-            System.getLogger(ViewOrders.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnCloseOrderActionPerformed
 
@@ -197,9 +198,9 @@ public final class ViewOrders extends AbstractDashboardBase {
     private javax.swing.JButton btnCloseOrder;
     private javax.swing.JComboBox<String> cmbxCloseOrderReasons;
     private javax.swing.JComboBox<String> cmbxSelectOrderStatus;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFilterOrderStatus;
+    private javax.swing.JLabel lblNoInvoice;
     private javax.swing.JPanel pnlCtrlCloseOrder;
     private javax.swing.JTable tblOrders;
     private javax.swing.JTextField txtInvoice;
@@ -234,7 +235,10 @@ public final class ViewOrders extends AbstractDashboardBase {
         if (orderFound != null && orderFound.getStatusOrder().compareTo(StatusOrderProviderEnum.PENDIG) == 0) {
             GUICommons.showPanel(pnlCtrlCloseOrder);
             orderVendor = orderFound;
+            return;
         }
+        GUICommons.hiddenPanel(pnlCtrlCloseOrder);
+        orderVendor = null;
     }
     
     private void loadBySatusFilter() {
@@ -261,7 +265,7 @@ public final class ViewOrders extends AbstractDashboardBase {
     @Override
     public void loadTargets() {
         GUICommons.setTextToButton(btnCloseOrder, getTranslateBy(KeysEnum.VIEW_ORDERS_BTN_CLOSE_ORDER.getKey()));
-        GUICommons.setTextToField(txtInvoice, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_NO_INVOICE.getKey()));
+        GUICommons.setTextToField(lblNoInvoice, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_NO_INVOICE.getKey()));
         GUICommons.setTextToField(lblFilterOrderStatus, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS.getKey()));
         GUICommons.setTextToButton(btnApplyFilter, getTranslateBy(KeysEnum.COMMON_BTN_APPLY_FILTER.getKey()));
     }
