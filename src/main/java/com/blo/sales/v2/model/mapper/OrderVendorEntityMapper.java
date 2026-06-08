@@ -28,6 +28,7 @@ public class OrderVendorEntityMapper implements
         inner.setDeadline(outer.getDeadline());
         inner.setName(outer.getVendorName());
         inner.setBrand(outer.getBrand());
+        inner.setPayment_type(outer.getPaymentType());
         return inner;
     }
 
@@ -46,6 +47,7 @@ public class OrderVendorEntityMapper implements
         outer.setDeadline(inner.getDeadline());
         outer.setVendorName(inner.getName());
         outer.setBrand(inner.getBrand());
+        outer.setPaymentType(inner.getPayment_type());
         return outer;
     }
     

@@ -25,4 +25,6 @@ public class PojoIntOrderVendor {
     
     private String brand;
     
+    private String paymentType;
+    
 }

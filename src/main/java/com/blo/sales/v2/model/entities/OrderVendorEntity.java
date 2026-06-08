@@ -25,4 +25,6 @@ public class OrderVendorEntity {
     
     private String brand;
     
+    private String payment_type;
+    
 }

@@ -49,6 +49,7 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
             ps.setString(4, data.getInvoice());
             ps.setString(5, data.getTimestamp());
             ps.setString(6, data.getDeadline());
+            ps.setString(7, data.getPayment_type());
             
             final var rowsAffected = ps.executeUpdate();
             

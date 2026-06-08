@@ -45,6 +45,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             order.setStatusOrder(StatusMovementProviderIntEnum.PENDIG);
             order.setTimestamp(BloSalesV2Utils.getTimestamp());
             order.setInvoice(StatusMovementProviderIntEnum.PENDIG.toString());
+            order.setPaymentType(BloSalesV2Utils.N_A);
             // se guarda orden
             final var orderSaved = model.addOrder(order);
             logger.info("Orden guardada %s", String.valueOf(orderSaved));
