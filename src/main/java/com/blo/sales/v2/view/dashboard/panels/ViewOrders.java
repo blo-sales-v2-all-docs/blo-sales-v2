@@ -260,13 +260,17 @@ public final class ViewOrders extends AbstractDashboardBase {
     
     @Override
     public void loadTargets() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        GUICommons.setTextToButton(btnCloseOrder, getTranslateBy(KeysEnum.VIEW_ORDERS_BTN_CLOSE_ORDER.getKey()));
+        GUICommons.setTextToField(txtInvoice, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_NO_INVOICE.getKey()));
+        GUICommons.setTextToField(lblFilterOrderStatus, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS.getKey()));
+        GUICommons.setTextToButton(btnApplyFilter, getTranslateBy(KeysEnum.COMMON_BTN_APPLY_FILTER.getKey()));
     }
 
     @Override
     public void init() {
         try {
             initComponents();
+            loadTargets();
             setMainTable(tblOrders);
             loadBySatusFilter();
             loadReasonCloseOrder();
