@@ -17,8 +17,6 @@ import java.util.regex.Pattern;
  */
 public final class BloSalesV2Utils {
     
-    private static final String RELEASE = "RELEASE";
-    
     /** cadena vacia */
     public static final String EMPTY_STRING = "";
     
@@ -30,6 +28,8 @@ public final class BloSalesV2Utils {
     public static final String ONLY_NUMBERS = "[0-9]+";
     
     public static final String CURRENCY_REGEX = "^\\d*(\\.\\d{1,2})?$";
+    
+    public static final String QUANTITY_REGEX = "^\\d*(\\.\\d{1,3})?$";
     
     public static final String SEPARATOR_PAYMENTS = ",";
     

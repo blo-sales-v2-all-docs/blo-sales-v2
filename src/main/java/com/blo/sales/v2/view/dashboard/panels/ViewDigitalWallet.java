@@ -181,7 +181,7 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
             accountsController.addMoney(
                     AccountsEnum.DIGITAL_WALLET.getId(),
                     getUserData().getIdUser(),
-                    GUICommons.getNumberFromJText(nmbQuantity, 2),
+                    GUICommons.getNumberFromJText(nmbQuantity, GUICommons.DIGITS_OF_CURRENCY),
                     GUICommons.getTextFromField(txtReference, true)
             );
             getFinancialData();

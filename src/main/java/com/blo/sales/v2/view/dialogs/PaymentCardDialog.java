@@ -140,12 +140,12 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
     private void btnDoPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoPayActionPerformed
         final var checkboxStatus = chcbkxComplete.isSelected();
         try {
-            final var cardPay = GUICommons.getNumberFromJText(nmbPaymentCard, 2);
+            final var cardPay = GUICommons.getNumberFromJText(nmbPaymentCard, GUICommons.DIGITS_OF_CURRENCY);
             final var reference = GUICommons.getTextFromField(txtReference, true);
             var cash = BigDecimal.ZERO;
             var type = 1;
             if (!checkboxStatus) {
-                cash = GUICommons.getNumberFromJText(nmbCash, 2);
+                cash = GUICommons.getNumberFromJText(nmbCash, GUICommons.DIGITS_OF_CURRENCY);
                 type = 2;
             }
             /** validar que la suma de ambos pagos no sea mayor a lo que se debe pagar */
