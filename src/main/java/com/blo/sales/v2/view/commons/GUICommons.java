@@ -2,7 +2,9 @@ package com.blo.sales.v2.view.commons;
 
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import static com.blo.sales.v2.utils.BloSalesV2Utils.QUANTITY_REGEX;
 import static com.blo.sales.v2.utils.BloSalesV2Utils.validateRule;
+import static com.blo.sales.v2.utils.BloSalesV2Utils.validateTextWithPattern;
 import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -207,6 +210,21 @@ public final class GUICommons {
                 !BloSalesV2Utils.validateTextWithPattern(regex, txt),
                 BloSalesV2Utils.COMMON_RULE_CODE,
                 BloSalesV2Utils.ERROR_PATTERN);
+        
+        return new BigDecimal(txt);
+    }
+    
+    /**
+     * Metodo que recupera el valor de un spinner
+     * @param spinner
+     * @return 
+     * @throws com.blo.sales.v2.utils.BloSalesV2Exception 
+     */
+    public static BigDecimal getNumberFromComponent(JSpinner spinner) throws BloSalesV2Exception {
+        final var txt = String.valueOf(spinner.getValue()).trim();
+        final var isNumberValid = validateTextWithPattern(QUANTITY_REGEX, txt);
+        
+        BloSalesV2Utils.validateRule(!isNumberValid, BloSalesV2Utils.CODE_PATTERN_ERROR, BloSalesV2Utils.ERROR_PATTERN);
         
         return new BigDecimal(txt);
     }
@@ -479,7 +497,8 @@ public final class GUICommons {
     /**
      * Metodo que se utiliza para colorear el fondo de un lbl con texto blanco
      * @param lbl
-     * @param color 
+     * @param bgColor
+     * @param txtColor
      */
     public static void setColorToLabel(JLabel lbl, Color bgColor, Color txtColor) {
         lbl.setOpaque(true);
