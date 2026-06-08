@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.IAccountsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IDebtorsController;
@@ -72,6 +73,9 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     
     @Inject
     private IDBTransactionManagerController managerController;
+    
+    @Inject
+    private IAccountsController accountsController;
     
     @Override
     public PojoIntSale registerSale(
@@ -487,6 +491,8 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             paymentData.setIdSale(registeredSale.getIdSale());
             final var addedPaymentTyp = updateSaleWithPaymentInfo(paymentData);
             logger.info("pago con tarjeta guardado %s en la venta %s", String.valueOf(addedPaymentTyp), registeredSale.getIdSale());
+            // agregar el dinero de la transferencia a la cartera digital
+            accountsController.addMoneyNotCommit(idUser, idUser, paymentData.getCardPay(), paymentData.getReference());
             managerController.doCommit();
             return addedPaymentTyp;
         } catch (BloSalesV2Exception ex) {
@@ -531,9 +537,11 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     private PojoIntPaymentTypeInfo updateSaleWithPaymentInfo(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
         logger.info("registrando datos de pago [%s]", String.valueOf(paymentData));
         final var paysAdded = paymentData.getCardPay().add(paymentData.getCash());
-        if (paysAdded.compareTo(paymentData.getTotalToPay()) < 0) {
-            throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
-        }
+        BloSalesV2Utils.validateRule(
+                paysAdded.compareTo(paymentData.getTotalToPay()) < 0,
+                BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE,
+                BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE
+        );
         final var saleUpdated = saleModel.registerPaymentTypeData(paymentData);
         return saleUpdated;
     }
