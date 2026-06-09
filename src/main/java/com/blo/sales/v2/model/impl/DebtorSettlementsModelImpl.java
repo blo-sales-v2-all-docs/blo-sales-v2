@@ -44,8 +44,7 @@ public class DebtorSettlementsModelImpl implements IDebtorSettlementsModel{
             final var data = debtorSettlementMapper.toInner(settlement);
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_SETTLEMENT, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, data.getFk_sale().getId_sale());
-            final var debtorName = data.getFk_sale().getId_sale() + BloSalesV2Utils.EMPTY_STRING.concat(data.getDebtor());
-            ps.setString(2, debtorName);
+            ps.setString(2, data.getDebtor());
             ps.setString(3, data.getProducts_details());
             ps.setString(4, data.getPayments());
             ps.setString(5, data.getTimestamp());
