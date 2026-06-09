@@ -11,6 +11,7 @@ import com.blo.sales.v2.controller.ISaleDeletedDetailController;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.ISalesProductController;
 import com.blo.sales.v2.controller.IUserController;
+import com.blo.sales.v2.controller.pojos.PojoIntAccount;
 import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtorSale;
@@ -23,6 +24,7 @@ import com.blo.sales.v2.controller.pojos.PojoIntSaleProduct;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSales;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntSalesAndStock;
+import com.blo.sales.v2.controller.pojos.enums.AccountsIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.CashboxStatusIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.ReasonsIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.SalesStatusIntEnum;
@@ -492,7 +494,8 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             final var addedPaymentTyp = updateSaleWithPaymentInfo(paymentData);
             logger.info("pago con tarjeta guardado %s en la venta %s", String.valueOf(addedPaymentTyp), registeredSale.getIdSale());
             // agregar el dinero de la transferencia a la cartera digital
-            accountsController.addMoneyNotCommit(idUser, idUser, paymentData.getCardPay(), paymentData.getReference());
+            final var digitalAccount = getDigitalAccount();
+            accountsController.addMoneyNotCommit(digitalAccount.getIdAccount(), idUser, paymentData.getCardPay(), paymentData.getReference());
             managerController.doCommit();
             return addedPaymentTyp;
         } catch (BloSalesV2Exception ex) {
@@ -505,15 +508,22 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     }
     
     @Override
-    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception {
+    public PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData, long idUser) throws BloSalesV2Exception {
          try {
             managerController.disableAutocommit();
             logger.info("registrando datos de pago [%s]", String.valueOf(paymentData));
             final var paysAdded = paymentData.getCardPay().add(paymentData.getCash());
-            if (paysAdded.compareTo(paymentData.getTotalToPay()) < 0) {
-                throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE, BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE);
-            }
+            
+            BloSalesV2Utils.validateRule(
+                    paysAdded.compareTo(paymentData.getTotalToPay()) < 0,
+                    BloSalesV2Utils.CODE_PAYMENT_CARD_NOT_COMPLETE,
+                    BloSalesV2Utils.ERROR_PAYMENT_CARD_NOT_COMPLETE
+            );
+            
             final var saleUpdated = saleModel.registerPaymentTypeData(paymentData);
+            // agregar el dinero de la transferencia a la cartera digital
+            final var digitalAccount = getDigitalAccount();
+            accountsController.addMoneyNotCommit(digitalAccount.getIdAccount(), idUser, paymentData.getCardPay(), paymentData.getReference());
             managerController.doCommit();
             return saleUpdated;
         } catch (BloSalesV2Exception ex) {
@@ -527,7 +537,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 
     
     /**
-     * Metodo que hace la actualizacion de la venta
+     * Metodo que hace la actualizacion de la venta a el tipo de pago {@code payment_type = 'TRANSFER' || payment_type = 'CARD'} y la autorización {@code authorization = 'ab2c3d4}
      * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param paymentData
@@ -544,5 +554,16 @@ public @Singleton class SalesControllerImpl implements ISalesController {
         );
         final var saleUpdated = saleModel.registerPaymentTypeData(paymentData);
         return saleUpdated;
+    }
+    
+    /**
+     * Método que recupera la cuenta digital
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    private PojoIntAccount getDigitalAccount() throws BloSalesV2Exception {
+        final var walletDigital = accountsController.getAccountById(AccountsIntEnum.DIGITAL_WALLET.getId());
+        BloSalesV2Utils.validateRule(walletDigital == null, BloSalesV2Utils.CODE_ACCOUNT_NO_EXISTS, BloSalesV2Utils.ERROR_ACCOUNT_NO_EXISTS);
+        return walletDigital;
     }
 }

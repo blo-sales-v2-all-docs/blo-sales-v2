@@ -8,6 +8,8 @@ import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import java.awt.Component;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,7 +148,7 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
             var type = 1;
             if (!checkboxStatus) {
                 cash = GUICommons.getNumberFromJText(nmbCash, GUICommons.DIGITS_OF_CURRENCY);
-                type = 2;
+                type = 3;
             }
             /** validar que la suma de ambos pagos no sea mayor a lo que se debe pagar */
             final var sum = cardPay.add(cash);
@@ -187,6 +189,12 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
         GUICommons.setTextToField(lblTotalToPay, pay);
         chcbkxComplete.setSelected(true);
         nmbCash.setEnabled(false);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                callback.accept((T) new HashMap<>());
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
