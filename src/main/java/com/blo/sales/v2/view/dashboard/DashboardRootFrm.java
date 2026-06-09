@@ -6,6 +6,7 @@ import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.AbstractFrameBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
+import com.blo.sales.v2.view.dashboard.panels.AddVendor;
 import com.blo.sales.v2.view.dashboard.panels.AllCashboxes;
 import com.blo.sales.v2.view.dashboard.panels.AllProducts;
 import com.blo.sales.v2.view.dashboard.panels.CashboxOpen;
@@ -14,13 +15,16 @@ import com.blo.sales.v2.view.dashboard.panels.Debtors;
 import com.blo.sales.v2.view.dashboard.panels.DebtorsSettlements;
 import com.blo.sales.v2.view.dashboard.panels.MobileCompanies;
 import com.blo.sales.v2.view.dashboard.panels.Notes;
+import com.blo.sales.v2.view.dashboard.panels.OpenOrder;
 import com.blo.sales.v2.view.dashboard.panels.RegisterProduct;
 import com.blo.sales.v2.view.dashboard.panels.Sales;
 import com.blo.sales.v2.view.dashboard.panels.SalesCanceled;
 import com.blo.sales.v2.view.dashboard.panels.SalesReport;
 import com.blo.sales.v2.view.dashboard.panels.SalesToday;
 import com.blo.sales.v2.view.dashboard.panels.TopUps;
+import com.blo.sales.v2.view.dashboard.panels.Vendors;
 import com.blo.sales.v2.view.dashboard.panels.ViewDigitalWallet;
+import com.blo.sales.v2.view.dashboard.panels.ViewOrders;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.google.inject.Injector;
 import jakarta.inject.Inject;
@@ -63,6 +67,12 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         itmDebtors = new javax.swing.JMenu();
         optDebtors = new javax.swing.JMenuItem();
         optDebtorsHistory = new javax.swing.JMenuItem();
+        itmVendors = new javax.swing.JMenu();
+        optAddVendor = new javax.swing.JMenuItem();
+        optViewProviders = new javax.swing.JMenuItem();
+        itmOrders = new javax.swing.JMenu();
+        optOpenOrder = new javax.swing.JMenuItem();
+        optByStatus = new javax.swing.JMenuItem();
         optNotes = new javax.swing.JMenuItem();
         itmTopUp = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
@@ -201,6 +211,46 @@ public final class DashboardRootFrm extends AbstractFrameBase {
 
         itmAdmon.add(itmDebtors);
 
+        itmVendors.setText("Proveedores");
+
+        optAddVendor.setText("Agregar proveedor");
+        optAddVendor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optAddVendorActionPerformed(evt);
+            }
+        });
+        itmVendors.add(optAddVendor);
+
+        optViewProviders.setText("Ver proveedores");
+        optViewProviders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optViewProvidersActionPerformed(evt);
+            }
+        });
+        itmVendors.add(optViewProviders);
+
+        itmAdmon.add(itmVendors);
+
+        itmOrders.setText("Órdenes");
+
+        optOpenOrder.setText("Abrir orden");
+        optOpenOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optOpenOrderActionPerformed(evt);
+            }
+        });
+        itmOrders.add(optOpenOrder);
+
+        optByStatus.setText("Ver ordenes");
+        optByStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optByStatusActionPerformed(evt);
+            }
+        });
+        itmOrders.add(optByStatus);
+
+        itmAdmon.add(itmOrders);
+
         optNotes.setText("Notas Rápidas");
         optNotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,13 +373,29 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         }
     }//GEN-LAST:event_optDebtorsHistoryActionPerformed
 
+    private void optAddVendorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAddVendorActionPerformed
+        handlerDashboard(new AddVendor(KeysEnum.DASHBOARD_TITLES_ADD_VENDOR.getKey()));
+    }//GEN-LAST:event_optAddVendorActionPerformed
+
+    private void optViewProvidersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optViewProvidersActionPerformed
+        handlerDashboard(new Vendors(KeysEnum.DASHBOARD_TITLES_VIEW_VENDORS.getKey()));
+    }//GEN-LAST:event_optViewProvidersActionPerformed
+
     private void optDigitalWalletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optDigitalWalletActionPerformed
         handlerDashboard(new ViewDigitalWallet(KeysEnum.DASHBOARD_TITLES_VIEW_DIGITAL_WALLET.getKey()));
     }//GEN-LAST:event_optDigitalWalletActionPerformed
+
+    private void optOpenOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optOpenOrderActionPerformed
+        handlerDashboard(new OpenOrder(KeysEnum.DASHBOARD_TITLES_OPEN_ORDER.getKey()));
+    }//GEN-LAST:event_optOpenOrderActionPerformed
+
+    private void optByStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optByStatusActionPerformed
+        handlerDashboard(new ViewOrders(KeysEnum.DASHBOARD_TITLES_VIEW_ORDERS.getKey()));
+    }//GEN-LAST:event_optByStatusActionPerformed
     
     private void handlerDashboard(AbstractDashboardBase dashboard) {
         if (injector == null) {
-            CommonAlerts.openError("Error en el injector", "¡Ups");
+            CommonAlerts.openError("Error en el injector", "¡Ups!");
             return;
         }
         injector.injectMembers(dashboard);
@@ -349,15 +415,19 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenu itmAdmon;
     private javax.swing.JMenu itmContability;
     private javax.swing.JMenu itmDebtors;
+    private javax.swing.JMenu itmOrders;
     private javax.swing.JMenu itmSales;
     private javax.swing.JMenu itmStock;
     private javax.swing.JMenu itmTopUp;
+    private javax.swing.JMenu itmVendors;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lblVersion;
     private javax.swing.JMenuBar mnuBar;
     private javax.swing.JMenuItem optAddSale;
+    private javax.swing.JMenuItem optAddVendor;
     private javax.swing.JMenuItem optAllCashboxes;
+    private javax.swing.JMenuItem optByStatus;
     private javax.swing.JMenuItem optCanceledSales;
     private javax.swing.JMenuItem optCategory;
     private javax.swing.JMenuItem optDebtors;
@@ -365,11 +435,13 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenuItem optDigitalWallet;
     private javax.swing.JMenuItem optMobileCompanies;
     private javax.swing.JMenuItem optNotes;
+    private javax.swing.JMenuItem optOpenOrder;
     private javax.swing.JMenuItem optOpoenCashbox;
     private javax.swing.JMenuItem optRegister;
     private javax.swing.JMenuItem optSalesReport;
     private javax.swing.JMenuItem optStock;
     private javax.swing.JMenuItem optTopUps;
+    private javax.swing.JMenuItem optViewProviders;
     private javax.swing.JMenuItem optViewSales;
     private javax.swing.JPopupMenu.Separator sprt01;
     private javax.swing.JPopupMenu.Separator sprt02;

@@ -22,6 +22,7 @@ import com.blo.sales.v2.controller.IStockPricesHistoryController;
 import com.blo.sales.v2.controller.ITopUpsController;
 import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.controller.impl.AccountsControllerImpl;
+import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.controller.impl.ActivesCostsControllerImpl;
 import com.blo.sales.v2.controller.impl.CashboxControllerImpl;
 import com.blo.sales.v2.controller.impl.CashboxesActivesCostsControllerImpl;
@@ -33,6 +34,7 @@ import com.blo.sales.v2.controller.impl.DebtorsControllerImpl;
 import com.blo.sales.v2.controller.impl.DebtorsSalesControllerImpl;
 import com.blo.sales.v2.controller.impl.FinancialHistoryControllerImpl;
 import com.blo.sales.v2.controller.impl.HistoryControllerImpl;
+import com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl;
 import com.blo.sales.v2.controller.impl.MobileCompanyControllerImpl;
 import com.blo.sales.v2.controller.impl.PricesHistoryControllerImpl;
 import com.blo.sales.v2.controller.impl.ProductsControllerImpl;
@@ -43,6 +45,7 @@ import com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl;
 import com.blo.sales.v2.controller.impl.TopUpsControllerImpl;
 import com.blo.sales.v2.controller.impl.UserControllerImpl;
 import com.blo.sales.v2.model.IAccountsModel;
+import com.blo.sales.v2.controller.impl.VendorsControllerImpl;
 import com.blo.sales.v2.model.IActivesCostsModel;
 import com.blo.sales.v2.model.ICashboxModel;
 import com.blo.sales.v2.model.ICashboxesActivesCostsModel;
@@ -164,22 +167,36 @@ import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.IDebtorSettlementsModel;
 import com.blo.sales.v2.model.IFinancialHistoryModel;
 import com.blo.sales.v2.model.impl.AccountsModelImpl;
+import com.blo.sales.v2.model.IVendorsModel;
 import com.blo.sales.v2.model.impl.DebtorSettlementsModelImpl;
 import com.blo.sales.v2.model.impl.FinancialHistoryModelImpl;
+import com.blo.sales.v2.model.impl.OrdersVendorsModelImpl;
 import com.blo.sales.v2.model.mapper.AccountEntityMapper;
+import com.blo.sales.v2.model.impl.VendorsModelImpl;
 import com.blo.sales.v2.model.mapper.DebtorSaleProductInfoEntityMapper;
 import com.blo.sales.v2.model.mapper.DebtorSettlementEntityMapper;
 import com.blo.sales.v2.model.mapper.FinancialMovementEntityMapper;
+import com.blo.sales.v2.model.mapper.OrderVendorEntityMapper;
+import com.blo.sales.v2.model.mapper.VendorEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperDebtorSettlementEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperFinancialMovementEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperSalesDeletedDetailsEntityMapper;
 import com.blo.sales.v2.view.mappers.PojoAccountMapper;
+import com.blo.sales.v2.model.mapper.WrapperVendorsEntityMapper;
+import com.blo.sales.v2.view.components.CheckboxDays;
 import com.blo.sales.v2.view.mappers.PojoDebtSettlementMapper;
 import com.blo.sales.v2.view.mappers.PojoFinancialMovementMapper;
 import com.blo.sales.v2.view.mappers.PojoSaleDeletedDetailMapper;
+import com.blo.sales.v2.view.mappers.PojoVendorMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorSettlementsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoFinancialHistoryMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoSalesDeletedDetailsMapper;
+import com.blo.sales.v2.view.mappers.WrapperPojoVendorsMapper;
+import com.blo.sales.v2.model.IOrdersVendorsModel;
+import com.blo.sales.v2.controller.IOrdersVendorsController;
+import com.blo.sales.v2.model.mapper.WrapperOrdersVendorsMapper;
+import com.blo.sales.v2.view.mappers.PojoVendorOrderMapper;
+import com.blo.sales.v2.view.mappers.WrapperPojoVendorsOrdersMapper;
 
 public class BloSalesV2SingletonConfig extends AbstractModule {
 
@@ -210,6 +227,8 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(IDebtorSettlementsController.class).to(DebtorSettlementsControllerImpl.class).in(Singleton.class);
         bind(IAccountsController.class).to(AccountsControllerImpl.class).in(Singleton.class);
         bind(IFinancialHistoryController.class).to(FinancialHistoryControllerImpl.class).in(Singleton.class);
+        bind(IVendorsController.class).to(VendorsControllerImpl.class).in(Singleton.class);
+        bind(IOrdersVendorsController.class).to(OrdersVendorsControllerImpl.class).in(Singleton.class);
 
         /**
          * models
@@ -235,7 +254,12 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(IDebtorSettlementsModel.class).to(DebtorSettlementsModelImpl.class).in(Singleton.class);
         bind(IAccountsModel.class).to(AccountsModelImpl.class).in(Singleton.class);
         bind(IFinancialHistoryModel.class).to(FinancialHistoryModelImpl.class).in(Singleton.class);
+        bind(IVendorsModel.class).to(VendorsModelImpl.class).in(Singleton.class);
+        bind(IOrdersVendorsModel.class).to(OrdersVendorsModelImpl.class).in(Singleton.class);
 
+        /**
+         * mappers view
+         */
         bind(CategoryMapper.class).in(Singleton.class);
         bind(DebtorMapper.class).in(Singleton.class);
         bind(DebtorSaleMapper.class).in(Singleton.class);
@@ -279,7 +303,15 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(PojoFinancialMovementMapper.class).in(Singleton.class);
         bind(WrapperPojoFinancialHistoryMapper.class).in(Singleton.class);
         bind(PojoAccountMapper.class).in(Singleton.class);
+        bind(WrapperVendorsEntityMapper.class).in(Singleton.class);
+        bind(PojoVendorMapper.class).in(Singleton.class);
+        bind(WrapperPojoVendorsMapper.class).in(Singleton.class);
+        bind(PojoVendorOrderMapper.class).in(Singleton.class);
+        bind(WrapperPojoVendorsOrdersMapper.class).in(Singleton.class);
         
+        /**
+         * mappers entity
+         */
         bind(ActiveCostEntityMapper.class).in(Singleton.class);
         bind(CashboxDetailEntityMapper.class).in(Singleton.class);
         bind(CashboxEntityMapper.class).in(Singleton.class);
@@ -331,5 +363,12 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(AccountEntityMapper.class).in(Singleton.class);
         bind(FinancialMovementEntityMapper.class).in(Singleton.class);
         bind(WrapperFinancialMovementEntityMapper.class).in(Singleton.class);
+        bind(VendorEntityMapper.class).in(Singleton.class);
+        bind(WrapperVendorsEntityMapper.class).in(Singleton.class);
+        bind(OrderVendorEntityMapper.class).in(Singleton.class);
+        bind(WrapperOrdersVendorsMapper.class).in(Singleton.class);
+        
+        /** components */
+        bind(CheckboxDays.class).in(Singleton.class);
     }
 }

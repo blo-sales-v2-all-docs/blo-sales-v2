@@ -6,6 +6,7 @@ import com.blo.sales.v2.controller.pojos.PojoIntDebtSettlement;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtSettlement;
 import com.blo.sales.v2.model.IDebtorSettlementsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -25,6 +26,8 @@ public class DebtorSettlementsControllerImpl implements IDebtorSettlementsContro
     public PojoIntDebtSettlement addSettlement(PojoIntDebtSettlement settlement) throws BloSalesV2Exception {
         logger.info("guardando informacion del pago");
         dbtm.disableAutocommit();
+        final var debtorName = settlement.getFkSale() + BloSalesV2Utils.EMPTY_STRING.concat("-").concat(settlement.getDebtor());
+        settlement.setDebtor(debtorName);
         return model.addSettlement(settlement);
     }
 

@@ -33,7 +33,22 @@ public class UserControllerImpl implements IUserController {
     public PojoIntUser getUserById(long id) throws BloSalesV2Exception {
         return userModel.getUserById(id);
     }
-
+    
+    @Override
+    public PojoIntNote addNoteNotCommit(PojoIntNote note) throws BloSalesV2Exception {
+        try {
+            dbtm.disableAutocommit();
+            final var noteSaved = userModel.addNote(note);
+            return noteSaved;
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbtm.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbtm.enableAutocommit();
+        }
+    }
+    
     @Override
     public PojoIntNote addNote(PojoIntNote note) throws BloSalesV2Exception {
         try {

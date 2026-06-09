@@ -335,11 +335,15 @@ public final class Debtors extends AbstractDashboardBase {
      
      /** abre la ventana para pagos por tarjeta */
     private void openPaymentCard(int item) {
-        if (item == 1) {
+        var comission = "1";
+        if (item == PaymentTypeEnum.CARD.getIndex()) {
+            comission = "1.05";
+        }
+        if (item == PaymentTypeEnum.TRANSFER.getIndex() || item == PaymentTypeEnum.CARD.getIndex()) {
             GUICommons.disabledButton(btnSave);
             GUICommons.disabledButton(btnPayall);
             final var totalDebt = debtorSelected.getDebt().
-                    multiply(new BigDecimal("1.05")).
+                    multiply(new BigDecimal(comission)).
                     setScale(2, RoundingMode.HALF_UP);
             GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), totalDebt));
             
@@ -352,13 +356,18 @@ public final class Debtors extends AbstractDashboardBase {
                 (Map<String, Object> infoPay) -> {
                     try {
                         infoPay.values().removeIf(Objects::isNull);
-                        if (infoPay.isEmpty() || infoPay.size() != 4) {
+                        if (infoPay.isEmpty()) {
+                            debtorSelected.setDebt(storeTotalSale);
+                            GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
+                            return;
+                        }
+                        if (infoPay.size() != 4) {
                             throw new BloSalesV2Exception(BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.COMMON_RULE);
                         }
                         var cardPay = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CARD_PAY)));
                         var cash = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CASH)));
                         final var reference = String.valueOf(infoPay.get(PaymentCardDialog.REFERENCE));
-                        final var type = PaymentTypeEnum.getByIndex(
+                        var type = PaymentTypeEnum.getByIndex(
                             Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
                         );
                         var paysAdded = cardPay.add(cash);
@@ -370,7 +379,10 @@ public final class Debtors extends AbstractDashboardBase {
                         if (type.compareTo(PaymentTypeEnum.BOTH) == 0) {
                             cash = totalDebt.subtract(cardPay);
                         }
-                        
+                        /** si está abierto el cuadro de diálogo entonces quiere decir que es un pago con tarjeta y no genera comisión */
+                        if (totalDebt.compareTo(storeTotalSale) == 0) {
+                            type = PaymentTypeEnum.TRANSFER;
+                        }
                         final var registeredSale = debtors.addPaymentNotCommitEnabled(paysAdded, getUserData().getIdUser(), debtorSelected.getIdDebtor());
                         final var paymentTypeAux = new PojoPaymentTypeInfo();
                         paymentTypeAux.setCardPay(cardPay);
@@ -379,7 +391,7 @@ public final class Debtors extends AbstractDashboardBase {
                         paymentTypeAux.setPaymentType(type);
                         paymentTypeAux.setTotalToPay(paysAdded);
                         paymentTypeAux.setIdSale(registeredSale.getIdSale());
-                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));
+                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux), getUserData().getIdUser());
                         
                         loadDataAndTitles();
                         disabledButtons();

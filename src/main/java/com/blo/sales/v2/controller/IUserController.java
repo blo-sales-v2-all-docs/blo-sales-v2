@@ -8,10 +8,20 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
  * Controlador para operaciones de usuario
- * @version 1.0.0
+ * @version 1.2.0
  * @author BLO
  */
 public interface IUserController {
+    
+    /**
+     * Metodo que guarda una nota ligada a un usuario
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param note
+     * @return nota guardada
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntNote addNoteNotCommit(PojoIntNote note) throws BloSalesV2Exception;
     
     /**
      * Metodo que guarda una nota ligada a un usuario

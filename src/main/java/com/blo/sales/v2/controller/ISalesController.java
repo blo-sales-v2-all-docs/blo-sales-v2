@@ -111,10 +111,11 @@ public interface ISalesController {
     PojoIntSaleDeletedDetail deleteSaleProduct(long idUser, long idSale, long idProduct, String reason) throws BloSalesV2Exception;
     
     /**
-     * Metodo que permite actualizar el tipo de pago
+     * Metodo que permite actualizar el tipo de pago para deudroes
      * @param paymentData
+     * @param idUser
      * @return
      * @throws BloSalesV2Exception 
      */
-    PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData) throws BloSalesV2Exception;
+    PojoIntPaymentTypeInfo registerPaymentTypeData(PojoIntPaymentTypeInfo paymentData, long idUser) throws BloSalesV2Exception;
 }

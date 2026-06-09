@@ -134,6 +134,18 @@ public final class BloSalesV2Columns {
     
     public static final String DEBTOR = "debtor";
     
+    public static final String ID_VENDOR = "id_vendor";
+    
+    public static final String BRAND = "brand";
+    
+    public static final String CONTACT = "contact";
+    
+    public static final String VISIT_DAYS = "visit_days";
+    
+    public static final String PRE_SALE = "pre_sale";
+    
+    public static final String PER_WEEK = "per_week";
+    
     public static final String ID_ACCOUNT = "id_account";
     
     public static final String ACCOUNT = "account";
@@ -141,5 +153,15 @@ public final class BloSalesV2Columns {
     public static final String CONTROL_AMOUNT = "control_amount";
     
     public static final String ID_FINANCIAL_MOVEMENT = "id_financial_movement";
+    
+    public static final String ID_ORDER_VENDOR = "id_order_vendor";
+    
+    public static final String STATUS_ORDER = "status_order";
+    
+    public static final String INVOICE = "invoice";
+    
+    public static final String DEADLINE = "deadline";
+    
+    public static final String FK_VENDOR = "fk_vendor";
        
 }

@@ -238,9 +238,9 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
         try {
             final var innerHistory = historyController.retrieveFinancialHistoryByAccountId(AccountsEnum.DIGITAL_WALLET.getId());
             final var wrapperHistory = wrapperMapper.toOuter(innerHistory);
+            GUICommons.loadTitleOnTable(tblFinancialHistory, tblTitles, false);
             getDefaultTableModel().setRowCount(0);
             if (wrapperHistory.getHistorial() != null && !wrapperHistory.getHistorial().isEmpty()) {
-                GUICommons.loadTitleOnTable(tblFinancialHistory, tblTitles, false);
                 wrapperHistory.getHistorial().forEach(mov -> {
                     final Object[] row = {
                         mov.getIdFinancialMovement(),

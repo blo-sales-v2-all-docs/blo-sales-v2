@@ -54,6 +54,16 @@ public interface IDebtorsController {
      */
     PojoIntDebtor addPayment(BigDecimal pay, long idUser, long idDebtor) throws BloSalesV2Exception;
     
+    /**
+     * Metodo que guarda un pago de un deudor o lo elimina si se paga completamente
+     * <br>
+     * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
+     * @param pay
+     * @param idUser
+     * @param idDebtor
+     * @return
+     * @throws BloSalesV2Exception 
+     */
     PojoIntDebtor addPaymentNotCommitEnabled(BigDecimal pay, long idUser, long idDebtor) throws BloSalesV2Exception;
     
     /**
