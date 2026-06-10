@@ -486,7 +486,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
             showedAlerts = true;
             final var vendorsToDay = vendorsMapper.toOuter(vendors.getVendorsFromToday());
             if (vendorsToDay.getVendors() != null && !vendorsToDay.getVendors().isEmpty()) {
-                final var vendorsVisit = new VendorsVisitDialog<>(this, "Recuerda que hoy te van a visitar", null, vendorsToDay);
+                final var vendorsVisit = new VendorsVisitDialog<>(this, getTranslateBy(KeysEnum.DASHBOARD_ROOT_DLG_REMEMBER_VISIT.getKey()), null, vendorsToDay);
                 vendorsVisit.setVisible(true);
             }
         }
