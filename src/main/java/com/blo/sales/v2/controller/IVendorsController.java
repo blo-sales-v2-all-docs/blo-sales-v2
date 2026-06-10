@@ -51,4 +51,11 @@ public interface IVendorsController {
      */
     PojoIntVendor updateVendor(PojoIntVendor vendorData, long idVendor) throws BloSalesV2Exception;
     
+    /**
+     * filtrar una lista de proveedores (vendors) para quedarse únicamente con aquellos que deben ser visitados el día de hoy.
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    WrapperPojoIntVendors getVendorsFromToday() throws BloSalesV2Exception;
+    
 }

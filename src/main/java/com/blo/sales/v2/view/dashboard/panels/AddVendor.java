@@ -162,9 +162,9 @@ public class AddVendor extends AbstractDashboardBase {
     }
     
     private void resetFields() {
-        GUICommons.setTextToField(lblVendorName, BloSalesV2Utils.EMPTY_STRING);
-        GUICommons.setTextToField(lblContact, BloSalesV2Utils.EMPTY_STRING);
-        GUICommons.setTextToField(lblBrand, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(txtVendorName, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(txtContact, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(txtBrand, BloSalesV2Utils.EMPTY_STRING);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,6 +1,8 @@
 package com.blo.sales.v2.view.dashboard;
 
+import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.translate.KeysEnum;
+import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.AbstractFrameBase;
@@ -25,10 +27,14 @@ import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.dashboard.panels.Vendors;
 import com.blo.sales.v2.view.dashboard.panels.ViewDigitalWallet;
 import com.blo.sales.v2.view.dashboard.panels.ViewOrders;
+import com.blo.sales.v2.view.dialogs.VendorsVisitDialog;
+import com.blo.sales.v2.view.mappers.WrapperPojoVendorsMapper;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.google.inject.Injector;
 import jakarta.inject.Inject;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class DashboardRootFrm extends AbstractFrameBase {
     
@@ -36,8 +42,17 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private Injector injector;
     
     @Inject
+    private IVendorsController vendors;
+    
+    @Inject
+    private WrapperPojoVendorsMapper vendorsMapper;
+    
+    private boolean showedAlerts;
+    
+    @Inject
     public DashboardRootFrm() {
         initComponents();
+        showedAlerts = false;
     }
     
     @SuppressWarnings("unchecked")
@@ -449,15 +464,31 @@ public final class DashboardRootFrm extends AbstractFrameBase {
 
     @Override
     public void init() {
-        content.setLayout(new BorderLayout());
-        setTitle(getTranslateBy(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
-        optAddSaleActionPerformed(null);
-        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.getVersion());
-        GUICommons.allWindow(this);
+        try {
+            content.setLayout(new BorderLayout());
+            setTitle(getTranslateBy(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
+            optAddSaleActionPerformed(null);
+            GUICommons.setTextToField(lblVersion, BloSalesV2Utils.getVersion());
+            GUICommons.allWindow(this);
+            openReminder();
+        } catch (BloSalesV2Exception ex) {
+            Logger.getLogger(DashboardRootFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
     public void loadTargets() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private void openReminder() throws BloSalesV2Exception {
+        if (!showedAlerts) {
+            showedAlerts = true;
+            final var vendorsToDay = vendorsMapper.toOuter(vendors.getVendorsFromToday());
+            if (vendorsToDay.getVendors() != null && !vendorsToDay.getVendors().isEmpty()) {
+                final var vendorsVisit = new VendorsVisitDialog<>(this, "Recuerda que hoy te van a visitar", null, vendorsToDay);
+                vendorsVisit.setVisible(true);
+            }
+        }
     }
 }
