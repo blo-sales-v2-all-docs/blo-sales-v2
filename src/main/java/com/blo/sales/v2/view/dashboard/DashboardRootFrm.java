@@ -1,11 +1,14 @@
 package com.blo.sales.v2.view.dashboard;
 
+import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.translate.KeysEnum;
+import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.AbstractFrameBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
+import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dashboard.panels.AddVendor;
 import com.blo.sales.v2.view.dashboard.panels.AllCashboxes;
 import com.blo.sales.v2.view.dashboard.panels.AllProducts;
@@ -25,10 +28,14 @@ import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.dashboard.panels.Vendors;
 import com.blo.sales.v2.view.dashboard.panels.ViewDigitalWallet;
 import com.blo.sales.v2.view.dashboard.panels.ViewOrders;
+import com.blo.sales.v2.view.dialogs.VendorsVisitDialog;
+import com.blo.sales.v2.view.mappers.WrapperPojoVendorsMapper;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.google.inject.Injector;
 import jakarta.inject.Inject;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class DashboardRootFrm extends AbstractFrameBase {
     
@@ -36,8 +43,17 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private Injector injector;
     
     @Inject
+    private IVendorsController vendors;
+    
+    @Inject
+    private WrapperPojoVendorsMapper vendorsMapper;
+    
+    private boolean showedAlerts;
+    
+    @Inject
     public DashboardRootFrm() {
         initComponents();
+        showedAlerts = false;
     }
     
     @SuppressWarnings("unchecked")
@@ -74,6 +90,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         optOpenOrder = new javax.swing.JMenuItem();
         optByStatus = new javax.swing.JMenuItem();
         optNotes = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         itmTopUp = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         optTopUps = new javax.swing.JMenuItem();
@@ -259,6 +276,14 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         });
         itmAdmon.add(optNotes);
 
+        jMenuItem1.setText("Descargar logs");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        itmAdmon.add(jMenuItem1);
+
         mnuBar.add(itmAdmon);
 
         itmTopUp.setText("Pagos de servicios");
@@ -392,6 +417,11 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private void optByStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optByStatusActionPerformed
         handlerDashboard(new ViewOrders(KeysEnum.DASHBOARD_TITLES_VIEW_ORDERS.getKey()));
     }//GEN-LAST:event_optByStatusActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        GUILogger c = GUILogger.getLogger(DashboardRootFrm.class.getName());
+        c.downloadLogs();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     private void handlerDashboard(AbstractDashboardBase dashboard) {
         if (injector == null) {
@@ -421,6 +451,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenu itmTopUp;
     private javax.swing.JMenu itmVendors;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lblVersion;
     private javax.swing.JMenuBar mnuBar;
@@ -449,15 +480,31 @@ public final class DashboardRootFrm extends AbstractFrameBase {
 
     @Override
     public void init() {
-        content.setLayout(new BorderLayout());
-        setTitle(getTranslateBy(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
-        optAddSaleActionPerformed(null);
-        GUICommons.setTextToField(lblVersion, BloSalesV2Utils.getVersion());
-        GUICommons.allWindow(this);
+        try {
+            content.setLayout(new BorderLayout());
+            setTitle(getTranslateBy(KeysEnum.DASHBOARD_TITLES_REGISTER_SALE.getKey()));
+            optAddSaleActionPerformed(null);
+            GUICommons.setTextToField(lblVersion, BloSalesV2Utils.getVersion());
+            GUICommons.allWindow(this);
+            openReminder();
+        } catch (BloSalesV2Exception ex) {
+            Logger.getLogger(DashboardRootFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
     public void loadTargets() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private void openReminder() throws BloSalesV2Exception {
+        if (!showedAlerts) {
+            showedAlerts = true;
+            final var vendorsToDay = vendorsMapper.toOuter(vendors.getVendorsFromToday());
+            if (vendorsToDay.getVendors() != null && !vendorsToDay.getVendors().isEmpty()) {
+                final var vendorsVisit = new VendorsVisitDialog<>(this, getTranslateBy(KeysEnum.DASHBOARD_ROOT_DLG_REMEMBER_VISIT.getKey()), null, vendorsToDay);
+                vendorsVisit.setVisible(true);
+            }
+        }
     }
 }

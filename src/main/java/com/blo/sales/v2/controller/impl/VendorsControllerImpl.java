@@ -8,8 +8,18 @@ import com.blo.sales.v2.model.IVendorsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.google.gson.Gson;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Singleton
 public class VendorsControllerImpl implements IVendorsController {
@@ -92,6 +102,62 @@ public class VendorsControllerImpl implements IVendorsController {
             throw new BloSalesV2Exception(e.getCode(), e.getMessage());
         } finally {
             dbt.enableAutocommit();
+        }
+    }
+
+    @Override
+    public WrapperPojoIntVendors getVendorsFromToday() throws BloSalesV2Exception {
+        try {
+            final var allVendors = getAllVendors();
+            if (allVendors.getVendors() != null && !allVendors.getVendors().isEmpty()) {
+                final var gson = new Gson();
+                // proveedores por semana
+                final var today = LocalDate.now();
+                final var translate = Locale.forLanguageTag("es-ES");
+                logger.info("fecha de hoy %s", today);
+                final var day = today.getDayOfWeek().getDisplayName(TextStyle.FULL, translate).toLowerCase();
+                final var vendorsToDay = allVendors.getVendors().stream().
+                        filter(v -> v.isPerWeek()).
+                        filter(vendor -> !List.of(gson.fromJson(vendor.getVisitDays(), String[].class)).stream().
+                                            map(String::toLowerCase).
+                                            filter(d -> d.equals(day)).
+                                            toList().
+                                            isEmpty()
+                        ).collect(Collectors.toList());
+                logger.info("proveedores del dia %s", vendorsToDay.size());
+                // proveedores por mes
+                final var vendorsByMonth = allVendors.getVendors().stream()
+                    .filter(v -> !v.isPerWeek()) // Filtra solo los que NO son semanales (mensuales)
+                    .filter(vendor -> {
+                        try {
+                            // fecha del vendendor parseada
+                            final var parsedDateFromVendor = 
+                                    LocalDateTime.parse(vendor.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                            // día de visita
+                            final var dayOfVisitCalendar = parsedDateFromVendor.getDayOfMonth();
+                            // día actual
+                            final var currentDayOfMonth = today.getDayOfMonth();
+                            // ultimo dia del mes
+                            final var lastDayOfMonth = YearMonth.from(parsedDateFromVendor).lengthOfMonth();
+                            if (currentDayOfMonth == lastDayOfMonth) {
+                                return dayOfVisitCalendar >= currentDayOfMonth;
+                            }
+                            return dayOfVisitCalendar == currentDayOfMonth;
+                        } catch (Exception e) {
+                            return false; 
+                        }
+                    }).
+                    collect(Collectors.toList());
+                logger.info("vendedores que pasaran el dia de hoy por día del mes %s", vendorsByMonth.size());
+                 vendorsToDay.addAll(vendorsByMonth);
+                 logger.info("proveedores que pasarán hoy %s", vendorsToDay.size());
+                 allVendors.setVendors(vendorsToDay);
+            }
+            return allVendors;
+        } catch(BloSalesV2Exception e) {
+            dbt.doRollback();
+            logger.error(e.getMessage());
+            throw new BloSalesV2Exception(e.getCode(), e.getMessage());
         }
     }
     

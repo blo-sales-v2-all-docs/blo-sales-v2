@@ -117,10 +117,14 @@ public class DebtorSettlementDetailDialog extends AbstractDialogBase {
     }
     
     private void loadData(JList<String> lst, String[] items) {
+        final var SEPARATOR = " - ";
         final var model = new DefaultListModel<String>();
         for (final var item: items) {
+            // si tiene pagos
             if (item.contains(BloSalesV2Utils.TIMESTAMP)) {
-                model.addElement(item.replace(BloSalesV2Utils.TIMESTAMP, " - "));
+                final var replaced = item.replace(BloSalesV2Utils.TIMESTAMP, SEPARATOR);
+                final var time = parserTimestamp(replaced.split(SEPARATOR)[1]);
+                model.addElement(replaced.split(SEPARATOR)[0].concat(SEPARATOR).concat(time));
                 continue;
             }
             model.addElement(item);
