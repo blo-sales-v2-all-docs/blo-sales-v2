@@ -33,13 +33,12 @@ public final class BloSalesV2SalesReportPlugin {
             ))
             .values()
             .stream()
-            .map(PojoSaleAndProduct::getIdSale)
-            .collect(Collectors.toList());
+            .map(PojoSaleAndProduct::getIdSale).toList();
         // mapa para guardar todas las ventas con el mismo id
         final Map<Long, List<PojoSaleAndProduct>> salesDetail = new HashMap<>();
         for (final var id: idsUniques) {
             // recuperar todas las ventas con el mismo id
-            final var salesIdEq = lst.getSalesDetail().stream().filter(s -> s.getIdSale() == id).collect(Collectors.toList());
+            final var salesIdEq = lst.getSalesDetail().stream().filter(s -> s.getIdSale() == id).toList();
             // guardarlas en el mapa
             salesDetail.put(id, salesIdEq);
         }

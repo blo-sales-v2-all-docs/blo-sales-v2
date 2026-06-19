@@ -292,7 +292,7 @@ public final class Sales extends AbstractDashboardBase {
         if (evt.getKeyCode() == GUICommons.F3_SEARCH_KEY) {
             final var productsString = products.stream()
                 .map(item -> item.toString())
-                .collect(Collectors.toList());
+                .toList();
                /** abre un cuadro de dialogo */
                final var dialog = new SelectorDialog<>(
                     this,

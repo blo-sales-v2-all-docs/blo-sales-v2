@@ -115,7 +115,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
         final var out = new WrapperPojoNotes();
         final var lst = notes.getNotes().stream().
                 filter(n -> n.getTypeNote() == type && n.getNote().contains("$")).
-                collect(Collectors.toList());
+                toList();
         out.setNotes(lst);
         return out;
     }

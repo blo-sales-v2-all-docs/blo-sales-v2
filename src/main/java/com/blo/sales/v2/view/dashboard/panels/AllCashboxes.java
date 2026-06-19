@@ -62,7 +62,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
                 cashboxesOnTable(cashboxesDetails);
                 GUICommons.addDoubleClickOnTable(tblCashboxes, (Long id) -> {
                     final var cashboxFound = cashboxesDetails.getCashboxesInfo().stream().
-                        filter(c -> c.getIdCashbox() == id).collect(Collectors.toList());
+                        filter(c -> c.getIdCashbox() == id).toList();
                     if (cashboxFound != null) {
                         idCashbox = id;
                         GUICommons.enabledButton(btnViewDetails);
@@ -126,7 +126,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
                     (existente, reemplazo) -> existente
             )).values()
             .stream()
-            .collect(Collectors.toList());
+            .toList();
             getDefaultTableModel().setRowCount(0);
             cashboxesFilter.sort(Comparator.comparing(PojoCashboxDetail::getIdCashbox).reversed());
             cashboxesFilter.forEach(c -> {
