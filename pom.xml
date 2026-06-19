@@ -100,6 +100,59 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <executions>
+                        <execution>
+                            <id>generar-script-fecha</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <configuration>
+                                <target>
+                                    <echo file="${project.build.directory}/exe-linux.sh" append="false"><![CDATA[#!/bin/bash
+                                        # Script generado para BloSales v2
+                                        # Brindar permisos manualmente si es necesario: chmod +x exe-linux.sh
+                                        FECHA=$(date +"%Y-%m-%d_%H-%M")
+                                        java -jar ${project.build.finalName}-jar-with-dependencies.jar >> "log_$FECHA.txt" 2>&1]]></echo>
+
+                                    <chmod file="${project.build.directory}/exe-linux.sh" perm="755"/>
+
+                                    <echo file="${project.build.directory}/exe-windows.bat" append="false"><![CDATA[@echo off
+										setlocal enabledelayedexpansion
+										cd /d "%~dp0"
+										for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
+										set FECHA=!datetime:~0,4!-!datetime:~4,2!-!datetime:~6,2!_!datetime:~8,2!-!datetime:~10,2!
+										set LOG_FILE=log_!FECHA!.txt
+
+										echo =====================================================
+										echo    INICIANDO ${project.artifactId} - SISTEMA DE VENTAS
+										echo =====================================================
+
+										if not exist "${project.build.finalName}-jar-with-dependencies.jar" (
+											echo [ERROR] No se encontro el archivo JAR: ${project.build.finalName}-jar-with-dependencies.jar
+											pause
+											exit
+										)
+
+										echo Registrando logs en: !LOG_FILE!
+										java -jar "${project.build.finalName}-jar-with-dependencies.jar" >> "!LOG_FILE!" 2>&1
+
+										if %errorlevel% neq 0 (
+											echo.
+											echo [ALERTA] La aplicacion se detuvo con codigo: %errorlevel%
+											echo Revisa el archivo !LOG_FILE! para mas detalles.
+											pause
+										)]]></echo>
+                                </target>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
         </plugins>
     </build>
 </project>
