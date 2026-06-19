@@ -16,10 +16,8 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Singleton
 public class VendorsControllerImpl implements IVendorsController {
@@ -123,7 +121,7 @@ public class VendorsControllerImpl implements IVendorsController {
                                             filter(d -> d.equals(day)).
                                             toList().
                                             isEmpty()
-                        ).collect(Collectors.toList());
+                        ).toList();
                 logger.info("proveedores del dia %s", vendorsToDay.size());
                 // proveedores por mes
                 final var vendorsByMonth = allVendors.getVendors().stream()
@@ -146,8 +144,7 @@ public class VendorsControllerImpl implements IVendorsController {
                         } catch (Exception e) {
                             return false; 
                         }
-                    }).
-                    collect(Collectors.toList());
+                    }).toList();
                 logger.info("vendedores que pasaran el dia de hoy por día del mes %s", vendorsByMonth.size());
                  vendorsToDay.addAll(vendorsByMonth);
                  logger.info("proveedores que pasarán hoy %s", vendorsToDay.size());

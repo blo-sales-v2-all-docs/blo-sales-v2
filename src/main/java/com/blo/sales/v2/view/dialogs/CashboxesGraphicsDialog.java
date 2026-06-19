@@ -53,7 +53,7 @@ public class CashboxesGraphicsDialog extends AbstractDialogBase {
         for (final var item : cashboxesDetails.getCashboxesInfo()) {
         	// recuperar todos los datos de una venta
         	final var cashboxData = cashboxesDetails.getCashboxesInfo().
-        			stream().filter(c -> c.getIdCashbox() == item.getIdCashbox()).collect(Collectors.toList());
+        			stream().filter(c -> c.getIdCashbox() == item.getIdCashbox()).toList();
         	// recuperar suma de costos
         	final var costs = getAmoutFrom(ActivesCostsEnum.PASIVO, cashboxData);
         	logger.info("COSTOS = %s, de %s", costs, item.getIdCashbox());

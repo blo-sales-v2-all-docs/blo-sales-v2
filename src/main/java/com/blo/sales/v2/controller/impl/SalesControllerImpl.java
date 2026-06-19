@@ -40,7 +40,6 @@ import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public @Singleton class SalesControllerImpl implements ISalesController {
     
@@ -302,8 +301,7 @@ public @Singleton class SalesControllerImpl implements ISalesController {
 	        
 	        // lista de elementos que no seran actualizados
 	        final var reduced = salesLives.getSalesStock().stream().
-	                filter(s -> s.getFkProduct() != idProduct).
-	                collect(Collectors.toList());
+	                filter(s -> s.getFkProduct() != idProduct).toList();
 	        
 	        logger.info("elementos restantes para actualizar %s", reduced.size());
 	        

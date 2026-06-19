@@ -67,7 +67,7 @@ public final class Debtors extends AbstractDashboardBase {
             ))
                     .values()
                     .stream()
-                    .collect(Collectors.toList());
+                    .toList();
             for(final var d: debtorsFilter) {
                 final Object[] row = {
                     d.getIdDebtor(),
@@ -305,7 +305,7 @@ public final class Debtors extends AbstractDashboardBase {
         try {
             final var debtorDetail = retrieveDebtorsDetails().getDebtors().stream().
                     filter(d -> d.getIdDebtor() == idDebtor)
-                    .collect(Collectors.toList());
+                    .toList();
         
             GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
             if (debtorDetail != null && !debtorDetail.isEmpty()) {

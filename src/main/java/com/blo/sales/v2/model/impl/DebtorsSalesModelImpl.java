@@ -21,7 +21,6 @@ import jakarta.inject.Singleton;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Singleton
 public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
@@ -117,16 +116,15 @@ public class DebtorsSalesModelImpl implements IDebtorsSalesModel {
                 // recupera el id de todos los productos del deudor, guarda la informacion en una lista y la guarda en una propiedad
                 final var gson = new Gson();
                 final var products = lst.stream().
-                        map(DebtorSaleProductInfoEntity::getProduct).collect(Collectors.toList());
+                        map(DebtorSaleProductInfoEntity::getProduct).toList();
                 output.setProducts(gson.toJson(products));
                 // recupera el id de las ventas asociadas a ese deudor y la guarda en una propiedad del deudor
                 final var idSales = lst.stream().
-                        map(DebtorSaleProductInfoEntity::getId_sale).collect(Collectors.toList());
+                        map(DebtorSaleProductInfoEntity::getId_sale).toList();
                 output.setIdSales(idSales);
                 // recupera los tipos de pago del deudor y los guarda en una propiedad
                 final var idsPaymentsType = lst.stream().
-                        map(info -> PaymentTypeIntEnum.valueOf(info.getPayment_type().name())).
-                        collect(Collectors.toList());
+                        map(info -> PaymentTypeIntEnum.valueOf(info.getPayment_type().name())).toList();
                 output.setPaymentType(idsPaymentsType);
                 return output;
             }

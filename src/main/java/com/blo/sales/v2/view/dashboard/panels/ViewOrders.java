@@ -210,7 +210,7 @@ public final class ViewOrders extends AbstractDashboardBase {
     /** metodo que aplica un filtro a la lista de ordenes que son recuperadas desde la db */
     private void applyFilterOnTable(List<PojoOrderVendor> orders, StatusOrderProviderEnum itemSelected) {
         if (itemSelected != null) {
-            orders = orders.stream().filter(o -> o.getStatusOrder().equals(itemSelected)).collect(Collectors.toList());
+            orders = orders.stream().filter(o -> o.getStatusOrder().equals(itemSelected)).toList();
         }
         for (final var order: orders) {
             final Object[] row = {
