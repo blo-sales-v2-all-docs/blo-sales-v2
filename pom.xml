@@ -6,7 +6,7 @@
     
     <groupId>com.blo.sales</groupId>
     <artifactId>BloSalesV2</artifactId>
-    <version>2.17.8-BETA</version>
+    <version>2.17.8-RELEASE</version>
     <packaging>jar</packaging>
 
     <properties>
