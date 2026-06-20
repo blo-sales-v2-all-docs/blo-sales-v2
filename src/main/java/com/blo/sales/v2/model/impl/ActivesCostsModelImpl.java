@@ -49,8 +49,8 @@ public class ActivesCostsModelImpl implements IActivesCostsModel {
             while(rsKeys.next()) {
                 activesCostsInner.getActivesCosts().get(i).setId_actives_costs(rsKeys.getLong(1));
                 i++;
-                logger.info("registro guardado %s", i);
             }
+            logger.info("registros guardados %s", String.valueOf(activesCostsInner));
             return mapper.toOuter(activesCostsInner);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());

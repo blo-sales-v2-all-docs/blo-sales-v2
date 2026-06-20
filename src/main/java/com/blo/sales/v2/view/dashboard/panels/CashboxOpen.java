@@ -1,5 +1,6 @@
 package com.blo.sales.v2.view.dashboard.panels;
 
+import com.blo.sales.v2.controller.IAccountsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.translate.KeysEnum;
@@ -9,19 +10,21 @@ import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dialogs.CashboxDialog;
+import com.blo.sales.v2.view.mappers.PojoAccountMapper;
 import com.blo.sales.v2.view.mappers.PojoCashboxMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoActivesCostsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoNotesMapper;
+import com.blo.sales.v2.view.pojos.PojoAccount;
 import com.blo.sales.v2.view.pojos.PojoCashbox;
 import com.blo.sales.v2.view.pojos.PojoDialogCashboxData;
 import com.blo.sales.v2.view.pojos.WrapperPojoActivesCosts;
 import com.blo.sales.v2.view.pojos.WrapperPojoNotes;
+import com.blo.sales.v2.view.pojos.enums.AccountsEnum;
 import com.blo.sales.v2.view.pojos.enums.CashboxStatusEnum;
 import com.blo.sales.v2.view.pojos.enums.RolesEnum;
 import com.blo.sales.v2.view.pojos.enums.TypeNoteEnum;
 import jakarta.inject.Inject;
 import java.util.stream.Collectors;
-import javax.swing.table.DefaultTableModel;
 
 public final class CashboxOpen extends AbstractDashboardBase {
     
@@ -34,6 +37,9 @@ public final class CashboxOpen extends AbstractDashboardBase {
     private IUserController userController;
     
     @Inject
+    private IAccountsController accountsController;
+    
+    @Inject
     private WrapperPojoActivesCostsMapper activesCostMapper;
     
     @Inject
@@ -41,6 +47,11 @@ public final class CashboxOpen extends AbstractDashboardBase {
     
     @Inject
     private WrapperPojoNotesMapper mapperNotes;
+    
+    @Inject
+    private PojoAccountMapper accountMapper;
+    
+    private PojoAccount account;
     
     private PojoCashbox openCashbox;
     
@@ -133,6 +144,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
             openCashbox,
             actives,
             pasives,
+            account,
             (PojoDialogCashboxData data) -> {
                 try {
                     final var wrapper = new WrapperPojoActivesCosts();
@@ -158,7 +170,6 @@ public final class CashboxOpen extends AbstractDashboardBase {
     private void loadDataAndTitles(PojoCashbox cashbox) throws BloSalesV2Exception {
         final String[] titles = {"ID", "Monto", "Gestionada por", "Fecha"};
         GUICommons.loadTitleOnTable(tblCashboxes, titles, false);
-        final var model = (DefaultTableModel) tblCashboxes.getModel();
         if (cashbox != null) {
             final Object[] row = {
                 cashbox.getIdCashbox(),
@@ -166,7 +177,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
                 cashbox.getUserFrom(),
                 parserTimestamp(cashbox.getTimestamp())
             };
-            model.addRow(row);
+            getDefaultTableModel().addRow(row);
         }
     }
     
@@ -185,9 +196,11 @@ public final class CashboxOpen extends AbstractDashboardBase {
     public void init() {
         try {
             initComponents();
+            setMainTable(tblCashboxes);
             loadTargets();
             loadDataAndCashbox();
             this.notes = mapperNotes.toOuter(userController.getNotesByUserId(getUserData().getIdUser()));
+            this.account = accountMapper.toOuter(accountsController.getAccountById(AccountsEnum.DIGITAL_WALLET.getId()));
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));

@@ -3,6 +3,7 @@ package com.blo.sales.v2.controller.impl;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IDebtorsSalesController;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtorSale;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtorSaleProductInfo;
 import com.blo.sales.v2.model.IDebtorsSalesModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -32,6 +33,12 @@ public class DebtorsSalesControllerImpl implements IDebtorsSalesController {
         logger.info("eliminando relacion deudor %s", fkDebtor);
         idbtm.disableAutocommit();
         model.deleteRelationhip(fkDebtor);
+    }
+
+    @Override
+    public PojoIntDebtorSaleProductInfo retrieveSalesProductsDataByIdDebtor(long idDebtor) throws BloSalesV2Exception {
+        logger.info("recuperando informacion");
+        return model.retrieveSalesProductsDataByIdDebtor(idDebtor);
     }
     
 }

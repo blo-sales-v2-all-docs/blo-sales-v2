@@ -13,7 +13,6 @@ import com.blo.sales.v2.view.mappers.WrapperPojoMobilesCompaniesMapper;
 import com.blo.sales.v2.view.pojos.PojoMobileCompany;
 import com.blo.sales.v2.view.pojos.WrapperPojoMobilesCompanies;
 import jakarta.inject.Inject;
-import javax.swing.table.DefaultTableModel;
 
 public final class MobileCompanies extends AbstractDashboardBase {
     
@@ -204,15 +203,14 @@ public final class MobileCompanies extends AbstractDashboardBase {
         loadCompanies();
         GUICommons.loadTitleOnTable(tblCompanies, titles, false);
         if (companies.getCompanies() != null && !companies.getCompanies().isEmpty()) {
-            final var model = (DefaultTableModel) tblCompanies.getModel();
             companies.getCompanies().forEach(c -> {
                 final Object[] row = {
                     c.getIdMobileCompany(),
                     c.getMobileCompany()
                 };
-                model.addRow(row);
+                getDefaultTableModel().addRow(row);
             });
-            tblCompanies.setModel(model);
+            tblCompanies.setModel(getDefaultTableModel());
         }
     }
     
@@ -256,6 +254,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
     @Override
     public void init() {
         initComponents();
+        setMainTable(tblCompanies);
         loadTargets();
         handlerLockButtons(true);
         loadDataOnTable();

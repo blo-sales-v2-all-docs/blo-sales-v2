@@ -1,10 +1,12 @@
 package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
+import com.blo.sales.v2.controller.IDebtorSettlementsController;
 import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.IDebtorsSalesController;
 import com.blo.sales.v2.controller.IProductsController;
 import com.blo.sales.v2.controller.ISalesController;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtSettlement;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
@@ -34,7 +36,10 @@ public class DebtorsControllerImpl implements IDebtorsController {
     
     @Inject
     private IDebtorsSalesController debtorsSales;
-
+    
+    @Inject
+    private IDebtorSettlementsController debtorsSettlements;
+    
     @Inject
     private IDBTransactionManagerController transactionManager;
     
@@ -112,12 +117,12 @@ public class DebtorsControllerImpl implements IDebtorsController {
         final var saleSaved = salesController.registerSaleCommitNotEnabled(pay, productsLst, idUser);
         logger.info("venta guardada por pago de deudor %s", String.valueOf(saleSaved));
         // validar que el pago no cubre toda la deuda
+        final var payments = BloSalesV2Utils.getPartialPayment(pay);
+        debtorFound.setPayments(debtorFound.getPayments() + payments);
         if (pay.compareTo(debtorFound.getDebt()) < 0) {
             logger.info("pago es menor que la deuda");
             final var amount = debtorFound.getDebt().subtract(pay);
             logger.info("nuevo monto ", amount);
-            final var payments = BloSalesV2Utils.getPartialPayment(pay);
-            debtorFound.setPayments(debtorFound.getPayments() + payments);
             debtorFound.setDebt(amount);
             updateDebtor(debtorFound, idDebtor);
             // se agrega para utilizar el id de la venta para registrar tipo de pago
@@ -126,8 +131,19 @@ public class DebtorsControllerImpl implements IDebtorsController {
         }
         // pago completo
         logger.info("pago completo");
-        debtorFound.setDebt(BigDecimal.ZERO);
-        debtorFound.setPayments(BloSalesV2Utils.EMPTY_STRING);
+        final var salesProductData = debtorsSales.retrieveSalesProductsDataByIdDebtor(idDebtor);
+        logger.info("informacion de productos en venta con deudor %s", String.valueOf(salesProductData));
+        // informacion de pago completo
+        final var settlement = new PojoIntDebtSettlement();
+        settlement.setDebtor(debtorFound.getName());
+        settlement.setFkSale(saleSaved.getIdSale());
+        settlement.setTimestamp(BloSalesV2Utils.getTimestamp());
+        settlement.setPayments(debtorFound.getPayments());
+        settlement.setProductsDetails(salesProductData.getProducts());
+        final var settlementSaved = debtorsSettlements.addSettlement(settlement);
+        logger.info("pago guardado [%s]", String.valueOf(settlementSaved));
+        
+        logger.info("eliminando relacion");
         debtorsSales.deleteRelationhip(idDebtor);
         deleteDebtor(idDebtor);
         final var debtorTmp = new PojoIntDebtor();

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 public enum PaymentTypeEnum {
     
-    CASH("Efectivo", 0), TRANSFER("Pago con tarjeta", 1), BOTH("Ambos", 2);
+    CASH("Efectivo", 0), CARD("Pago con tarjeta", 1), TRANSFER("Pago por transferencia", 2), BOTH("Ambos", 3);
     
     @Getter
     private final String paymentTypeTarget;
@@ -20,7 +20,7 @@ public enum PaymentTypeEnum {
     }
     
     public static List<PaymentTypeEnum> getVisiblesTypes() {
-         return Arrays.asList(PaymentTypeEnum.values()).subList(0, 2);
+         return Arrays.asList(PaymentTypeEnum.values()).subList(0, 3);
     }
     
     public static PaymentTypeEnum getByIndex(int index) {

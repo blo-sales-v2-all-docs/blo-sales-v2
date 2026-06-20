@@ -16,7 +16,6 @@ import com.blo.sales.v2.view.pojos.PojoNote;
 import com.blo.sales.v2.view.pojos.enums.TypeNoteEnum;
 import jakarta.inject.Inject;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
 
 public final class Notes extends AbstractDashboardBase {
     
@@ -221,8 +220,7 @@ public final class Notes extends AbstractDashboardBase {
             notes = controller.getNotesByUserId(getUserData().getIdUser());
             final var wrapper = notesMapper.toOuter(notes);
             if (wrapper.getNotes() != null && !wrapper.getNotes().isEmpty()) {
-                final var model = (DefaultTableModel) tblNotes.getModel();
-                model.setRowCount(0);
+                getDefaultTableModel().setRowCount(0);
                 wrapper.getNotes().forEach(n -> {
                     final Object[] row = {
                         n.getIdNote(),
@@ -230,9 +228,9 @@ public final class Notes extends AbstractDashboardBase {
                         n.getTypeNote().name(),
                         parserTimestamp(n.getTimesamp())
                     };
-                    model.addRow(row);
+                    getDefaultTableModel().addRow(row);
                 });
-                tblNotes.setModel(model);
+                tblNotes.setModel(getDefaultTableModel());
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -261,6 +259,7 @@ public final class Notes extends AbstractDashboardBase {
     @Override
     public void init() {
         initComponents();
+        setMainTable(tblNotes);
         loadTargets();
         GUICommons.disabledButton(btnSaveNow);
         GUICommons.loadTitleOnTable(tblNotes, titles, false);

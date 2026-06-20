@@ -27,6 +27,8 @@ public interface ISalesModel {
     /**
      * Registro de una venta en la bd
      * <br>
+     * Todas las ventas las guarda con los valores de {@code payment_type = 'cash'} y {@code authorization = 'N/A'}
+     * <br>
      * <b>ESTA FUNCION NO GUARDA CAMBIOS EN LA BD</b>
      * @param sale
      * @return venta registrada

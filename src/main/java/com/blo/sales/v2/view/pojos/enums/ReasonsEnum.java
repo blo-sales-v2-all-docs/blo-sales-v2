@@ -5,7 +5,14 @@ import java.util.List;
 
 public enum ReasonsEnum {
     
-    SALE("Vendido", 0), LOST("Perdido", 1), REPLENISHMENT("Reabastecimiento", 2), PRODUCT_NOT_MODIFIED("No modificado", 3), DEVOLUTION("Devolución", 4), PRODUCT_DELETED("Eliminado", 5);
+    SALE("Vendido", 0),
+    LOST("Perdido", 1),
+    REPLENISHMENT("Reabastecimiento", 2),
+    PRODUCT_NOT_MODIFIED("No modificado", 3),
+    DEVOLUTION("Devolución", 4),
+    PRODUCT_DELETED("Eliminado", 5),
+    HISTORY_MOV_PREV("Movimiento de historial de cuenta previo", 6),
+    HISTORY_MOV_AFT("Movimiento de historial de cuenta posterior", 7);
     
     private final String reasonTarget;
     
