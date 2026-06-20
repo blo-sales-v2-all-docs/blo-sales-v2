@@ -49,6 +49,8 @@ public class ProductsControllerImpl implements IProductsController {
     @Override
     public PojoIntProduct registerProduct(PojoIntProduct product) throws BloSalesV2Exception {
         try {
+            // desactivar guardado
+            dbTransactionManager.disableAutocommit();
             product.setTimestamp(BloSalesV2Utils.getTimestamp());
             BloSalesV2Utils.validateRule(
                     product.getFkCategory() == BloSalesV2Utils.DEBTORS_PAYMENTS,
@@ -68,8 +70,6 @@ public class ProductsControllerImpl implements IProductsController {
                     BloSalesV2Utils.CODE_CATEGORY_NOT_FOUND,
                     BloSalesV2Utils.CATEGORY_NOT_FOUND
             );
-            // desactivar guardado
-            dbTransactionManager.disableAutocommit();
             final var productSaved = model.registerProduct(product);
             logger.info("producto guardado: %s", String.valueOf(productSaved));
             final var itemPrice = new PojoIntPriceHistory();

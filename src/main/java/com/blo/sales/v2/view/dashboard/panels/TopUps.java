@@ -19,7 +19,6 @@ import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
 
 public final class TopUps extends AbstractDashboardBase {
     
@@ -294,10 +293,9 @@ public final class TopUps extends AbstractDashboardBase {
                     findFirst().
                     orElse(TopUpSearchStatusEnum.ALL);
             final var topUpsFound = topUpsController.getTopUpsByStatus(TopUpSearchStatusIntEnum.valueOf(filterEnum.name()));
-            final var model = getModel();
             GUICommons.hiddenElement(btnCloseTopUps);
             GUICommons.setTextToField(lblTotalAmount, BloSalesV2Utils.EMPTY_STRING);
-            model.setRowCount(0);
+            getDefaultTableModel().setRowCount(0);
             if (topUpsFound.getTopUps() != null && !topUpsFound.getTopUps().isEmpty()) {
                 final var parsedTopUps = wrapperPojoTopUp.toOuter(topUpsFound);
                 for (final var top: parsedTopUps.getTopUps()) {
@@ -311,9 +309,9 @@ public final class TopUps extends AbstractDashboardBase {
                         top.getReference(),
                         parserTimestamp(top.getTimestamp())
                     };
-                    model.addRow(row);
+                    getDefaultTableModel().addRow(row);
                 }
-                tblResults.setModel(model);
+                tblResults.setModel(getDefaultTableModel());
                 if (filterEnum.compareTo(TopUpSearchStatusEnum.NO_CHECKED) == 0) {
                     GUICommons.showElement(btnCloseTopUps);
                     GUICommons.setTextToField(lblTotalAmount, topUpsTotal);
@@ -333,7 +331,7 @@ public final class TopUps extends AbstractDashboardBase {
             final var topUpsFound = topUpsController.getTopUpsByStatus(TopUpSearchStatusIntEnum.NO_CHECKED);
             if (topUpsFound.getTopUps() != null && !topUpsFound.getTopUps().isEmpty()) {
                 topUpsController.closeTopUps(topUpsFound);
-                getModel().setRowCount(0);
+                getDefaultTableModel().setRowCount(0);
                 GUICommons.setTextToField(lblTotalAmount, BloSalesV2Utils.EMPTY_STRING);
                 GUICommons.hiddenElement(btnCloseTopUps);
             }
@@ -366,10 +364,6 @@ public final class TopUps extends AbstractDashboardBase {
             statusFilter.addElement(filter.getTarget());
         }
         cmbxFilter.setModel(statusFilter);
-    }
-    
-    private DefaultTableModel getModel() {
-        return (DefaultTableModel) tblResults.getModel();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -409,6 +403,7 @@ public final class TopUps extends AbstractDashboardBase {
     public void init() {
         topUpsTotal = BigDecimal.ZERO;
         initComponents();
+        setMainTable(tblResults);
         GUICommons.loadTitleOnTable(tblResults, titles, false);
         loadTargets();
         retrieveCompanies();

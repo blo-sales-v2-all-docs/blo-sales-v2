@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="3"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lblVendorName" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblContact" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBrand" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="txtVendorName" max="32767" attributes="0"/>
+                  <Component id="txtContact" max="32767" attributes="0"/>
+                  <Component id="txtBrand" pref="178" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnSave" min="-2" pref="200" max="-2" attributes="0"/>
+                  <Component id="lblVisitDats" min="-2" max="-2" attributes="0"/>
+                  <Component id="chbxPreSale" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlAreaVisitDays" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="533" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblVendorName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtVendorName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblVisitDats" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pnlAreaVisitDays" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblContact" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtContact" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblBrand" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtBrand" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="chbxPreSale" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnSave" min="-2" pref="45" max="-2" attributes="0"/>
+              <EmptySpace pref="383" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="lblVendorName">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="nombre_de_proveedor"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtVendorName">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblContact">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="contacto"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtContact">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblVisitDats">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="dias_de_visita"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblBrand">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="marca"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtBrand">
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chbxPreSale">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="prventa"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSave">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="guardar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
+      </Events>
+    </Component>
+    <Container class="javax.swing.JPanel" name="pnlAreaVisitDays">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="406" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="78" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
+  </SubComponents>
+</Form>

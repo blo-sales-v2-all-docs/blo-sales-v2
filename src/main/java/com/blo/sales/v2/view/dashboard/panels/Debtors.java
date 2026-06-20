@@ -19,13 +19,11 @@ import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.table.DefaultTableModel;
 
 public final class Debtors extends AbstractDashboardBase {
     
@@ -61,7 +59,6 @@ public final class Debtors extends AbstractDashboardBase {
         final String[] titles = {"ID", "Nombre", "Debe", "Timestamp"};
         GUICommons.loadTitleOnTable(tblDebtors, titles, false);
         final var allDebtors = retrieveDebtorsDetails();
-        final var model = (DefaultTableModel) tblDebtors.getModel();
         if (allDebtors.getDebtors() != null && !allDebtors.getDebtors().isEmpty()) {
             final var debtorsFilter = allDebtors.getDebtors().stream().collect(Collectors.toMap(
                     PojoDebtorDetail::getName, // Clave para identificar duplicados
@@ -78,7 +75,7 @@ public final class Debtors extends AbstractDashboardBase {
                     d.getDebt(),
                     parserTimestamp(d.getTimestamp())
                 };
-                model.addRow(row);
+                getDefaultTableModel().addRow(row);
             }
         }
     }
@@ -316,14 +313,8 @@ public final class Debtors extends AbstractDashboardBase {
                 areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
                 GUICommons.setTextToField(txtName, debtorSelected.getName());
                 GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
-                Arrays.stream(debtorSelected.getPayments().split(BloSalesV2Utils.SEPARATOR_PAYMENTS)).forEach(p -> {
-                    final var arrayTimes = p.split(BloSalesV2Utils.TIMESTAMP);
-                    if (arrayTimes.length == 2) {
-                        final var pay = arrayTimes[0];
-                        final var timestamp = parserTimestamp(arrayTimes[1]);
-                        areaPayments.append(String.format("%s - %s \n", pay, timestamp));
-                    }
-                });
+                final var payments = formatPayments(debtorSelected.getPayments());
+                areaPayments.append(payments);
                 final var model = new DefaultListModel<String>();
                 debtorDetail.forEach(d -> model.addElement(String.format("%s - %s [%s]", d.getProduct(), d.getQuantitySale(), parserTimestamp(d.getTimestamp()))));
                 lstProducts.setModel(model);
@@ -344,11 +335,15 @@ public final class Debtors extends AbstractDashboardBase {
      
      /** abre la ventana para pagos por tarjeta */
     private void openPaymentCard(int item) {
-        if (item == 1) {
+        var comission = "1";
+        if (item == PaymentTypeEnum.CARD.getIndex()) {
+            comission = "1.05";
+        }
+        if (item == PaymentTypeEnum.TRANSFER.getIndex() || item == PaymentTypeEnum.CARD.getIndex()) {
             GUICommons.disabledButton(btnSave);
             GUICommons.disabledButton(btnPayall);
             final var totalDebt = debtorSelected.getDebt().
-                    multiply(new BigDecimal("1.05")).
+                    multiply(new BigDecimal(comission)).
                     setScale(2, RoundingMode.HALF_UP);
             GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), totalDebt));
             
@@ -361,13 +356,18 @@ public final class Debtors extends AbstractDashboardBase {
                 (Map<String, Object> infoPay) -> {
                     try {
                         infoPay.values().removeIf(Objects::isNull);
-                        if (infoPay.isEmpty() || infoPay.size() != 4) {
+                        if (infoPay.isEmpty()) {
+                            debtorSelected.setDebt(storeTotalSale);
+                            GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
+                            return;
+                        }
+                        if (infoPay.size() != 4) {
                             throw new BloSalesV2Exception(BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.COMMON_RULE);
                         }
                         var cardPay = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CARD_PAY)));
                         var cash = new BigDecimal(String.valueOf(infoPay.get(PaymentCardDialog.CASH)));
                         final var reference = String.valueOf(infoPay.get(PaymentCardDialog.REFERENCE));
-                        final var type = PaymentTypeEnum.getByIndex(
+                        var type = PaymentTypeEnum.getByIndex(
                             Integer.parseInt(String.valueOf(infoPay.get(PaymentCardDialog.TYPE)))
                         );
                         var paysAdded = cardPay.add(cash);
@@ -379,7 +379,10 @@ public final class Debtors extends AbstractDashboardBase {
                         if (type.compareTo(PaymentTypeEnum.BOTH) == 0) {
                             cash = totalDebt.subtract(cardPay);
                         }
-                        
+                        /** si está abierto el cuadro de diálogo entonces quiere decir que es un pago con tarjeta y no genera comisión */
+                        if (totalDebt.compareTo(storeTotalSale) == 0) {
+                            type = PaymentTypeEnum.TRANSFER;
+                        }
                         final var registeredSale = debtors.addPaymentNotCommitEnabled(paysAdded, getUserData().getIdUser(), debtorSelected.getIdDebtor());
                         final var paymentTypeAux = new PojoPaymentTypeInfo();
                         paymentTypeAux.setCardPay(cardPay);
@@ -388,7 +391,7 @@ public final class Debtors extends AbstractDashboardBase {
                         paymentTypeAux.setPaymentType(type);
                         paymentTypeAux.setTotalToPay(paysAdded);
                         paymentTypeAux.setIdSale(registeredSale.getIdSale());
-                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux));
+                        salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux), getUserData().getIdUser());
                         
                         loadDataAndTitles();
                         disabledButtons();
@@ -444,6 +447,7 @@ public final class Debtors extends AbstractDashboardBase {
     public void init() {
         try {
             initComponents();
+            setMainTable(tblDebtors);
             loadTargets();
             disabledButtons();
             loadDataAndTitles();

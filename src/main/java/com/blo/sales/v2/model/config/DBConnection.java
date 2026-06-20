@@ -12,6 +12,8 @@ public final class DBConnection {
     
     private static final String RELEASE = "RELEASE";
     
+    private static final String BETA = "BETA";
+    
     private static final String URL = BloSalesV2Utils.getProp(PropsKeysEnum.DB_URL.getKey());
 
     private static final String USER = BloSalesV2Utils.getProp(PropsKeysEnum.DB_USERNAME.getKey());
@@ -39,8 +41,14 @@ public final class DBConnection {
     
     private static String getUrl() {
         var subfijo = "-dev";
-        if (BloSalesV2Utils.getVersion().lastIndexOf(RELEASE) == 7) {
-            subfijo = "-pre";
+        final var version = BloSalesV2Utils.getVersion().split("-")[1];
+        switch (version) {
+            case RELEASE:
+                subfijo = "-pre";
+                break;
+            case BETA:
+                subfijo = "-beta";
+                break;
         }
         return URL.concat(subfijo);
     }

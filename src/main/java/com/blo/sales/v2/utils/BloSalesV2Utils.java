@@ -17,15 +17,19 @@ import java.util.regex.Pattern;
  */
 public final class BloSalesV2Utils {
     
-    private static final String RELEASE = "RELEASE";
-    
     /** cadena vacia */
     public static final String EMPTY_STRING = "";
+    
+    public static final String N_A = "N/A";
+    
+    public static final String JSON_EMPTY_ARRAY = "[]";
     
     /** expresion regular para solo numeros */
     public static final String ONLY_NUMBERS = "[0-9]+";
     
     public static final String CURRENCY_REGEX = "^\\d*(\\.\\d{1,2})?$";
+    
+    public static final String QUANTITY_REGEX = "^\\d*(\\.\\d{1,3})?$";
     
     public static final String SEPARATOR_PAYMENTS = ",";
     
@@ -92,6 +96,16 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_PAYMENTS_CARD_NOT_EQUALS = "La suma de los pagos no coinciden";
     
+    public static final String ERROR_ACCOUNT_NO_EXISTS = "Cuenta inexistente";
+    
+    public static final String ERROR_INSUFFICIENT_MONEY = "Saldo insuficiente";
+    
+    public static final String ERROR_VENDOR_CONTACT_EXISTS = "Este contacto ya est\u00e1 registrado con otro proveedor";
+    
+    public static final String ERROR_VENDOR_NOT_EXITS = "Este proveedor ya existe";
+    
+    public static final String ERROR_VENDOR_VISIT_DAYS_NOT_EMPTY = "Los d\u00ed as de visita no pueden estar vac\u00edos si la visita es semanal";
+    
     public static final long DEBTORS_PAYMENTS = 1;
     
     public static final String ERROR_PRODUCT_IS_NOT_BY_KG = "Este producto no tiene la propiedad 'venta por kg' activada. \n Verifica el producto";
@@ -99,6 +113,10 @@ public final class BloSalesV2Utils {
     public static final String COMMON_RULE = "Ups. Error inesperado";
     
     public static final String ERROR_FORMAT_ACTIVE_COST = "Error en el formato de activo/costos";
+    
+    public static final String ERROR_ORDER_IS_BEFORE_NOW = "La fecha de entrega no debe ser anterior a la fecha de hoy";
+    
+    public static final String ERROR_ORDER_NOT_FOUND = "Orden no encontrada";
     
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
@@ -152,6 +170,20 @@ public final class BloSalesV2Utils {
     public static final String CODE_PRODUCT_IS_NOT_BY_KG = "022";
     
     public static final String CODE_FORMAT_ACTIVE_COST = "023";
+    
+    public static final String CODE_ACCOUNT_NO_EXISTS = "024";
+    
+    public static final String CODE_INSUFFICIENT_MONEY = "025";
+    
+    public static final String CODE_VENDOR_CONTACT_EXISTS = "024";
+    
+    public static final String CODE_VENDOR_NOT_EXITS = "025";
+    
+    public static final String CODE_VENDOR_VISIT_DAYS_NOT_EMPTY = "026";
+    
+    public static final String CODE_ORDER_IS_BEFORE_NOW = "027";
+    
+    public static final String CODE_ORDER_NOT_FOUND = "028";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     
@@ -245,16 +277,14 @@ public final class BloSalesV2Utils {
      * @return 
      */
     public static long getIdPaymentProduct() {
-        if (getVersion().lastIndexOf(RELEASE) == 7) {
-            return 1L;
-        }
-        return 1000L;
+        return Long.parseLong(getProp(PropsKeysEnum.APP_PRODUCTS_ID_PAYMENTS_PRODUCT.getKey()));
     }
     
     public static long getTopUpIdComission() {
-        if (getVersion().lastIndexOf(RELEASE) == 7) {
-            return 494L;
-        }
-        return 1016L;
+        return Long.parseLong(getProp(PropsKeysEnum.APP_PRODUCTS_TOP_UP_COMISSION.getKey()));
+    }
+    
+    public static long getIdTopUpsProduct() {
+        return Long.parseLong(getProp(PropsKeysEnum.APP_PRODUCTS_TOP_UP_PRODUCT.getKey()));
     }
 }

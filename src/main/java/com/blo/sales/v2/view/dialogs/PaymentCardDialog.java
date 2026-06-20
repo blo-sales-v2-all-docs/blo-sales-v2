@@ -8,6 +8,8 @@ import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import java.awt.Component;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -140,13 +142,13 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
     private void btnDoPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoPayActionPerformed
         final var checkboxStatus = chcbkxComplete.isSelected();
         try {
-            final var cardPay = GUICommons.getNumberFromJText(nmbPaymentCard, 2);
+            final var cardPay = GUICommons.getNumberFromJText(nmbPaymentCard, GUICommons.DIGITS_OF_CURRENCY);
             final var reference = GUICommons.getTextFromField(txtReference, true);
             var cash = BigDecimal.ZERO;
             var type = 1;
             if (!checkboxStatus) {
-                cash = GUICommons.getNumberFromJText(nmbCash, 2);
-                type = 2;
+                cash = GUICommons.getNumberFromJText(nmbCash, GUICommons.DIGITS_OF_CURRENCY);
+                type = 3;
             }
             /** validar que la suma de ambos pagos no sea mayor a lo que se debe pagar */
             final var sum = cardPay.add(cash);
@@ -178,7 +180,7 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
         GUICommons.setTextToField(lblTotalToPay, getTranslateBy(KeysEnum.DLG_PAYMENTS_LBL_TOTAL.getKey()));
         GUICommons.setTextToButton(btnDoPay, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD.getKey()));
         GUICommons.setTextToField(lblCash, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
-        GUICommons.setTextToField(lblReference, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_CASH.getKey()));
+        GUICommons.setTextToField(lblReference, getTranslateBy(KeysEnum.TOP_UPS_LBL_REFERENCE.getKey()));
         GUICommons.setTextToCheckbox(chcbkxComplete, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_CMBX_COMPLETE.getKey()));
         GUICommons.setTextToField(lblPaymentByCard, getTranslateBy(KeysEnum.DLG_PAYMENTS_CARD_LBL_PAYMENT_BY_CARD.getKey()));
     }
@@ -187,6 +189,12 @@ public final class PaymentCardDialog<T> extends AbstractDialogBase {
         GUICommons.setTextToField(lblTotalToPay, pay);
         chcbkxComplete.setSelected(true);
         nmbCash.setEnabled(false);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                callback.accept((T) new HashMap<>());
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
