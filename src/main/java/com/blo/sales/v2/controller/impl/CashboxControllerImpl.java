@@ -6,6 +6,7 @@ import com.blo.sales.v2.controller.ICashboxesActivesCostsController;
 import com.blo.sales.v2.controller.ICashboxesSalesController;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.ISalesController;
+import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxesActivesCosts;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntActivesCosts;
@@ -13,11 +14,13 @@ import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxes;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesDetails;
 import com.blo.sales.v2.controller.pojos.enums.CashboxStatusIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.SalesStatusIntEnum;
+import com.blo.sales.v2.controller.pojos.enums.TypeNoteIntEnum;
 import com.blo.sales.v2.model.ICashboxModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.util.stream.Collectors;
 
 public @Singleton class CashboxControllerImpl implements ICashboxController {
     
@@ -37,6 +40,9 @@ public @Singleton class CashboxControllerImpl implements ICashboxController {
     
     @Inject
     private ICashboxesSalesController cashboxesSalesController;
+    
+    @Inject
+    private IUserController userController;
     
     @Inject
     private IDBTransactionManagerController transactionManager;
@@ -68,7 +74,7 @@ public @Singleton class CashboxControllerImpl implements ICashboxController {
     }
 
     @Override
-    public PojoIntCashbox closeCashbox(PojoIntCashbox cashbox, WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception {
+    public PojoIntCashbox closeCashbox(PojoIntCashbox cashbox, WrapperPojoIntActivesCosts activesCosts, long idUser) throws BloSalesV2Exception {
         try {
             transactionManager.disableAutocommit();
             cashbox.setStatus(CashboxStatusIntEnum.CLOSE);
@@ -98,7 +104,24 @@ public @Singleton class CashboxControllerImpl implements ICashboxController {
                     cashboxesSalesController.addCashboxSale(cashbox.getIdCashbox(), s.getIdSale());
                 }
             }
+            // eliminar notas de costos
+            logger.info("Eliminando notas de costos por entrega");
+            final var notes = userController.getNotesByUserId(idUser);
+            if (!notes.getNotes().isEmpty()) {
+                final var notesPasivesOrder = notes.getNotes().stream().
+                        filter(n -> n.getTypeNote().compareTo(TypeNoteIntEnum.ORDEN_PASIVO) == 0).
+                        collect(Collectors.toList());
+                logger.info("notas de pasivo por orden %s", notesPasivesOrder.size());
+                if (!notesPasivesOrder.isEmpty()) {
+                    logger.info("eliminando notas");
+                    for (final var n: notesPasivesOrder) {
+                        userController.deleteNote(n.getIdNote());
+                    }
+                    logger.info("notas eliminadas");
+                }
+            }
             transactionManager.doCommit();
+            logger.info("TERMINA closeCashbox");
             return cashbox;
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());

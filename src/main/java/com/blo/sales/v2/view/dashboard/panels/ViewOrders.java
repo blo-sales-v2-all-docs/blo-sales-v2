@@ -256,7 +256,7 @@ public final class ViewOrders extends AbstractDashboardBase {
     private void resetInfo() throws BloSalesV2Exception {
         getDefaultTableModel().setRowCount(0);
         wrapperOrders = vendorsOrdersMapper.toOuter(ordersVendorController.getOrders());
-        applyFilterOnTable(wrapperOrders.getOrders(), null);
+        applyFilterOnTable(wrapperOrders.getOrders(), StatusOrderProviderEnum.PENDIG);
         GUICommons.addDoubleClickOnTable(tblOrders, (Long idOrder) -> closeOrder(idOrder));
         GUICommons.hiddenPanel(pnlCtrlCloseOrder);
         orderVendor = null;
