@@ -3507,3 +3507,513 @@ INFO: 2026-06-24T13:01:06.314597600 [com.blo.sales.v2.model.impl.CategoriesModel
 jun 24, 2026 1:01:06 P. M. com.blo.sales.v2.view.commons.GUILogger info
 INFO: 2026-06-24T13:01:06.316407 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
 
+jun 24, 2026 2:53:11 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:11.186068100 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 24, 2026 2:53:11 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:11.966779200 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:53:11 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:11.967778600 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.002654300 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.007642 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.008659700 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.034567100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.042546800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.048578300 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.049678700 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.087426700 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-24 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.106375200 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.110365300 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 24, 2026 2:53:12 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:12.111362600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 24, 2026 2:53:15 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:15.250799200 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:53:15 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:15.252045200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:53:15 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:15.260848400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:53:15 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:15.262768400 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 2:53:15 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:15.263816600 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 2:53:15 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:53:15.268752800 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 24, 2026 2:55:24 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:24.659516600 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.284772500 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.285767900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.328653200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.333639 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.334638200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.355582300 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.362662200 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.365554100 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.366551400 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.402780600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-24 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.423398100 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.428853600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 24, 2026 2:55:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:25.430379900 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 24, 2026 2:55:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:28.479845300 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:55:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:28.480843400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:55:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:28.485829300 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:55:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:28.486827 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 2:55:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:28.488043300 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 2:55:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:55:28.489821100 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 24, 2026 2:57:42 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:42.584086900 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.287493500 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.289487900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.329431200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.334163800 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.335653100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.361735100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.368677500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.371670600 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.372944600 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.408898 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-24 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.428945500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.432739600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 24, 2026 2:57:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:43.433730400 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 24, 2026 2:57:46 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:46.111793300 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:57:46 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:46.112525800 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 2:57:46 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:46.118935500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 2:57:46 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:46.119934400 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 2:57:46 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:46.120930900 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 2:57:46 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:57:46.122806900 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 24, 2026 2:58:13 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:58:13.124735 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando producto por id=7 
+
+jun 24, 2026 2:58:13 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:58:13.130763500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando producto por id = 7 
+
+jun 24, 2026 2:58:13 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T14:58:13.253211400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - producto recuperado ProductEntity(id_product=7, product=Pan Integral Grande 620g, quantity=1.000, cost_of_sale=43.16, price=52.00, timestamp=2026-03-23T13:07:38.228293800, kg=false, bar_code=7500810022061, fk_category=2) 
+
+jun 24, 2026 3:19:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:31.692476400 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.221728600 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.221728600 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.245800200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.248654 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.249474600 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.268602400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.275582600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.277580300 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.278574 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.312485500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-24 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.327696100 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.330438800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 24, 2026 3:19:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:32.330438800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 24, 2026 3:19:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:35.873229200 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:19:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:35.873229200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:19:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:35.879227900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:19:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:35.880260100 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:19:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:35.881209300 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:19:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:35.883208700 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 24, 2026 3:19:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:41.716545500 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando producto por id=4 
+
+jun 24, 2026 3:19:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:41.719307800 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando producto por id = 4 
+
+jun 24, 2026 3:19:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:19:41.733733700 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - producto recuperado ProductEntity(id_product=4, product=Pan Tostado doble fibra 14pz, quantity=1.000, cost_of_sale=29.88, price=36.00, timestamp=2026-06-22T11:37:11.447170900, kg=false, bar_code=7501000112333, fk_category=2) 
+
+jun 24, 2026 3:29:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:37.640565600 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.206520200 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.207514200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.232448600 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.235439400 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.236437 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.257380900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.264363300 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.267672900 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.269349700 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.332182500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-24 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.356118 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.361104900 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 24, 2026 3:29:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:38.362219100 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 24, 2026 3:29:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:44.802660600 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:29:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:44.802660600 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:29:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:44.810659100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:29:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:44.811585 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:29:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:44.812581700 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:29:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:44.813696500 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 24, 2026 3:29:49 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:49.690653900 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - recuperando historial de precios 6 
+
+jun 24, 2026 3:29:49 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:49.691959900 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - recuperando historial de precios mediante idProduct=6 
+
+jun 24, 2026 3:29:49 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:49.716557900 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - hitorial 1 
+
+jun 24, 2026 3:29:58 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:58.306412200 [com.blo.sales.v2.controller.impl.HistoryControllerImpl] INFO - recuperando el historial de movimientos del producto 18 
+
+jun 24, 2026 3:29:58 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:58.307409900 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Buscando movimientos de 18 
+
+jun 24, 2026 3:29:58 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:29:58.312397200 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Movimientos recuperados 13 
+
+jun 24, 2026 3:30:34 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:34.732802800 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.282559200 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.283558 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.311607400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.314477300 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.315494400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.330431900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.336468400 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.338410200 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.339407700 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.370324700 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-24 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.387547700 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.390272800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 24, 2026 3:30:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:35.391225900 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 24, 2026 3:30:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:37.957170200 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:30:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:37.958833 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:30:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:37.968082500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:30:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:37.970077400 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:30:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:37.971074300 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:30:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:37.972432400 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 24, 2026 3:30:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:40.906035100 [com.blo.sales.v2.controller.impl.HistoryControllerImpl] INFO - recuperando el historial de movimientos del producto 4 
+
+jun 24, 2026 3:30:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:40.907801700 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Buscando movimientos de 4 
+
+jun 24, 2026 3:30:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:40.918551500 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Movimientos recuperados 25 
+
+jun 24, 2026 3:30:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:44.970602600 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - recuperando historial de precios 4 
+
+jun 24, 2026 3:30:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:44.971600800 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - recuperando historial de precios mediante idProduct=4 
+
+jun 24, 2026 3:30:44 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:44.974592700 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - hitorial 1 
+
+jun 24, 2026 3:30:49 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:49.850599600 [com.blo.sales.v2.controller.impl.HistoryControllerImpl] INFO - recuperando el historial de movimientos del producto 4 
+
+jun 24, 2026 3:30:49 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:49.851595800 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Buscando movimientos de 4 
+
+jun 24, 2026 3:30:49 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:30:49.854630 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Movimientos recuperados 25 
+
+jun 24, 2026 3:35:39 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:39.760550800 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.307537700 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.308532100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.335428600 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.338420400 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.339229100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.357371100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.364352200 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.366386800 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.367368500 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.402251500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-24 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.418863700 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.421234900 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 24, 2026 3:35:40 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:40.421735400 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 24, 2026 3:35:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:43.488037900 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:35:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:43.488693100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 24, 2026 3:35:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:43.494003400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 24, 2026 3:35:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:43.495131600 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:35:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:43.495629400 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 24, 2026 3:35:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:43.496627400 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 24, 2026 3:35:51 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:51.602358600 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - recuperando historial de precios 10 
+
+jun 24, 2026 3:35:51 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:51.603355 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - recuperando historial de precios mediante idProduct=10 
+
+jun 24, 2026 3:35:51 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:51.608341800 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - hitorial 3 
+
+jun 24, 2026 3:35:54 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:54.834346 [com.blo.sales.v2.controller.impl.HistoryControllerImpl] INFO - recuperando el historial de movimientos del producto 10 
+
+jun 24, 2026 3:35:54 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:54.835620900 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Buscando movimientos de 10 
+
+jun 24, 2026 3:35:54 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:54.842325300 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Movimientos recuperados 13 
+
+jun 24, 2026 3:35:59 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:59.866356500 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - recuperando historial de precios 21 
+
+jun 24, 2026 3:35:59 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:59.867349600 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - recuperando historial de precios mediante idProduct=21 
+
+jun 24, 2026 3:35:59 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-24T15:35:59.869344400 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - hitorial 4 
+
