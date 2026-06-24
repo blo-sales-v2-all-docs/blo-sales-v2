@@ -32,16 +32,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public final class AllProducts extends AbstractDashboardBase {
     
@@ -430,7 +430,7 @@ public final class AllProducts extends AbstractDashboardBase {
             final var productsData = productsMapper.toOuter(productsController.getAllProducts());
             final var categories = categoriesMapper.toOuter(categoriesController.getAllCategories());
             if (getUserData().getRole().equals(RolesEnum.ROOT)) {
-                GUICommons.loadTitleOnTable(tblProducts, titles, false);
+                GUICommons.loadTitleOnTable(tblProducts, titles, true);
                 getDefaultTableModel().setRowCount(0);
                 productsData.getProducts().forEach(p -> {
                     /** filtro para buscar nombre de categorias */
@@ -461,6 +461,102 @@ public final class AllProducts extends AbstractDashboardBase {
                     GUICommons.setTextToField(nmbCostOfSale, productSelected.getCostOfSale());
                     GUICommons.setTextToField(nmbPrice, productSelected.getPrice());
                     GUICommons.setTextToField(lblIdProduct, productSelected.getIdProduct());
+                }
+            });
+            /** Actualiza la fila por un <code>ENTER</code> */
+            GUICommons.addEventKeyColumnsProtecteds(new int[] {0, 1, 6, 7}, GUICommons.ENTER_KEY, tblProducts, (String[] data) -> {
+                try {
+                    /** 
+                     * 0 - ID
+                     * 1 - Codigo de barras
+                     * 2 - Producto
+                     * 3 - Cantidad en existencia
+                     * 4 - Precio
+                     * 5 - Costo de venta
+                     * 6 - ¿Por kg?
+                     * 7 - Categoria;
+                     */
+                    final var streamItems = Arrays.stream(data).
+                            map(d -> (String) d).
+                            map(String::trim);
+                    final var itemsLst = streamItems.collect(Collectors.toList());
+
+                    final var quantity = itemsLst.get(3);
+                    final var price = itemsLst.get(4);
+                    final var costOfSale = itemsLst.get(5);
+                    if (
+                            !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.QUANTITY_REGEX, quantity) ||
+                            !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.CURRENCY_REGEX, price) || 
+                            !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.CURRENCY_REGEX, costOfSale)
+                    ) {
+                        throw new BloSalesV2Exception(TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY);
+                    }
+                    
+                    final var productFound = productMapper.toOuter(
+                            productsController.getProductById(Long.parseLong(itemsLst.get(0)))
+                    );
+                    
+                    var reason = ReasonsIntEnum.PRODUCT_NOT_MODIFIED;
+                    var type = TypesIntEnum.UPDATE_PRODUCT;
+                    
+                    final var quantityCompared = new BigDecimal(quantity).compareTo(productFound.getQuantity());
+                    
+                    if (quantityCompared != 0) {
+                        type = TypesIntEnum.ADJUST;
+                        if (quantityCompared < 0) {
+                            reason = ReasonsIntEnum.LOST;
+                        } else {
+                            reason = ReasonsIntEnum.REPLENISHMENT;
+                        }
+                        productFound.setQuantity(new BigDecimal(quantity));
+                    }
+                    productFound.setPrice(new BigDecimal(price));
+                    productFound.setCostOfSale(new BigDecimal(costOfSale));
+                    productsController.updateProductInfoSavingPriceOnHistory(
+                        productMapper.toInner(productFound),
+                        reason,
+                        getUserData().getIdUser(),
+                        type
+                    );
+                    
+                    
+                    /*
+                    newData.setIdProduct(Long.parseLong(itemsLst.get(0)));
+                    newData.setProduct(itemsLst.get(1));
+                    newData.setBarCode(itemsLst.get(2));
+                    newData.setQuantity(new BigDecimal(quantity));
+                    newData.setPrice(new BigDecimal(price));
+                    newData.setCostOfSale(new BigDecimal(costOfSale));
+                    
+                    final var quantityCompared = newData.getQuantity().compareTo(productFound.getQuantity());
+                    
+                    if (quantityCompared > 0) {
+                        reason = ReasonsIntEnum.REPLENISHMENT;
+                    }
+                    if (quantityCompared < 0) {
+                        reason = ReasonsIntEnum.LOST;
+                    }
+                    
+                    /*if (quantityCompared == 0) {
+                        productsController.updateProductInfoSavingPriceOnHistory(
+                                productMapper.toInner(newData),
+                                reason, 
+                                getUserData().getIdUser(),
+                                type
+                        );
+                        return;
+                    }
+                    type = TypesIntEnum.ADJUST;
+                    if (quantityCompared > 0) {
+                        reason = ReasonsIntEnum.LOST;
+                    }
+                    if (quantityCompared < 0) {
+                        reason = ReasonsIntEnum.REPLENISHMENT;
+                    }*/
+                    //productsController.updateProductInfo(productMapper.toInner(newData), ReasonsIntEnum., getUserData().getIdUser(), TypesIntEnum);
+                } catch (BloSalesV2Exception e) {
+                    logger.error(e.getMessage());
+                    CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                 }
             });
         } catch (final BloSalesV2Exception e) {

@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -126,6 +127,38 @@ public final class GUICommons {
             }
         });
 
+    }
+    
+    
+    private static String[] rowSelected = null;
+    
+    public static <R> void addEventKeyColumnsProtecteds(int[] columnsProtected, int event, JTable table, Consumer<R> action) {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() > 0 && table.getSelectedRow() != -1) {
+                    rowSelected = getValuesFromSelectedRow(table);
+                }
+            }
+        });
+        
+        table.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == event) {
+                    if (table.getSelectedRow() != -1) {
+                        final String[] data = getValuesFromSelectedRow(table);
+                        if (columnsProtected.length > 0) {
+                            for (final var c: columnsProtected) {
+                                data[c] = rowSelected[c];
+                            }
+                        }
+                        action.accept((R) data);
+                    }
+                }
+            }
+            
+        });
     }
     
     public static <T> void addKeyEventOnTable(JTable table, int keyCode, Consumer<T> action) {
@@ -513,4 +546,16 @@ public final class GUICommons {
         lbl.setForeground(txtColor);
     }
    
+    /**
+     * Permite recuperar los valores de una fila y regresa un arreglo con esos datos
+     * @param table
+     * @return 
+     */
+    private static String[] getValuesFromSelectedRow(JTable table) {
+        final String[] out = new String[table.getColumnCount()];
+        for (var i = 0; i < table.getColumnCount(); i++) {
+            out[i] = String.valueOf(table.getValueAt(table.getSelectedRow(), i));
+        }
+        return out;
+    }
 }
