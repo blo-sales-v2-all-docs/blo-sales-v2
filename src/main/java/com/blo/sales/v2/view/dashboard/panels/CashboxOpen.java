@@ -136,6 +136,8 @@ public final class CashboxOpen extends AbstractDashboardBase {
         if (resp) {
             pasives = filterLst(TypeNoteEnum.PASIVO);
             actives = filterLst(TypeNoteEnum.ACTIVO);
+            final var ordenPasivos = filterLst(TypeNoteEnum.ORDEN_PASIVO);
+            pasives.getNotes().addAll(ordenPasivos.getNotes());
         }
         
         final var cashboxDialog = new CashboxDialog<>(
@@ -150,7 +152,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
                     final var wrapper = new WrapperPojoActivesCosts();
                     wrapper.setActivesCosts(data.getItems());
                     openCashbox.setAmount(data.getTotalAmountInCashbox());
-                    final var cashboxClosed = cashboxController.closeCashbox(mapper.toInner(openCashbox), activesCostMapper.toInner(wrapper));
+                    final var cashboxClosed = cashboxController.closeCashbox(mapper.toInner(openCashbox), activesCostMapper.toInner(wrapper), getUserData().getIdUser());
                     if (mapper.toOuter(cashboxClosed).getStatus().compareTo(CashboxStatusEnum.CLOSE) == 0) {
                          loadDataAndCashbox();
                     }

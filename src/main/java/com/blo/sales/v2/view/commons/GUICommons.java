@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -51,6 +52,8 @@ public final class GUICommons {
     /** tecla enter */
     public static final int ENTER_KEY = 10;
     
+    public static final int F1_INFO_KEY = 112;
+    
     public static final int F3_SEARCH_KEY = 114;
     
     public static final int ESCAPE_KEY = 27;
@@ -64,6 +67,9 @@ public final class GUICommons {
     private static final Color CONTRAST_ORANGE = new Color(230, 126, 34);
     
     private static final Font FONT_SEGOE_UI_BOLD_14 = new Font("Segoe UI", Font.BOLD, 14);
+    
+    /** permite guardar temporalmente los valores de la fila de una tabla */
+    private static String[] rowSelected = null;
 
     private GUICommons() {
     }
@@ -126,6 +132,43 @@ public final class GUICommons {
             }
         });
 
+    }
+    
+    /**
+     * Metodo que permite agregar un evento de una tecla a una tabla
+     * @param columnsProtected columnas que estarán libres de la edición de la tabla.
+     * <br>los elementos de este arreglo son requeridos cuando se hace una edición de una columna. Si viene vacío, entonces se desactiva la opción de edición
+     * @param event entero que representa un evento
+     * @param table
+     * @param action 
+     */
+    public static void addEventKeyColumnsProtecteds(int[] columnsProtected, int event, JTable table, Consumer<String[]> action) {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() > 0 && table.getSelectedRow() != -1) {
+                    rowSelected = getValuesFromSelectedRow(table);
+                }
+            }
+        });
+        
+        table.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == event && table.getSelectedRow() != -1) {
+                    final String[] data = getValuesFromSelectedRow(table);
+                    if (columnsProtected != null && columnsProtected.length > 0) {
+                        for (final var c: columnsProtected) {
+                            data[c] = rowSelected[c];
+                        }
+                        action.accept(data);
+                    } else {
+                        action.accept(rowSelected);
+                    }
+                        
+                }
+            }
+        });
     }
     
     public static <T> void addKeyEventOnTable(JTable table, int keyCode, Consumer<T> action) {
@@ -513,4 +556,16 @@ public final class GUICommons {
         lbl.setForeground(txtColor);
     }
    
+    /**
+     * Permite recuperar los valores de una fila y regresa un arreglo con esos datos
+     * @param table
+     * @return 
+     */
+    private static String[] getValuesFromSelectedRow(JTable table) {
+        final String[] out = new String[table.getColumnCount()];
+        for (var i = 0; i < table.getColumnCount(); i++) {
+            out[i] = String.valueOf(table.getValueAt(table.getSelectedRow(), i));
+        }
+        return out;
+    }
 }

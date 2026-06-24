@@ -88,7 +88,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
                 note.setFkUser(idUser);
                 note.setNote(String.format(concept, brand, reason, invoice, amount));
                 note.setTimesamp(timestamp);
-                note.setTypeNote(TypeNoteIntEnum.PASIVO);
+                note.setTypeNote(TypeNoteIntEnum.ORDEN_PASIVO);
                 final var noteSaved = userController.addNoteNotCommit(note);
                 logger.info("nota guardada %s", String.valueOf(noteSaved));
             }

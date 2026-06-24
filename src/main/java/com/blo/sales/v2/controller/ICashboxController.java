@@ -17,10 +17,11 @@ public interface ICashboxController {
      * Metodo que registra una cashbox en la db
      * @param cashbox
      * @param activesCosts
+     * @param idUser
      * @return cashsbox registrada
      * @throws BloSalesV2Exception 
      */
-    PojoIntCashbox closeCashbox(PojoIntCashbox cashbox, WrapperPojoIntActivesCosts activesCosts) throws BloSalesV2Exception;
+    PojoIntCashbox closeCashbox(PojoIntCashbox cashbox, WrapperPojoIntActivesCosts activesCosts, long idUser) throws BloSalesV2Exception;
     
     /**
      * Crea una nueva cashbox abierta
