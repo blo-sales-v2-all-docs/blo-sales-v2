@@ -137,7 +137,10 @@ public final class GUICommons {
     /**
      * Metodo que permite agregar un evento de una tecla a una tabla
      * @param columnsProtected columnas que estarán libres de la edición de la tabla.
-     * <br>los elementos de este arreglo son requeridos cuando se hace una edición de una columna. Si viene vacío, entonces se desactiva la opción de edición
+     * <br>
+     * los elementos de este arreglo son requeridos cuando se hace una edición de una columna. Si viene vacío, entonces se desactiva la opción de edición
+     * <br>
+     * Función para una tabla editable
      * @param event entero que representa un evento
      * @param table
      * @param action 
