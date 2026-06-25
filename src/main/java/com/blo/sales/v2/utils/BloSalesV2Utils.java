@@ -1,9 +1,8 @@
 package com.blo.sales.v2.utils;
 
-import java.io.InputStream;
+import com.blo.sales.v2.config.BloSalesV2ConfigManagement;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
@@ -189,27 +188,8 @@ public final class BloSalesV2Utils {
     
     private BloSalesV2Utils() { }
     
-    private static final Properties properties = new Properties();
-    
-    
-    
-    static {
-        try (InputStream is = BloSalesV2Utils.class.getClassLoader().getResourceAsStream("properties.properties")) {
-            if (is == null) {
-                throw new RuntimeException("No se pudo encontrar database.properties");
-            }
-            properties.load(is);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     public static String getProp(String key) {
-        final var prop = properties.getProperty(key);
-        if (prop.trim().isBlank()) {
-            return EMPTY_STRING;
-        }
-        return prop.trim();
+        return BloSalesV2ConfigManagement.getProperty(key);
     }
     
     public static String getVersion() {

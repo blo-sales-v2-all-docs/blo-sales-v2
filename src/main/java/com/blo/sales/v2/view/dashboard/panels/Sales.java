@@ -8,6 +8,7 @@ import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.utils.BloSalesV2UtilsEnum;
+import com.blo.sales.v2.utils.PropsKeysEnum;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
@@ -395,7 +396,7 @@ public final class Sales extends AbstractDashboardBase {
     private void openPaymentCard(int item) {
         var comission = "1";
         if (item == PaymentTypeEnum.CARD.getIndex()) {
-            comission = "1.05";
+            comission = BloSalesV2Utils.getProp(PropsKeysEnum.APP_PAYMENTS_COMISSION_RATE.getKey());
         }
         if (item == PaymentTypeEnum.CARD.getIndex() || item == PaymentTypeEnum.TRANSFER.getIndex()) {
             totalSale = totalSale.
