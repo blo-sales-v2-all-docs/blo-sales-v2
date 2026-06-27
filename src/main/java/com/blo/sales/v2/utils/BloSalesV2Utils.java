@@ -1,9 +1,8 @@
 package com.blo.sales.v2.utils;
 
-import java.io.InputStream;
+import com.blo.sales.v2.config.BloSalesV2ConfigManagement;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
@@ -34,6 +33,9 @@ public final class BloSalesV2Utils {
     public static final String SEPARATOR_PAYMENTS = ",";
     
     public static final String TIMESTAMP = "TIMESTAMP";
+    
+    /** expresión regular para recuperar los digitos de PojoVendor.getBasicData() */
+    public static final String PATTERN_BASIC_DATA = "(?<=\\[)\\d+(?=\\])";
     
     public static final String INVALID_TEXT = "Texto no v\u00e1lido";
     
@@ -189,27 +191,8 @@ public final class BloSalesV2Utils {
     
     private BloSalesV2Utils() { }
     
-    private static final Properties properties = new Properties();
-    
-    
-    
-    static {
-        try (InputStream is = BloSalesV2Utils.class.getClassLoader().getResourceAsStream("properties.properties")) {
-            if (is == null) {
-                throw new RuntimeException("No se pudo encontrar database.properties");
-            }
-            properties.load(is);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     public static String getProp(String key) {
-        final var prop = properties.getProperty(key);
-        if (prop.trim().isBlank()) {
-            return EMPTY_STRING;
-        }
-        return prop.trim();
+        return BloSalesV2ConfigManagement.getProperty(key);
     }
     
     public static String getVersion() {
@@ -233,8 +216,7 @@ public final class BloSalesV2Utils {
     }
     
     public static boolean validateTextWithPattern(String pattern, String txt) {
-        final var patternCompile = Pattern.compile(pattern);
-        final var matcher = patternCompile.matcher(txt);
+        final var matcher = Pattern.compile(pattern).matcher(txt);
         return matcher.find();
     }
     
@@ -286,5 +268,20 @@ public final class BloSalesV2Utils {
     
     public static long getIdTopUpsProduct() {
         return Long.parseLong(getProp(PropsKeysEnum.APP_PRODUCTS_TOP_UP_PRODUCT.getKey()));
+    }
+    
+    /**
+     * Permite recuperar el id de un proveedor.
+     * <br>
+     * <b>AMPLIAMENTE LIGADO AL FORMATO DEL POJO</b>
+     * @param basicData
+     * @return 
+     */
+    public static long getIdVendorFromBasicData(String basicData) {
+        final var matcher = Pattern.compile(PATTERN_BASIC_DATA).matcher(basicData);
+        if (!matcher.find()) {
+            return 0L;
+        }
+        return Long.parseLong(matcher.group());
     }
 }
