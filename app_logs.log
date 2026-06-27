@@ -1,0 +1,951 @@
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.589538500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - INICIA carga de configuracion %s 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.621814800 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - Cargando servicios desde: C:\Users\Dell\Documents\netbeans-projects\blo-sales-v2\target\properties.properties 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.622811900 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - ---> ¡Configuración externa cargada! Propiedades: 9 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.625804200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-product: 545 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.626800700 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.driver: com.mysql.cj.jdbc.Driver 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.628076700 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.paymnts.comission-rate: 1.05 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.628798200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.password: root 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.629794500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-comission: 494 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.629794500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.username: root 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.630806500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.version: ${project.version} 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.631788300 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.id-payment-product: 1 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.632785700 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.url: jdbc:mysql://127.0.0.1:3306/blo-sales-v2 
+
+jun 25, 2026 1:38:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:43.635777400 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [OK] Propiedad protegida 'app.version' sincronizada con el POM -> 2.18.1-SNAPSHOT 
+
+jun 25, 2026 1:38:51 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:51.980330 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.528433 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.529431100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.558370800 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.561362400 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.561362400 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.576348500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.582332800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.584326400 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.585323600 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.625066800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-25 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.642402700 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 3 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.645397100 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 25, 2026 1:38:52 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:38:52.646394900 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 3 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.923371 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - INICIA carga de configuracion %s 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.953468600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - Cargando servicios desde: C:\Users\Dell\Documents\netbeans-projects\blo-sales-v2\target\properties.properties 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.955228 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - ---> ¡Configuración externa cargada! Propiedades: 9 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.959214800 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-product: 545 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.960213700 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.driver: com.mysql.cj.jdbc.Driver 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.960213700 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.paymnts.comission-rate: 1.1 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.961209500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.password: root 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.962207700 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-comission: 494 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.963268600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.username: root 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.963268600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.version: ${project.version} 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.964382500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.id-payment-product: 1 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.964382500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.url: jdbc:mysql://127.0.0.1:3306/blo-sales-v2 
+
+jun 25, 2026 1:40:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-25T13:40:27.967194500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [OK] Propiedad protegida 'app.version' sincronizada con el POM -> 2.18.1-SNAPSHOT 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.466393100 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - INICIA carga de configuracion %s 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.497310200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - Cargando servicios desde: C:\Users\Dell\Documents\netbeans-projects\blo-sales-v2\target\properties.properties 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.499305900 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - ---> ¡Configuración externa cargada! Propiedades: 9 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.501299300 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-product: 545 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.502296600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.driver: com.mysql.cj.jdbc.Driver 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.502829200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.paymnts.comission-rate: 1.1 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.503386600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.password: root 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.504291900 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-comission: 494 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.505289100 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.username: root 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.505289100 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.version: ${project.version} 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.506287 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.id-payment-product: 1 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.507286 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.url: jdbc:mysql://127.0.0.1:3306/blo-sales-v2 
+
+jun 26, 2026 5:28:02 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:02.509280200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [OK] Propiedad protegida 'app.version' sincronizada con el POM -> 2.18.2-SNAPSHOT 
+
+jun 26, 2026 5:28:08 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:08.999537900 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.812289700 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.813285900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.844203900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.847198 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.848195900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.868139500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.875957800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.878457800 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.880058600 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.919825500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-26 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.940836600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.943910300 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 26, 2026 5:28:09 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:09.944893500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 26, 2026 5:28:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:14.798499200 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:28:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:14.800946500 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:28:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:28:14.801685600 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:29:05 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:05.358902 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:29:05 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:05.360893200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:29:05 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:05.372861100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 5:29:05 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:05.373858500 [com.blo.sales.v2.controller.impl.CategoriesControllerImpl] INFO - recuperando todas las categorias 
+
+jun 26, 2026 5:29:05 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:05.373858500 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - recuperando todas las categorias 
+
+jun 26, 2026 5:29:05 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:05.375857400 [com.blo.sales.v2.model.impl.CategoriesModelImpl] INFO - categorias encontradas 36 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.314533300 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando producto por id=3 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.316491 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando producto por id = 3 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.352168800 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - producto recuperado ProductEntity(id_product=3, product=Pan Tostado clásico 14pz 210g, quantity=3.000, cost_of_sale=28.22, price=34.00, timestamp=2026-06-24T13:01:00.857161700, kg=false, bar_code=7501000111800, fk_category=2) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.355455800 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - guardando informacion del producto PojoIntProduct(idProduct=3, product=Pan Tostado clásico 14pz 210g, quantity=4, costOfSale=28.22, price=34.00, timestamp=null, kg=false, barCode=7501000111800, fkCategory=2) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.355455800 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - validando informacion de producto 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.357454500 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando producto por id=3 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.358452100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando producto por id = 3 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.360449500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - producto recuperado ProductEntity(id_product=3, product=Pan Tostado clásico 14pz 210g, quantity=3.000, cost_of_sale=28.22, price=34.00, timestamp=2026-06-24T13:01:00.857161700, kg=false, bar_code=7501000111800, fk_category=2) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.362476300 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - producto encontrado PojoIntProduct(idProduct=3, product=Pan Tostado clásico 14pz 210g, quantity=3.000, costOfSale=28.22, price=34.00, timestamp=2026-06-24T13:01:00.857161700, kg=false, barCode=7501000111800, fkCategory=2) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.371542 [com.blo.sales.v2.controller.impl.HistoryControllerImpl] INFO - guardando movimiento PojoIntMovement(idMovement=0, fkProduct=3, fkUser=1, type=ADJUST, quantity=4, reason=REPLENISHMENT, timestamp=2026-06-26T17:29:10.362476300) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.372538600 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - guarando movimiento PojoIntMovement(idMovement=0, fkProduct=3, fkUser=1, type=ADJUST, quantity=4, reason=REPLENISHMENT, timestamp=2026-06-26T17:29:10.362476300) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.376074500 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - movimiento guardado [MovementEntity(id_movement=10240, fk_product=3, fk_user=1, type=ADJUST, quantity=4, reason=REPLENISHMENT, timestamp=2026-06-26T17:29:10.362476300)] 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.377054400 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - movimiento registrado PojoIntMovement(idMovement=0, fkProduct=3, fkUser=1, type=ADJUST, quantity=4, reason=REPLENISHMENT, timestamp=2026-06-26T17:29:10.362476300) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.377054400 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - producto actualizado [PojoIntProduct(idProduct=3, product=Pan Tostado clásico 14pz 210g, quantity=4, costOfSale=28.22, price=34.00, timestamp=2026-06-26T17:29:10.362476300, kg=false, barCode=7501000111800, fkCategory=2)] 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.378051800 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - actualizando informacion del producto PojoIntProduct(idProduct=3, product=Pan Tostado clásico 14pz 210g, quantity=4, costOfSale=28.22, price=34.00, timestamp=2026-06-26T17:29:10.362476300, kg=false, barCode=7501000111800, fkCategory=2) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.380046200 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - producto actualizado [PojoIntProduct(idProduct=3, product=Pan Tostado clásico 14pz 210g, quantity=4, costOfSale=28.22, price=34.00, timestamp=2026-06-26T17:29:10.362476300, kg=false, barCode=7501000111800, fkCategory=2)] 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.383038500 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - guardando precio en historial PojoIntPriceHistory(idPriceHistory=0, price=34.00, costOfSale=28.22) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.384035800 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - guardando item PojoIntPriceHistory(idPriceHistory=0, price=34.00, costOfSale=28.22) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.384559700 [com.blo.sales.v2.controller.impl.PricesHistoryControllerImpl] INFO - Guardando informacion de precio PojoIntPriceHistory(idPriceHistory=0, price=34.00, costOfSale=28.22) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.385545500 [com.blo.sales.v2.model.impl.PricesHistoryModelImpl] INFO - guardando precio en historial PojoIntPriceHistory(idPriceHistory=0, price=34.00, costOfSale=28.22) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.387540200 [com.blo.sales.v2.model.impl.PricesHistoryModelImpl] INFO - item guardado [PriceHistoryEntity(id_price_history=1283, price=34.00, cost_of_sale=28.22)] 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.387540200 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - precio guardado PojoIntPriceHistory(idPriceHistory=1283, price=34.00, costOfSale=28.22) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.390630600 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - agregando item en historial de precios PojoIntStockPricesHistory(idStockPricesHistory=0, fkProduct=3, fkPriceHistory=1283, timesTamp=2026-06-26T17:29:10.387540200) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.392569300 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - item guardado StockPricesHistoryEntity(id_stock_prices_history=1283, fk_product=3, fk_price_history=1283, timesTamp=2026-06-26T17:29:10.387540200) 
+
+jun 26, 2026 5:29:10 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:10.392569300 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - item guardod [relacion precio stock] PojoIntStockPricesHistory(idStockPricesHistory=1283, fkProduct=3, fkPriceHistory=1283, timesTamp=2026-06-26T17:29:10.387540200) 
+
+jun 26, 2026 5:29:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:18.959504400 [com.blo.sales.v2.controller.impl.HistoryControllerImpl] INFO - recuperando el historial de movimientos del producto 3 
+
+jun 26, 2026 5:29:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:18.960506200 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Buscando movimientos de 3 
+
+jun 26, 2026 5:29:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:18.970474 [com.blo.sales.v2.model.impl.DebtorsSalesModelImpl] INFO - Movimientos recuperados 49 
+
+jun 26, 2026 5:29:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:25.807518500 [com.blo.sales.v2.controller.impl.StockPricesHistoryControllerImpl] INFO - recuperando historial de precios 3 
+
+jun 26, 2026 5:29:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:25.808515400 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - recuperando historial de precios mediante idProduct=3 
+
+jun 26, 2026 5:29:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:25.816151800 [com.blo.sales.v2.model.impl.StockPricesHistoryModelImpl] INFO - hitorial 7 
+
+jun 26, 2026 5:29:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:31.182335300 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - recuperando todas las ordenes 
+
+jun 26, 2026 5:29:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:31.183465500 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - recuperando pedidos 
+
+jun 26, 2026 5:29:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:31.189350100 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - registros encontrados [3] 
+
+jun 26, 2026 5:29:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:37.648448300 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando notas 
+
+jun 26, 2026 5:29:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:37.652590300 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - registros encontrados  
+
+jun 26, 2026 5:29:42 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:42.212423600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:29:42 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:42.214754800 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:29:42 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:29:42.214754800 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.552380700 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - INICIA carga de configuracion %s 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.623610600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - Cargando servicios desde: C:\Users\Dell\Documents\netbeans-projects\blo-sales-v2\target\properties.properties 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.626072500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - ---> ¡Configuración externa cargada! Propiedades: 9 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.630117300 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-product: 545 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.631393100 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.driver: com.mysql.cj.jdbc.Driver 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.632384100 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.paymnts.comission-rate: 1.1 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.634379500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.password: root 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.635376500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-comission: 494 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.636394500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.username: root 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.637396400 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.version: ${project.version} 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.638393300 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.id-payment-product: 1 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.639390400 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.url: jdbc:mysql://127.0.0.1:3306/blo-sales-v2 
+
+jun 26, 2026 5:33:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:14.643379 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [OK] Propiedad protegida 'app.version' sincronizada con el POM -> 2.18.2-SNAPSHOT 
+
+jun 26, 2026 5:33:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:26.327455700 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 26, 2026 5:33:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:26.980652500 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:33:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:26.980652500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.013369300 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.018356800 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.019354800 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.038473800 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.046489700 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.048495700 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.050488200 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.086308800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-26 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.108973800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.112818400 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 26, 2026 5:33:27 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:27.113666800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 26, 2026 5:33:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:35.014117800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:33:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:35.015811200 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:33:35 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:33:35.016809600 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.157413300 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - INICIA carga de configuracion %s 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.229985500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - Cargando servicios desde: C:\Users\Dell\Documents\netbeans-projects\blo-sales-v2\target\properties.properties 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.231971200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - ---> ¡Configuración externa cargada! Propiedades: 9 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.236935400 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-product: 545 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.238930900 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.driver: com.mysql.cj.jdbc.Driver 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.239927100 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.paymnts.comission-rate: 1.1 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.241327200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.password: root 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.241921800 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-comission: 494 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.242921 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.username: root 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.244053900 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.version: ${project.version} 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.245425800 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.id-payment-product: 1 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.246532800 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.url: jdbc:mysql://127.0.0.1:3306/blo-sales-v2 
+
+jun 26, 2026 5:56:23 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:23.250400600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [OK] Propiedad protegida 'app.version' sincronizada con el POM -> 2.18.2-SNAPSHOT 
+
+jun 26, 2026 5:56:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:31.791713200 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.419044400 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.420232 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.451956 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.456022200 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.456963500 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.477403900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.486983600 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.489130 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.491034100 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.530552400 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-26 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.551887400 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.556851800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 26, 2026 5:56:32 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:32.556851800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 26, 2026 5:56:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:41.231216800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:56:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:41.233081100 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:56:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:56:41.234279900 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:57:06 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:06.378118800 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - guardando orden PojoIntOrderVendor(idOrderVendor=0, fkVendor=1, amount=230, statusOrder=PENDIG, deadline=2026-06-26, invoice=null, timestamp=null, vendorName=null, brand=null, paymentType=null) 
+
+jun 26, 2026 5:57:06 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:06.385102400 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - guardando orden PojoIntOrderVendor(idOrderVendor=0, fkVendor=1, amount=230, statusOrder=PENDIG, deadline=2026-06-26, invoice=PENDIG, timestamp=2026-06-26T17:57:06.382574700, vendorName=null, brand=null, paymentType=N/A) 
+
+jun 26, 2026 5:57:06 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:06.402056500 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - informacion de orden guardad exitosamente OrderVendorEntity(id_order_vendor=4, fk_vendor=1, amount=230, status_order=PENDIG, deadline=2026-06-26, invoice=PENDIG, timestamp=2026-06-26T17:57:06.382574700, name=null, brand=null, payment_type=N/A) 
+
+jun 26, 2026 5:57:06 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:06.405077900 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - Orden guardada PojoIntOrderVendor(idOrderVendor=4, fkVendor=1, amount=230, statusOrder=PENDIG, deadline=2026-06-26, invoice=PENDIG, timestamp=2026-06-26T17:57:06.382574700, vendorName=null, brand=null, paymentType=N/A) 
+
+jun 26, 2026 5:57:11 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:11.342046800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:57:11 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:11.344041800 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:57:11 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:11.345040200 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:57:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:14.045453700 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - recuperando todas las ordenes 
+
+jun 26, 2026 5:57:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:14.046446300 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - recuperando pedidos 
+
+jun 26, 2026 5:57:14 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:14.049556400 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - registros encontrados [4] 
+
+jun 26, 2026 5:57:19 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:19.034427 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando notas 
+
+jun 26, 2026 5:57:19 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:19.036504 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - registros encontrados  
+
+jun 26, 2026 5:57:21 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:21.962436900 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - recuperando todas las ordenes 
+
+jun 26, 2026 5:57:21 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:21.963434 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - recuperando pedidos 
+
+jun 26, 2026 5:57:21 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:21.965532700 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - registros encontrados [4] 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.288318900 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - recuperando orden por id=4 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.289124100 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - recuperando orden por id 4 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.292065100 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - registro encontrado [OrderVendorEntity(id_order_vendor=4, fk_vendor=1, amount=230, status_order=PENDIG, deadline=2026-06-26, invoice=PENDIG, timestamp=2026-06-08T13:33:43.300224600, name=El ceig, brand=null, payment_type=null)] 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.293029400 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - guardando informacion de orden PojoIntOrderVendor(idOrderVendor=4, fkVendor=1, amount=230, statusOrder=DELIVERED, deadline=2026-06-26, invoice=,,,,, timestamp=2026-06-26T17:57:26.293029400, vendorName=El ceig, brand=null, paymentType=null) 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.294030700 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - guardando orden PojoIntOrderVendor(idOrderVendor=4, fkVendor=1, amount=230, statusOrder=DELIVERED, deadline=2026-06-26, invoice=,,,,, timestamp=2026-06-26T17:57:26.293029400, vendorName=El ceig, brand=null, paymentType=null) 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.296167800 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - informacion de orden guardad exitosamente OrderVendorEntity(id_order_vendor=4, fk_vendor=1, amount=230, status_order=DELIVERED, deadline=2026-06-26, invoice=,,,,, timestamp=2026-06-26T17:57:26.293029400, name=El ceig, brand=null, payment_type=null) 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.297669700 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - informacion actualizada PojoIntOrderVendor(idOrderVendor=4, fkVendor=1, amount=230, statusOrder=DELIVERED, deadline=2026-06-26, invoice=,,,,, timestamp=2026-06-26T17:57:26.293029400, vendorName=El ceig, brand=null, paymentType=null) 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.298164800 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - guardando una nota 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.300807300 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - se comienza a registrar venta 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.313585600 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - nota registrada PojoIntNote(idNote=0, fkUser=1, note=PAGO de orden de Barcel [DELIVERED], no. de factura: ,,,,; por: $230, timesamp=2026-06-26T17:57:26.293029400, typeNote=ORDEN_PASIVO) 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.316951400 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - nota guardada PojoIntNote(idNote=0, fkUser=161, note=PAGO de orden de Barcel [DELIVERED], no. de factura: ,,,,; por: $230, timesamp=2026-06-26T17:57:26.293029400, typeNote=ORDEN_PASIVO) 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.318027800 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - recuperando todas las ordenes 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.318027800 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - recuperando pedidos 
+
+jun 26, 2026 5:57:26 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:26.320020400 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - registros encontrados [4] 
+
+jun 26, 2026 5:57:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:28.912147 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando notas 
+
+jun 26, 2026 5:57:28 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:28.916105800 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - registros encontrados  
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.523789200 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - recuperando caja abierta 
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.527146200 [com.blo.sales.v2.model.impl.CashboxModelImpl] INFO - recuperando cashbox actual 
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.534078900 [com.blo.sales.v2.model.impl.CashboxModelImpl] INFO - cashbock encontrada CashboxEntity(id_cashbox=94, fk_user=1, timestamp=2026-06-25T12:33:40.711134100, amount=58.00, status=OPEN, username=root) 
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.536886700 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando notas 
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.538915300 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - registros encontrados  
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.539880600 [com.blo.sales.v2.controller.impl.AccountsControllerImpl] INFO - recuperando informacion de la cuenta 1 
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.542874200 [com.blo.sales.v2.model.impl.AccountsModelImpl] INFO - recuperando cuenta por id %s 
+
+jun 26, 2026 5:57:31 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:31.550480800 [com.blo.sales.v2.model.impl.AccountsModelImpl] INFO - cuenta recuperada AccountEntity(id_account=1, account=wallet_digital, control_amount=1034.65, timestamp=2026-01-20 11:54:30.331705) 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.402490600 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - cerrando caja PojoIntCashbox(idCashbox=94, fkUser=1, timestamp=2026-06-25T12:33:40.711134100, amount=862.65, status=CLOSE, userFrom=root) 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.404710600 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - actualizando cashbox byId = 94 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.406042 [com.blo.sales.v2.model.impl.CashboxModelImpl] INFO - actualizando [94] PojoIntCashbox(idCashbox=94, fkUser=1, timestamp=2026-06-25T12:33:40.711134100, amount=862.65, status=CLOSE, userFrom=root) 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.407965900 [com.blo.sales.v2.model.impl.CashboxModelImpl] INFO - cashbox actualizada PojoIntCashbox(idCashbox=94, fkUser=1, timestamp=2026-06-25T12:33:40.711134100, amount=862.65, status=CLOSE, userFrom=root) 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.409837100 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - guardando costos 2 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.410492 [com.blo.sales.v2.controller.impl.ActivesCostsControllerImpl] INFO - guardando activos y costos 2 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.415133500 [com.blo.sales.v2.model.impl.ActivesCostsModelImpl] INFO - guardando registros 2 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.430582 [com.blo.sales.v2.model.impl.ActivesCostsModelImpl] INFO - registros guardados WrapperActivesCostsEntity(activesCosts=[ActiveCostEntity(id_actives_costs=459, concept=Ventas del día, amount=58.00, type=ACTIVO, complete=false), ActiveCostEntity(id_actives_costs=460, concept=PAGO de orden de Barcel [DELIVERED], no. de factura: ,,,,; por:, amount=230, type=PASIVO, complete=false)]) 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.432088500 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - se han guardado los activos y costos 2 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.432751400 [com.blo.sales.v2.controller.impl.CashboxesActivesCostsControllerImpl] INFO - agregando relacion 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.438732900 [com.blo.sales.v2.model.impl.CashboxesActivesCostsModelImpl] INFO - guardando PojoIntCashboxesActivesCosts(idCashboxesActivesCosts=0, fkCashbox=94, fkActivesCosts=459, timestamp=2026-06-25T12:33:40.711134100) 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.442756800 [com.blo.sales.v2.model.impl.CashboxesActivesCostsModelImpl] INFO - registro guardado  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.442756800 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - relacion guardada en la db [PojoIntCashboxesActivesCosts(idCashboxesActivesCosts=458, fkCashbox=94, fkActivesCosts=459, timestamp=2026-06-25T12:33:40.711134100)] 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.443730100 [com.blo.sales.v2.controller.impl.CashboxesActivesCostsControllerImpl] INFO - agregando relacion 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.444716700 [com.blo.sales.v2.model.impl.CashboxesActivesCostsModelImpl] INFO - guardando PojoIntCashboxesActivesCosts(idCashboxesActivesCosts=0, fkCashbox=94, fkActivesCosts=460, timestamp=2026-06-25T12:33:40.711134100) 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.445767 [com.blo.sales.v2.model.impl.CashboxesActivesCostsModelImpl] INFO - registro guardado  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.446841100 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - relacion guardada en la db [PojoIntCashboxesActivesCosts(idCashboxesActivesCosts=459, fkCashbox=94, fkActivesCosts=460, timestamp=2026-06-25T12:33:40.711134100)] 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.446841100 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - cerrando ventas del dia 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.446841100 [com.blo.sales.v2.controller.impl.SalesControllerImpl] INFO - recuperando ventas por CLOSE 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.447710300 [com.blo.sales.v2.model.impl.SalesModelImpl] INFO - recuperando ventas CLOSE 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.450930400 [com.blo.sales.v2.model.impl.SalesModelImpl] INFO - registros encontrados 5 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.451730600 [com.blo.sales.v2.controller.impl.SalesControllerImpl] INFO - acualizando la venta 2367 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.452695800 [com.blo.sales.v2.model.impl.SalesModelImpl] INFO - enviando a cashbox la venta 2367 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.453930900 [com.blo.sales.v2.controller.impl.CashboxesSalesControllerImpl] INFO - Guardando relacion cashbox [94] - sale [2367] 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.454722 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - guardando datos cashbox - sale 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.461948200 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - registro guardado  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.462549 [com.blo.sales.v2.controller.impl.SalesControllerImpl] INFO - acualizando la venta 2369 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.462945 [com.blo.sales.v2.model.impl.SalesModelImpl] INFO - enviando a cashbox la venta 2369 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.464086200 [com.blo.sales.v2.controller.impl.CashboxesSalesControllerImpl] INFO - Guardando relacion cashbox [94] - sale [2369] 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.464939700 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - guardando datos cashbox - sale 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.465947900 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - registro guardado  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.467098900 [com.blo.sales.v2.controller.impl.SalesControllerImpl] INFO - acualizando la venta 2370 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.467932 [com.blo.sales.v2.model.impl.SalesModelImpl] INFO - enviando a cashbox la venta 2370 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.467932 [com.blo.sales.v2.controller.impl.CashboxesSalesControllerImpl] INFO - Guardando relacion cashbox [94] - sale [2370] 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.468965100 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - guardando datos cashbox - sale 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.469926500 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - registro guardado  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.469926500 [com.blo.sales.v2.controller.impl.SalesControllerImpl] INFO - acualizando la venta 2371 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.470923900 [com.blo.sales.v2.model.impl.SalesModelImpl] INFO - enviando a cashbox la venta 2371 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.471955200 [com.blo.sales.v2.controller.impl.CashboxesSalesControllerImpl] INFO - Guardando relacion cashbox [94] - sale [2371] 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.472919200 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - guardando datos cashbox - sale 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.473917700 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - registro guardado  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.473917700 [com.blo.sales.v2.controller.impl.SalesControllerImpl] INFO - acualizando la venta 2372 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.475040800 [com.blo.sales.v2.model.impl.SalesModelImpl] INFO - enviando a cashbox la venta 2372 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.475116700 [com.blo.sales.v2.controller.impl.CashboxesSalesControllerImpl] INFO - Guardando relacion cashbox [94] - sale [2372] 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.476041300 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - guardando datos cashbox - sale 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.477038200 [com.blo.sales.v2.model.impl.CashboxesSalesModelImpl] INFO - registro guardado  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.477038200 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - Eliminando notas de costos por entrega 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.477038200 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando notas 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.479065400 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - registros encontrados  
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.479065400 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - notas de pasivo por orden 1 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.479065400 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - eliminando notas 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.480064800 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - eliminando nota por id=161 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.485167100 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - nota eliminada 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.487840400 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - notas eliminadas 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.488794100 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - TERMINA closeCashbox 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.488794100 [com.blo.sales.v2.controller.impl.CashboxControllerImpl] INFO - recuperando caja abierta 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.489740600 [com.blo.sales.v2.model.impl.CashboxModelImpl] INFO - recuperando cashbox actual 
+
+jun 26, 2026 5:57:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:37.490952 [com.blo.sales.v2.model.impl.CashboxModelImpl] INFO - cashbock encontrada null 
+
+jun 26, 2026 5:57:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:41.479205800 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando notas 
+
+jun 26, 2026 5:57:41 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:57:41.481721200 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - registros encontrados  
+
+jun 26, 2026 5:58:36 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:58:36.213927700 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 5:58:36 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:58:36.216384500 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 5:58:36 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:58:36.216384500 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 5:58:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:58:38.705789200 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - recuperando todas las ordenes 
+
+jun 26, 2026 5:58:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:58:38.706695200 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - recuperando pedidos 
+
+jun 26, 2026 5:58:38 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T17:58:38.709463900 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - registros encontrados [4] 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.828991500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - INICIA carga de configuracion %s 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.885345600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - Cargando servicios desde: C:\Users\Dell\Documents\netbeans-projects\blo-sales-v2\target\properties.properties 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.888208400 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - ---> ¡Configuración externa cargada! Propiedades: 9 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.892503800 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-product: 545 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.893453600 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.driver: com.mysql.cj.jdbc.Driver 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.894862500 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.paymnts.comission-rate: 1.1 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.896291 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.password: root 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.897214200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.top-up-comission: 494 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.898242200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.username: root 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.899207300 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.version: ${project.version} 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.900065200 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] app.products.id-payment-product: 1 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.900814 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [Propiedad] db.url: jdbc:mysql://127.0.0.1:3306/blo-sales-v2 
+
+jun 26, 2026 6:02:18 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:18.904582900 [com.blo.sales.v2.config.BloSalesV2ConfigManagement] INFO - [OK] Propiedad protegida 'app.version' sincronizada con el POM -> 2.18.2-SNAPSHOT 
+
+jun 26, 2026 6:02:24 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:24.767366 [com.blo.sales.v2.model.impl.UserModelImpl] INFO - recuperando informacion de usuario 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.368792300 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.370022 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.402945100 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.405935500 [com.blo.sales.v2.controller.impl.ProductsControllerImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.406080900 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - recuperando todos los productos 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.425909700 [com.blo.sales.v2.model.impl.ProductsModelImpl] INFO - productos encontrados 542 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.433888500 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.435887500 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.436880700 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.475446800 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - fecha de hoy 2026-06-26 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.496742 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores del dia 1 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.499734 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - vendedores que pasaran el dia de hoy por día del mes 0 
+
+jun 26, 2026 6:02:25 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:25.500732 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - proveedores que pasarán hoy 1 
+
+jun 26, 2026 6:02:29 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:29.357014200 [com.blo.sales.v2.controller.impl.VendorsControllerImpl] INFO - recuperando a todos los proveedores 
+
+jun 26, 2026 6:02:29 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:29.359007100 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - recuperando proveedores 
+
+jun 26, 2026 6:02:29 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:29.360372 [com.blo.sales.v2.model.impl.VendorsModelImpl] INFO - proveedores encontrados [5] 
+
+jun 26, 2026 6:02:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:37.810085100 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - guardando orden PojoIntOrderVendor(idOrderVendor=0, fkVendor=1, amount=40, statusOrder=PENDIG, deadline=2026-06-26, invoice=null, timestamp=null, vendorName=null, brand=null, paymentType=null) 
+
+jun 26, 2026 6:02:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:37.814071 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - guardando orden PojoIntOrderVendor(idOrderVendor=0, fkVendor=1, amount=40, statusOrder=PENDIG, deadline=2026-06-26, invoice=PENDIG, timestamp=2026-06-26T18:02:37.812076400, vendorName=null, brand=null, paymentType=N/A) 
+
+jun 26, 2026 6:02:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:37.819636400 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - informacion de orden guardad exitosamente OrderVendorEntity(id_order_vendor=5, fk_vendor=1, amount=40, status_order=PENDIG, deadline=2026-06-26, invoice=PENDIG, timestamp=2026-06-26T18:02:37.812076400, name=null, brand=null, payment_type=N/A) 
+
+jun 26, 2026 6:02:37 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:37.820718600 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - Orden guardada PojoIntOrderVendor(idOrderVendor=5, fkVendor=1, amount=40, statusOrder=PENDIG, deadline=2026-06-26, invoice=PENDIG, timestamp=2026-06-26T18:02:37.812076400, vendorName=null, brand=null, paymentType=N/A) 
+
+jun 26, 2026 6:02:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:43.395559200 [com.blo.sales.v2.controller.impl.OrdersVendorsControllerImpl] INFO - recuperando todas las ordenes 
+
+jun 26, 2026 6:02:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:43.396557200 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - recuperando pedidos 
+
+jun 26, 2026 6:02:43 P. M. com.blo.sales.v2.view.commons.GUILogger info
+INFO: 2026-06-26T18:02:43.399104700 [com.blo.sales.v2.model.impl.OrdersVendorsModelImpl] INFO - registros encontrados [5] 
+

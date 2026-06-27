@@ -102,12 +102,14 @@ public final class OpenOrder extends AbstractDashboardBase {
     private void btnSaveOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveOrderActionPerformed
         try {
             final var vendorSelected = GUICommons.getValueFromComboBox(cmbxSelectVendor);
-            final var idVendor = vendorSelected.trim().split("-");
-            if (idVendor.length == 0) {
+            
+            final var idVendor = BloSalesV2Utils.getIdVendorFromBasicData(vendorSelected);
+            if (idVendor == 0) {
                 throw new BloSalesV2Exception(BloSalesV2Utils.CODE_VENDOR_NOT_EXITS, BloSalesV2Utils.ERROR_VENDOR_NOT_EXITS);
             }
+            
             final var order = new PojoOrderVendor();
-            order.setFkVendor(Long.parseLong(idVendor[0].trim()));
+            order.setFkVendor(idVendor);
             order.setStatusOrder(StatusOrderProviderEnum.PENDIG);
             order.setAmount(GUICommons.getNumberFromJText(nmbAmountOrder, 2));
             order.setDeadline(GUICommons.getDateFromDateChooser(dtChooserDelv));

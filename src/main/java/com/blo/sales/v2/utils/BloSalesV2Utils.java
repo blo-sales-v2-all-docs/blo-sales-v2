@@ -34,6 +34,9 @@ public final class BloSalesV2Utils {
     
     public static final String TIMESTAMP = "TIMESTAMP";
     
+    /** expresión regular para recuperar los digitos de PojoVendor.getBasicData() */
+    public static final String PATTERN_BASIC_DATA = "(?<=\\[)\\d+(?=\\])";
+    
     public static final String INVALID_TEXT = "Texto no v\u00e1lido";
     
     /** constante para error en guardado */
@@ -213,8 +216,7 @@ public final class BloSalesV2Utils {
     }
     
     public static boolean validateTextWithPattern(String pattern, String txt) {
-        final var patternCompile = Pattern.compile(pattern);
-        final var matcher = patternCompile.matcher(txt);
+        final var matcher = Pattern.compile(pattern).matcher(txt);
         return matcher.find();
     }
     
@@ -266,5 +268,20 @@ public final class BloSalesV2Utils {
     
     public static long getIdTopUpsProduct() {
         return Long.parseLong(getProp(PropsKeysEnum.APP_PRODUCTS_TOP_UP_PRODUCT.getKey()));
+    }
+    
+    /**
+     * Permite recuperar el id de un proveedor.
+     * <br>
+     * <b>AMPLIAMENTE LIGADO AL FORMATO DEL POJO</b>
+     * @param basicData
+     * @return 
+     */
+    public static long getIdVendorFromBasicData(String basicData) {
+        final var matcher = Pattern.compile(PATTERN_BASIC_DATA).matcher(basicData);
+        if (!matcher.find()) {
+            return 0L;
+        }
+        return Long.parseLong(matcher.group());
     }
 }
