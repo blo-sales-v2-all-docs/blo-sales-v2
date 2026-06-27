@@ -6,7 +6,7 @@
     
     <groupId>com.blo.sales</groupId>
     <artifactId>BloSalesV2</artifactId>
-    <version>2.17.8-RELEASE</version>
+    <version>2.18.3-RELEASE</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -59,6 +59,33 @@
             </resource>
         </resources>
         <plugins>
+            <!-- Se encarga de tomar el archivo properties de la raíz, copiar, guardar en target y ejecutar el programa -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copiar-properties-a-target</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}</directory>
+                                    <includes>
+                                        <include>properties.properties</include>
+                                    </includes>
+                                    <filtering>false</filtering> 
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

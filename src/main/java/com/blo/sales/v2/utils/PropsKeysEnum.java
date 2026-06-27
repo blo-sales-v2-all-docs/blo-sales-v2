@@ -15,7 +15,8 @@ public enum PropsKeysEnum {
     DB_DRIVER("db.driver"),
     APP_PRODUCTS_ID_PAYMENTS_PRODUCT("app.products.id-payment-product"),
     APP_PRODUCTS_TOP_UP_COMISSION("app.products.top-up-comission"),
-    APP_PRODUCTS_TOP_UP_PRODUCT("app.products.top-up-product");
+    APP_PRODUCTS_TOP_UP_PRODUCT("app.products.top-up-product"),
+    APP_PAYMENTS_COMISSION_RATE("app.paymnts.comission-rate");
     
     @Getter
     private final String key;
