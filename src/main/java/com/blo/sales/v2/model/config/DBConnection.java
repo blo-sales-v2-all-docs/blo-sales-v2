@@ -44,7 +44,7 @@ public final class DBConnection {
         final var version = BloSalesV2Utils.getVersion().split("-")[1];
         switch (version) {
             case RELEASE:
-                subfijo = "-pre";
+                subfijo = "-pro";
                 break;
             case BETA:
                 subfijo = "-beta";
