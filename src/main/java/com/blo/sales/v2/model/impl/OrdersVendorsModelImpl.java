@@ -50,6 +50,7 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
             ps.setString(5, data.getTimestamp());
             ps.setString(6, data.getDeadline());
             ps.setString(7, data.getPayment_type());
+            ps.setString(8, data.getProducts_info());
             
             final var rowsAffected = ps.executeUpdate();
             
@@ -80,7 +81,8 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
             ps.setString(3, order.getInvoice());
             ps.setString(4, order.getTimestamp());
             ps.setString(5, order.getDeadline());
-            ps.setLong(6, order.getIdOrderVendor());
+            ps.setString(6, order.getProductsInfo());
+            ps.setLong(7, order.getIdOrderVendor());
             
             final var rowsAffected = ps.executeUpdate();
             

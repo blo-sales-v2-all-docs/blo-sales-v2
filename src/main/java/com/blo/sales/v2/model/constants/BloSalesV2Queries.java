@@ -166,9 +166,9 @@ public final class BloSalesV2Queries {
     public static final String UPDATE_PROVIDER = "UPDATE vendors SET name = ?, brand = ?, contact = ?, visit_days = ?, timestamp = ?, pre_sale = ?, per_week = ? WHERE id_vendor = ?";
     
     /** ordenes */
-    public static final String ADD_ORDER = "INSERT INTO orders_vendor(fk_vendor, amount, status_order, invoice, timestamp, deadline, payment_type) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public static final String ADD_ORDER = "INSERT INTO orders_vendor(fk_vendor, amount, status_order, invoice, timestamp, deadline, payment_type, products_info) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     
-    public static final String UPDATE_ORDER = "UPDATE orders_vendor SET amount = ?, status_order = ?, invoice = ?, timestamp = ?, deadline = ? WHERE id_order_vendor = ?";
+    public static final String UPDATE_ORDER = "UPDATE orders_vendor SET amount = ?, status_order = ?, invoice = ?, timestamp = ?, deadline = ?, products_info = ? WHERE id_order_vendor = ?";
     
     public static final String GET_ORDERS = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, v.brand FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor";
     

@@ -7,7 +7,7 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 /**
  * Clase modelo para operaciones de los proveedores en la db
  * @author BLO
- * @version 1.0.0
+ * @version 1.0.1
  */
 public interface IOrdersVendorsModel {
     

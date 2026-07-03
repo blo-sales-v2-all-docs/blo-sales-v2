@@ -4,10 +4,12 @@ import com.blo.sales.v2.controller.IOrdersVendorsController;
 import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
+import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.dialogs.AddProductsInOrderDialog;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsOrdersMapper;
 import com.blo.sales.v2.view.pojos.PojoOrderVendor;
 import com.blo.sales.v2.view.pojos.WrapperPojoOrdersVendors;
@@ -175,16 +177,29 @@ public final class ViewOrders extends AbstractDashboardBase {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnCloseOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseOrderActionPerformed
+       final var reason = StatusOrderProviderEnum.getByIndex(cmbxCloseOrderReasons.getSelectedIndex() + 1);
+       final String[] info = new String[1];
+       info[0] = BloSalesV2Utils.JSON_EMPTY_ARRAY;
+       if (reason.compareTo(StatusOrderProviderEnum.DELIVERED) == 0) {
+            final var addingProductsDialog = new AddProductsInOrderDialog<String>(
+                this,
+                "agregando información adicional de la nota",
+                infoProducts -> {
+                    info[0] = infoProducts;
+                }
+            );
+            addingProductsDialog.setVisible(true);
+        }
         try {
             final var invoice = GUICommons.getTextFromField(txtInvoice, true);
-            final var reason = StatusOrderProviderEnum.getByIndex(cmbxCloseOrderReasons.getSelectedIndex() + 1);
             ordersVendorController.closeOrder(
                     StatusMovementProviderIntEnum.valueOf(reason.name()),
                     orderVendor.getAmount(),
                     orderVendor.getBrand(),
                     invoice,
                     getUserData().getIdUser(),
-                    orderVendor.getIdOrderVendor()
+                    orderVendor.getIdOrderVendor(),
+                    info[0]
             );
             resetInfo();
         } catch (BloSalesV2Exception ex) {
@@ -279,10 +294,12 @@ public final class ViewOrders extends AbstractDashboardBase {
             loadBySatusFilter();
             loadReasonCloseOrder();
             GUICommons.loadTitleOnTable(tblOrders, titles, false);
+            GUICommons.addDoubleClickOnTable(tblOrders, System.out::println);
             resetInfo();
         } catch (BloSalesV2Exception e) {
             logger.error(e.getMessage());
             CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
+    
 }
