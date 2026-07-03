@@ -285,10 +285,16 @@ public final class AllProducts extends AbstractDashboardBase {
                     getDefaultTableModel().addRow(row);
                 });
             }
+            
+            /** cuando se cambia la fila seleccionada reinicia el panel para ver detalles */
+            GUICommons.changeRowSelectedFromTable(tblProducts, (Integer nextRow) -> initPanelManagement());
+            
+            /** abre panel para recuperar información del producto */
             GUICommons.addEventKeyColumnsProtecteds(null, GUICommons.F1_INFO_KEY, tblProducts, (String[] data) -> {
                 idProductSelected = Long.parseLong(data[0]);
                 GUICommons.showPanel(pnlProductDetail);
             });
+            
             /** Actualiza la fila por un <code>ENTER</code> */
             GUICommons.addEventKeyColumnsProtecteds(new int[] {0, 1, 6, 7}, GUICommons.ENTER_KEY, tblProducts, (String[] data) -> {
                 try {
