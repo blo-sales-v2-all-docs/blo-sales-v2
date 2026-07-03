@@ -119,6 +119,7 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
                 item.setStatus_order(StatusOrderVendorEntityEnum.valueOf(rs.getString(BloSalesV2Columns.STATUS_ORDER)));
                 item.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
                 item.setBrand(rs.getString(BloSalesV2Columns.BRAND));
+                item.setProducts_info(rs.getString(BloSalesV2Columns.PRODUCTS_INFO));
                 lst.add(item);
             }
             out.setOrders(lst);
@@ -151,6 +152,7 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
                 item.setName(rs.getString(BloSalesV2Columns.NAME));
                 item.setStatus_order(StatusOrderVendorEntityEnum.valueOf(rs.getString(BloSalesV2Columns.STATUS_ORDER)));
                 item.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
+                item.setProducts_info(rs.getString(BloSalesV2Columns.PRODUCTS_INFO));
             }
             logger.info("registro encontrado [%s]", String.valueOf(item));
             return orderVendorMapper.toOuter(item);

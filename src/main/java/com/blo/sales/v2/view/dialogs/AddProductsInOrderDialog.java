@@ -1,5 +1,6 @@
 package com.blo.sales.v2.view.dialogs;
 
+import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDialogBase;
@@ -15,8 +16,6 @@ import javax.swing.SwingUtilities;
 
 public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
     
-    private final String title;
-    
     private final Consumer<T> callback;
     
     private final DefaultListModel<String> modeloLista;
@@ -31,7 +30,6 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
         Consumer<T> callback
     ) {
         super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, true);
-        this.title = title;
         this.callback = callback;
         this.gson = new Gson();
         this.modeloLista = new DefaultListModel<>();
@@ -52,7 +50,6 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
         jScrollPane1 = new javax.swing.JScrollPane();
         lstProductsInfo = new javax.swing.JList<>();
         btnSave = new javax.swing.JButton();
-        lblFormat = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -62,7 +59,7 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
             }
         });
 
-        lblInstructions.setText("porfavor_escribe_la_cantidad_de_producto_comprada_utilizando_el_formato");
+        lblInstructions.setText("Escribe detalles de los productos comprados_y_presiona_enter_para_agregar_a_la_lista");
 
         jScrollPane1.setViewportView(lstProductsInfo);
 
@@ -72,8 +69,6 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
                 btnSaveActionPerformed(evt);
             }
         });
-
-        lblFormat.setText("num_de_producto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,10 +82,7 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnSave))
-                    .addComponent(lblInstructions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblFormat)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(lblInstructions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -98,13 +90,11 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblInstructions, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFormat)
                 .addGap(18, 18, 18)
                 .addComponent(txtProductInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(40, 40, 40)
                 .addComponent(btnSave)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -147,7 +137,8 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
 
     @Override
     public void loadTargets() {
-        
+        GUICommons.setTextToField(lblInstructions, getTranslateBy(KeysEnum.VIEW_ORDERS_DLG_PUT_PRODUCTS_DETAILS.getKey()));
+        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_CLOSE.getKey()));
     }
 
     private void addEvent() {
@@ -160,7 +151,6 @@ public final class AddProductsInOrderDialog<T> extends AbstractDialogBase {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblFormat;
     private javax.swing.JLabel lblInstructions;
     private javax.swing.JList<String> lstProductsInfo;
     private javax.swing.JTextField txtProductInfo;

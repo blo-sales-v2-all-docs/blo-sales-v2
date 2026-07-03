@@ -33,10 +33,6 @@
                       <Component id="btnSave" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="lblInstructions" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblFormat" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -47,13 +43,11 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblInstructions" min="-2" pref="28" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblFormat" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="txtProductInfo" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Component id="btnSave" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -68,7 +62,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblInstructions">
       <Properties>
-        <Property name="text" type="java.lang.String" value="porfavor_escribe_la_cantidad_de_producto_comprada_utilizando_el_formato"/>
+        <Property name="text" type="java.lang.String" value="Escribe detalles de los productos comprados_y_presiona_enter_para_agregar_a_la_lista"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -97,11 +91,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblFormat">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="num_de_producto"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>
