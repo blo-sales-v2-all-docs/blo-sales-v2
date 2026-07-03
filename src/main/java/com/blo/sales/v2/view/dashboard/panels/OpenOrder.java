@@ -113,6 +113,7 @@ public final class OpenOrder extends AbstractDashboardBase {
             order.setStatusOrder(StatusOrderProviderEnum.PENDIG);
             order.setAmount(GUICommons.getNumberFromJText(nmbAmountOrder, 2));
             order.setDeadline(GUICommons.getDateFromDateChooser(dtChooserDelv));
+            order.setProductsInfo(BloSalesV2Utils.EMPTY_STRING);
             ordersVendorsController.highOrder(pojoVendorMapper.toInner(order));
             
             resetFields();

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 /**
  * Clase controlador para movimientos de proveedores
  * @author BLO
- * @version 1.0.0
+ * @version 1.0.1
  */
 public interface IOrdersVendorsController {
     
@@ -29,10 +29,11 @@ public interface IOrdersVendorsController {
      * @param invoice
      * @param idUser
      * @param idOrder
+     * @param productsInfo
      * @return
      * @throws BloSalesV2Exception 
      */
-    PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, BigDecimal amount, String brand, String invoice, long idUser, long idOrder) throws BloSalesV2Exception;
+    PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, BigDecimal amount, String brand, String invoice, long idUser, long idOrder, String productsInfo) throws BloSalesV2Exception;
     
     /**
      * Funcion que recupera ordenes por un status

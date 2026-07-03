@@ -163,5 +163,7 @@ public final class BloSalesV2Columns {
     public static final String DEADLINE = "deadline";
     
     public static final String FK_VENDOR = "fk_vendor";
+    
+    public static final String PRODUCTS_INFO = "products_info";
        
 }

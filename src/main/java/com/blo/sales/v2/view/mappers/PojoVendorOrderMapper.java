@@ -26,6 +26,7 @@ public class PojoVendorOrderMapper implements IToInner<PojoIntOrderVendor, PojoO
         inner.setTimestamp(outer.getTimestamp());
         inner.setVendorName(outer.getVendorName());
         inner.setBrand(outer.getBrand());
+        inner.setProductsInfo(outer.getProductsInfo());
         return inner;
     }
 
@@ -44,6 +45,7 @@ public class PojoVendorOrderMapper implements IToInner<PojoIntOrderVendor, PojoO
         outer.setTimestamp(inner.getTimestamp());
         outer.setVendorName(inner.getVendorName());
         outer.setBrand(inner.getBrand());
+        outer.setProductsInfo(inner.getProductsInfo());
         return outer;
     }
     

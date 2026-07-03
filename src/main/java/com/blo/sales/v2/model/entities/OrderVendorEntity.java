@@ -27,4 +27,6 @@ public class OrderVendorEntity {
     
     private String payment_type;
     
+    private String products_info;
+    
 }
