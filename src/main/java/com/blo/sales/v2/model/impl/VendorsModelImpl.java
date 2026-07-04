@@ -9,6 +9,7 @@ import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.entities.VendorEntity;
 import com.blo.sales.v2.model.entities.WrapperVendorsEntity;
+import com.blo.sales.v2.model.entities.enums.VisitsEntityEnum;
 import com.blo.sales.v2.model.mapper.VendorEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperVendorsEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -50,6 +51,7 @@ public class VendorsModelImpl implements IVendorsModel {
             ps.setBoolean(6, data.isPre_sale());
             ps.setString(7, data.getTimestamp());
             ps.setBoolean(8, data.isPer_week());
+            ps.setString(9, data.getVisits().name());
             
             final var rowsAffected = ps.executeUpdate();
             
@@ -86,6 +88,9 @@ public class VendorsModelImpl implements IVendorsModel {
                 vendor.setPre_sale(data.getBoolean(BloSalesV2Columns.PRE_SALE));
                 vendor.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
                 vendor.setPer_week(data.getBoolean(BloSalesV2Columns.PER_WEEK));
+                if (!data.getString(BloSalesV2Columns.VISITS).isBlank()) {
+                    vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
+                }
             }
             logger.info("proveedor encontrado %s", String.valueOf(vendor));
             return vendorMapper.toOuter(vendor);
@@ -114,6 +119,9 @@ public class VendorsModelImpl implements IVendorsModel {
                 vendor.setPre_sale(data.getBoolean(BloSalesV2Columns.PRE_SALE));
                 vendor.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
                 vendor.setPer_week(data.getBoolean(BloSalesV2Columns.PER_WEEK));
+                if (!data.getString(BloSalesV2Columns.VISITS).isBlank()) {
+                    vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
+                }
             }
             logger.info("proveedor encontrado %s", String.valueOf(vendor));
             return vendorMapper.toOuter(vendor);
@@ -143,6 +151,9 @@ public class VendorsModelImpl implements IVendorsModel {
                 vendor.setPre_sale(data.getBoolean(BloSalesV2Columns.PRE_SALE));
                 vendor.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
                 vendor.setPer_week(data.getBoolean(BloSalesV2Columns.PER_WEEK));
+                if (!data.getString(BloSalesV2Columns.VISITS).isBlank()) {
+                    vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
+                }
                 lst.add(vendor);
             }
             wrapper.setVendors(lst);
@@ -169,7 +180,8 @@ public class VendorsModelImpl implements IVendorsModel {
             ps.setString(5, data.getTimestamp());
             ps.setBoolean(6, data.isPre_sale());
             ps.setBoolean(7, data.isPer_week());
-            ps.setLong(8, data.getId_vendor());
+            ps.setString(8, data.getVisits().name());
+            ps.setLong(9, data.getId_vendor());
             
             final var rowsAffected = ps.executeUpdate();
             

@@ -1,8 +1,13 @@
 package com.blo.sales.v2.model.entities;
 
-import lombok.Data;
+import com.blo.sales.v2.model.entities.enums.VisitsEntityEnum;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public @Data class VendorEntity {
+@Setter
+@Getter
+public @ToString class VendorEntity {
     
     private long id_vendor;
     
@@ -21,5 +26,7 @@ public @Data class VendorEntity {
     private String contact;
     
     private boolean per_week;
+    
+    private VisitsEntityEnum visits;
     
 }

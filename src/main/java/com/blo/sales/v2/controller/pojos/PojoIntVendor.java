@@ -1,8 +1,13 @@
 package com.blo.sales.v2.controller.pojos;
 
-import lombok.Data;
+import com.blo.sales.v2.controller.pojos.enums.VisitIntEnum;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public @Data class PojoIntVendor {
+@Setter
+@Getter
+public @ToString class PojoIntVendor {
     
     private long idVendor;
     
@@ -21,5 +26,7 @@ public @Data class PojoIntVendor {
     private String contact;
     
     private boolean perWeek;
+    
+    private VisitIntEnum visits;
     
 }

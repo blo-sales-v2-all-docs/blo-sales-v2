@@ -9,4 +9,6 @@ public class WeekInfoSelected {
     
     private String daysSelected;
     
+    private String visits;
+    
 }
