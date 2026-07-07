@@ -16,23 +16,25 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="btnSaveOrder" min="-2" pref="93" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblSelectVendor" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblOrderAmount" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDeadLine" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="dtChooserDelv" pref="200" max="32767" attributes="0"/>
-                          <Component id="nmbAmountOrder" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cmbxSelectVendor" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnSelectorVendor" max="32767" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="btnSaveOrder" min="-2" pref="93" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblOrderAmount" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblDeadLine" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="dtChooserDelv" max="32767" attributes="0"/>
+                              <Component id="nmbAmountOrder" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
+                  <Component id="lblProviderSelected" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="923" max="32767" attributes="0"/>
           </Group>
@@ -42,11 +44,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="cmbxSelectVendor" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblSelectVendor" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="btnSelectorVendor" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lblProviderSelected" min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblOrderAmount" min="-2" max="-2" attributes="0"/>
                   <Component id="nmbAmountOrder" min="-2" max="-2" attributes="0"/>
@@ -58,27 +59,12 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnSaveOrder" min="-2" pref="43" max="-2" attributes="0"/>
-              <EmptySpace pref="340" max="32767" attributes="0"/>
+              <EmptySpace pref="302" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblSelectVendor">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="selecciona_al_proveedor"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="cmbxSelectVendor">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblOrderAmount">
       <Properties>
         <Property name="text" type="java.lang.String" value="monto_de_orden"/>
@@ -100,6 +86,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveOrderActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSelectorVendor">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="seleccionar_proveedor"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelectorVendorActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblProviderSelected">
     </Component>
   </SubComponents>
 </Form>
