@@ -25,11 +25,13 @@ import com.blo.sales.v2.view.pojos.PojoPaymentTypeInfo;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.pojos.PojoSaleProductData;
 import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
+import com.blo.sales.v2.view.utils.GUIStore;
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -515,9 +517,13 @@ public final class Sales extends AbstractDashboardBase {
                 productFound.getPrice(),
                 onSalePrice
             };
+            final var index = getDefaultTableModel().getRowCount();
             getDefaultTableModel().addRow(productInfoData);
             /** se almacena siempre el valor total */
             storeTotalSale = totalSale;
+            /** guardar información actual */
+            GUIStore.addSaleInfoAndUpdateTotal(productInfoData, totalSale, index);
+            /** reinicia campos */
             GUICommons.setTextToField(txtSearch, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
             GUICommons.setTextToField(nmbQuantity, BigDecimal.ONE);
@@ -627,6 +633,8 @@ public final class Sales extends AbstractDashboardBase {
                 //total
                 final var totalProduct = productFound.getPrice().multiply(quantitySale);
                 getDefaultTableModel().setValueAt(totalProduct, filaModelo, 4);
+                // actualizar store
+                GUIStore.updateQuantityOnSaleByIndex(totalSale, totalProduct, quantitySale, indexSelected);
             } catch (BloSalesV2Exception ex) {
                 logger.error(ex.getMessage());
                 CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -651,16 +659,22 @@ public final class Sales extends AbstractDashboardBase {
                 quantityOnSale = quantityOnSale.subtract(BigDecimal.ONE);
                 // si la cantidad es 0 se elimina la fila
                 if (quantityOnSale.compareTo(BigDecimal.ZERO) == 0) {
+                    // actualiza store
+                    GUIStore.removeSaleInfoByIndexAndUpdateTotal(totalSale, indexSelected);
                     getDefaultTableModel().removeRow(indexSelected);
                 } else {
                     final var totalOnSale = quantityOnSale.multiply(price);
                     getDefaultTableModel().setValueAt(quantityOnSale, filaModelo, 2);
                     getDefaultTableModel().setValueAt(totalOnSale, filaModelo, 4);
+                    // actualiza store
+                    GUIStore.updateQuantityOnSaleByIndex(totalSale, totalOnSale, quantityOnSale, indexSelected);
                 }
             } else {
                 // recuperar cantidad comprada
                 final var kgSold = new BigDecimal(getDefaultTableModel().getValueAt(filaModelo, 4).toString());
                 totalSale = totalSale.subtract(kgSold);
+                // actualiza store
+                GUIStore.removeSaleInfoByIndexAndUpdateTotal(totalSale, indexSelected);
                 getDefaultTableModel().removeRow(indexSelected);
             }
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
@@ -680,6 +694,24 @@ public final class Sales extends AbstractDashboardBase {
         GUICommons.disabledButton(btnComplete);
         GUICommons.disabledButton(btnDebtors);
         GUICommons.disabledComponent(cmnbxPaymentType);
+    }
+    
+    private void loadDataFromStore() {
+        totalSale = GUIStore.getAllInfoFromStore().getTotalOnSale();
+        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), totalSale));
+        final var storeProducts = GUIStore.getAllInfoFromStore().getProductsOnSaleInfo();
+        final var salesModel = getDefaultTableModel();
+        salesModel.setRowCount(0);
+        
+        if (!storeProducts.isEmpty()) {
+            for (var i = 0; i < storeProducts.size(); i++) {
+                salesModel.addRow(storeProducts.get(i));
+            }
+            productFound = null;
+            GUICommons.enabledButton(btnComplete);
+            GUICommons.enabledButton(btnDebtors);
+            GUICommons.enabledComponent(cmnbxPaymentType);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -718,15 +750,16 @@ public final class Sales extends AbstractDashboardBase {
     public void init() {
         try {
             initComponents();
-            setMainTable(tblProductsSales);
             loadTargets();
+            final String[] titles = {"ID", "Producto", "Cantidad comprada", "Precio", "Total"};
+            setMainTable(tblProductsSales);
             loadPaymentsType();
             totalSale = BigDecimal.ZERO;
             resetFields();
             disableButtons();
             retrieveProducts();
-            final String[] titles = {"ID", "Producto", "Cantidad comprada", "Precio", "Total"};
             GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
+            loadDataFromStore();
             GUICommons.addDoubleClickOnTable(tblProductsSales, id -> removeItemFromSale(Long.parseLong(String.format("%s", id))));
             GUICommons.addKeyEventOnTable(tblProductsSales, GUICommons.ENTER_KEY, id -> addElementByKeyEnter());
             GUICommons.addChangeEventOnComboBox(cmnbxPaymentType, (Integer index) -> openPaymentCard(index));
