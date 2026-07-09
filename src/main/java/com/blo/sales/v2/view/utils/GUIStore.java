@@ -4,13 +4,12 @@ import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.utils.business.SaleBusiness;
 import com.blo.sales.v2.view.utils.handler.ManagementProductStoreHandler;
 import java.math.BigDecimal;
-import java.util.HashMap;
 
 public class GUIStore {
     
     private static PojoProduct product = new PojoProduct();
     
-    private static SaleBusiness saleBusiness = new SaleBusiness();
+    private static final SaleBusiness saleBusiness = new SaleBusiness();
     
     private static GUIStore instance;
     
@@ -61,5 +60,10 @@ public class GUIStore {
     
     public static SaleBusiness getAllInfoFromStore() {
         return saleBusiness;
+    }
+    
+    public static void clearInfoStore() {
+        saleBusiness.setTotalOnSale(BigDecimal.ZERO);
+        saleBusiness.getProductsOnSaleInfo().clear();
     }
 }

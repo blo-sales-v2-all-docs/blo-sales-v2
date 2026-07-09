@@ -318,6 +318,7 @@ public final class Sales extends AbstractDashboardBase {
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             totalSale = BigDecimal.ZERO;
             resetFields();
+            GUIStore.clearInfoStore();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -365,6 +366,7 @@ public final class Sales extends AbstractDashboardBase {
                         }
                         resetFields();
                         totalSale = BigDecimal.ZERO;
+                        GUIStore.clearInfoStore();
                     } catch (BloSalesV2Exception ex) {
                         logger.error(ex.getMessage());
                         CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -461,6 +463,7 @@ public final class Sales extends AbstractDashboardBase {
                         if (paymentWrapper[0] != null) {
                             paymentWrapper[0].dispose();
                         }
+                        GUIStore.clearInfoStore();
                     } catch (BloSalesV2Exception ex) {
                         logger.error(ex.getMessage());
                         CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
