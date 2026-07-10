@@ -3,24 +3,14 @@ package com.blo.sales.v2.view.utils;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.utils.business.SaleBusiness;
 import com.blo.sales.v2.view.utils.handler.ManagementProductStoreHandler;
+import com.blo.sales.v2.view.utils.handler.ManagementSalesStoreHandler;
 import java.math.BigDecimal;
 
 public class GUIStore {
     
     private static PojoProduct product = new PojoProduct();
     
-    private static final SaleBusiness saleBusiness = new SaleBusiness();
-    
-    private static GUIStore instance;
-    
     private GUIStore() { }
-    
-    public static GUIStore getInstance() {
-        if (instance == null) {
-            instance = new GUIStore();
-        }
-        return instance;
-    }
     
     // product datos
     public static void addPropOnPojoProduct(ManagementProductStoreHandler prop, String value) {
@@ -37,33 +27,22 @@ public class GUIStore {
     }
     
     public static void addSaleInfoAndUpdateTotal(Object[] infoSale, BigDecimal total, int key) {
-        saleBusiness.getProductsOnSaleInfo().put(key, infoSale);
-        saleBusiness.setTotalOnSale(total);
+        ManagementSalesStoreHandler.addSaleInfoAndUpdateTotal(infoSale, total, key);
     }
     
     public static void removeSaleInfoByIndexAndUpdateTotal(BigDecimal total, int key) {
-        final var originalSize = saleBusiness.getProductsOnSaleInfo().size();
-        for (var i = key; i < originalSize - 1; i++) {
-            saleBusiness.getProductsOnSaleInfo().put(i, saleBusiness.getProductsOnSaleInfo().get(i + 1));
-        }
-        saleBusiness.getProductsOnSaleInfo().remove(originalSize - 1);
-        saleBusiness.setTotalOnSale(total);
+        ManagementSalesStoreHandler.removeSaleInfoByIndexAndUpdateTotal(total, key);
     }
     
     public static void updateQuantityOnSaleByIndex(BigDecimal total, BigDecimal totalOnSale, BigDecimal quantityOnSale, int key) {
-        final var item = saleBusiness.getProductsOnSaleInfo().get(key);
-        item[2] = quantityOnSale;
-        item[4] = totalOnSale;
-        saleBusiness.getProductsOnSaleInfo().put(key, item);
-        saleBusiness.setTotalOnSale(total);
+        ManagementSalesStoreHandler.updateQuantityOnSaleByIndex(total, totalOnSale, quantityOnSale, key);
     }
     
     public static SaleBusiness getAllInfoFromStore() {
-        return saleBusiness;
+        return ManagementSalesStoreHandler.getAllInfoFromStore();
     }
     
     public static void clearInfoStore() {
-        saleBusiness.setTotalOnSale(BigDecimal.ZERO);
-        saleBusiness.getProductsOnSaleInfo().clear();
+        ManagementSalesStoreHandler.clearInfoStore();
     }
 }
