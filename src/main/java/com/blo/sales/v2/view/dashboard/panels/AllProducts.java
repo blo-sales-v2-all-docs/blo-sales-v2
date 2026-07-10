@@ -27,7 +27,10 @@ import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
+import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
+import javax.swing.SwingWorker;
 
 public final class AllProducts extends AbstractDashboardBase {
     
@@ -81,6 +84,7 @@ public final class AllProducts extends AbstractDashboardBase {
         btnMovements = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         lblF1Instructions = new javax.swing.JLabel();
+        prgsBarLoad = new javax.swing.JProgressBar();
 
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,7 +166,7 @@ public final class AllProducts extends AbstractDashboardBase {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1332, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1476, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtSearcher, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -171,7 +175,8 @@ public final class AllProducts extends AbstractDashboardBase {
                         .addComponent(btnDownloadStock))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlProductDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(prgsBarLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -182,8 +187,10 @@ public final class AllProducts extends AbstractDashboardBase {
                     .addComponent(txtSearcher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDownloadStock)
                     .addComponent(lblF1Instructions))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(prgsBarLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlProductDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -297,7 +304,92 @@ public final class AllProducts extends AbstractDashboardBase {
             
             /** Actualiza la fila por un <code>ENTER</code> */
             GUICommons.addEventKeyColumnsProtecteds(new int[] {0, 1, 6, 7}, GUICommons.ENTER_KEY, tblProducts, (String[] data) -> {
-                try {
+                new SwingWorker<Void, Integer>() {
+                    
+                    /** ejecuta tareas en un segundo plano */
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        final DoUpdateProductRunneable update = new DoUpdateProductRunneable(data);
+                        update.run();
+                        
+                        for (var i = 0; i < 100; i++) {
+                            publish(i);
+                            Thread.sleep(5);
+                        }
+                        return null;
+                    }
+
+                    /** actualiza la interfaz de usuario */
+                    @Override
+                    protected void process(List<Integer> chunks) {
+                        int ultimoValor = chunks.get(chunks.size() - 1);
+                        prgsBarLoad.setValue(ultimoValor);
+                    }
+                    
+                    /** reincia la barra en 0 */
+                    @Override
+                    protected void done() {
+                        prgsBarLoad.setValue(0);
+                    }
+                    
+                    
+                }.execute();
+            });
+        } catch (final BloSalesV2Exception e) {
+            logger.error(e.getMessage());
+            CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
+    }
+    
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDownloadStock;
+    private javax.swing.JButton btnGetEvolution;
+    private javax.swing.JButton btnMovements;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblF1Instructions;
+    private javax.swing.JPanel pnlProductDetail;
+    private javax.swing.JProgressBar prgsBarLoad;
+    private javax.swing.JTable tblProducts;
+    private javax.swing.JTextField txtSearcher;
+    // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void loadTargets() {
+        GUICommons.setTextToButton(btnDownloadStock, getTranslateBy(KeysEnum.STOCK_BTN_DOWNLOAD_STOCK.getKey()));
+        GUICommons.setTextToButton(btnGetEvolution, getTranslateBy(KeysEnum.STOCK_BTN_COSTS_EVOLUTION.getKey()));
+        GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_CANCEL.getKey()));
+        GUICommons.setTextToButton(btnMovements, getTranslateBy(KeysEnum.STOCK_BTN_MOVEMENTS.getKey()));
+        GUICommons.setTextToField(lblF1Instructions, getTranslateBy(KeysEnum.STOCK_LBL_F1_SEARCH.getKey()));
+    }
+
+    @Override
+    public void init() {
+        initComponents();
+        setMainTable(tblProducts);
+        loadTargets();
+        loadTitlesAndData();
+        initPanelManagement();
+    }
+
+    private void initPanelManagement() {
+        GUICommons.hiddenPanel(pnlProductDetail);
+        idProductSelected = 0L;
+    }
+    
+    /** clase que permite ejecutar la actualización de un producto en un hilo diferente */
+    class DoUpdateProductRunneable implements Runnable {
+        
+        private final String[] data;
+        
+        public DoUpdateProductRunneable(String data[]) {
+            this.data = data;
+        }
+
+        @Override
+        public void run() {
+            try {
                     /** 
                      * 0 - ID
                      * 1 - Codigo de barras
@@ -354,47 +446,7 @@ public final class AllProducts extends AbstractDashboardBase {
                     logger.error(e.getMessage());
                     CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                 }
-            });
-        } catch (final BloSalesV2Exception e) {
-            logger.error(e.getMessage());
-            CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
+        
     }
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnDownloadStock;
-    private javax.swing.JButton btnGetEvolution;
-    private javax.swing.JButton btnMovements;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblF1Instructions;
-    private javax.swing.JPanel pnlProductDetail;
-    private javax.swing.JTable tblProducts;
-    private javax.swing.JTextField txtSearcher;
-    // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void loadTargets() {
-        GUICommons.setTextToButton(btnDownloadStock, getTranslateBy(KeysEnum.STOCK_BTN_DOWNLOAD_STOCK.getKey()));
-        GUICommons.setTextToButton(btnGetEvolution, getTranslateBy(KeysEnum.STOCK_BTN_COSTS_EVOLUTION.getKey()));
-        GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_CANCEL.getKey()));
-        GUICommons.setTextToButton(btnMovements, getTranslateBy(KeysEnum.STOCK_BTN_MOVEMENTS.getKey()));
-        GUICommons.setTextToField(lblF1Instructions, getTranslateBy(KeysEnum.STOCK_LBL_F1_SEARCH.getKey()));
-    }
-
-    @Override
-    public void init() {
-        initComponents();
-        setMainTable(tblProducts);
-        loadTargets();
-        loadTitlesAndData();
-        initPanelManagement();
-    }
-
-    private void initPanelManagement() {
-        GUICommons.hiddenPanel(pnlProductDetail);
-        idProductSelected = 0L;
-    }
-    
 }
