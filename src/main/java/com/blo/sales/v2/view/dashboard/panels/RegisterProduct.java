@@ -13,17 +13,19 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dialogs.SelectorDialog;
 import com.blo.sales.v2.view.mappers.ProductMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoCategoriesMapper;
+import com.blo.sales.v2.view.pojos.PojoCategory;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.utils.GUIStore;
 import com.blo.sales.v2.view.utils.handler.ManagementProductStoreHandler;
 import jakarta.inject.Inject;
+import java.util.List;
 import javax.swing.JTextField;
 
 public final class RegisterProduct extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(RegisterProduct.class.getName());
     
-    private static final String[] propsProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_PRODUCTS_PROTECTED.getKey()).split(",");
+    private static final String[] categoriesProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_CATEGORIES_PROTECTED.getKey()).split(",");
     
     @Inject
     private IProductsController productsController;
@@ -237,15 +239,17 @@ public final class RegisterProduct extends AbstractDashboardBase {
     private void btnCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriesActionPerformed
         try {
             /** se filtran las categorias no protegidas */
-            var categoriesFiltered = categoriesMapper.toOuter(this.categories.getAllCategories()).getCategories();
-            for (final var p: propsProtected) {
+            List<PojoCategory> categoriesFiltered = categoriesMapper.toOuter(this.categories.getAllCategories()).getCategories();
+            for (final var p: categoriesProtected) {
                 categoriesFiltered =
-                        categoriesFiltered.stream().filter(c -> c.getIdCategory() != Long.parseLong(p)).toList();
+                        categoriesFiltered.stream().
+                                filter(c -> c.getIdCategory() != Long.parseLong(p))
+                                .toList();
             }
             new SelectorDialog<>(
                     this,
                     getTranslateBy(KeysEnum.STOCK_DLG_SELECTOR_CATEGORY.getKey()),
-                    categoriesFiltered.stream().map(i -> i.toString()).toList(),
+                    categoriesFiltered.stream().map(PojoCategory::toString).toList(),
                     data -> {
                         final var idSelected = BloSalesV2Utils.getMatcherByIndexGroup("^\\d", data, 0);
                         if (!idSelected.isBlank()) {

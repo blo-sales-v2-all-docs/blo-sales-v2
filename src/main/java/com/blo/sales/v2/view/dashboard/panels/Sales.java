@@ -31,16 +31,16 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 
 public final class Sales extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Sales.class.getName());
+    
+    private static final String[] productsProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_PRODUCTS_PROTECTED.getKey()).split(",");
     
     @Inject
     private IProductsController productsController;
@@ -293,20 +293,23 @@ public final class Sales extends AbstractDashboardBase {
             
         }
         if (evt.getKeyCode() == GUICommons.F3_SEARCH_KEY) {
-            final var productsString = products.stream()
-                .map(item -> item.toString())
-                .collect(Collectors.toList());
+            List<PojoProduct> productsWithoutProtected = products;
+            for (final var p: productsProtected) {
+                productsWithoutProtected =
+                        productsWithoutProtected.stream().
+                                filter(item -> item.getIdProduct() != Long.parseLong(p)).
+                                toList();
+            }
                /** abre un cuadro de dialogo */
-               final var dialog = new SelectorDialog<>(
+               new SelectorDialog<>(
                     this,
                     getTranslateBy(KeysEnum.SALES_DLG_MANUAL_SEARCH.getKey()),
-                    productsString,
+                    productsWithoutProtected.stream().map(PojoProduct::toString).toList(),
                     item -> {
                         filterProduct(item, false);
                         GUICommons.setTextToField(txtSearch, productFound.getProduct());
                         addItemToList();
-                    });
-               dialog.setVisible(true);
+                    }).setVisible(true);
         }
     }//GEN-LAST:event_txtSearchKeyReleased
 

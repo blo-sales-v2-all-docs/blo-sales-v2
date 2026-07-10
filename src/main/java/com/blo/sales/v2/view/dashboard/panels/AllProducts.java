@@ -11,6 +11,7 @@ import com.blo.sales.v2.plugins.csv.BloSalesV2CSVPlugin;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import com.blo.sales.v2.utils.PropsKeysEnum;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
@@ -35,6 +36,8 @@ import javax.swing.SwingWorker;
 public final class AllProducts extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(AllProducts.class.getName());
+    
+    private static final String[] productsProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_PRODUCTS_PROTECTED.getKey()).split(",");
 
     @Inject
     private IProductsController productsController;
@@ -271,12 +274,17 @@ public final class AllProducts extends AbstractDashboardBase {
     /** ajustar filtro de categorias */
     private void loadTitlesAndData() {
         try {
-            final var productsData = productsMapper.toOuter(productsController.getAllProducts());
+            var productsData = productsMapper.toOuter(productsController.getAllProducts()).getProducts();
+            for (final var productProtected: productsProtected) {
+                productsData = productsData.stream().
+                        filter(p -> p.getIdProduct() != Long.parseLong(productProtected)).
+                        toList();
+            }
             final var categories = categoriesMapper.toOuter(categoriesController.getAllCategories());
             if (getUserData().getRole().equals(RolesEnum.ROOT)) {
                 GUICommons.loadTitleOnTable(tblProducts, titles, true);
                 getDefaultTableModel().setRowCount(0);
-                productsData.getProducts().forEach(p -> {
+                productsData.forEach(p -> {
                     /** filtro para buscar nombre de categorias */
                     final var category = categories.getCategories().stream().filter(c -> c.getIdCategory() == p.getFkCategory()).findFirst().get();
                     final Object[] row = {
