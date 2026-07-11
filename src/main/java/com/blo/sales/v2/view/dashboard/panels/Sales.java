@@ -40,7 +40,7 @@ public final class Sales extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Sales.class.getName());
     
-    private static final String[] productsProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_PRODUCTS_PROTECTED.getKey()).split(",");
+    private static final String[] categoriesProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_CATEGORIES_PROTECTED.getKey()).split(",");
     
     @Inject
     private IProductsController productsController;
@@ -294,10 +294,10 @@ public final class Sales extends AbstractDashboardBase {
         }
         if (evt.getKeyCode() == GUICommons.F3_SEARCH_KEY) {
             List<PojoProduct> productsWithoutProtected = products;
-            for (final var p: productsProtected) {
+            for (final var c: categoriesProtected) {
                 productsWithoutProtected =
                         productsWithoutProtected.stream().
-                                filter(item -> item.getIdProduct() != Long.parseLong(p)).
+                                filter(item -> item.getFkCategory()!= Long.parseLong(c)).
                                 toList();
             }
                /** abre un cuadro de dialogo */

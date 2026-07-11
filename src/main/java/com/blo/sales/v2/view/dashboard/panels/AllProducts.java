@@ -37,7 +37,7 @@ public final class AllProducts extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(AllProducts.class.getName());
     
-    private static final String[] productsProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_PRODUCTS_PROTECTED.getKey()).split(",");
+    private static final String[] categoriesProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_CATEGORIES_PROTECTED.getKey()).split(",");
 
     @Inject
     private IProductsController productsController;
@@ -275,9 +275,9 @@ public final class AllProducts extends AbstractDashboardBase {
     private void loadTitlesAndData() {
         try {
             var productsData = productsMapper.toOuter(productsController.getAllProducts()).getProducts();
-            for (final var productProtected: productsProtected) {
+            for (final var categoryProtected: categoriesProtected) {
                 productsData = productsData.stream().
-                        filter(p -> p.getIdProduct() != Long.parseLong(productProtected)).
+                        filter(p -> p.getFkCategory()!= Long.parseLong(categoryProtected)).
                         toList();
             }
             final var categories = categoriesMapper.toOuter(categoriesController.getAllCategories());
