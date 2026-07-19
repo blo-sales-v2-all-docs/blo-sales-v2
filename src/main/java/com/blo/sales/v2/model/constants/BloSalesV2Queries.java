@@ -155,22 +155,22 @@ public final class BloSalesV2Queries {
     public static final String SELECT_DIGITAL_WALLET = "SELECT id_financial_movement, amount, reason, type, fh.authorization, fh.timestamp FROM financial_history fh INNER JOIN accounts a ON fh.fk_account = a.id_account WHERE a.id_account = ?";
     
     /** proveedores */
-    public static final String ADD_PROVIDER = "INSERT INTO vendors(fk_user, name, brand, contact, visit_days, pre_sale, timestamp, per_week) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String ADD_PROVIDER = "INSERT INTO vendors(fk_user, name, brand, contact, visit_days, pre_sale, timestamp, per_week, visits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
-    public static final String GET_PROVIDER_BY_CONTACT = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp FROM vendors WHERE contact = ? LIMIT 1";
+    public static final String GET_PROVIDER_BY_CONTACT = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits FROM vendors WHERE contact = ? LIMIT 1";
     
-    public static final String GET_PROVIDER_BY_ID = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp FROM vendors WHERE id_vendor = ?";
+    public static final String GET_PROVIDER_BY_ID = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits FROM vendors WHERE id_vendor = ?";
     
-    public static final String GET_PROVIDERS = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp FROM vendors";
+    public static final String GET_PROVIDERS = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits FROM vendors";
     
-    public static final String UPDATE_PROVIDER = "UPDATE vendors SET name = ?, brand = ?, contact = ?, visit_days = ?, timestamp = ?, pre_sale = ?, per_week = ? WHERE id_vendor = ?";
+    public static final String UPDATE_PROVIDER = "UPDATE vendors SET name = ?, brand = ?, contact = ?, visit_days = ?, timestamp = ?, pre_sale = ?, per_week = ?, visits = ? WHERE id_vendor = ?";
     
     /** ordenes */
-    public static final String ADD_ORDER = "INSERT INTO orders_vendor(fk_vendor, amount, status_order, invoice, timestamp, deadline, payment_type) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public static final String ADD_ORDER = "INSERT INTO orders_vendor(fk_vendor, amount, status_order, invoice, timestamp, deadline, payment_type, products_info) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     
-    public static final String UPDATE_ORDER = "UPDATE orders_vendor SET amount = ?, status_order = ?, invoice = ?, timestamp = ?, deadline = ? WHERE id_order_vendor = ?";
+    public static final String UPDATE_ORDER = "UPDATE orders_vendor SET amount = ?, status_order = ?, invoice = ?, timestamp = ?, deadline = ?, products_info = ? WHERE id_order_vendor = ?";
     
-    public static final String GET_ORDERS = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, v.brand FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor";
+    public static final String GET_ORDERS = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, v.brand, ov.products_info FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor";
     
-    public static final String GET_ORDER_BY_ID = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor WHERE ov.id_order_vendor = ? LIMIT 1";
+    public static final String GET_ORDER_BY_ID = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, ov.products_info FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor WHERE ov.id_order_vendor = ? LIMIT 1";
 }

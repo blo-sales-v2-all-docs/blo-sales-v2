@@ -16,7 +16,9 @@ public enum PropsKeysEnum {
     APP_PRODUCTS_ID_PAYMENTS_PRODUCT("app.products.id-payment-product"),
     APP_PRODUCTS_TOP_UP_COMISSION("app.products.top-up-comission"),
     APP_PRODUCTS_TOP_UP_PRODUCT("app.products.top-up-product"),
-    APP_PAYMENTS_COMISSION_RATE("app.paymnts.comission-rate");
+    APP_PAYMENTS_COMISSION_RATE("app.paymnts.comission-rate"),
+    APP_CATEGORIES_PROTECTED("app.categories.protected"),
+    APP_PRODUCTS_PROTECTED("app.products.proteced");
     
     @Getter
     private final String key;

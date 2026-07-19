@@ -4,6 +4,7 @@ import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.controller.pojos.PojoIntVendor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntVendors;
+import com.blo.sales.v2.controller.pojos.enums.VisitIntEnum;
 import com.blo.sales.v2.model.IVendorsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
@@ -92,6 +93,7 @@ public class VendorsControllerImpl implements IVendorsController {
             vendorFound.setTimestamp(BloSalesV2Utils.getTimestamp());
             vendorFound.setVisitDays(vendorData.getVisitDays());
             vendorFound.setPreSale(vendorData.isPreSale());
+            vendorFound.setVisits(VisitIntEnum.valueOf(vendorData.getVisits().name()));
             final var debtorUpdated = vendorsModel.updateVendor(vendorData, idVendor);
             logger.info("datos de proveedor actualizado [%s]", String.valueOf(debtorUpdated));
             dbt.doCommit();

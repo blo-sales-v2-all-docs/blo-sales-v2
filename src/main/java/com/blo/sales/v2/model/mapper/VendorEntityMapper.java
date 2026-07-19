@@ -1,7 +1,9 @@
 package com.blo.sales.v2.model.mapper;
 
 import com.blo.sales.v2.controller.pojos.PojoIntVendor;
+import com.blo.sales.v2.controller.pojos.enums.VisitIntEnum;
 import com.blo.sales.v2.model.entities.VendorEntity;
+import com.blo.sales.v2.model.entities.enums.VisitsEntityEnum;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
 import jakarta.inject.Singleton;
@@ -24,6 +26,7 @@ public class VendorEntityMapper implements IToInner<VendorEntity, PojoIntVendor>
         inner.setTimestamp(outer.getTimestamp());
         inner.setVisit_days(outer.getVisitDays());
         inner.setPer_week(outer.isPerWeek());
+        inner.setVisits(VisitsEntityEnum.valueOf(outer.getVisits().name()));
         return inner;
     }
 
@@ -42,6 +45,9 @@ public class VendorEntityMapper implements IToInner<VendorEntity, PojoIntVendor>
         outer.setTimestamp(inner.getTimestamp());
         outer.setVisitDays(inner.getVisit_days());
         outer.setPerWeek(inner.isPer_week());
+        if (inner.getVisits() != null) {
+            outer.setVisits(VisitIntEnum.valueOf(inner.getVisits().name()));
+        }
         return outer;
     }
     

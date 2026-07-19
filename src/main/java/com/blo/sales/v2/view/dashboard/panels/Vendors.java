@@ -12,6 +12,7 @@ import com.blo.sales.v2.view.components.CheckboxDays;
 import com.blo.sales.v2.view.mappers.PojoVendorMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsMapper;
 import com.blo.sales.v2.view.pojos.PojoVendor;
+import com.blo.sales.v2.view.pojos.enums.VisitEnum;
 import com.google.gson.Gson;
 import jakarta.inject.Inject;
 
@@ -19,7 +20,7 @@ public final class Vendors extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Vendors.class.getName());
     
-    private static final String[] titles = {"Id proveedor", "Nombre", "Contacto", "Marca que maneja", "Dias de visita", "¿Es preventa?", "Ultima actualizacion"};
+    private static final String[] titles = {"Id proveedor", "Nombre", "Contacto", "Marca que maneja", "Dias de visita", "¿Es preventa?", "Visita", "Ultima actualizacion"};
     
     @Inject
     private IVendorsController vendorsController;
@@ -177,6 +178,7 @@ public final class Vendors extends AbstractDashboardBase {
             vendorSelected.setVisitDays(data.getDaysSelected());
             vendorSelected.setPerWeek(data.isPerWeek());
             vendorSelected.setPreSale(GUICommons.isCheckedCkeckBox(cmbxIsPreSale));
+            vendorSelected.setVisits(VisitEnum.valueOf(data.getVisits()));
             
             final var vendorUpdated = vendorMapper.toInner(vendorSelected);
             vendorsController.updateVendor(vendorUpdated, vendorUpdated.getIdVendor());
@@ -216,6 +218,7 @@ public final class Vendors extends AbstractDashboardBase {
         loadVendorsData();
         pnlContactEdit.setVisible(false);
         GUICommons.addDoubleClickOnTable(tblVendors, (Long id) -> editVendor(id));
+        GUICommons.changeRowSelectedFromTable(tblVendors, (Integer id) -> resetFields());
         weekComponent.setContainer(pnlDays);
     }
     
@@ -235,7 +238,11 @@ public final class Vendors extends AbstractDashboardBase {
             GUICommons.selectElementByBooleanCondition(cmbxIsPreSale, vendorSelected.isPreSale());
             
             final var daysSelected = gson.fromJson(vendorSelected.getVisitDays(), String[].class);
-            weekComponent.createWeekCheckboxSelected(daysSelected);
+            var visits = VisitEnum.WEEKLY.name();
+            if (vendorSelected.getVisits() != null) {
+                visits = vendorSelected.getVisits().name();
+            }
+            weekComponent.createWeekCheckboxSelected(daysSelected, visits);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -256,6 +263,7 @@ public final class Vendors extends AbstractDashboardBase {
                         v.getBrand(),
                         v.getVisitDays(),
                         v.isPreSale(),
+                        v.getVisits() != null ? v.getVisits().getTarget() : BloSalesV2Utils.EMPTY_STRING,
                         parserTimestamp(v.getTimestamp())
                     };
                     getDefaultTableModel().addRow(row);

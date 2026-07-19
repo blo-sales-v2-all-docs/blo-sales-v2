@@ -19,7 +19,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="1332" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="1476" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="txtSearcher" min="-2" pref="257" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -31,6 +31,7 @@
                       <Component id="pnlProductDetail" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="prgsBarLoad" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -45,8 +46,10 @@
                   <Component id="btnDownloadStock" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblF1Instructions" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="prgsBarLoad" min="-2" pref="14" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="443" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="438" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnlProductDetail" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -150,6 +153,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="pulsa_la_tecla_f1_para_recuperar_informacion_detallada_del_historial_y_movimientos_del_producto"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="prgsBarLoad">
     </Component>
   </SubComponents>
 </Form>

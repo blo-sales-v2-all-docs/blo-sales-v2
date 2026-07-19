@@ -61,7 +61,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     }
 
     @Override
-    public PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, BigDecimal amount, String brand, String invoice, long idUser, long idOrder) throws BloSalesV2Exception {
+    public PojoIntOrderVendor closeOrder(StatusMovementProviderIntEnum reason, BigDecimal amount, String brand, String invoice, long idUser, long idOrder, String productsInfo) throws BloSalesV2Exception {
         try {
             // desactivar la funcion para guardar en la db
             dbTransactionManager.disableAutocommit();
@@ -69,6 +69,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             final var orderFound = getOrderById(idOrder);
             BloSalesV2Utils.validateRule(orderFound == null, BloSalesV2Utils.CODE_ORDER_NOT_FOUND, BloSalesV2Utils.ERROR_ORDER_NOT_FOUND);
             orderFound.setStatusOrder(reason);
+            orderFound.setProductsInfo(productsInfo);
             if (reason.equals(StatusMovementProviderIntEnum.CANCELLED)) {
                 orderFound.setInvoice(BloSalesV2Utils.N_A);
             }
@@ -84,9 +85,9 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             if (reason.compareTo(StatusMovementProviderIntEnum.DELIVERED) == 0) {
                 logger.info("guardando una nota");
                 final var note = new PojoIntNote();
-                final var concept = "PAGO de orden de %s [%s], no. de factura: %s; por: $%s";
+                final var concept = "PAGO de orden de %s. %s (%s), no. de factura: %s; por: $%s";
                 note.setFkUser(idUser);
-                note.setNote(String.format(concept, brand, reason, invoice, amount));
+                note.setNote(String.format(concept, brand, productsInfo, reason, invoice, amount));
                 note.setTimesamp(timestamp);
                 note.setTypeNote(TypeNoteIntEnum.ORDEN_PASIVO);
                 final var noteSaved = userController.addNoteNotCommit(note);

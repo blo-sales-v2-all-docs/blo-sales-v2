@@ -11,6 +11,7 @@ import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.components.CheckboxDays;
 import com.blo.sales.v2.view.mappers.PojoVendorMapper;
 import com.blo.sales.v2.view.pojos.PojoVendor;
+import com.blo.sales.v2.view.pojos.enums.VisitEnum;
 import jakarta.inject.Inject;
 
 public class AddVendor extends AbstractDashboardBase {
@@ -136,6 +137,7 @@ public class AddVendor extends AbstractDashboardBase {
             vendor.setVisitDays(visitDays.getDaysSelected());
             vendor.setPerWeek(visitDays.isPerWeek());
             vendor.setName(vendorName);
+            vendor.setVisits(VisitEnum.valueOf(visitDays.getVisits()));
             vendorController.addVendor(vendorMapper.toInner(vendor));
             resetFields();
         } catch (BloSalesV2Exception ex) {
