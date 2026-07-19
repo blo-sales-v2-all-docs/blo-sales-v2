@@ -338,6 +338,7 @@ public final class AllProducts extends AbstractDashboardBase {
                     @Override
                     protected void done() {
                         prgsBarLoad.setValue(0);
+                        CommonAlerts.openMessage(getTranslateBy(KeysEnum.COMMON_LBL_UPDATED_COMPLETE.getKey()), getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()));
                     }
                     
                     
@@ -398,6 +399,7 @@ public final class AllProducts extends AbstractDashboardBase {
         @Override
         public void run() {
             try {
+                logger.info("Inicia actualizacion de producto");
                     /** 
                      * 0 - ID
                      * 1 - Codigo de barras
@@ -450,6 +452,8 @@ public final class AllProducts extends AbstractDashboardBase {
                         getUserData().getIdUser(),
                         type
                     );
+                    initPanelManagement();
+                    logger.info("producto reiniciado [%s]", idProductSelected);
                 } catch (BloSalesV2Exception e) {
                     logger.error(e.getMessage());
                     CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
