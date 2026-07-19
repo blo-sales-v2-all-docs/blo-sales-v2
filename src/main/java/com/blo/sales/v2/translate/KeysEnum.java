@@ -54,8 +54,8 @@ public enum KeysEnum {
     // ver ordenes
     DASHBOARD_TITLES_VIEW_ORDERS("dashboard.titles.view-orders"), VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS("view-orders.lbl.filter-orders-by-status"), VIEW_ORDERS_LBL_NO_INVOICE("view-orders.lbl.no-invoice"), VIEW_ORDERS_BTN_CLOSE_ORDER("view-orders.btn.close-order"),
     DASHBOARD_ROOT_DLG_REMEMBER_VISIT("dashboard-root.dlg.remeber-visit"),
-    VIEW_ORDERS_DLG_ADDING_ADDITIONAL_INFO_ON_NOTE("view-orders.dlg.adding-additional-info-on-note"), VIEW_ORDERS_DLG_PUT_PRODUCTS_DETAILS("view-orders.dlg.put-products-details"), VIEW_ORDERS_DLG_PRODUCTS_BOUGHT_ON_ORDER("view-orders.dlg.products-bought-on-order")
-    
+    VIEW_ORDERS_DLG_ADDING_ADDITIONAL_INFO_ON_NOTE("view-orders.dlg.adding-additional-info-on-note"), VIEW_ORDERS_DLG_PUT_PRODUCTS_DETAILS("view-orders.dlg.put-products-details"), VIEW_ORDERS_DLG_PRODUCTS_BOUGHT_ON_ORDER("view-orders.dlg.products-bought-on-order"),
+    COMMON_LBL_UPDATED_COMPLETE("common.lbl.updated-complete"), COMMON_TTL_COMPLETE("common.ttl.complete")
     
     
     ;

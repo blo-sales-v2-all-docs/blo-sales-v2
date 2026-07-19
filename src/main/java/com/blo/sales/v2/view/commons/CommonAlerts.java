@@ -8,6 +8,10 @@ public final class CommonAlerts {
     
     private CommonAlerts() { }
     
+    public static void openMessage(String msg, String title) {
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     /**
      * Muestra un panel de error
      * @param msg 
