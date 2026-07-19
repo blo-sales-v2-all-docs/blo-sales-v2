@@ -29,6 +29,7 @@ public class OrderVendorEntityMapper implements
         inner.setName(outer.getVendorName());
         inner.setBrand(outer.getBrand());
         inner.setPayment_type(outer.getPaymentType());
+        inner.setProducts_info(outer.getProductsInfo());
         return inner;
     }
 
@@ -48,6 +49,7 @@ public class OrderVendorEntityMapper implements
         outer.setVendorName(inner.getName());
         outer.setBrand(inner.getBrand());
         outer.setPaymentType(inner.getPayment_type());
+        outer.setProductsInfo(inner.getProducts_info());
         return outer;
     }
     

@@ -3,6 +3,8 @@ package com.blo.sales.v2.utils;
 import com.blo.sales.v2.config.BloSalesV2ConfigManagement;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -29,6 +31,9 @@ public final class BloSalesV2Utils {
     public static final String CURRENCY_REGEX = "^\\d*(\\.\\d{1,2})?$";
     
     public static final String QUANTITY_REGEX = "^\\d*(\\.\\d{1,3})?$";
+    
+    /** 0. texto.-.ok */
+    public static final String ID_FROM_INDEX_LST = "\\d+\\.\\s+(.+)";
     
     public static final String SEPARATOR_PAYMENTS = ",";
     
@@ -283,5 +288,25 @@ public final class BloSalesV2Utils {
             return 0L;
         }
         return Long.parseLong(matcher.group());
+    }
+    
+    /**
+     * Recupera una coincidencia de una cadena utilizando una expresión regular.
+     * <br>
+     * Ejemplo:
+     * 0. Hola mundo
+     * {@code \\d+\\.\\s+(.+)}
+     * Recupera Hola mundo
+     * @param pattern patrón
+     * @param str
+     * @param indexFromPattern coincidencia a recuperar
+     * @return 
+     */
+    public static String getMatcherByIndexGroup(String pattern, String str, int indexFromPattern) {
+        final var matcher = Pattern.compile(pattern).matcher(str);
+        if (!matcher.find()) {
+            return EMPTY_STRING;
+        }
+        return matcher.group(indexFromPattern);
     }
 }

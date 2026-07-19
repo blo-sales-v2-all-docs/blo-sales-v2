@@ -10,7 +10,7 @@ public enum KeysEnum {
     SALES_LBL_QUANTITY("sales.lbl.quantity"), SALES_LBL_BAR_CODE("sales.lbl.bar-code"), SALES_BTN_COMPLETE("sales.btn.complete"), SALES_BTN_NO_COMPLETE("sales.btn.no-complete"), SALES_DLG_MANUAL_SEARCH("sales.dlg.manual-search"), SALES_DLG_DEBTORS("sales.dlg.debtors"), SALES_LBL_FAST_REST("sales.lbl.fast-rest"),
     // producto
     STOCK_BTN_DOWNLOAD_STOCK("stock.btn.download-stock"), STOCK_LBL_PRODUCT("stock.lbl.product"), STOCK_LBL_COST_OF_SALE("stock.lbl.cost-of-sale"), STOCK_LBL_PRICE("stock.lbl.price"), STOCK_LBL_QUANTITY("stock.lbl.quantity"), STOCK_LBL_BAR_CODE("stock.lbl.bar-code"), STOCK_BTN_COSTS_EVOLUTION("stock.btn.cost-evolutions"), STOCK_BTN_MOVEMENTS("stock.btn.movements"), STOCK_DLG_NOT_MOVEMENTS("stock.dlg.not-movements"), STOCK_DLG_HSITORY_MOVEMENTS("stock.dlg.movements-history"), STOCK_DLG_BTN_DOWNLOAD_HISTORY("stock.dlg.btn.download-history"), STOCK_FILE_NAME("stock.fle.name"),
-    STOCK_LBL_F1_SEARCH("stock.lbl.f1-search"),
+    STOCK_LBL_F1_SEARCH("stock.lbl.f1-search"), STOCK_BTN_OPEN_SELECTOR("stock.btn.open-selector"), STOCK_DLG_SELECTOR_CATEGORY("stock.dlg.selector-categories"),
     // register product
     REGISTER_PRODUCT_LBL_BAR_CODE("register-product.lbl.bar-code"), REGISTER_PRODUCT_LBL_NAME("register-product.lbl.name"), REGISTER_PRODUCT_BY_KG("register-product.lbl.by-kg"), REGISTER_PRODUCT_LBL_QUANTITY("register-product.lbl.quantity"), REGISTER_PRODUCT_LBL_PRICE("register-product.lbl.price"), REGISTER_PRODUCT_LBL_COST_OF_SALE("register-product.lbl.cost-of-sale"),
     // categories
@@ -50,10 +50,11 @@ public enum KeysEnum {
     DASHBOARD_TITLES_ADD_VENDOR("dashboard.titles.add-vendor"), ADD_VENDOR_LBL_VENDOR_NAME("add-vendor.lbl.vendor-name"), ADD_VENDOR_LBL_CONTACT("add-vendor.lbl.contact"), ADD_VENDOR_LBL_BRAND("add-vendor.lbl.brand"), ADD_VENDOR_LBL_VISIT_DAYS("add-vendor.lbl.visit-days"), ADD_VENDOR_LBL_PRE_SALE("add-vendor.lbl.pre-sale"),
     DASHBOARD_TITLES_VIEW_VENDORS("dashboard.titles.view-vendors"),
     // orders vendors
-    DASHBOARD_TITLES_OPEN_ORDER("dashboard.titles.open-order"), OPEN_ORDER_LBL_SELECT_VENDOR("open-order.lbl.select-vendor"), OPEN_ORDER_LBL_AMOUNT("open-order.lbl.amount"), OPEN_ORDER_LBL_DEAD_LINE("open-order.lbl.dead-line"),
+    DASHBOARD_TITLES_OPEN_ORDER("dashboard.titles.open-order"), OPEN_ORDER_BTN_SELECT_VENDOR("open-order.btn.select-vendor"), OPEN_ORDER_LBL_AMOUNT("open-order.lbl.amount"), OPEN_ORDER_LBL_DEAD_LINE("open-order.lbl.dead-line"),
     // ver ordenes
     DASHBOARD_TITLES_VIEW_ORDERS("dashboard.titles.view-orders"), VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS("view-orders.lbl.filter-orders-by-status"), VIEW_ORDERS_LBL_NO_INVOICE("view-orders.lbl.no-invoice"), VIEW_ORDERS_BTN_CLOSE_ORDER("view-orders.btn.close-order"),
-    DASHBOARD_ROOT_DLG_REMEMBER_VISIT("dashboard-root.dlg.remeber-visit")
+    DASHBOARD_ROOT_DLG_REMEMBER_VISIT("dashboard-root.dlg.remeber-visit"),
+    VIEW_ORDERS_DLG_ADDING_ADDITIONAL_INFO_ON_NOTE("view-orders.dlg.adding-additional-info-on-note"), VIEW_ORDERS_DLG_PUT_PRODUCTS_DETAILS("view-orders.dlg.put-products-details"), VIEW_ORDERS_DLG_PRODUCTS_BOUGHT_ON_ORDER("view-orders.dlg.products-bought-on-order")
     
     
     

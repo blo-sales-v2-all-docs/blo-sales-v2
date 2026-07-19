@@ -1,8 +1,13 @@
 package com.blo.sales.v2.view.pojos;
 
-import lombok.Data;
+import com.blo.sales.v2.view.pojos.enums.VisitEnum;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public @Data class PojoVendor {
+@Setter
+@Getter
+public @ToString class PojoVendor {
     
     private long idVendor;
     
@@ -21,6 +26,8 @@ public @Data class PojoVendor {
     private String contact;
     
     private boolean perWeek;
+    
+    private VisitEnum visits;
     
     public String getBasicData() {
         final var out = "[%s]\t%s - %s";

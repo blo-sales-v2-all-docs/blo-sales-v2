@@ -5,22 +5,27 @@ import com.blo.sales.v2.controller.IProductsController;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
+import com.blo.sales.v2.utils.PropsKeysEnum;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.dialogs.SelectorDialog;
 import com.blo.sales.v2.view.mappers.ProductMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoCategoriesMapper;
+import com.blo.sales.v2.view.pojos.PojoCategory;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.utils.GUIStore;
 import com.blo.sales.v2.view.utils.handler.ManagementProductStoreHandler;
 import jakarta.inject.Inject;
-import javax.swing.DefaultComboBoxModel;
+import java.util.List;
 import javax.swing.JTextField;
 
 public final class RegisterProduct extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(RegisterProduct.class.getName());
+    
+    private static final String[] categoriesProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_CATEGORIES_PROTECTED.getKey()).split(",");
     
     @Inject
     private IProductsController productsController;
@@ -33,6 +38,8 @@ public final class RegisterProduct extends AbstractDashboardBase {
     
     @Inject
     private WrapperPojoCategoriesMapper categoriesMapper;
+    
+    private long categorySelected = 0;
 
     public RegisterProduct(String key) {
         super(key);
@@ -54,7 +61,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
         nmbSaleCost = new javax.swing.JTextField();
         chkbxItsKg = new javax.swing.JCheckBox();
         btnSave = new javax.swing.JButton();
-        lstMarks = new javax.swing.JComboBox<>();
+        btnCategories = new javax.swing.JButton();
 
         txtBarCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -106,6 +113,13 @@ public final class RegisterProduct extends AbstractDashboardBase {
             }
         });
 
+        btnCategories.setText("abrir_categorias");
+        btnCategories.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCategoriesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,9 +127,6 @@ public final class RegisterProduct extends AbstractDashboardBase {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSave))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -138,12 +149,16 @@ public final class RegisterProduct extends AbstractDashboardBase {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(nmbSaleCost, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-                                .addComponent(lstMarks, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtProductName)
+                                .addComponent(txtProductName, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(chkbxItsKg)))))
+                                .addComponent(chkbxItsKg))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnCategories, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(330, 330, 330))
         );
         layout.setVerticalGroup(
@@ -165,10 +180,10 @@ public final class RegisterProduct extends AbstractDashboardBase {
                     .addComponent(nmbPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSaleCost)
                     .addComponent(nmbSaleCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lstMarks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCategories))
                 .addGap(18, 18, 18)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addContainerGap(463, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -185,15 +200,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
             data.setPrice(price);
             data.setProduct(productName);
             data.setQuantity(quantity);
-            /** selecciona una categoria */
-            final var itemSelected = GUICommons.getValueFromComboBox(lstMarks).split("[ ]+");
-            BloSalesV2Utils.validateRule(
-                    itemSelected.length == 0 || itemSelected[0].trim().isBlank(),
-                    BloSalesV2Utils.CODE_CATEGORY_NOT_SELECTED,
-                    BloSalesV2Utils.CATEGORY_NO_SELECTED
-            );
-            final var idMark = itemSelected[0].trim();
-            data.setFkCategory(Long.parseLong(idMark));
+            data.setFkCategory(categorySelected);
             data.setKg(GUICommons.isCheckedCkeckBox(chkbxItsKg));
             GUIStore.resetProductData();
             productsController.registerProduct(productMapper.toInner(data));
@@ -202,6 +209,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
             GUICommons.setTextToField(nmbQuantity, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(nmbPrice, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(nmbSaleCost, BloSalesV2Utils.EMPTY_STRING);
+            categorySelected = 0;
         } catch (BloSalesV2Exception | NumberFormatException ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -228,14 +236,32 @@ public final class RegisterProduct extends AbstractDashboardBase {
         addPojoData(nmbSaleCost, ManagementProductStoreHandler.COST_OF_SALE);
     }//GEN-LAST:event_nmbSaleCostKeyReleased
 
-    private void loadCategories() throws BloSalesV2Exception {
-        final var categoryModel = new DefaultComboBoxModel<String>();
-        
-        categoriesMapper.toOuter(this.categories.getAllCategories())
-                .getCategories().forEach(c -> categoryModel.addElement(c.toString()));
-        
-        lstMarks.setModel(categoryModel);
-    }
+    private void btnCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriesActionPerformed
+        try {
+            /** se filtran las categorias no protegidas */
+            List<PojoCategory> categoriesFiltered = categoriesMapper.toOuter(this.categories.getAllCategories()).getCategories();
+            for (final var p: categoriesProtected) {
+                categoriesFiltered =
+                        categoriesFiltered.stream().
+                                filter(c -> c.getIdCategory() != Long.parseLong(p))
+                                .toList();
+            }
+            new SelectorDialog<>(
+                    this,
+                    getTranslateBy(KeysEnum.STOCK_DLG_SELECTOR_CATEGORY.getKey()),
+                    categoriesFiltered.stream().map(PojoCategory::toString).toList(),
+                    data -> {
+                        final var idSelected = BloSalesV2Utils.getMatcherByIndexGroup("^\\d", data, 0);
+                        if (!idSelected.isBlank()) {
+                            categorySelected = Long.parseLong(idSelected);
+                        }
+                    }
+            ).setVisible(true);
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
+    }//GEN-LAST:event_btnCategoriesActionPerformed
     
     private void loadDataForm() {
         final var productStore = GUIStore.getProductData();
@@ -263,6 +289,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCategories;
     private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox chkbxItsKg;
     private javax.swing.JLabel lblBarCode;
@@ -270,7 +297,6 @@ public final class RegisterProduct extends AbstractDashboardBase {
     private javax.swing.JLabel lblProductName;
     private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblSaleCost;
-    private javax.swing.JComboBox<String> lstMarks;
     private javax.swing.JTextField nmbPrice;
     private javax.swing.JTextField nmbQuantity;
     private javax.swing.JTextField nmbSaleCost;
@@ -287,18 +313,13 @@ public final class RegisterProduct extends AbstractDashboardBase {
         GUICommons.setTextToField(lblSaleCost, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_COST_OF_SALE.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToCheckbox(chkbxItsKg, getTranslateBy(KeysEnum.REGISTER_PRODUCT_BY_KG.getKey()));
+        GUICommons.setTextToButton(btnCategories, getTranslateBy(KeysEnum.STOCK_BTN_OPEN_SELECTOR.getKey()));
     }
 
     @Override
     public void init() {
-        try {
-            initComponents();
-            loadDataForm();
-            loadTargets();
-            loadCategories();
-        } catch (BloSalesV2Exception ex) {
-            logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
-        }
+        initComponents();
+        loadDataForm();
+        loadTargets();
     }
 }

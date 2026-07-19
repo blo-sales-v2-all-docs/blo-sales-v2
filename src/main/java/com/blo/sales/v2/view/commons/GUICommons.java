@@ -34,6 +34,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -111,6 +113,25 @@ public final class GUICommons {
                         T item = lst.getModel().getElementAt(index);
                         action.accept(item); // Ejecuta la lógica personalizada
                     }
+                }
+            }
+        });
+    }
+    
+    /**
+     * Metodo que permite ejecutar un evento cada vez que se cambia de selección una fila
+     * @param table
+     * @param action 
+     */
+    public static void changeRowSelectedFromTable(JTable table, Consumer<Integer> action) {
+        table.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            // ¡Importante! Evitar que el evento se procese dos veces (al presionar y soltar)
+            if (!e.getValueIsAdjusting()) {
+                
+                // Validar que haya una fila seleccionada
+                if (table.getSelectedRow() != -1) {
+                    // Obtener el índice de la fila seleccionada
+                    action.accept(table.getSelectedRow());
                 }
             }
         });

@@ -18,6 +18,14 @@ import lombok.Setter;
 @Singleton
 public class CheckboxDays {
     
+    private static final String MONTHLY = "MONTHLY";
+    
+    private static final String WEEKLY = "WEEKLY";
+    
+    private static final String EVERY_TWO_WEEKS = "EVERY_TWO_WEEKS";
+    
+    private static final String EVERY_THREE_WEEKS = "EVERY_THREE_WEEKS";
+    
     private static final String[] week = {"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
     
     @Setter
@@ -41,13 +49,19 @@ public class CheckboxDays {
 
         // 3. Crear los Radio Buttons
         final var rbSemanal = new JRadioButton("Semanal", true);
+        final var rb2Semanas = new JRadioButton("Quincenal");
+        final var rb3Semanas = new JRadioButton("Cada 3 semanas");
         final var rbMensual = new JRadioButton("Mensual");
 
         final var group = new ButtonGroup();
         group.add(rbSemanal);
+        group.add(rb2Semanas);
+        group.add(rb3Semanas);
         group.add(rbMensual);
 
         filaRadio.add(rbSemanal);
+        filaRadio.add(rb2Semanas);
+        filaRadio.add(rb3Semanas);
         filaRadio.add(rbMensual);
 
         // 4. Crear los Checkboxes
@@ -68,11 +82,9 @@ public class CheckboxDays {
             }
         });
 
-        rbSemanal.addActionListener(e -> {
-            for (final var chk : checkBoxes) {
-                chk.setEnabled(true);
-            }
-        });
+        rbSemanal.addActionListener(e -> enabledCheckbox(checkBoxes));
+        rb2Semanas.addActionListener(e -> enabledCheckbox(checkBoxes));
+        rb3Semanas.addActionListener(e -> enabledCheckbox(checkBoxes));
 
         // 6. Agregar las filas al contenedor principal
         container.add(filaRadio);
@@ -83,7 +95,7 @@ public class CheckboxDays {
         container.repaint();
     }
     
-    public void createWeekCheckboxSelected(String[] daysSelected) {
+    public void createWeekCheckboxSelected(String[] daysSelected, String visits) {
         final var daysAsList = Arrays.asList(daysSelected);
         createCheckboxDaysList();
         if (container.getComponents().length == 0) {
@@ -101,8 +113,24 @@ public class CheckboxDays {
             }
             
         } else {
-            final var radioWeek = (JRadioButton) rowRadio.getComponent(0);
-            radioWeek.setSelected(true);
+            var visitSelected = 0;
+            switch (visits) {
+                case WEEKLY:
+                    visitSelected = 0;
+                    break;
+                case EVERY_TWO_WEEKS:
+                    visitSelected = 1;
+                    break;
+                case EVERY_THREE_WEEKS:
+                    visitSelected = 2;
+                    break;
+                default:
+                    visitSelected = 0;
+                    break;
+            }
+            final var radio = (JRadioButton) rowRadio.getComponent(visitSelected);
+            radio.setSelected(true);
+            
             for (final var item: filaChecks.getComponents()) {
                 final var check = (JCheckBox) item;
                 check.setEnabled(true);
@@ -121,12 +149,16 @@ public class CheckboxDays {
         // recupera informacion de radio button
         final var info = new WeekInfoSelected();
         final var perMonthRow = (JPanel) container.getComponent(0);
-        final var radio = (JRadioButton) perMonthRow.getComponents()[0];
+        final var radio = (JRadioButton) perMonthRow.getComponents()[0]; //semanal
         final var perWeek = radio.isSelected();
+        // recuperar los días que visitara
+        final var weekly2 = (JRadioButton) perMonthRow.getComponents()[1]; //quincenal
+        final var weekly3 = (JRadioButton) perMonthRow.getComponents()[2]; //trisemanal
         // se agrega negacion porque lo seleccionado es por semana y espera por mes
         info.setPerWeek(perWeek);
         info.setDaysSelected(BloSalesV2Utils.JSON_EMPTY_ARRAY);
-        if (perWeek) {
+        var visits = MONTHLY;
+        if (perWeek || weekly2.isSelected() || weekly3.isSelected()) {
             final var gson = new Gson();
             final var lstDays = new ArrayList<String>();
             final var panelWeek = (JPanel) container.getComponent(1);
@@ -136,8 +168,27 @@ public class CheckboxDays {
                 }
             }
             info.setDaysSelected(gson.toJson(lstDays));
+            if (perWeek) {
+                visits = WEEKLY;
+            }
+            if (weekly2.isSelected()) {
+                visits = EVERY_TWO_WEEKS;
+            }
+            if (weekly3.isSelected()) {
+                visits = EVERY_THREE_WEEKS;
+            }
         }
+        info.setVisits(visits);
         return info;
     }
     
+    /**
+     * permite activar los checkboxes
+     * @param checks 
+     */
+    private void enabledCheckbox(ArrayList<JCheckBox> checks) {
+        for (final var chk: checks) {
+            chk.setEnabled(true);
+        }
+    }
 }
