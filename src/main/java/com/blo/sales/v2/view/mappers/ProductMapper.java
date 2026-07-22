@@ -23,6 +23,7 @@ public class ProductMapper implements IToInner<PojoIntProduct, PojoProduct>, ITo
         inner.setPrice(outer.getPrice());
         inner.setProduct(outer.getProduct());
         inner.setQuantity(outer.getQuantity());
+        inner.setAvailable(outer.isAvailable());
         return inner;
     }
 
@@ -40,6 +41,7 @@ public class ProductMapper implements IToInner<PojoIntProduct, PojoProduct>, ITo
         outer.setPrice(inner.getPrice());
         outer.setProduct(inner.getProduct());
         outer.setQuantity(inner.getQuantity());
+        outer.setAvailable(inner.isAvailable());
         return outer;
     }
     

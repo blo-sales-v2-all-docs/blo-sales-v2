@@ -86,6 +86,7 @@ public final class AllProducts extends AbstractDashboardBase {
         btnGetEvolution = new javax.swing.JButton();
         btnMovements = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        btnDeleteProduct = new javax.swing.JButton();
         lblF1Instructions = new javax.swing.JLabel();
         prgsBarLoad = new javax.swing.JProgressBar();
 
@@ -136,6 +137,13 @@ public final class AllProducts extends AbstractDashboardBase {
             }
         });
 
+        btnDeleteProduct.setText("eliminar");
+        btnDeleteProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteProductActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlProductDetailLayout = new javax.swing.GroupLayout(pnlProductDetail);
         pnlProductDetail.setLayout(pnlProductDetailLayout);
         pnlProductDetailLayout.setHorizontalGroup(
@@ -145,9 +153,11 @@ public final class AllProducts extends AbstractDashboardBase {
                 .addComponent(btnGetEvolution)
                 .addGap(18, 18, 18)
                 .addComponent(btnMovements)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
+                .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnCancel)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlProductDetailLayout.setVerticalGroup(
             pnlProductDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,6 +166,7 @@ public final class AllProducts extends AbstractDashboardBase {
                 .addGroup(pnlProductDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGetEvolution, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMovements, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -176,10 +187,10 @@ public final class AllProducts extends AbstractDashboardBase {
                         .addComponent(lblF1Instructions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnDownloadStock))
+                    .addComponent(prgsBarLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlProductDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(prgsBarLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -193,7 +204,7 @@ public final class AllProducts extends AbstractDashboardBase {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prgsBarLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlProductDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -270,6 +281,16 @@ public final class AllProducts extends AbstractDashboardBase {
                 {"ID", "Codigo de barras", "Producto", "Precio", "Costo de venta", "¿Por kg?", "Categoria",  "Cantidad en existencia", "¿Completo?", "Observaciones"};
         BloSalesV2CSVPlugin.exportFile(headers, bloSalesRow, getTranslateBy(KeysEnum.STOCK_FILE_NAME.getKey()), false);
     }//GEN-LAST:event_btnDownloadStockActionPerformed
+
+    private void btnDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProductActionPerformed
+        if (
+                CommonAlerts.showConfirmDialog(
+                    String.format(getTranslateBy(KeysEnum.STOCK_DLG_SURE_DELTE_PRODUCT.getKey()), idProductSelected),
+                    getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))
+            ) {
+            
+        }
+    }//GEN-LAST:event_btnDeleteProductActionPerformed
 
     /** ajustar filtro de categorias */
     private void loadTitlesAndData() {
@@ -353,6 +374,7 @@ public final class AllProducts extends AbstractDashboardBase {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDeleteProduct;
     private javax.swing.JButton btnDownloadStock;
     private javax.swing.JButton btnGetEvolution;
     private javax.swing.JButton btnMovements;
@@ -371,6 +393,7 @@ public final class AllProducts extends AbstractDashboardBase {
         GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_CANCEL.getKey()));
         GUICommons.setTextToButton(btnMovements, getTranslateBy(KeysEnum.STOCK_BTN_MOVEMENTS.getKey()));
         GUICommons.setTextToField(lblF1Instructions, getTranslateBy(KeysEnum.STOCK_LBL_F1_SEARCH.getKey()));
+        GUICommons.setTextToButton(btnDeleteProduct, getTranslateBy(KeysEnum.STOCK_BTN_DELETE_PRODUCT.getKey()));
     }
 
     @Override

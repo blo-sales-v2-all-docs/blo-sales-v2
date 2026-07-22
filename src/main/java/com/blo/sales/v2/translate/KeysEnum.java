@@ -9,6 +9,7 @@ public enum KeysEnum {
     // sales
     SALES_LBL_QUANTITY("sales.lbl.quantity"), SALES_LBL_BAR_CODE("sales.lbl.bar-code"), SALES_BTN_COMPLETE("sales.btn.complete"), SALES_BTN_NO_COMPLETE("sales.btn.no-complete"), SALES_DLG_MANUAL_SEARCH("sales.dlg.manual-search"), SALES_DLG_DEBTORS("sales.dlg.debtors"), SALES_LBL_FAST_REST("sales.lbl.fast-rest"),
     // producto
+    STOCK_BTN_DELETE_PRODUCT("stock.btn.delete-product"), STOCK_DLG_SURE_DELTE_PRODUCT("stock.dlg.sure-delete-product"),
     STOCK_BTN_DOWNLOAD_STOCK("stock.btn.download-stock"), STOCK_LBL_PRODUCT("stock.lbl.product"), STOCK_LBL_COST_OF_SALE("stock.lbl.cost-of-sale"), STOCK_LBL_PRICE("stock.lbl.price"), STOCK_LBL_QUANTITY("stock.lbl.quantity"), STOCK_LBL_BAR_CODE("stock.lbl.bar-code"), STOCK_BTN_COSTS_EVOLUTION("stock.btn.cost-evolutions"), STOCK_BTN_MOVEMENTS("stock.btn.movements"), STOCK_DLG_NOT_MOVEMENTS("stock.dlg.not-movements"), STOCK_DLG_HSITORY_MOVEMENTS("stock.dlg.movements-history"), STOCK_DLG_BTN_DOWNLOAD_HISTORY("stock.dlg.btn.download-history"), STOCK_FILE_NAME("stock.fle.name"),
     STOCK_LBL_F1_SEARCH("stock.lbl.f1-search"), STOCK_BTN_OPEN_SELECTOR("stock.btn.open-selector"), STOCK_DLG_SELECTOR_CATEGORY("stock.dlg.selector-categories"),
     // register product
