@@ -283,12 +283,18 @@ public final class AllProducts extends AbstractDashboardBase {
     }//GEN-LAST:event_btnDownloadStockActionPerformed
 
     private void btnDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProductActionPerformed
-        if (
+        try {
+            if (
                 CommonAlerts.showConfirmDialog(
                     String.format(getTranslateBy(KeysEnum.STOCK_DLG_SURE_DELTE_PRODUCT.getKey()), idProductSelected),
                     getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))
             ) {
-            
+                productsController.deleteProduct(getUserData().getIdUser(), idProductSelected);
+                initPanelManagement();
+            }
+        } catch (BloSalesV2Exception e) {
+            logger.error(e.getMessage());
+            CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnDeleteProductActionPerformed
 
@@ -360,6 +366,7 @@ public final class AllProducts extends AbstractDashboardBase {
                     protected void done() {
                         prgsBarLoad.setValue(0);
                         CommonAlerts.openMessage(getTranslateBy(KeysEnum.COMMON_LBL_UPDATED_COMPLETE.getKey()), getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()));
+                        initPanelManagement();
                     }
                     
                     
@@ -444,9 +451,10 @@ public final class AllProducts extends AbstractDashboardBase {
                     if (
                             !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.QUANTITY_REGEX, quantity) ||
                             !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.CURRENCY_REGEX, price) || 
-                            !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.CURRENCY_REGEX, costOfSale)
+                            !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.CURRENCY_REGEX, costOfSale) ||
+                            itemsLst.get(2).isBlank()
                     ) {
-                        throw new BloSalesV2Exception(TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY);
+                        throw new BloSalesV2Exception(BloSalesV2Utils.ERROR_IN_FIELDS_WRITTED, BloSalesV2Utils.CODE_IN_FIELDS_WRITTED);
                     }
                     
                     final var productFound = productMapper.toOuter(
@@ -467,6 +475,7 @@ public final class AllProducts extends AbstractDashboardBase {
                         }
                         productFound.setQuantity(new BigDecimal(quantity));
                     }
+                    productFound.setProduct(itemsLst.get(2));
                     productFound.setPrice(new BigDecimal(price));
                     productFound.setCostOfSale(new BigDecimal(costOfSale));
                     productsController.updateProductInfoSavingPriceOnHistory(

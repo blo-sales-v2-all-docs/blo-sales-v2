@@ -8,7 +8,7 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
  * Clase controlador para productos
- * @version 1.0.0
+ * @version 1.1.0
  * @author BLO
  */
 public interface IProductsController {
@@ -70,4 +70,12 @@ public interface IProductsController {
      * @throws BloSalesV2Exception 
      */
     PojoIntProduct updateProductInfoSavingPriceOnHistory(PojoIntProduct product, ReasonsIntEnum reasons, long idUser, TypesIntEnum type) throws BloSalesV2Exception;
+    
+    /**
+     * Elimina un producto de forma lógica
+     * @param idUser
+     * @param idProduct
+     * @throws BloSalesV2Exception 
+     */
+    void deleteProduct(long idUser, long idProduct) throws BloSalesV2Exception;
 }
