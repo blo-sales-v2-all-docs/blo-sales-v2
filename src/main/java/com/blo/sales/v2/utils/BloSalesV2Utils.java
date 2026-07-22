@@ -42,6 +42,8 @@ public final class BloSalesV2Utils {
     
     public static final String INVALID_TEXT = "Texto no v\u00e1lido";
     
+    public static final String NOTE_ORDER_PAYED = "PAGO de orden de %s. %s (ID ORDEN = %s), no. de factura: %s; por: $%s";
+    
     /** constante para error en guardado */
     public static final String ERROR_SAVED_ON_DATA_BASE = "Error inesperado guardando en la base de datos";
     

@@ -85,9 +85,16 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             if (reason.compareTo(StatusMovementProviderIntEnum.DELIVERED) == 0) {
                 logger.info("guardando una nota");
                 final var note = new PojoIntNote();
-                final var concept = "PAGO de orden de %s. %s (%s), no. de factura: %s; por: $%s";
+                // PAGO de orden de %s. %s (ID ORDEN = %s), no. de factura: %s; por: $%s
                 note.setFkUser(idUser);
-                note.setNote(String.format(concept, brand, productsInfo, reason, invoice, amount));
+                note.setNote(String.format(
+                    BloSalesV2Utils.NOTE_ORDER_PAYED,
+                    brand,
+                    orderFound.getIdOrderVendor(),
+                    reason,
+                    invoice,
+                    amount
+                ));
                 note.setTimesamp(timestamp);
                 note.setTypeNote(TypeNoteIntEnum.ORDEN_PASIVO);
                 final var noteSaved = userController.addNoteNotCommit(note);
