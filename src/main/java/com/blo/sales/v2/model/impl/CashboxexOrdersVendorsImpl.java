@@ -1,13 +1,19 @@
 package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxOrderVendor;
-import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesOrdersVendors;
+import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
 import com.blo.sales.v2.model.ICashboxesOrdersVendorsModel;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.model.config.DBConnection;
+import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.entities.CashboxOrderVendorEntity;
+import com.blo.sales.v2.model.entities.OrderVendorEntity;
+import com.blo.sales.v2.model.entities.VendorEntity;
+import com.blo.sales.v2.model.entities.WrapperOrdersVendorsEntity;
+import com.blo.sales.v2.model.entities.enums.StatusOrderVendorEntityEnum;
 import com.blo.sales.v2.model.mapper.CashboxOrderVendorEntityMapper;
+import com.blo.sales.v2.model.mapper.WrapperOrdersVendorsMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -15,6 +21,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 @Singleton
 public class CashboxexOrdersVendorsImpl implements ICashboxesOrdersVendorsModel {
@@ -23,6 +30,9 @@ public class CashboxexOrdersVendorsImpl implements ICashboxesOrdersVendorsModel 
     
     @Inject
     private IDBTransactionManagerModel transactionManager;
+    
+    @Inject
+    private WrapperOrdersVendorsMapper wrapperOdenesVendedorMapper;
 
     @Override
     public PojoIntCashboxOrderVendor addCashboxOrderVendor(PojoIntCashboxOrderVendor orderVendorInfo) throws BloSalesV2Exception {
@@ -56,8 +66,42 @@ public class CashboxexOrdersVendorsImpl implements ICashboxesOrdersVendorsModel 
     }
 
     @Override
-    public WrapperPojoIntCashboxesOrdersVendors getOrdersVendorByIdCashbox(long idCashox) throws BloSalesV2Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public WrapperPojoIntOrdersVendors getOrdersVendorByIdCashbox(long idCashox) throws BloSalesV2Exception {
+        try {
+             final var conn = DBConnection.getConnection();
+             logger.info("recuperando pedidos de la caja %s", idCashox);
+            final var ps = conn.prepareStatement(BloSalesV2Queries.CASHBOXES_ORDER_VENDOR);
+            ps.setLong(1, idCashox);
+            final var data = ps.executeQuery();
+            final var out = new WrapperOrdersVendorsEntity();
+            final var lst = new ArrayList<OrderVendorEntity>();
+            OrderVendorEntity ordenVendedor = null;
+            VendorEntity informacionVendedor = null;
+            while(data.next()) {
+                informacionVendedor = new VendorEntity();
+                ordenVendedor = new OrderVendorEntity();
+                ordenVendedor.setAmount(data.getBigDecimal(BloSalesV2Columns.AMOUNT));
+                ordenVendedor.setBrand(data.getString(BloSalesV2Columns.BRAND));
+                ordenVendedor.setId_order_vendor(data.getLong(BloSalesV2Columns.ID_ORDER_VENDOR));
+                ordenVendedor.setInvoice(data.getString(BloSalesV2Columns.INVOICE));
+                ordenVendedor.setPayment_type(data.getString(BloSalesV2Columns.PAYMENT_TYPE));
+                ordenVendedor.setProducts_info(data.getString(BloSalesV2Columns.PRODUCTS_INFO));
+                ordenVendedor.setStatus_order(StatusOrderVendorEntityEnum.valueOf(data.getString(BloSalesV2Columns.STATUS_ORDER)));
+                ordenVendedor.setTimestamp(data.getString(BloSalesV2Columns.TIMESTAMP));
+                // informacion del vendedor
+                informacionVendedor.setBrand(data.getString(BloSalesV2Columns.BRAND));
+                informacionVendedor.setName(data.getString(BloSalesV2Columns.NAME));
+                informacionVendedor.setId_vendor(data.getLong(BloSalesV2Columns.ID_VENDOR));
+                ordenVendedor.setVendor_info(informacionVendedor);
+                lst.add(ordenVendedor);
+            }
+            logger.info("pedidos de la caja %s", lst.size());
+            out.setOrders(lst);
+            return wrapperOdenesVendedorMapper.toOuter(out);
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        }
     }
     
 }

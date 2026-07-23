@@ -2,7 +2,7 @@ package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.ICashboxesOrdersVendorsController;
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxOrderVendor;
-import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesOrdersVendors;
+import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
 import com.blo.sales.v2.model.ICashboxesOrdersVendorsModel;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -35,7 +35,7 @@ public class CashboxesOrdersVendorsControllerImpl implements ICashboxesOrdersVen
     }
 
     @Override
-    public WrapperPojoIntCashboxesOrdersVendors getOrdersVendorByIdCashbox(long idCashox) throws BloSalesV2Exception {
+    public WrapperPojoIntOrdersVendors getOrdersVendorByIdCashbox(long idCashox) throws BloSalesV2Exception {
         logger.info("recuperando ordenes vendor por %s id cashbox", idCashox);
         return model.getOrdersVendorByIdCashbox(idCashox);
     }

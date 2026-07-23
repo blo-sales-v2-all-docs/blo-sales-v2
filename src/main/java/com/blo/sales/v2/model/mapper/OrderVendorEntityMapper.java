@@ -6,6 +6,7 @@ import com.blo.sales.v2.model.entities.OrderVendorEntity;
 import com.blo.sales.v2.model.entities.enums.StatusOrderVendorEntityEnum;
 import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 @Singleton
@@ -13,6 +14,9 @@ public class OrderVendorEntityMapper implements
         IToInner<OrderVendorEntity, PojoIntOrderVendor>, 
         IToOuter<OrderVendorEntity, PojoIntOrderVendor>{
 
+    @Inject
+    private VendorEntityMapper vendorEntityMapper;
+    
     @Override
     public OrderVendorEntity toInner(PojoIntOrderVendor outer) {
         if (outer == null) {
@@ -50,6 +54,9 @@ public class OrderVendorEntityMapper implements
         outer.setBrand(inner.getBrand());
         outer.setPaymentType(inner.getPayment_type());
         outer.setProductsInfo(inner.getProducts_info());
+        if (inner.getVendor_info() != null) {
+            outer.setVendorInfo(vendorEntityMapper.toOuter(inner.getVendor_info()));
+        }
         return outer;
     }
     

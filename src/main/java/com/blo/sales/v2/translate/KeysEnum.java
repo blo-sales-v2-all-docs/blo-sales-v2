@@ -51,7 +51,7 @@ public enum KeysEnum {
     DASHBOARD_TITLES_ADD_VENDOR("dashboard.titles.add-vendor"), ADD_VENDOR_LBL_VENDOR_NAME("add-vendor.lbl.vendor-name"), ADD_VENDOR_LBL_CONTACT("add-vendor.lbl.contact"), ADD_VENDOR_LBL_BRAND("add-vendor.lbl.brand"), ADD_VENDOR_LBL_VISIT_DAYS("add-vendor.lbl.visit-days"), ADD_VENDOR_LBL_PRE_SALE("add-vendor.lbl.pre-sale"),
     DASHBOARD_TITLES_VIEW_VENDORS("dashboard.titles.view-vendors"),
     // orders vendors
-    DASHBOARD_TITLES_OPEN_ORDER("dashboard.titles.open-order"), OPEN_ORDER_BTN_SELECT_VENDOR("open-order.btn.select-vendor"), OPEN_ORDER_LBL_AMOUNT("open-order.lbl.amount"), OPEN_ORDER_LBL_DEAD_LINE("open-order.lbl.dead-line"),
+    DASHBOARD_TITLES_OPEN_ORDER("dashboard.titles.open-order"), OPEN_ORDER_BTN_SELECT_VENDOR("open-order.btn.select-vendor"), OPEN_ORDER_LBL_AMOUNT("open-order.lbl.amount"), OPEN_ORDER_LBL_DEAD_LINE("open-order.lbl.dead-line"), CASHBOXES_LBL_ORDERS("cashboxes.lbl.orders"),
     // ver ordenes
     DASHBOARD_TITLES_VIEW_ORDERS("dashboard.titles.view-orders"), VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS("view-orders.lbl.filter-orders-by-status"), VIEW_ORDERS_LBL_NO_INVOICE("view-orders.lbl.no-invoice"), VIEW_ORDERS_BTN_CLOSE_ORDER("view-orders.btn.close-order"),
     DASHBOARD_ROOT_DLG_REMEMBER_VISIT("dashboard-root.dlg.remeber-visit"),

@@ -1,7 +1,7 @@
 package com.blo.sales.v2.model;
 
 import com.blo.sales.v2.controller.pojos.PojoIntCashboxOrderVendor;
-import com.blo.sales.v2.controller.pojos.WrapperPojoIntCashboxesOrdersVendors;
+import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
@@ -27,5 +27,5 @@ public interface ICashboxesOrdersVendorsModel {
      * @return
      * @throws BloSalesV2Exception 
      */
-    WrapperPojoIntCashboxesOrdersVendors getOrdersVendorByIdCashbox(long idCashox) throws BloSalesV2Exception;
+    WrapperPojoIntOrdersVendors getOrdersVendorByIdCashbox(long idCashox) throws BloSalesV2Exception;
 }

@@ -176,4 +176,6 @@ public final class BloSalesV2Queries {
     
     /** cashbox_orders_vendors */
     public static final String ADD_CASHBOX_ORDER_VENDOR = "INSERT INTO cashbox_orders_vendors(fk_order_vendor, fk_cashbox, timestamp) VALUES (?, ?, ?)";
+    
+    public static final String CASHBOXES_ORDER_VENDOR = "SELECT ov.id_order_vendor, ov.amount, ov.status_order, ov.payment_type, ov.timestamp, ov.deadline, ov.invoice, ov.products_info, v.id_vendor, v.brand, v.name FROM cashbox_orders_vendors cov INNER JOIN cashboxes c ON c.id_cashbox = cov.fk_cashbox INNER JOIN orders_vendor ov ON ov.id_order_vendor = cov.fk_order_vendor INNER JOIN vendors v ON v.id_vendor = ov.fk_vendor WHERE cov.fk_cashbox = ?";
 }
