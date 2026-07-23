@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 /**
  * Clase controlador para movimientos de proveedores
  * @author BLO
- * @version 1.0.1
+ * @version 1.0.2
  */
 public interface IOrdersVendorsController {
     

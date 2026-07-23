@@ -1,5 +1,7 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.ICashboxController;
+import com.blo.sales.v2.controller.ICashboxesOrdersVendorsController;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.pojos.PojoIntOrderVendor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntOrdersVendors;
@@ -7,7 +9,10 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 import jakarta.inject.Singleton;
 import com.blo.sales.v2.controller.IOrdersVendorsController;
 import com.blo.sales.v2.controller.IUserController;
+import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
+import com.blo.sales.v2.controller.pojos.PojoIntCashboxOrderVendor;
 import com.blo.sales.v2.controller.pojos.PojoIntNote;
+import com.blo.sales.v2.controller.pojos.enums.CashboxStatusIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.TypeNoteIntEnum;
 import com.blo.sales.v2.model.IOrdersVendorsModel;
@@ -30,6 +35,12 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     
     @Inject
     private IDBTransactionManagerController dbTransactionManager;
+    
+    @Inject
+    private ICashboxController cashboxController;
+    
+    @Inject
+    private ICashboxesOrdersVendorsController cashboxesOrdersVendors;
 
     @Override
     public PojoIntOrderVendor highOrder(PojoIntOrderVendor order) throws BloSalesV2Exception {
@@ -90,8 +101,8 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
                 note.setNote(String.format(
                     BloSalesV2Utils.NOTE_ORDER_PAYED,
                     brand,
-                    orderFound.getIdOrderVendor(),
                     reason,
+                    orderFound.getIdOrderVendor(),
                     invoice,
                     amount
                 ));
@@ -99,6 +110,25 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
                 note.setTypeNote(TypeNoteIntEnum.ORDEN_PASIVO);
                 final var noteSaved = userController.addNoteNotCommit(note);
                 logger.info("nota guardada %s", String.valueOf(noteSaved));
+                // recuperar cashbox abierta
+                // recupera caja abierta
+                var openCashbox = cashboxController.getOpenCashbox();
+                // si no existe se crea
+                if (openCashbox == null) {
+                    logger.info("cashbox inexistente");
+                    final var newCashbox = new PojoIntCashbox();
+                    newCashbox.setFkUser(idUser);
+                    newCashbox.setAmount(BigDecimal.ZERO);
+                    newCashbox.setStatus(CashboxStatusIntEnum.OPEN);
+                    newCashbox.setTimestamp(timestamp);
+                    openCashbox = cashboxController.addCashbox(newCashbox);
+                }
+                logger.info("cashbox %s", String.valueOf(openCashbox));
+                final var cashboxOrderVendor = new PojoIntCashboxOrderVendor();
+                cashboxOrderVendor.setFkCashbox(openCashbox.getIdCashbox());
+                cashboxOrderVendor.setFkOrderVendor(orderFound.getIdOrderVendor());
+                cashboxOrderVendor.setTimestamp(BloSalesV2Utils.getTimestamp());
+                logger.info("orden proveedor - caja guardado [%s]", String.valueOf(cashboxesOrdersVendors.addCashboxOrderVendor(cashboxOrderVendor)));
             }
             dbTransactionManager.doCommit();
             return orderUpdated;

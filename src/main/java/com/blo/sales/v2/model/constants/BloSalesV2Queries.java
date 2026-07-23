@@ -173,4 +173,7 @@ public final class BloSalesV2Queries {
     public static final String GET_ORDERS = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, v.brand, ov.products_info FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor";
     
     public static final String GET_ORDER_BY_ID = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, ov.products_info FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor WHERE ov.id_order_vendor = ? LIMIT 1";
+    
+    /** cashbox_orders_vendors */
+    public static final String ADD_CASHBOX_ORDER_VENDOR = "INSERT INTO cashbox_orders_vendors(fk_order_vendor, fk_cashbox, timestamp) VALUES (?, ?, ?)";
 }
