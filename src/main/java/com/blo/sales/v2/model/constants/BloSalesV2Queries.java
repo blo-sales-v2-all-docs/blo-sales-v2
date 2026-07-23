@@ -21,15 +21,15 @@ public final class BloSalesV2Queries {
     public static final String UPDATE_CATEGORY = "UPDATE categories SET category = ?, description = ? WHERE id_category = ?";
     
     /** products */
-    public static final String INSERT_PRODUCT = "INSERT INTO stock(product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String INSERT_PRODUCT = "INSERT INTO stock(product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category, available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, true)";
     
-    public static final String SELECT_ALL_PRODUCTS = "SELECT id_product, product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category FROM stock";
+    public static final String SELECT_ALL_PRODUCTS = "SELECT id_product, product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category, available FROM stock WHERE available = true";
     
-    public static final String UPDATE_PRODUCT = "UPDATE stock SET product = ?, quantity = ?, cost_of_sale = ?, timestamp = ?, bar_code = ?, price = ? WHERE id_product = ?";
+    public static final String UPDATE_PRODUCT = "UPDATE stock SET product = ?, quantity = ?, cost_of_sale = ?, timestamp = ?, bar_code = ?, price = ?, available = ? WHERE id_product = ?";
     
-    public static final String SELECT_ONE_PRODUCT = "SELECT id_product, product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category FROM stock WHERE id_product = ?";
+    public static final String SELECT_ONE_PRODUCT = "SELECT id_product, product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category, available FROM stock WHERE id_product = ?";
     
-    public static final String SELECT_PRODUCT_BY_BAR_CODE = "SELECT id_product, product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category FROM stock WHERE bar_code = ?";
+    public static final String SELECT_PRODUCT_BY_BAR_CODE = "SELECT id_product, product, quantity, cost_of_sale, price, timestamp, is_kg, bar_code, fk_category, available FROM stock WHERE bar_code = ?";
     
     /** historial */
     public static final String INSERT_MOVEMENT = "INSERT INTO history(fk_product, fk_user, type, quantity, reason, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
@@ -173,4 +173,9 @@ public final class BloSalesV2Queries {
     public static final String GET_ORDERS = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, v.brand, ov.products_info FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor";
     
     public static final String GET_ORDER_BY_ID = "SELECT id_order_vendor, fk_vendor, amount, status_order, invoice, v.timestamp, deadline, v.name, ov.products_info FROM orders_vendor ov INNER JOIN vendors v ON ov.fk_vendor = v.id_vendor WHERE ov.id_order_vendor = ? LIMIT 1";
+    
+    /** cashbox_orders_vendors */
+    public static final String ADD_CASHBOX_ORDER_VENDOR = "INSERT INTO cashbox_orders_vendors(fk_order_vendor, fk_cashbox, timestamp) VALUES (?, ?, ?)";
+    
+    public static final String CASHBOXES_ORDER_VENDOR = "SELECT ov.id_order_vendor, ov.amount, ov.status_order, ov.payment_type, ov.timestamp, ov.deadline, ov.invoice, ov.products_info, v.id_vendor, v.brand, v.name FROM cashbox_orders_vendors cov INNER JOIN cashboxes c ON c.id_cashbox = cov.fk_cashbox INNER JOIN orders_vendor ov ON ov.id_order_vendor = cov.fk_order_vendor INNER JOIN vendors v ON v.id_vendor = ov.fk_vendor WHERE cov.fk_cashbox = ?";
 }

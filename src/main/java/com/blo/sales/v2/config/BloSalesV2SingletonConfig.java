@@ -4,6 +4,7 @@ import com.blo.sales.v2.controller.IAccountsController;
 import com.blo.sales.v2.controller.IActivesCostsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.ICashboxesActivesCostsController;
+import com.blo.sales.v2.controller.ICashboxesOrdersVendorsController;
 import com.blo.sales.v2.controller.ICashboxesSalesController;
 import com.blo.sales.v2.controller.ICategoriesController;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
@@ -194,6 +195,9 @@ import com.blo.sales.v2.view.mappers.WrapperPojoSalesDeletedDetailsMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsMapper;
 import com.blo.sales.v2.model.IOrdersVendorsModel;
 import com.blo.sales.v2.controller.IOrdersVendorsController;
+import com.blo.sales.v2.controller.impl.CashboxesOrdersVendorsControllerImpl;
+import com.blo.sales.v2.model.ICashboxesOrdersVendorsModel;
+import com.blo.sales.v2.model.impl.CashboxexOrdersVendorsImpl;
 import com.blo.sales.v2.model.mapper.WrapperOrdersVendorsMapper;
 import com.blo.sales.v2.view.mappers.PojoVendorOrderMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsOrdersMapper;
@@ -229,6 +233,7 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(IFinancialHistoryController.class).to(FinancialHistoryControllerImpl.class).in(Singleton.class);
         bind(IVendorsController.class).to(VendorsControllerImpl.class).in(Singleton.class);
         bind(IOrdersVendorsController.class).to(OrdersVendorsControllerImpl.class).in(Singleton.class);
+        bind(ICashboxesOrdersVendorsController.class).to(CashboxesOrdersVendorsControllerImpl.class).in(Singleton.class);
 
         /**
          * models
@@ -256,6 +261,7 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(IFinancialHistoryModel.class).to(FinancialHistoryModelImpl.class).in(Singleton.class);
         bind(IVendorsModel.class).to(VendorsModelImpl.class).in(Singleton.class);
         bind(IOrdersVendorsModel.class).to(OrdersVendorsModelImpl.class).in(Singleton.class);
+        bind(ICashboxesOrdersVendorsModel.class).to(CashboxexOrdersVendorsImpl.class).in(Singleton.class);
 
         /**
          * mappers view

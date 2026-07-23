@@ -167,5 +167,9 @@ public final class BloSalesV2Columns {
     public static final String PRODUCTS_INFO = "products_info";
     
     public static final String VISITS = "visits";
+    
+    public static final String AVAILABLE = "available";
+    
+    public static final String FK_ORDER_VENDOR = "fk_order_vendor";
        
 }

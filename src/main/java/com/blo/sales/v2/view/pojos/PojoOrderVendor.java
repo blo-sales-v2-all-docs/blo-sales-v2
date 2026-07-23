@@ -27,4 +27,6 @@ public class PojoOrderVendor {
     
     private String productsInfo;
     
+    private PojoVendor vendorInfo;
+    
 }

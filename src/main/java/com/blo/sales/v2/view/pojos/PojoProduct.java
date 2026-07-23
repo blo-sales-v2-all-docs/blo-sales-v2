@@ -24,6 +24,8 @@ public class PojoProduct {
     
     private long fkCategory;
     
+    private boolean available;
+    
     @Override
     public String toString() {
         return String.format("%s (%s)%s %s", idProduct, quantity, product, price);

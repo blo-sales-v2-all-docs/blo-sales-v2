@@ -3,8 +3,6 @@ package com.blo.sales.v2.utils;
 import com.blo.sales.v2.config.BloSalesV2ConfigManagement;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -43,6 +41,8 @@ public final class BloSalesV2Utils {
     public static final String PATTERN_BASIC_DATA = "(?<=\\[)\\d+(?=\\])";
     
     public static final String INVALID_TEXT = "Texto no v\u00e1lido";
+    
+    public static final String NOTE_ORDER_PAYED = "PAGO de orden de %s. %s (ID ORDEN = %s), no. de factura: %s; por: $%s";
     
     /** constante para error en guardado */
     public static final String ERROR_SAVED_ON_DATA_BASE = "Error inesperado guardando en la base de datos";
@@ -125,6 +125,8 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_ORDER_NOT_FOUND = "Orden no encontrada";
     
+    public static final String ERROR_IN_FIELDS_WRITTED = "Error en los campos ingresados";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -191,6 +193,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_ORDER_IS_BEFORE_NOW = "027";
     
     public static final String CODE_ORDER_NOT_FOUND = "028";
+    
+    public static final String CODE_IN_FIELDS_WRITTED = "029";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

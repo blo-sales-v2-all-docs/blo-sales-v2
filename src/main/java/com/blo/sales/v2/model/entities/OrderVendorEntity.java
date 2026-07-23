@@ -29,4 +29,6 @@ public class OrderVendorEntity {
     
     private String products_info;
     
+    private VendorEntity vendor_info;
+    
 }
