@@ -75,15 +75,17 @@
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="nmbQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="nmbPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="nmbSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnCategories" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblCategorySelected" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="nmbQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="nmbPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="nmbSaleCost" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCategories" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnSave" min="-2" pref="50" max="-2" attributes="0"/>
