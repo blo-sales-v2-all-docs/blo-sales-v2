@@ -23,6 +23,8 @@ public final class BloSalesV2Utils {
     
     public static final String JSON_EMPTY_ARRAY = "[]";
     
+    public static final String JSON_PAYMENT_HISTORY_ITEM = "pago: %s, fecha: %s";
+    
     /** expresion regular para solo numeros */
     public static final String ONLY_NUMBERS = "[0-9]+";
     

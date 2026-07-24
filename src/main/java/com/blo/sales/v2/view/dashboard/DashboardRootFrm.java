@@ -13,6 +13,7 @@ import com.blo.sales.v2.view.dashboard.panels.AllCashboxes;
 import com.blo.sales.v2.view.dashboard.panels.AllProducts;
 import com.blo.sales.v2.view.dashboard.panels.CashboxOpen;
 import com.blo.sales.v2.view.dashboard.panels.Categories;
+import com.blo.sales.v2.view.dashboard.panels.Credits;
 import com.blo.sales.v2.view.dashboard.panels.Debtors;
 import com.blo.sales.v2.view.dashboard.panels.DebtorsSettlements;
 import com.blo.sales.v2.view.dashboard.panels.MobileCompanies;
@@ -76,6 +77,8 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         optCanceledSales = new javax.swing.JMenuItem();
         sprt02 = new javax.swing.JPopupMenu.Separator();
         optDigitalWallet = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        optCredits = new javax.swing.JMenuItem();
         itmDebtors = new javax.swing.JMenu();
         optDebtors = new javax.swing.JMenuItem();
         optDebtorsHistory = new javax.swing.JMenuItem();
@@ -86,7 +89,6 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         optOpenOrder = new javax.swing.JMenuItem();
         optByStatus = new javax.swing.JMenuItem();
         optNotes = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
         itmTopUp = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         optTopUps = new javax.swing.JMenuItem();
@@ -201,6 +203,15 @@ public final class DashboardRootFrm extends AbstractFrameBase {
             }
         });
         itmContability.add(optDigitalWallet);
+        itmContability.add(jSeparator2);
+
+        optCredits.setText("Créditos");
+        optCredits.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optCreditsActionPerformed(evt);
+            }
+        });
+        itmContability.add(optCredits);
 
         itmAdmon.add(itmContability);
 
@@ -271,14 +282,6 @@ public final class DashboardRootFrm extends AbstractFrameBase {
             }
         });
         itmAdmon.add(optNotes);
-
-        jMenuItem1.setText("Descargar logs");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        itmAdmon.add(jMenuItem1);
 
         mnuBar.add(itmAdmon);
 
@@ -414,10 +417,9 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         handlerDashboard(new ViewOrders(KeysEnum.DASHBOARD_TITLES_VIEW_ORDERS.getKey()));
     }//GEN-LAST:event_optByStatusActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        GUILogger c = GUILogger.getLogger(DashboardRootFrm.class.getName());
-        c.downloadLogs();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void optCreditsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optCreditsActionPerformed
+        handlerDashboard(new Credits(KeysEnum.DASHBOARD_TITLES_CREDITS.getKey()));
+    }//GEN-LAST:event_optCreditsActionPerformed
     
     private void handlerDashboard(AbstractDashboardBase dashboard) {
         if (injector == null) {
@@ -447,8 +449,8 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenu itmTopUp;
     private javax.swing.JMenu itmVendors;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel lblVersion;
     private javax.swing.JMenuBar mnuBar;
     private javax.swing.JMenuItem optAddSale;
@@ -457,6 +459,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenuItem optByStatus;
     private javax.swing.JMenuItem optCanceledSales;
     private javax.swing.JMenuItem optCategory;
+    private javax.swing.JMenuItem optCredits;
     private javax.swing.JMenuItem optDebtors;
     private javax.swing.JMenuItem optDebtorsHistory;
     private javax.swing.JMenuItem optDigitalWallet;

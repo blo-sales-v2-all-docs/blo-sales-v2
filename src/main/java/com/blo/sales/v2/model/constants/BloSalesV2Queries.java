@@ -178,4 +178,13 @@ public final class BloSalesV2Queries {
     public static final String ADD_CASHBOX_ORDER_VENDOR = "INSERT INTO cashbox_orders_vendors(fk_order_vendor, fk_cashbox, timestamp) VALUES (?, ?, ?)";
     
     public static final String CASHBOXES_ORDER_VENDOR = "SELECT ov.id_order_vendor, ov.amount, ov.status_order, ov.payment_type, ov.timestamp, ov.deadline, ov.invoice, ov.products_info, v.id_vendor, v.brand, v.name FROM cashbox_orders_vendors cov INNER JOIN cashboxes c ON c.id_cashbox = cov.fk_cashbox INNER JOIN orders_vendor ov ON ov.id_order_vendor = cov.fk_order_vendor INNER JOIN vendors v ON v.id_vendor = ov.fk_vendor WHERE cov.fk_cashbox = ?";
+    
+    /** creditos */
+    public static final String INSERT_CREDIT = "INSERT INTO credits(fk_user, lender_name, amount, payed, timestamp, payments, update_date, available) VALUES(?, ?, ?, ?, ?, ?, ?, true)";
+    
+    public static final String UPDATE_CREDIT = "UPDATE credits SET lender_name = ?, payed = ?, timestamp = ?, payments = ?, available = ?, update_date = ?, amount = ? WHERE id_credit = ?";
+    
+    public static final String SELECT_CREDIT_BY_ID = "SELECT id_credit, fk_user, lender_name, amount, payed, timestamp, payments, available, update_date FROM credits WHERE id_credit = ? LIMIT 1";
+    
+    public static final String SELECT_CREDITS = "SELECT id_credit, fk_user, lender_name, amount, payed, timestamp, payments, available, update_date FROM credits";
 }
