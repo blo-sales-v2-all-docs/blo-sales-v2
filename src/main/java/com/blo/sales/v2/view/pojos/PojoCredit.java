@@ -17,6 +17,8 @@ public @ToString class PojoCredit {
     
     private BigDecimal amount;
     
+    private BigDecimal originalAmount;
+    
     private boolean payed;
     
     private String payments;

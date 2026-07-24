@@ -52,6 +52,7 @@ public class CreditsModelImpl implements ICreditsModel {
                 item.setPayments(rs.getString(BloSalesV2Columns.PAYMENTS));
                 item.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
                 item.setUpdate_date(rs.getString(BloSalesV2Columns.UPDATE_DATE));
+                item.setOriginal_amount(rs.getBigDecimal(BloSalesV2Columns.ORIGINAL_AMOUNT));
                 lst.add(item);
             }
             outer.setCredits(lst);
@@ -109,6 +110,7 @@ public class CreditsModelImpl implements ICreditsModel {
             ps.setString(5, entity.getTimestamp());
             ps.setString(6, entity.getPayments());
             ps.setString(7, entity.getUpdate_date());
+            ps.setBigDecimal(8, entity.getOriginal_amount());
             
             final var rowsAffected = ps.executeUpdate();
             

@@ -116,6 +116,7 @@ public class CreditsControllerImpl implements ICreditsController {
         final var creditoEncontrado = model.getCreditById(idCredit);
         BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
         creditoEncontrado.setAvailable(false);
+        creditoEncontrado.setPayed(false);
         creditoEncontrado.setUpdateDate(BloSalesV2Utils.getTimestamp());
         model.updateCredit(creditoEncontrado);
         logger.info("credito eliminado");

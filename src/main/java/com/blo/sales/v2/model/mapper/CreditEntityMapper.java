@@ -17,12 +17,14 @@ public interface CreditEntityMapper {
     @Mapping(source = "fk_user", target = "fkUser")
     @Mapping(source = "lender_name", target = "lenderName")
     @Mapping(source = "update_date", target = "updateDate")
+    @Mapping(source = "original_amount", target = "originalAmount")
     PojoIntCredit toOuter(CreditEntity inner);
     
     @Mapping(source = "idCredit", target = "id_credit")
     @Mapping(source = "fkUser", target = "fk_user")
     @Mapping(source = "lenderName", target = "lender_name")
     @Mapping(source = "updateDate", target = "update_date")
+    @Mapping(source = "originalAmount", target = "original_amount")
     CreditEntity toInner(PojoIntCredit outer);
     
      WrapperPojoIntCredits wrapperCreditsToOuter(WrapperCreditsEntity credits);

@@ -215,7 +215,7 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lblAddPayment" min="-2" max="-2" attributes="0"/>
                               <Component id="nmbPayment" max="32767" attributes="0"/>
-                              <Component id="jButton1" pref="90" max="32767" attributes="0"/>
+                              <Component id="btnCancelCredits" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="32767" attributes="0"/>
                           <Component id="btnSavePayment" min="-2" max="-2" attributes="0"/>
@@ -233,7 +233,7 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="nmbPayment" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="16" max="32767" attributes="0"/>
-                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnCancelCredits" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="btnSavePayment" max="32767" attributes="0"/>
                           </Group>
@@ -258,10 +258,13 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSavePaymentActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton1">
+                <Component class="javax.swing.JButton" name="btnCancelCredits">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="cancelar"/>
+                    <Property name="text" type="java.lang.String" value="cancelar_credito"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelCreditsActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

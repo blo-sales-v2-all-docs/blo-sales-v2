@@ -17,6 +17,8 @@ public @ToString class CreditEntity {
     
     private BigDecimal amount;
     
+    private BigDecimal original_amount;
+    
     private boolean payed;
     
     private String timestamp;
