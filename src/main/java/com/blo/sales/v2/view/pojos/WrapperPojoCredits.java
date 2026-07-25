@@ -9,5 +9,5 @@ import lombok.ToString;
 @Getter
 public @ToString class WrapperPojoCredits {
     
-    private List<PojoCredit> credits;
+    private List<PojoCreditDebit> credits;
 }

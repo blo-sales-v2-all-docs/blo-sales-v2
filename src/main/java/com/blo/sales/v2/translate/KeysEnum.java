@@ -59,7 +59,8 @@ public enum KeysEnum {
     DASHBOARD_ROOT_DLG_REMEMBER_VISIT("dashboard-root.dlg.remeber-visit"),
     VIEW_ORDERS_DLG_ADDING_ADDITIONAL_INFO_ON_NOTE("view-orders.dlg.adding-additional-info-on-note"), VIEW_ORDERS_DLG_PUT_PRODUCTS_DETAILS("view-orders.dlg.put-products-details"), VIEW_ORDERS_DLG_PRODUCTS_BOUGHT_ON_ORDER("view-orders.dlg.products-bought-on-order"),
     COMMON_LBL_UPDATED_COMPLETE("common.lbl.updated-complete"), COMMON_TTL_COMPLETE("common.ttl.complete"),
-    DASHBOARD_TITLES_CREDITS("dashboard.titles.credits"), CREDITS_LBL_LANDER_NAME("credits.lbl.lander-name"), CREDITS_LBL_TOTAL_CREDIT("credits.lbl.total-credit"), CREDITS_DLG_CANCEL_CREDIT("credits.dlg.cancel-credit"), CREDITS_BTN_CANCEL_CREDIT("credits.btn.cancel-credit"), CREDITS_LBL_ADD_PAYMENT("credits.lbl.add-payment"), CREDITS_DLG_PAYMENTS("credits.dlg.payemnts")
+    DASHBOARD_TITLES_CREDITS("dashboard.titles.credits"), CREDITS_LBL_LANDER_NAME("credits.lbl.lander-name"), CREDITS_LBL_TOTAL_CREDIT("credits.lbl.total-credit"), CREDITS_DLG_CANCEL_CREDIT("credits.dlg.cancel-credit"), CREDITS_BTN_CANCEL_CREDIT("credits.btn.cancel-credit"), CREDITS_LBL_ADD_PAYMENT("credits.lbl.add-payment"), CREDITS_DLG_PAYMENTS("credits.dlg.payemnts"),
+    DASHBOARD_TITLES_DEBITS("dashboard.titles.debits"), DEBITS_LBL_DEBT_NAME("debits.lbl.debt-name"), DEBITS_LBL_DEBT_PAYMENT("debits.lbl.debt-payement")
     
     
     

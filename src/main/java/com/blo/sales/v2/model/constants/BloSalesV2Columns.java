@@ -172,9 +172,9 @@ public final class BloSalesV2Columns {
     
     public static final String FK_ORDER_VENDOR = "fk_order_vendor";
     
-    public static final String ID_CREDIT = "id_credit";
+    public static final String ID_CREDIT_DEBIT = "id_credit_debt";
     
-    public static final String LENDER_NAME = "lender_name";
+    public static final String LENDER_DEBTOR_NAME = "lender_debtor_name";
     
     public static final String PAYED = "payed";
     

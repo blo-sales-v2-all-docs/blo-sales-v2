@@ -1,10 +1,8 @@
 package com.blo.sales.v2.controller.impl;
 
-import com.blo.sales.v2.controller.ICreditsController;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.pojos.PojoIntCredit;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntCredits;
-import com.blo.sales.v2.model.ICreditsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -14,22 +12,25 @@ import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import com.blo.sales.v2.model.ICreditsDebtsModel;
+import com.blo.sales.v2.controller.ICreditsDebtsController;
+import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
 
 @Singleton
-public class CreditsControllerImpl implements ICreditsController {
+public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
     
-    private static final GUILogger logger = GUILogger.getLogger(CreditsControllerImpl.class.getName());
+    private static final GUILogger logger = GUILogger.getLogger(CreditsDebtsControllerImpl.class.getName());
     
     @Inject
     private IDBTransactionManagerController transactionController;
     
     @Inject
-    private ICreditsModel model;
+    private ICreditsDebtsModel model;
 
     @Override
-    public WrapperPojoIntCredits getAllCredits() throws BloSalesV2Exception {
+    public WrapperPojoIntCredits getAllCreditsByType(TypeCreditDebtIntEnum type) throws BloSalesV2Exception {
         logger.info("recupera todos los creditos");
-        return model.getAllCredits();
+        return model.getAllCreditsByType(type);
     }
 
     @Override
@@ -37,11 +38,11 @@ public class CreditsControllerImpl implements ICreditsController {
         try {
             transactionController.disableAutocommit();
             logger.info("cambiando nombre de prestamista");
-            final var creditoEncontrado = model.getCreditById(idCredit);
+            final var creditoEncontrado = model.getCreditDebtById(idCredit);
             BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
-            creditoEncontrado.setLenderName(name);
+            creditoEncontrado.setLenderDebtorName(name);
             creditoEncontrado.setUpdateDate(BloSalesV2Utils.getTimestamp());
-            final var guardado = model.updateCredit(creditoEncontrado);
+            final var guardado = model.updateCreditDebit(creditoEncontrado);
             logger.info("cambio de nombre %s", String.valueOf(guardado));
             transactionController.doCommit();
             return guardado;
@@ -54,15 +55,15 @@ public class CreditsControllerImpl implements ICreditsController {
     }
 
     @Override
-    public PojoIntCredit saveCredit(PojoIntCredit credit) throws BloSalesV2Exception {
+    public PojoIntCredit saveCreditDebit(PojoIntCredit creditDebit) throws BloSalesV2Exception {
         try {
             transactionController.disableAutocommit();
-            credit.setTimestamp(BloSalesV2Utils.getTimestamp());
-            credit.setAvailable(true);
-            credit.setUpdateDate(BloSalesV2Utils.EMPTY_STRING);
-            credit.setPayments(BloSalesV2Utils.JSON_EMPTY_ARRAY);
-            credit.setPayed(false);
-            final var creditoGuardado = model.openCredit(credit);
+            creditDebit.setTimestamp(BloSalesV2Utils.getTimestamp());
+            creditDebit.setAvailable(true);
+            creditDebit.setUpdateDate(BloSalesV2Utils.EMPTY_STRING);
+            creditDebit.setPayments(BloSalesV2Utils.JSON_EMPTY_ARRAY);
+            creditDebit.setPayed(false);
+            final var creditoGuardado = model.openCreditDebit(creditDebit);
             logger.info("guardando crédito [%s]", String.valueOf(creditoGuardado));
             transactionController.doCommit();
             return creditoGuardado;
@@ -76,11 +77,11 @@ public class CreditsControllerImpl implements ICreditsController {
     }
 
     @Override
-    public PojoIntCredit addPayment(BigDecimal payment, long idCredit) throws BloSalesV2Exception {
+    public PojoIntCredit addPayment(BigDecimal payment, long idCreditDebit) throws BloSalesV2Exception {
         try {
             transactionController.disableAutocommit();
             logger.info("cambiando nombre de prestamista");
-            final var creditoEncontrado = model.getCreditById(idCredit);
+            final var creditoEncontrado = model.getCreditDebtById(idCreditDebit);
             BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
             BloSalesV2Utils.validateRule(!creditoEncontrado.isAvailable() || creditoEncontrado.isPayed(), "", "");
             final var nuevoMonto = creditoEncontrado.getAmount().subtract(payment);
@@ -98,7 +99,7 @@ public class CreditsControllerImpl implements ICreditsController {
             final var historialPagos = new ArrayList<>(Arrays.asList(gson.fromJson(creditoEncontrado.getPayments(), String[].class)));
             historialPagos.add(String.format(BloSalesV2Utils.JSON_PAYMENT_HISTORY_ITEM, payment, BloSalesV2Utils.getTimestamp()));
             creditoEncontrado.setPayments(gson.toJson(historialPagos));
-            final var guardado = model.updateCredit(creditoEncontrado);
+            final var guardado = model.updateCreditDebit(creditoEncontrado);
             logger.info("cambio de nombre %s", String.valueOf(guardado));
             transactionController.doCommit();
             return guardado;
@@ -111,14 +112,14 @@ public class CreditsControllerImpl implements ICreditsController {
     }
 
     @Override
-    public void deleteCredit(long idCredit) throws BloSalesV2Exception {
+    public void deleteCreditDebit(long idCreditDebt) throws BloSalesV2Exception {
         logger.info("eliminando credito");
-        final var creditoEncontrado = model.getCreditById(idCredit);
+        final var creditoEncontrado = model.getCreditDebtById(idCreditDebt);
         BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
         creditoEncontrado.setAvailable(false);
         creditoEncontrado.setPayed(false);
         creditoEncontrado.setUpdateDate(BloSalesV2Utils.getTimestamp());
-        model.updateCredit(creditoEncontrado);
+        model.updateCreditDebit(creditoEncontrado);
         logger.info("credito eliminado");
     }
 

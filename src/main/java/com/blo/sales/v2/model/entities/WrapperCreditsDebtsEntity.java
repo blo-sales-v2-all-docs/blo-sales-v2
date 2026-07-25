@@ -7,8 +7,8 @@ import lombok.ToString;
 
 @Setter
 @Getter
-public @ToString class WrapperCreditsEntity {
+public @ToString class WrapperCreditsDebtsEntity {
     
-    private List<CreditEntity> credits;
+    private List<CreditDebitEntity> credits;
     
 }

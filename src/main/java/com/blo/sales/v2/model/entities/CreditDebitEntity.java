@@ -1,5 +1,6 @@
 package com.blo.sales.v2.model.entities;
 
+import com.blo.sales.v2.model.entities.enums.TypeCreditDebtEntityEnum;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,13 +8,13 @@ import lombok.ToString;
 
 @Setter
 @Getter
-public @ToString class CreditEntity {
+public @ToString class CreditDebitEntity {
     
-    private long id_credit;
+    private long id_credit_debit;
     
     private long fk_user;
     
-    private String lender_name;
+    private String lender_debtor_name;
     
     private BigDecimal amount;
     
@@ -28,5 +29,7 @@ public @ToString class CreditEntity {
     private boolean available;
     
     private String update_date;
+    
+    private TypeCreditDebtEntityEnum type;
     
 }

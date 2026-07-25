@@ -21,22 +21,22 @@ import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
 import com.blo.sales.v2.view.pojos.enums.TypeCreditDebitEnum;
 import com.blo.sales.v2.view.mappers.PojoCreditDebitMapper;
 
-public final class Credits extends AbstractDashboardBase {
+public final class Debits extends AbstractDashboardBase {
     
-    private static final GUILogger logger = GUILogger.getLogger(Credits.class.getName());
+    private static final GUILogger logger = GUILogger.getLogger(Debits.class.getName());
     
     private static final String[] titles = { "ID crédito", "Monto inicial", "Se debe", "Te lo prestó", "Estatus", "Fecha de apertura", "Última actualización" };
     
-    private static final PojoCreditDebitMapper CREDITS_MAPPER = PojoCreditDebitMapper.INSTANCE;
+    private static final PojoCreditDebitMapper DEBITS_MAPPER = PojoCreditDebitMapper.INSTANCE;
     
-    private WrapperPojoCredits credits;
+    private WrapperPojoCredits debits;
     
-    private long idCreditSelected;
+    private long idDebitSelected;
     
     @Inject
-    private ICreditsDebtsController creditsController;
+    private ICreditsDebtsController debitsController;
     
-    public Credits(String key) {
+    public Debits(String key) {
         super(key);
     }
 
@@ -48,7 +48,7 @@ public final class Credits extends AbstractDashboardBase {
         pnlOpenCredit = new javax.swing.JPanel();
         txtLender = new javax.swing.JTextField();
         nmbTotal = new javax.swing.JTextField();
-        lblLender = new javax.swing.JLabel();
+        lblDebtName = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         pnlViewCredits = new javax.swing.JPanel();
@@ -57,12 +57,12 @@ public final class Credits extends AbstractDashboardBase {
         cmbxFilters = new javax.swing.JComboBox<>();
         btnApplyFilter = new javax.swing.JButton();
         pnlAddPayment = new javax.swing.JPanel();
-        lblAddPayment = new javax.swing.JLabel();
+        lblPayement = new javax.swing.JLabel();
         nmbPayment = new javax.swing.JTextField();
         btnSavePayment = new javax.swing.JButton();
         btnCancelCredits = new javax.swing.JButton();
 
-        lblLender.setText("a_nombre_de_quien");
+        lblDebtName.setText("_quien_solicito_");
 
         lblTotal.setText("total");
 
@@ -81,7 +81,7 @@ public final class Credits extends AbstractDashboardBase {
                 .addContainerGap()
                 .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlOpenCreditLayout.createSequentialGroup()
-                        .addComponent(lblLender)
+                        .addComponent(lblDebtName)
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpenCreditLayout.createSequentialGroup()
                         .addComponent(txtLender, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -103,7 +103,7 @@ public final class Credits extends AbstractDashboardBase {
                         .addGap(1, 1, 1))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlOpenCreditLayout.createSequentialGroup()
                         .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblLender)
+                            .addComponent(lblDebtName)
                             .addComponent(lblTotal))
                         .addGap(18, 18, 18)
                         .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -134,7 +134,7 @@ public final class Credits extends AbstractDashboardBase {
             }
         });
 
-        lblAddPayment.setText("abonar_a_%s");
+        lblPayement.setText("pago");
 
         btnSavePayment.setText("guardar");
         btnSavePayment.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +157,7 @@ public final class Credits extends AbstractDashboardBase {
             .addGroup(pnlAddPaymentLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlAddPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblAddPayment)
+                    .addComponent(lblPayement)
                     .addComponent(nmbPayment)
                     .addComponent(btnCancelCredits, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, Short.MAX_VALUE)
@@ -170,7 +170,7 @@ public final class Credits extends AbstractDashboardBase {
                 .addContainerGap()
                 .addGroup(pnlAddPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAddPaymentLayout.createSequentialGroup()
-                        .addComponent(lblAddPayment)
+                        .addComponent(lblPayement)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(nmbPayment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
@@ -211,7 +211,7 @@ public final class Credits extends AbstractDashboardBase {
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
-        tbdCredits.addTab("Ver créditos", pnlViewCredits);
+        tbdCredits.addTab("Ver préstamos", pnlViewCredits);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -238,8 +238,8 @@ public final class Credits extends AbstractDashboardBase {
             credit.setOriginalAmount(GUICommons.getNumberFromJText(nmbTotal, 2));
             credit.setLenderDebtorName(GUICommons.getTextFromField(txtLender, true));
             credit.setFkUser(getUserData().getIdUser());
-            credit.setType(TypeCreditDebitEnum.CREDIT);
-            creditsController.saveCreditDebit(CREDITS_MAPPER.toInner(credit));
+            credit.setType(TypeCreditDebitEnum.DEBT);
+            debitsController.saveCreditDebit(DEBITS_MAPPER.toInner(credit));
             CommonAlerts.openMessage(getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()), getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()));
             reset();
             loadCreditsInfo();
@@ -255,8 +255,8 @@ public final class Credits extends AbstractDashboardBase {
 
     private void btnSavePaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSavePaymentActionPerformed
         try {
-            GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
-            creditsController.addPayment(GUICommons.getNumberFromJText(nmbPayment, 2), idCreditSelected);
+            GUICommons.setTextToField(lblPayement, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idDebitSelected));
+            debitsController.addPayment(GUICommons.getNumberFromJText(nmbPayment, 2), idDebitSelected);
             reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -267,7 +267,7 @@ public final class Credits extends AbstractDashboardBase {
     private void btnCancelCreditsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelCreditsActionPerformed
         if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CREDITS_DLG_CANCEL_CREDIT.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
             try {
-                creditsController.deleteCreditDebit(idCreditSelected);
+                debitsController.deleteCreditDebit(idDebitSelected);
                 reset();
             } catch (BloSalesV2Exception ex) {
                 logger.error(ex.getMessage());
@@ -278,13 +278,13 @@ public final class Credits extends AbstractDashboardBase {
 
     @Override
     public void loadTargets() {
-        GUICommons.setTextToField(lblLender, getTranslateBy(KeysEnum.CREDITS_LBL_LANDER_NAME.getKey()));
+        GUICommons.setTextToField(lblDebtName, getTranslateBy(KeysEnum.DEBITS_LBL_DEBT_NAME.getKey()));
         GUICommons.setTextToField(lblTotal, getTranslateBy(KeysEnum.CREDITS_LBL_TOTAL_CREDIT.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnApplyFilter, getTranslateBy(KeysEnum.COMMON_BTN_APPLY_FILTER.getKey()));
         GUICommons.setTextToButton(btnSavePayment, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnCancelCredits, getTranslateBy(KeysEnum.CREDITS_BTN_CANCEL_CREDIT.getKey()));
-        GUICommons.setTextToField(lblAddPayment, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(lblPayement, BloSalesV2Utils.EMPTY_STRING);
     }
 
     @Override
@@ -306,8 +306,8 @@ public final class Credits extends AbstractDashboardBase {
     private javax.swing.JButton btnSavePayment;
     private javax.swing.JComboBox<String> cmbxFilters;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblAddPayment;
-    private javax.swing.JLabel lblLender;
+    private javax.swing.JLabel lblDebtName;
+    private javax.swing.JLabel lblPayement;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JTextField nmbPayment;
     private javax.swing.JTextField nmbTotal;
@@ -323,7 +323,7 @@ public final class Credits extends AbstractDashboardBase {
         GUICommons.setTextToField(txtLender, BloSalesV2Utils.EMPTY_STRING);
         GUICommons.setTextToField(nmbTotal, BloSalesV2Utils.EMPTY_STRING);
         GUICommons.setTextToField(nmbPayment, BloSalesV2Utils.EMPTY_STRING);
-        idCreditSelected = 0;
+        idDebitSelected = 0;
         GUICommons.hiddenPanel(pnlAddPayment);
         loadCreditsInfo();
     }
@@ -337,8 +337,8 @@ public final class Credits extends AbstractDashboardBase {
     /** recupera toda la información de los créditos */
     private void loadCreditsInfo() {
         try {
-            credits = CREDITS_MAPPER.wrapperCreditsToOuter(creditsController.getAllCreditsByType(TypeCreditDebtIntEnum.CREDIT));
-            setItemsToTable(credits.getCredits());
+            debits = DEBITS_MAPPER.wrapperCreditsToOuter(debitsController.getAllCreditsByType(TypeCreditDebtIntEnum.DEBT));
+            setItemsToTable(debits.getCredits());
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -348,7 +348,7 @@ public final class Credits extends AbstractDashboardBase {
     /** aplica el filtro a los creditos sin afectar la lista original */
     private void filterCredits(FilterCreditEnum creditFilter) {
         getDefaultTableModel().setRowCount(0);
-        if (credits.getCredits() != null && !credits.getCredits().isEmpty()) {
+        if (debits.getCredits() != null && !debits.getCredits().isEmpty()) {
             Predicate<PojoCreditDebit> filter = c -> c.isAvailable() && !c.isPayed();
             switch (creditFilter) {
                 case PAYED:
@@ -362,7 +362,7 @@ public final class Credits extends AbstractDashboardBase {
                     filter = c -> c.isAvailable() && !c.isPayed();
             }
             setItemsToTable(
-                    credits.getCredits().stream().
+                    debits.getCredits().stream().
                             filter(filter).
                             toList()
             );
@@ -371,16 +371,16 @@ public final class Credits extends AbstractDashboardBase {
     
     private void selectedClick(long idCredit) {
         final var creditSelected = 
-                credits.getCredits().stream().
+                debits.getCredits().stream().
                         filter(c -> c.getIdCreditDebit()== idCredit).
                         findFirst().
                         orElse(null);
         if (creditSelected != null) {
-            idCreditSelected = idCredit;
+            idDebitSelected = idCredit;
             if (!creditSelected.getPayments().equals(BloSalesV2Utils.JSON_EMPTY_ARRAY)) {
                 new ListViewerDialog(this, getTranslateBy(KeysEnum.CREDITS_DLG_PAYMENTS.getKey()), creditSelected.getPayments()).setVisible(true);
             }
-            GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
+            GUICommons.setTextToField(lblPayement, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idDebitSelected));
             // pendiente
             if (creditSelected.isAvailable() && !creditSelected.isPayed()) {
                 // activar panel
