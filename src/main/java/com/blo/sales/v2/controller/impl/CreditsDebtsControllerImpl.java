@@ -120,18 +120,18 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
                 }
                 logger.info("cashbox %s", String.valueOf(openCashbox));
                 // se suma la cantidad de la venta al monto de la caja abierta
-                if (payment.compareTo(creditoEncontrado.getAmount()) >= 0) {
-                    // si el pago es mayor a la cantidad del crédito entonces el
-                    // pago se cubrió completamente y se usa el monto restante del crédito
-                    logger.info("debito pagado completamente");
-                    toPayment = montoStore;
-                }
                 openCashbox.setAmount(openCashbox.getAmount().add(toPayment));
                 openCashbox.setTimestamp(BloSalesV2Utils.getTimestamp());
                 // actualizar cantidad en la caja
                 logger.info("actualizando caja abierta %s", String.valueOf(openCashbox));
                 cashboxController.updateCAshbox(openCashbox, openCashbox.getIdCashbox());
-                
+            }
+            
+            // si el pago es mayor a la cantidad del crédito entonces el
+            // pago se cubrió completamente y se usa el monto restante del crédito
+            if (payment.compareTo(creditoEncontrado.getAmount()) >= 0) {
+                logger.info("debito pagado completamente");
+                toPayment = montoStore;
             }
             
             // agregar pago a historial
