@@ -25,5 +25,7 @@ public @ToString class PojoIntProduct {
     
     private String barCode;
     
-    private long fkCategory;    
+    private long fkCategory;   
+    
+    private boolean available;
 }

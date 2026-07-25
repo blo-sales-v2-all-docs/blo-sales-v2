@@ -3,8 +3,6 @@ package com.blo.sales.v2.utils;
 import com.blo.sales.v2.config.BloSalesV2ConfigManagement;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -24,6 +22,8 @@ public final class BloSalesV2Utils {
     public static final String N_A = "N/A";
     
     public static final String JSON_EMPTY_ARRAY = "[]";
+    
+    public static final String JSON_PAYMENT_HISTORY_ITEM = "pago: %s, fecha: %s";
     
     /** expresion regular para solo numeros */
     public static final String ONLY_NUMBERS = "[0-9]+";
@@ -46,6 +46,8 @@ public final class BloSalesV2Utils {
     public static final String PATTERN_BASIC_DATA = "(?<=\\[)\\d+(?=\\])";
     
     public static final String INVALID_TEXT = "Texto no v\u00e1lido";
+    
+    public static final String NOTE_ORDER_PAYED = "PAGO de orden de %s. %s (ID ORDEN = %s), no. de factura: %s; por: $%s";
     
     /** constante para error en guardado */
     public static final String ERROR_SAVED_ON_DATA_BASE = "Error inesperado guardando en la base de datos";
@@ -128,6 +130,12 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_ORDER_NOT_FOUND = "Orden no encontrada";
     
+    public static final String ERROR_IN_FIELDS_WRITTED = "Error en los campos ingresados";
+    
+    public static final String ERROR_CREDIT_DEBIT_NOT_FOUND = "Crédito / préstamo no encontrado";
+    
+    public static final String ERROR_CREDIT_DEBIT_UNAVAILABLE = "Esta operación no se puede realizar porque el elemento no está disponible o ya fue pagado";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -194,6 +202,12 @@ public final class BloSalesV2Utils {
     public static final String CODE_ORDER_IS_BEFORE_NOW = "027";
     
     public static final String CODE_ORDER_NOT_FOUND = "028";
+    
+    public static final String CODE_IN_FIELDS_WRITTED = "029";
+    
+    public static final String CODE_CREDIT_DEBIT_NOT_FOUND = "030";
+    
+    public static final String CODE_CREDIT_DEBIT_UNAVAILABLE = "031";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

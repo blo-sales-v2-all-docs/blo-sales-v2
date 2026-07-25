@@ -22,6 +22,7 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     @Getter
     private final String title;
     
+    /** propiedad que se ocupa para recuperar y realizar operaciones con ModelTable */
     @Setter
     private JTable mainTable;
     

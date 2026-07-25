@@ -203,6 +203,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
             data.setQuantity(quantity);
             data.setFkCategory(categorySelected);
             data.setKg(GUICommons.isCheckedCkeckBox(chkbxItsKg));
+            data.setAvailable(true);
             GUIStore.resetProductData();
             productsController.registerProduct(productMapper.toInner(data));
             GUICommons.setTextToField(txtProductName, BloSalesV2Utils.EMPTY_STRING);

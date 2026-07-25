@@ -6,11 +6,15 @@ import com.blo.sales.v2.utils.IToInner;
 import com.blo.sales.v2.utils.IToOuter;
 import com.blo.sales.v2.view.pojos.PojoOrderVendor;
 import com.blo.sales.v2.view.pojos.enums.StatusOrderProviderEnum;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 @Singleton
 public class PojoVendorOrderMapper implements IToInner<PojoIntOrderVendor, PojoOrderVendor>, IToOuter<PojoIntOrderVendor, PojoOrderVendor> {
 
+    @Inject
+    private PojoVendorMapper vendorMapper;
+    
     @Override
     public PojoIntOrderVendor toInner(PojoOrderVendor outer) {
         if (outer == null) {
@@ -46,6 +50,9 @@ public class PojoVendorOrderMapper implements IToInner<PojoIntOrderVendor, PojoO
         outer.setVendorName(inner.getVendorName());
         outer.setBrand(inner.getBrand());
         outer.setProductsInfo(inner.getProductsInfo());
+        if (inner.getVendorInfo() != null) {
+            outer.setVendorInfo(vendorMapper.toOuter(inner.getVendorInfo()));
+        }
         return outer;
     }
     

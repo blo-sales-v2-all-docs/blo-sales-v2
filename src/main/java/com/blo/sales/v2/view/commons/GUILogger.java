@@ -73,6 +73,7 @@ public final class GUILogger {
         Logger.getLogger(className).log(Level.INFO, _str);
     }
     
+    @Deprecated(forRemoval = true, since = "2.22")
     public void downloadLogs() {
         final var origen = new File(LOG_FILE_PATH);
         
