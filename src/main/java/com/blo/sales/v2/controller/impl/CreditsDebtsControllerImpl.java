@@ -90,10 +90,14 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
             final var creditoEncontrado = model.getCreditDebtById(idCreditDebit);
             BloSalesV2Utils.validateRule(creditoEncontrado == null, BloSalesV2Utils.CODE_CREDIT_DEBIT_NOT_FOUND, BloSalesV2Utils.ERROR_CREDIT_DEBIT_NOT_FOUND);
             BloSalesV2Utils.validateRule(!creditoEncontrado.isAvailable() || creditoEncontrado.isPayed(), BloSalesV2Utils.ERROR_CREDIT_DEBIT_UNAVAILABLE, BloSalesV2Utils.CODE_CREDIT_DEBIT_UNAVAILABLE);
-            // variable para almacenar temporalmente el monto y usarlo cuando son debitos
-            var montoStore = creditoEncontrado.getAmount();
-            var toPayment = payment;
+            
+            var itemHistoria = payment;
             final var nuevoMonto = creditoEncontrado.getAmount().subtract(payment);
+            
+            // si el pago es mayor al monto del elemento encontrado entonces se usa el monto actual
+            if (payment.compareTo(creditoEncontrado.getAmount()) >= 0) {
+                itemHistoria = creditoEncontrado.getAmount();
+            }
             // validar monto
             creditoEncontrado.setAmount(nuevoMonto);
             if (nuevoMonto.compareTo(BigDecimal.ZERO) <= 0) {
@@ -118,26 +122,20 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
                     newCashbox.setTimestamp(BloSalesV2Utils.getTimestamp());
                     openCashbox = cashboxController.addCashbox(newCashbox);
                 }
+                
                 logger.info("cashbox %s", String.valueOf(openCashbox));
                 // se suma la cantidad de la venta al monto de la caja abierta
-                if (payment.compareTo(creditoEncontrado.getAmount()) >= 0) {
-                    // si el pago es mayor a la cantidad del crédito entonces el
-                    // pago se cubrió completamente y se usa el monto restante del crédito
-                    logger.info("debito pagado completamente");
-                    toPayment = montoStore;
-                }
-                openCashbox.setAmount(openCashbox.getAmount().add(toPayment));
+                openCashbox.setAmount(openCashbox.getAmount().add(itemHistoria));
                 openCashbox.setTimestamp(BloSalesV2Utils.getTimestamp());
                 // actualizar cantidad en la caja
                 logger.info("actualizando caja abierta %s", String.valueOf(openCashbox));
                 cashboxController.updateCAshbox(openCashbox, openCashbox.getIdCashbox());
-                
             }
             
             // agregar pago a historial
             final var gson = new Gson();
             final var historialPagos = new ArrayList<>(Arrays.asList(gson.fromJson(creditoEncontrado.getPayments(), String[].class)));
-            historialPagos.add(String.format(BloSalesV2Utils.JSON_PAYMENT_HISTORY_ITEM, toPayment, BloSalesV2Utils.getTimestamp()));
+            historialPagos.add(String.format(BloSalesV2Utils.JSON_PAYMENT_HISTORY_ITEM, itemHistoria, BloSalesV2Utils.getTimestamp()));
             creditoEncontrado.setPayments(gson.toJson(historialPagos));
             final var guardado = model.updateCreditDebit(creditoEncontrado);
             logger.info("cambio de nombre %s", String.valueOf(guardado));
