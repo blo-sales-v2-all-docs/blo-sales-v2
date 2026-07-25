@@ -254,7 +254,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
                     getTranslateBy(KeysEnum.STOCK_DLG_SELECTOR_CATEGORY.getKey()),
                     categoriesFiltered.stream().map(PojoCategory::toString).toList(),
                     data -> {
-                        final var idSelected = BloSalesV2Utils.getMatcherByIndexGroup("^\\d", data, 0);
+                        final var idSelected = BloSalesV2Utils.getMatcherByIndexGroup(BloSalesV2Utils.INIT_NUMBER_REGEX, data, 0);
                         if (!idSelected.isBlank()) {
                             categorySelected = Long.parseLong(idSelected);
                             GUICommons.setTextToField(lblCategorySelected, data);

@@ -23,12 +23,17 @@ public final class BloSalesV2Utils {
     
     public static final String JSON_EMPTY_ARRAY = "[]";
     
+    public static final String JSON_PAYMENT_HISTORY_ITEM = "pago: %s, fecha: %s";
+    
     /** expresion regular para solo numeros */
     public static final String ONLY_NUMBERS = "[0-9]+";
     
     public static final String CURRENCY_REGEX = "^\\d*(\\.\\d{1,2})?$";
     
     public static final String QUANTITY_REGEX = "^\\d*(\\.\\d{1,3})?$";
+    
+    /** expresion regular para cadenas que inician con números */
+    public static final String INIT_NUMBER_REGEX = "^\\d+";
     
     /** 0. texto.-.ok */
     public static final String ID_FROM_INDEX_LST = "\\d+\\.\\s+(.+)";

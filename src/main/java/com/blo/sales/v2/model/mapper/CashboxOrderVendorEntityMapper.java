@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface CashboxOrderVendorEntityMapper {
     
-    CashboxOrderVendorEntityMapper INSTANCE = Mappers.getMapper(CashboxOrderVendorEntityMapper.class);
+    public static final CashboxOrderVendorEntityMapper INSTANCE = Mappers.getMapper(CashboxOrderVendorEntityMapper.class);
     
     CashboxOrderVendorEntity toInner(PojoIntCashboxOrderVendor outer);
     
