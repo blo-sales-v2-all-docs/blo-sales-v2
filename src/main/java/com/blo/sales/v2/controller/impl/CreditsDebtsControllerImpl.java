@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.impl;
 
+import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
 import com.blo.sales.v2.controller.pojos.PojoIntCredit;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntCredits;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import com.blo.sales.v2.model.ICreditsDebtsModel;
 import com.blo.sales.v2.controller.ICreditsDebtsController;
+import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
+import com.blo.sales.v2.controller.pojos.enums.CashboxStatusIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
 
 @Singleton
@@ -27,6 +30,9 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
     @Inject
     private ICreditsDebtsModel model;
 
+    @Inject
+    private ICashboxController cashboxController;
+    
     @Override
     public WrapperPojoIntCredits getAllCreditsByType(TypeCreditDebtIntEnum type) throws BloSalesV2Exception {
         logger.info("recupera todos los creditos");
@@ -84,6 +90,9 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
             final var creditoEncontrado = model.getCreditDebtById(idCreditDebit);
             BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
             BloSalesV2Utils.validateRule(!creditoEncontrado.isAvailable() || creditoEncontrado.isPayed(), "", "");
+            // variable para almacenar temporalmente el monto y usarlo cuando son debitos
+            var montoStore = creditoEncontrado.getAmount();
+            var toPayment = payment;
             final var nuevoMonto = creditoEncontrado.getAmount().subtract(payment);
             // validar monto
             creditoEncontrado.setAmount(nuevoMonto);
@@ -94,10 +103,41 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
                 creditoEncontrado.setPayed(true);
             }
             creditoEncontrado.setUpdateDate(BloSalesV2Utils.getTimestamp());
+            // agregar el pago a la caja
+            if (creditoEncontrado.getType().compareTo(TypeCreditDebtIntEnum.DEBT) == 0) {
+                logger.info("credito encontrado es debito");
+                // recupera caja abierta
+                var openCashbox = cashboxController.getOpenCashbox();
+                // si no existe se crea
+                if (openCashbox == null) {
+                    logger.info("cashbox inexistente");
+                    final var newCashbox = new PojoIntCashbox();
+                    newCashbox.setFkUser(creditoEncontrado.getFkUser());
+                    newCashbox.setAmount(BigDecimal.ZERO);
+                    newCashbox.setStatus(CashboxStatusIntEnum.OPEN);
+                    newCashbox.setTimestamp(BloSalesV2Utils.getTimestamp());
+                    openCashbox = cashboxController.addCashbox(newCashbox);
+                }
+                logger.info("cashbox %s", String.valueOf(openCashbox));
+                // se suma la cantidad de la venta al monto de la caja abierta
+                if (payment.compareTo(creditoEncontrado.getAmount()) >= 0) {
+                    // si el pago es mayor a la cantidad del crédito entonces el
+                    // pago se cubrió completamente y se usa el monto restante del crédito
+                    logger.info("debito pagado completamente");
+                    toPayment = montoStore;
+                }
+                openCashbox.setAmount(openCashbox.getAmount().add(toPayment));
+                openCashbox.setTimestamp(BloSalesV2Utils.getTimestamp());
+                // actualizar cantidad en la caja
+                logger.info("actualizando caja abierta %s", String.valueOf(openCashbox));
+                cashboxController.updateCAshbox(openCashbox, openCashbox.getIdCashbox());
+                
+            }
+            
             // agregar pago a historial
             final var gson = new Gson();
             final var historialPagos = new ArrayList<>(Arrays.asList(gson.fromJson(creditoEncontrado.getPayments(), String[].class)));
-            historialPagos.add(String.format(BloSalesV2Utils.JSON_PAYMENT_HISTORY_ITEM, payment, BloSalesV2Utils.getTimestamp()));
+            historialPagos.add(String.format(BloSalesV2Utils.JSON_PAYMENT_HISTORY_ITEM, toPayment, BloSalesV2Utils.getTimestamp()));
             creditoEncontrado.setPayments(gson.toJson(historialPagos));
             final var guardado = model.updateCreditDebit(creditoEncontrado);
             logger.info("cambio de nombre %s", String.valueOf(guardado));
