@@ -1,5 +1,6 @@
 package com.blo.sales.v2.controller.pojos;
 
+import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,11 +10,11 @@ import lombok.ToString;
 @Getter
 public @ToString class PojoIntCredit {
     
-    private long idCredit;
+    private long idCreditDebit;
     
     private long fkUser;
     
-    private String lenderName;
+    private String lenderDebtorName;
     
     private BigDecimal amount;
     
@@ -28,5 +29,7 @@ public @ToString class PojoIntCredit {
     private boolean available;
     
     private String updateDate;
+    
+    private TypeCreditDebtIntEnum type;
     
 }

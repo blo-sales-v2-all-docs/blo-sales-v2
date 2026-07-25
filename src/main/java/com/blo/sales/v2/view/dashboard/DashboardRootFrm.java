@@ -7,13 +7,13 @@ import com.blo.sales.v2.view.commons.AbstractDashboardBase;
 import com.blo.sales.v2.view.commons.AbstractFrameBase;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
-import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dashboard.panels.AddVendor;
 import com.blo.sales.v2.view.dashboard.panels.AllCashboxes;
 import com.blo.sales.v2.view.dashboard.panels.AllProducts;
 import com.blo.sales.v2.view.dashboard.panels.CashboxOpen;
 import com.blo.sales.v2.view.dashboard.panels.Categories;
 import com.blo.sales.v2.view.dashboard.panels.Credits;
+import com.blo.sales.v2.view.dashboard.panels.Debits;
 import com.blo.sales.v2.view.dashboard.panels.Debtors;
 import com.blo.sales.v2.view.dashboard.panels.DebtorsSettlements;
 import com.blo.sales.v2.view.dashboard.panels.MobileCompanies;
@@ -76,9 +76,10 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         optSalesReport = new javax.swing.JMenuItem();
         optCanceledSales = new javax.swing.JMenuItem();
         sprt02 = new javax.swing.JPopupMenu.Separator();
-        optDigitalWallet = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         optCredits = new javax.swing.JMenuItem();
+        optDebt = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        optDigitalWallet = new javax.swing.JMenuItem();
         itmDebtors = new javax.swing.JMenu();
         optDebtors = new javax.swing.JMenuItem();
         optDebtorsHistory = new javax.swing.JMenuItem();
@@ -196,15 +197,6 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         itmContability.add(optCanceledSales);
         itmContability.add(sprt02);
 
-        optDigitalWallet.setText("Cartera digital");
-        optDigitalWallet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                optDigitalWalletActionPerformed(evt);
-            }
-        });
-        itmContability.add(optDigitalWallet);
-        itmContability.add(jSeparator2);
-
         optCredits.setText("Créditos");
         optCredits.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +204,23 @@ public final class DashboardRootFrm extends AbstractFrameBase {
             }
         });
         itmContability.add(optCredits);
+
+        optDebt.setText("Préstamos");
+        optDebt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optDebtActionPerformed(evt);
+            }
+        });
+        itmContability.add(optDebt);
+        itmContability.add(jSeparator2);
+
+        optDigitalWallet.setText("Cartera digital");
+        optDigitalWallet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optDigitalWalletActionPerformed(evt);
+            }
+        });
+        itmContability.add(optDigitalWallet);
 
         itmAdmon.add(itmContability);
 
@@ -255,9 +264,9 @@ public final class DashboardRootFrm extends AbstractFrameBase {
 
         itmAdmon.add(itmVendors);
 
-        itmOrders.setText("Órdenes");
+        itmOrders.setText("Pedidos");
 
-        optOpenOrder.setText("Abrir orden");
+        optOpenOrder.setText("Abrir pedido");
         optOpenOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optOpenOrderActionPerformed(evt);
@@ -265,7 +274,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         });
         itmOrders.add(optOpenOrder);
 
-        optByStatus.setText("Ver ordenes");
+        optByStatus.setText("Ver pedido");
         optByStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optByStatusActionPerformed(evt);
@@ -420,6 +429,10 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private void optCreditsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optCreditsActionPerformed
         handlerDashboard(new Credits(KeysEnum.DASHBOARD_TITLES_CREDITS.getKey()));
     }//GEN-LAST:event_optCreditsActionPerformed
+
+    private void optDebtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optDebtActionPerformed
+        handlerDashboard(new Debits(KeysEnum.DASHBOARD_TITLES_DEBITS.getKey()));
+    }//GEN-LAST:event_optDebtActionPerformed
     
     private void handlerDashboard(AbstractDashboardBase dashboard) {
         if (injector == null) {
@@ -460,6 +473,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     private javax.swing.JMenuItem optCanceledSales;
     private javax.swing.JMenuItem optCategory;
     private javax.swing.JMenuItem optCredits;
+    private javax.swing.JMenuItem optDebt;
     private javax.swing.JMenuItem optDebtors;
     private javax.swing.JMenuItem optDebtorsHistory;
     private javax.swing.JMenuItem optDigitalWallet;

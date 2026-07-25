@@ -132,6 +132,10 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_IN_FIELDS_WRITTED = "Error en los campos ingresados";
     
+    public static final String ERROR_CREDIT_DEBIT_NOT_FOUND = "Crédito / préstamo no encontrado";
+    
+    public static final String ERROR_CREDIT_DEBIT_UNAVAILABLE = "Esta operación no se puede realizar porque el elemento no está disponible o ya fue pagado";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -200,6 +204,10 @@ public final class BloSalesV2Utils {
     public static final String CODE_ORDER_NOT_FOUND = "028";
     
     public static final String CODE_IN_FIELDS_WRITTED = "029";
+    
+    public static final String CODE_CREDIT_DEBIT_NOT_FOUND = "030";
+    
+    public static final String CODE_CREDIT_DEBIT_UNAVAILABLE = "031";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

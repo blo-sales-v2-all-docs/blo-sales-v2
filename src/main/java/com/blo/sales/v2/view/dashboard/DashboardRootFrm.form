@@ -106,22 +106,30 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JPopupMenu$Separator" name="sprt02">
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="optDigitalWallet">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Cartera digital"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optDigitalWalletActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
-                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="optCredits">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cr&#xe9;ditos"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optCreditsActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="optDebt">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pr&#xe9;stamos"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optDebtActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="optDigitalWallet">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Cartera digital"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optDigitalWalletActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
@@ -174,12 +182,12 @@
             </Menu>
             <Menu class="javax.swing.JMenu" name="itmOrders">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#xd3;rdenes"/>
+                <Property name="text" type="java.lang.String" value="Pedidos"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="optOpenOrder">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Abrir orden"/>
+                    <Property name="text" type="java.lang.String" value="Abrir pedido"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optOpenOrderActionPerformed"/>
@@ -187,7 +195,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="optByStatus">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Ver ordenes"/>
+                    <Property name="text" type="java.lang.String" value="Ver pedido"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optByStatusActionPerformed"/>
