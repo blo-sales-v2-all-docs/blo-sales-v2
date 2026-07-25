@@ -112,7 +112,7 @@ public final class Debits extends AbstractDashboardBase {
                 .addGap(491, 491, 491))
         );
 
-        tbdCredits.addTab("Abrir crédito", pnlOpenCredit);
+        tbdCredits.addTab("Abrir préstamo", pnlOpenCredit);
 
         tblCredits.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -143,7 +143,7 @@ public final class Debits extends AbstractDashboardBase {
             }
         });
 
-        btnCancelCredits.setText("cancelar_credito");
+        btnCancelCredits.setText("cancelar_prestamo");
         btnCancelCredits.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelCreditsActionPerformed(evt);
@@ -283,7 +283,7 @@ public final class Debits extends AbstractDashboardBase {
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnApplyFilter, getTranslateBy(KeysEnum.COMMON_BTN_APPLY_FILTER.getKey()));
         GUICommons.setTextToButton(btnSavePayment, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
-        GUICommons.setTextToButton(btnCancelCredits, getTranslateBy(KeysEnum.CREDITS_BTN_CANCEL_CREDIT.getKey()));
+        GUICommons.setTextToButton(btnCancelCredits, getTranslateBy(KeysEnum.DEBITS_BTN_CANCEL_DEBIT.getKey()));
         GUICommons.setTextToField(lblPayement, BloSalesV2Utils.EMPTY_STRING);
     }
 

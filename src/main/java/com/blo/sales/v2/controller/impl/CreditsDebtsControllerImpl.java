@@ -45,7 +45,7 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
             transactionController.disableAutocommit();
             logger.info("cambiando nombre de prestamista");
             final var creditoEncontrado = model.getCreditDebtById(idCredit);
-            BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
+            BloSalesV2Utils.validateRule(creditoEncontrado == null, BloSalesV2Utils.CODE_CREDIT_DEBIT_NOT_FOUND, BloSalesV2Utils.ERROR_CREDIT_DEBIT_NOT_FOUND);
             creditoEncontrado.setLenderDebtorName(name);
             creditoEncontrado.setUpdateDate(BloSalesV2Utils.getTimestamp());
             final var guardado = model.updateCreditDebit(creditoEncontrado);
@@ -88,8 +88,8 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
             transactionController.disableAutocommit();
             logger.info("cambiando nombre de prestamista");
             final var creditoEncontrado = model.getCreditDebtById(idCreditDebit);
-            BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
-            BloSalesV2Utils.validateRule(!creditoEncontrado.isAvailable() || creditoEncontrado.isPayed(), "", "");
+            BloSalesV2Utils.validateRule(creditoEncontrado == null, BloSalesV2Utils.CODE_CREDIT_DEBIT_NOT_FOUND, BloSalesV2Utils.ERROR_CREDIT_DEBIT_NOT_FOUND);
+            BloSalesV2Utils.validateRule(!creditoEncontrado.isAvailable() || creditoEncontrado.isPayed(), BloSalesV2Utils.ERROR_CREDIT_DEBIT_UNAVAILABLE, BloSalesV2Utils.CODE_CREDIT_DEBIT_UNAVAILABLE);
             // variable para almacenar temporalmente el monto y usarlo cuando son debitos
             var montoStore = creditoEncontrado.getAmount();
             var toPayment = payment;
@@ -155,7 +155,7 @@ public class CreditsDebtsControllerImpl implements ICreditsDebtsController {
     public void deleteCreditDebit(long idCreditDebt) throws BloSalesV2Exception {
         logger.info("eliminando credito");
         final var creditoEncontrado = model.getCreditDebtById(idCreditDebt);
-        BloSalesV2Utils.validateRule(creditoEncontrado == null, "code", "msg");
+        BloSalesV2Utils.validateRule(creditoEncontrado == null, BloSalesV2Utils.CODE_CREDIT_DEBIT_NOT_FOUND, BloSalesV2Utils.ERROR_CREDIT_DEBIT_NOT_FOUND);
         creditoEncontrado.setAvailable(false);
         creditoEncontrado.setPayed(false);
         creditoEncontrado.setUpdateDate(BloSalesV2Utils.getTimestamp());

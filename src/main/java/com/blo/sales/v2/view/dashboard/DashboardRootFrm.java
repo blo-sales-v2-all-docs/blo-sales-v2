@@ -264,9 +264,9 @@ public final class DashboardRootFrm extends AbstractFrameBase {
 
         itmAdmon.add(itmVendors);
 
-        itmOrders.setText("Órdenes");
+        itmOrders.setText("Pedidos");
 
-        optOpenOrder.setText("Abrir orden");
+        optOpenOrder.setText("Abrir pedido");
         optOpenOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optOpenOrderActionPerformed(evt);
@@ -274,7 +274,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         });
         itmOrders.add(optOpenOrder);
 
-        optByStatus.setText("Ver ordenes");
+        optByStatus.setText("Ver pedido");
         optByStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optByStatusActionPerformed(evt);

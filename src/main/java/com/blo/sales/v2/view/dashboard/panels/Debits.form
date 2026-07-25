@@ -41,8 +41,8 @@
         <Container class="javax.swing.JPanel" name="pnlOpenCredit">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Abrir cr&#xe9;dito">
-                <Property name="tabTitle" type="java.lang.String" value="Abrir cr&#xe9;dito"/>
+              <JTabbedPaneConstraints tabName="Abrir pr&#xe9;stamo">
+                <Property name="tabTitle" type="java.lang.String" value="Abrir pr&#xe9;stamo"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -266,7 +266,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnCancelCredits">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="cancelar_credito"/>
+                    <Property name="text" type="java.lang.String" value="cancelar_prestamo"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelCreditsActionPerformed"/>
