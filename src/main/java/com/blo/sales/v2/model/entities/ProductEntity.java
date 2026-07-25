@@ -27,4 +27,6 @@ public @ToString class ProductEntity {
     
     private long fk_category;
     
+    private boolean available;
+    
 }

@@ -24,6 +24,7 @@ public class ProductEntityMapper implements IToInner<ProductEntity, PojoIntProdu
         in.setProduct(outer.getProduct());
         in.setQuantity(outer.getQuantity());
         in.setTimestamp(outer.getTimestamp());
+        in.setAvailable(outer.isAvailable());
         return in;
     }
 
@@ -42,6 +43,7 @@ public class ProductEntityMapper implements IToInner<ProductEntity, PojoIntProdu
         out.setProduct(inner.getProduct());
         out.setQuantity(inner.getQuantity());
         out.setTimestamp(inner.getTimestamp());
+        out.setAvailable(inner.isAvailable());
         return out;
     }
     

@@ -88,6 +88,7 @@ public class ProductsModelImpl implements IProductsModel {
                 p.setQuantity(rs.getBigDecimal(BloSalesV2Columns.QUANTITY));
                 p.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
                 p.setProduct(rs.getString(BloSalesV2Columns.PRODUCT));
+                p.setAvailable(rs.getBoolean(BloSalesV2Columns.AVAILABLE));
                 innerProducts.add(p);
             }
             logger.info("productos encontrados %s",innerProducts.size());
@@ -113,7 +114,9 @@ public class ProductsModelImpl implements IProductsModel {
             ps.setString(4, innerProduct.getTimestamp());
             ps.setString(5, innerProduct.getBar_code());
             ps.setBigDecimal(6, innerProduct.getPrice());
-            ps.setLong(7, innerProduct.getId_product());
+            ps.setBoolean(7, innerProduct.isAvailable());
+            ps.setLong(8, innerProduct.getId_product());
+            
             final var rowsAffected = ps.executeUpdate();
             
             BloSalesV2Utils.validateRule(rowsAffected == 0, BloSalesV2Utils.SQL_UPDATE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_UPDATING_ON_DATA_BASE);
@@ -145,6 +148,7 @@ public class ProductsModelImpl implements IProductsModel {
             p.setQuantity(rs.getBigDecimal(BloSalesV2Columns.QUANTITY));
             p.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
             p.setProduct(rs.getString(BloSalesV2Columns.PRODUCT));
+            p.setAvailable(rs.getBoolean(BloSalesV2Columns.AVAILABLE));
             logger.info("producto recuperado %s", String.valueOf(p));
             return mapper.toOuter(p);
         } catch (SQLException ex) {
@@ -176,6 +180,7 @@ public class ProductsModelImpl implements IProductsModel {
             p.setQuantity(rs.getBigDecimal(BloSalesV2Columns.QUANTITY));
             p.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
             p.setProduct(rs.getString(BloSalesV2Columns.PRODUCT));
+            p.setAvailable(rs.getBoolean(BloSalesV2Columns.AVAILABLE));
             logger.info("producto encontrado %s", String.valueOf(p));
             return mapper.toOuter(p);
         } catch (SQLException ex) {

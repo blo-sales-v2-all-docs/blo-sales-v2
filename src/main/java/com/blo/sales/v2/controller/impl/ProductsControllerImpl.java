@@ -176,10 +176,32 @@ public class ProductsControllerImpl implements IProductsController {
         productFound.setPrice(product.getPrice());
         productFound.setCostOfSale(product.getCostOfSale());
         productFound.setQuantity(product.getQuantity());
+        productFound.setAvailable(product.isAvailable());
         /** se actualiza timestamp a ultima actualizacion */
         productFound.setTimestamp(timestamp);
         logger.info("producto actualizado [%s]", String.valueOf(productFound));
         return model.updateProductInfo(productFound);
+    }
+
+    @Override
+    public void deleteProduct(long idUser, long idProduct) throws BloSalesV2Exception {
+        try {
+            dbTransactionManager.disableAutocommit();
+            logger.info("eliminando producto [%s]", idProduct);
+            final var productoEncontrado = getProductById(idProduct);
+            BloSalesV2Utils.validateRule(productoEncontrado == null, BloSalesV2Utils.CODE_PRODUCT_NOT_FOUND, BloSalesV2Utils.ERROR_PRODUCT_NOT_FOUND);
+            productoEncontrado.setAvailable(false);
+            logger.info("producto actualizar [%s]", String.valueOf(productoEncontrado));
+            updateProductInfo(productoEncontrado, ReasonsIntEnum.PRODUCT_DELETED, idUser, TypesIntEnum.UPDATE_PRODUCT);
+            logger.info("producto descontinuado");
+            dbTransactionManager.doCommit();
+        } catch(BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbTransactionManager.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbTransactionManager.enableAutocommit();
+        }
     }
 
 }
