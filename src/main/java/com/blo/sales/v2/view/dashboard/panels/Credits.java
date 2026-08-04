@@ -20,6 +20,8 @@ import com.blo.sales.v2.controller.ICreditsDebtsController;
 import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
 import com.blo.sales.v2.view.pojos.enums.TypeCreditDebitEnum;
 import com.blo.sales.v2.view.mappers.PojoCreditDebitMapper;
+import com.google.gson.Gson;
+import java.math.BigDecimal;
 
 public final class Credits extends AbstractDashboardBase {
     
@@ -33,11 +35,14 @@ public final class Credits extends AbstractDashboardBase {
     
     private long idCreditSelected;
     
+    private Gson gson;
+    
     @Inject
     private ICreditsDebtsController creditsController;
     
     public Credits(String key) {
         super(key);
+        this.gson = new Gson();
     }
 
     @SuppressWarnings("unchecked")
@@ -378,7 +383,28 @@ public final class Credits extends AbstractDashboardBase {
         if (creditSelected != null) {
             idCreditSelected = idCredit;
             if (!creditSelected.getPayments().equals(BloSalesV2Utils.JSON_EMPTY_ARRAY)) {
-                new ListViewerDialog(this, getTranslateBy(KeysEnum.CREDITS_DLG_PAYMENTS.getKey()), creditSelected.getPayments()).setVisible(true);
+                final var items = gson.fromJson(creditSelected.getPayments(), String[].class);
+                final var totalAbonos = Arrays.asList(items).stream().
+                        map(item -> 
+                                BloSalesV2Utils.getMatcherByIndexGroup(BloSalesV2Utils.RECUPERAR_PAGO_DE_HISTORIAL_PAGOS, item, 1)).
+                        map(BigDecimal::new).
+                        reduce(BigDecimal.ZERO, BigDecimal::add);
+                logger.info("total abonos -> %s", totalAbonos);
+                
+                String[] p = gson.fromJson(creditSelected.getPayments(), String[].class);
+                if (p == null) {
+                    p = new String[0];
+                }
+                // Copiar arreglo aumentando en 1 el tamaño
+                String[] pagosMasAbono = Arrays.copyOf(p, p.length + 1);
+                // La última posición correcta es (longitud - 1)
+                pagosMasAbono[pagosMasAbono.length - 1] = "Abono total: " + totalAbonos;
+                
+                //creditSelected.setPayments(creditSelected.getPayments().concat(", {Abono total: " + totalAbonos + "}"));
+                
+                final var titulo = String.format(getTranslateBy(KeysEnum.CREDITS_DLG_PAYMENTS.getKey()), creditSelected.getLenderDebtorName());
+                        
+                new ListViewerDialog(this, titulo, gson.toJson(pagosMasAbono)).setVisible(true);
             }
             GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
             // pendiente
@@ -413,5 +439,6 @@ public final class Credits extends AbstractDashboardBase {
             });
         }
     }
+    
     
 }

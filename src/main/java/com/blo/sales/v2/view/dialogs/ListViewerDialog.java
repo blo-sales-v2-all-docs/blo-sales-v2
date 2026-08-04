@@ -8,15 +8,15 @@ import javax.swing.SwingUtilities;
 
 public final class ListViewerDialog extends AbstractDialogBase {
     
-    private final String productsInfo;
+    private final String stringItems;
     
     private final Gson gson;
     
     private final DefaultListModel<String> modeloLista;
 
-    public ListViewerDialog(Component parent, String title, String productsInfo) {
+    public ListViewerDialog(Component parent, String title, String stringItems) {
         super(SwingUtilities.getWindowAncestor(parent), title, ModalityType.APPLICATION_MODAL, false);
-        this.productsInfo = productsInfo;
+        this.stringItems = stringItems;
         gson = new Gson();
         modeloLista = new DefaultListModel<>();
         initComponents();
@@ -79,8 +79,8 @@ public final class ListViewerDialog extends AbstractDialogBase {
     }
     
     private void loadProductsInfo() {
-        if (productsInfo != null && !productsInfo.isBlank()) {
-            for (final var info: gson.fromJson(productsInfo.trim(), String[].class)) {
+        if (stringItems != null && !stringItems.isBlank()) {
+            for (final var info: gson.fromJson(stringItems.trim(), String[].class)) {
                 modeloLista.addElement(info);
             }
             lstProductsInfo.setModel(modeloLista);
