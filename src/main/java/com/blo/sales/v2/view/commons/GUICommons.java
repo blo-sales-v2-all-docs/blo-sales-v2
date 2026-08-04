@@ -537,6 +537,12 @@ public final class GUICommons {
         ch.setSelected(condition);
     }
     
+    public static void setFocusToComponent(JTextField txt) {
+        if (txt != null) {
+            txt.setFocusable(true);
+        }
+    }
+    
     public static void convertMainButton(JButton button) {
         button.setBackground(PROFESSIONAL_BLUE); // Azul profesional
         button.setForeground(Color.WHITE);

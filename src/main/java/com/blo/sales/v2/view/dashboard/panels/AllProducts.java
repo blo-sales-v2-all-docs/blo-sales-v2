@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
 import javax.swing.SwingWorker;
 
 public final class AllProducts extends AbstractDashboardBase {
@@ -301,6 +300,10 @@ public final class AllProducts extends AbstractDashboardBase {
     /** ajustar filtro de categorias */
     private void loadTitlesAndData() {
         try {
+            // 1. Quitar el filtro temporalmente para evitar desfasaje de índices
+            if (tblProducts.getRowSorter() != null) {
+                tblProducts.setRowSorter(null);
+            }
             var productsData = productsMapper.toOuter(productsController.getAllProducts()).getProducts();
             for (final var categoryProtected: categoriesProtected) {
                 productsData = productsData.stream().
@@ -328,6 +331,12 @@ public final class AllProducts extends AbstractDashboardBase {
                 });
             }
             
+            // 2. Re-aplicar el filtro actual si el buscador tiene texto
+            final String currentFilter = GUICommons.getTextFromField(txtSearcher, false);
+            if (!currentFilter.isBlank()) {
+                GUICommons.addFilter(tblProducts, "(?i)", currentFilter);
+            }
+
             /** cuando se cambia la fila seleccionada reinicia el panel para ver detalles */
             GUICommons.changeRowSelectedFromTable(tblProducts, (Integer nextRow) -> initPanelManagement());
             
@@ -349,7 +358,7 @@ public final class AllProducts extends AbstractDashboardBase {
                         
                         for (var i = 0; i < 100; i++) {
                             publish(i);
-                            Thread.sleep(5);
+                            Thread.sleep(3);
                         }
                         return null;
                     }
@@ -366,7 +375,8 @@ public final class AllProducts extends AbstractDashboardBase {
                     protected void done() {
                         prgsBarLoad.setValue(0);
                         CommonAlerts.openMessage(getTranslateBy(KeysEnum.COMMON_LBL_UPDATED_COMPLETE.getKey()), getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()));
-                        initPanelManagement();
+                        resetPanelState();
+                        GUICommons.setFocusToComponent(txtSearcher);
                     }
                     
                     
@@ -415,6 +425,13 @@ public final class AllProducts extends AbstractDashboardBase {
     private void initPanelManagement() {
         GUICommons.hiddenPanel(pnlProductDetail);
         idProductSelected = 0L;
+    }
+    
+    /** Reinicia completamente la tabla de la base de datos y oculta detalles */
+    private void resetPanelState() {
+        txtSearcher.setText(BloSalesV2Utils.EMPTY_STRING);
+        loadTitlesAndData();
+        initPanelManagement();
     }
     
     /** clase que permite ejecutar la actualización de un producto en un hilo diferente */
