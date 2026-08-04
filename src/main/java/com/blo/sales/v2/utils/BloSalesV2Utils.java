@@ -25,6 +25,8 @@ public final class BloSalesV2Utils {
     
     public static final String JSON_PAYMENT_HISTORY_ITEM = "pago: %s, fecha: %s";
     
+    public static final String RECUPERAR_PAGO_DE_HISTORIAL_PAGOS = "pago:\\s*([\\d.]+)";
+    
     /** expresion regular para solo numeros */
     public static final String ONLY_NUMBERS = "[0-9]+";
     
