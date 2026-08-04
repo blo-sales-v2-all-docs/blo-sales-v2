@@ -400,10 +400,8 @@ public final class Credits extends AbstractDashboardBase {
                 // La última posición correcta es (longitud - 1)
                 pagosMasAbono[pagosMasAbono.length - 1] = "Abono total: " + totalAbonos;
                 
-                //creditSelected.setPayments(creditSelected.getPayments().concat(", {Abono total: " + totalAbonos + "}"));
-                
                 final var titulo = String.format(getTranslateBy(KeysEnum.CREDITS_DLG_PAYMENTS.getKey()), creditSelected.getLenderDebtorName());
-                        
+                
                 new ListViewerDialog(this, titulo, gson.toJson(pagosMasAbono)).setVisible(true);
             }
             GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
