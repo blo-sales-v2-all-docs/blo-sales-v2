@@ -289,7 +289,7 @@ public final class Categories extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
+    protected void loadTargets() {
         GUICommons.setTextToField(lblCategoryName, getTranslateBy(KeysEnum.CATEGORIES_LBL_CATEGORY.getKey()));
         GUICommons.setTextToField(lblDescription, getTranslateBy(KeysEnum.CATEGORIES_LBL_DESCRIPTION.getKey()));
         GUICommons.setTextToButton(btnSaveChanges, getTranslateBy(KeysEnum.COMMON_BTN_SAVE_CHANGES.getKey()));
@@ -297,4 +297,7 @@ public final class Categories extends AbstractDashboardBase {
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToField(lblEditCategory, getTranslateBy(KeysEnum.CATEGORIES_LBL_EDIT_CATEGORY.getKey()));
     }
+    
+    @Override
+    protected void reset() { }
 }

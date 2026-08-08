@@ -183,7 +183,7 @@ public final class Vendors extends AbstractDashboardBase {
             final var vendorUpdated = vendorMapper.toInner(vendorSelected);
             vendorsController.updateVendor(vendorUpdated, vendorUpdated.getIdVendor());
             
-            resetFields();
+            reset();
             loadVendorsData();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -192,7 +192,7 @@ public final class Vendors extends AbstractDashboardBase {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        resetFields();
+        reset();
     }//GEN-LAST:event_btnCancelActionPerformed
 
 
@@ -210,23 +210,6 @@ public final class Vendors extends AbstractDashboardBase {
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void init() {
-        initComponents();
-        setMainTable(tblVendors);
-        loadTargets();
-        loadVendorsData();
-        pnlContactEdit.setVisible(false);
-        GUICommons.addDoubleClickOnTable(tblVendors, (Long id) -> editVendor(id));
-        GUICommons.changeRowSelectedFromTable(tblVendors, (Integer id) -> resetFields());
-        weekComponent.setContainer(pnlDays);
-    }
-    
-    @Override
-    public void loadTargets() {
-        
-    }
-    
     private void editVendor(long idVendor) {
         try {
             final var gson = new Gson();
@@ -276,7 +259,23 @@ public final class Vendors extends AbstractDashboardBase {
         }
     }
     
-    private void resetFields() {
+    @Override
+    public void init() {
+        initComponents();
+        setMainTable(tblVendors);
+        loadTargets();
+        loadVendorsData();
+        pnlContactEdit.setVisible(false);
+        GUICommons.addDoubleClickOnTable(tblVendors, (Long id) -> editVendor(id));
+        GUICommons.changeRowSelectedFromTable(tblVendors, (Integer id) -> reset());
+        weekComponent.setContainer(pnlDays);
+    }
+    
+    @Override
+    protected void loadTargets() { }
+    
+    @Override
+    protected void reset() {
         vendorSelected = null;
         pnlContactEdit.setVisible(false);
         GUICommons.setTextToField(txtName, BloSalesV2Utils.EMPTY_STRING);

@@ -434,6 +434,11 @@ public final class AllProducts extends AbstractDashboardBase {
         loadTitlesAndData();
         initPanelManagement();
     }
+
+    @Override
+    protected void reset() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     /** clase que permite ejecutar la actualización de un producto en un hilo diferente */
     class DoUpdateProductRunneable implements Runnable {

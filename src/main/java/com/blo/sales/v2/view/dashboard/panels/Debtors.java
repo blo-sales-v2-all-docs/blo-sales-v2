@@ -247,7 +247,7 @@ public final class Debtors extends AbstractDashboardBase {
             final var payment = GUICommons.getNumberFromJText(nmbPay, GUICommons.DIGITS_OF_CURRENCY);
             debtors.addPayment(payment, getUserData().getIdUser(), debtorSelected.getIdDebtor());
             loadDataAndTitles();
-            disabledButtons();
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -274,7 +274,7 @@ public final class Debtors extends AbstractDashboardBase {
             if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
                 debtors.addPayment(debtorSelected.getDebt(), getUserData().getIdUser(), debtorSelected.getIdDebtor());
                 loadDataAndTitles();
-                disabledButtons();
+                reset();
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -282,7 +282,8 @@ public final class Debtors extends AbstractDashboardBase {
         }
     }//GEN-LAST:event_btnPayallActionPerformed
 
-    private void disabledButtons() {
+    @Override
+    protected void reset() {
         debtorSelected = null;
         storeTotalSale = BigDecimal.ZERO;
         GUICommons.disabledButton(btnSave);
@@ -394,7 +395,7 @@ public final class Debtors extends AbstractDashboardBase {
                         salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux), getUserData().getIdUser());
                         
                         loadDataAndTitles();
-                        disabledButtons();
+                        reset();
                         
                         // 2. Usamos la referencia del arreglo para cerrar
                         if (paymentWrapper[0] != null) {
@@ -436,7 +437,7 @@ public final class Debtors extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
+    protected void loadTargets() {
         GUICommons.setTextToField(lblAddPartialPay, getTranslateBy(KeysEnum.DEBTORS_LBL_ADD_PAY.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnPayall, getTranslateBy(KeysEnum.DEBTORS_BTN_PAY_ALL.getKey()));
@@ -449,7 +450,7 @@ public final class Debtors extends AbstractDashboardBase {
             initComponents();
             setMainTable(tblDebtors);
             loadTargets();
-            disabledButtons();
+            reset();
             loadDataAndTitles();
             GUICommons.addDoubleClickOnTable(tblDebtors, item -> selectADebtor((long) item));
             loadPaymentsType();

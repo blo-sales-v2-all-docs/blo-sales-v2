@@ -26,8 +26,6 @@ import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 
@@ -63,22 +61,6 @@ public final class AllCashboxes extends AbstractDashboardBase {
 
     public AllCashboxes(String key) {
         super(key);
-    }
-    
-    @Override
-    public void init() {
-        initComponents();
-        setMainTable(tblCashboxes);
-        loadCashboxData();
-        loadTargets();
-        GUICommons.addDoubleClickOnListEvt(lstOrders, (String data) -> {
-            final var id = BloSalesV2Utils.getMatcherByIndexGroup("ID: (\\d+)", data, 1);
-            final var ordenEncontrada = ordersVendorsDetails.getOrders().stream().
-                    filter(o -> o.getIdOrderVendor() == Long.parseLong(id)).
-                    findFirst().
-                    orElse(null);
-            new ListViewerDialog(this, id, ordenEncontrada.getProductsInfo()).setVisible(true);
-        });
     }
     
     private void loadCashboxData() {
@@ -342,6 +324,22 @@ public final class AllCashboxes extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
+    public void init() {
+        initComponents();
+        setMainTable(tblCashboxes);
+        loadCashboxData();
+        loadTargets();
+        GUICommons.addDoubleClickOnListEvt(lstOrders, (String data) -> {
+            final var id = BloSalesV2Utils.getMatcherByIndexGroup("ID: (\\d+)", data, 1);
+            final var ordenEncontrada = ordersVendorsDetails.getOrders().stream().
+                    filter(o -> o.getIdOrderVendor() == Long.parseLong(id)).
+                    findFirst().
+                    orElse(null);
+            new ListViewerDialog(this, id, ordenEncontrada.getProductsInfo()).setVisible(true);
+        });
+    }
+    
+    @Override
     public void loadTargets() {
         GUICommons.setTextToField(lblActives, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_ACTIVES.getKey()), "0"));
         GUICommons.setTextToField(lblCosts, String.format(getTranslateBy(KeysEnum.CASHBOXES_LBL_COSTS.getKey()), "0"));
@@ -351,11 +349,16 @@ public final class AllCashboxes extends AbstractDashboardBase {
         GUICommons.setTextToField(lblORders, getTranslateBy(KeysEnum.CASHBOXES_LBL_ORDERS.getKey()));
     }
     
+    @Override
+    protected void reset() { }
+    
     private DefaultListModel addOrdersOnList(WrapperPojoOrdersVendors orders, DefaultListModel model) {
         if (orders.getOrders() != null && !orders.getOrders().isEmpty()) {
             orders.getOrders().forEach(o -> model.addElement(String.format("ID: %s; %s; %s; $%s [%s]", o.getIdOrderVendor(), o.getBrand(), o.getVendorInfo().getName(), o.getAmount(), o.getStatusOrder().name())));
         }
         return model;
     }
+
+    
     
 }
