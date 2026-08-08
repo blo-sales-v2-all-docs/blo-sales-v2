@@ -150,7 +150,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
             } else {
                 mobileController.updateCompanyMobile(companyMapper.toInner(company), Long.parseLong(companyId));
             }
-            refreshTable();
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -192,13 +192,6 @@ public final class MobileCompanies extends AbstractDashboardBase {
         }
     }
     
-    private void refreshTable() {
-        GUICommons.setTextToField(txtCompanyName, BloSalesV2Utils.EMPTY_STRING);
-        GUICommons.setTextToField(lblIdCompany, BloSalesV2Utils.EMPTY_STRING);
-        loadDataOnTable();
-        handlerLockButtons(true);
-    }
-    
     private void loadDataOnTable() {
         loadCompanies();
         GUICommons.loadTitleOnTable(tblCompanies, titles, false);
@@ -234,7 +227,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
     }
     
     @Override
-    public void loadTargets() {
+    protected void loadTargets() {
         GUICommons.setTextToField(lblCompanyNam, getTranslateBy(KeysEnum.MOBILE_COMPANIES_LBL_COMPANY_NAME.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_CANCEL.getKey()));
@@ -261,4 +254,11 @@ public final class MobileCompanies extends AbstractDashboardBase {
         GUICommons.addDoubleClickOnTable(tblCompanies, id -> setDataToForm((long) id));
     }
 
+    @Override
+    protected void reset() {
+        GUICommons.setTextToField(txtCompanyName, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(lblIdCompany, BloSalesV2Utils.EMPTY_STRING);
+        loadDataOnTable();
+        handlerLockButtons(true);
+    }
 }

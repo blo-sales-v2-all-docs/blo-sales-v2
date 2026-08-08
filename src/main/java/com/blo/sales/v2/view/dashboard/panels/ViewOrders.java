@@ -202,7 +202,7 @@ public final class ViewOrders extends AbstractDashboardBase {
                     orderVendor.getIdOrderVendor(),
                     info[0]
             );
-            resetInfo();
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -269,15 +269,6 @@ public final class ViewOrders extends AbstractDashboardBase {
         cmbxCloseOrderReasons.setModel(statusModel);
     }
     
-    private void resetInfo() throws BloSalesV2Exception {
-        getDefaultTableModel().setRowCount(0);
-        wrapperOrders = vendorsOrdersMapper.toOuter(ordersVendorController.getOrders());
-        applyFilterOnTable(wrapperOrders.getOrders(), StatusOrderProviderEnum.PENDIG);
-        GUICommons.addDoubleClickOnTable(tblOrders, (Long idOrder) -> closeOrder(idOrder));
-        GUICommons.hiddenPanel(pnlCtrlCloseOrder);
-        orderVendor = null;
-    }
-    
     private void loadInfoFromOrder(long idOrder) {
         final var orderFound = wrapperOrders.getOrders().stream().
                 filter(i -> i.getIdOrderVendor() == idOrder).
@@ -289,7 +280,19 @@ public final class ViewOrders extends AbstractDashboardBase {
     }
     
     @Override
-    public void loadTargets() {
+    public void init() {
+        initComponents();
+        loadTargets();
+        setMainTable(tblOrders);
+        loadBySatusFilter();
+        loadReasonCloseOrder();
+        GUICommons.loadTitleOnTable(tblOrders, titles, false);
+        GUICommons.addDoubleClickOnTable(tblOrders, (Long idOrder) -> loadInfoFromOrder(idOrder));
+        reset();
+    }
+    
+    @Override
+    protected void loadTargets() {
         GUICommons.setTextToButton(btnCloseOrder, getTranslateBy(KeysEnum.VIEW_ORDERS_BTN_CLOSE_ORDER.getKey()));
         GUICommons.setTextToField(lblNoInvoice, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_NO_INVOICE.getKey()));
         GUICommons.setTextToField(lblFilterOrderStatus, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS.getKey()));
@@ -297,20 +300,17 @@ public final class ViewOrders extends AbstractDashboardBase {
     }
 
     @Override
-    public void init() {
+    protected void reset() {
         try {
-            initComponents();
-            loadTargets();
-            setMainTable(tblOrders);
-            loadBySatusFilter();
-            loadReasonCloseOrder();
-            GUICommons.loadTitleOnTable(tblOrders, titles, false);
-            GUICommons.addDoubleClickOnTable(tblOrders, (Long idOrder) -> loadInfoFromOrder(idOrder));
-            resetInfo();
+            getDefaultTableModel().setRowCount(0);
+            wrapperOrders = vendorsOrdersMapper.toOuter(ordersVendorController.getOrders());
+            applyFilterOnTable(wrapperOrders.getOrders(), StatusOrderProviderEnum.PENDIG);
+            GUICommons.addDoubleClickOnTable(tblOrders, (Long idOrder) -> closeOrder(idOrder));
+            GUICommons.hiddenPanel(pnlCtrlCloseOrder);
+            orderVendor = null;
         } catch (BloSalesV2Exception e) {
             logger.error(e.getMessage());
             CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
-    
 }

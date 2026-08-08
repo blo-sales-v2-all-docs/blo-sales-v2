@@ -164,6 +164,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
         );
         cashboxDialog.setVisible(true);
     }//GEN-LAST:event_btnCloseNowActionPerformed
+    
     private void loadDataAndCashbox() throws BloSalesV2Exception {
         openCashbox = mapper.toOuter(cashboxController.getOpenCashbox());
         loadDataAndTitles(openCashbox); 
@@ -190,11 +191,6 @@ public final class CashboxOpen extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
-        GUICommons.setTextToButton(btnCloseNow, getTranslateBy(KeysEnum.CASHBOX_BTN_CLOSE_NOW.getKey()));
-    }
-
-    @Override
     public void init() {
         try {
             initComponents();
@@ -208,4 +204,12 @@ public final class CashboxOpen extends AbstractDashboardBase {
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }
+    
+    @Override
+    protected void loadTargets() {
+        GUICommons.setTextToButton(btnCloseNow, getTranslateBy(KeysEnum.CASHBOX_BTN_CLOSE_NOW.getKey()));
+    }
+
+    @Override
+    protected void reset() { }
 }
