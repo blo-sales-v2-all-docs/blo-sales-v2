@@ -245,10 +245,7 @@ public final class TopUps extends AbstractDashboardBase {
             topUpData.setTimestamp(BloSalesV2Utils.getTimestamp());
             topUpData.setReference(reference);
             topUpsController.addTopUp(topUpMapper.toInner(topUpData), Long.parseLong(idCompany));
-            GUICommons.setTextToField(nmbAmount, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(txtPhoneNumber, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(txtReference, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.disabledButton(btnSave);
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -388,6 +385,18 @@ public final class TopUps extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
+    public void init() {
+        topUpsTotal = BigDecimal.ZERO;
+        initComponents();
+        setMainTable(tblResults);
+        GUICommons.loadTitleOnTable(tblResults, titles, false);
+        loadTargets();
+        retrieveCompanies();
+        setTextToFilter();
+        GUICommons.hiddenElement(btnCloseTopUps);
+    }
+    
+    @Override
     public void loadTargets() {
         GUICommons.setTextToField(lblCompanyPhone, getTranslateBy(KeysEnum.TOP_UP_LBL_COMPANY_PHONE.getKey()));
         GUICommons.setTextToField(lblPhoneNumber, getTranslateBy(KeysEnum.TOP_UP_LBL_PHONE_NUMBER.getKey()));
@@ -400,14 +409,10 @@ public final class TopUps extends AbstractDashboardBase {
     }
 
     @Override
-    public void init() {
-        topUpsTotal = BigDecimal.ZERO;
-        initComponents();
-        setMainTable(tblResults);
-        GUICommons.loadTitleOnTable(tblResults, titles, false);
-        loadTargets();
-        retrieveCompanies();
-        setTextToFilter();
-        GUICommons.hiddenElement(btnCloseTopUps);
+    protected void reset() {
+        GUICommons.setTextToField(nmbAmount, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(txtPhoneNumber, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.setTextToField(txtReference, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.disabledButton(btnSave);
     }
 }

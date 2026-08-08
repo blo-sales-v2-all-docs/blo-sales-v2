@@ -12,6 +12,7 @@ import com.blo.sales.v2.view.pojos.PojoCashbox;
 import com.blo.sales.v2.view.pojos.PojoDialogCashboxData;
 import com.blo.sales.v2.view.pojos.WrapperPojoNotes;
 import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
+import com.blo.sales.v2.view.pojos.enums.TypeNoteEnum;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -249,9 +250,8 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
             }
             dataNewCashbox.setTotalActives(totalActives);
             dataNewCashbox.setTotalPasives(totalPasives);
-            dataNewCashbox.setTotalAmountInCashbox(totalActivesCosts);
+            dataNewCashbox.setTotalAmountInCashbox(totalActives.subtract(totalPasives));
             
-            //GUICommons.setTextToField(lblTotalToCashbox, "Total neto: " + totalActivesCosts);
             GUICommons.setTextToField(lblTotalToCashbox, String.format(getTranslateBy(KeysEnum.DLG_CASHBOX_LBL_NETO_TOTAL.getKey()), totalActivesCosts));
             GUICommons.setTextToField(txtCategoryName, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(nmbAmount, BloSalesV2Utils.EMPTY_STRING);
@@ -398,7 +398,11 @@ public final class CashboxDialog<T> extends AbstractDialogBase {
         if (props.length < PojoActiveCost.INDEX_AMOUNT) {
             throw new BloSalesV2Exception(BloSalesV2Utils.CODE_FORMAT_ACTIVE_COST, BloSalesV2Utils.ERROR_FORMAT_ACTIVE_COST);
         }
-        final var amount = props[PojoActiveCost.INDEX_AMOUNT].split(PojoActiveCost.SEPARATOR)[1].trim();
+        int indexAmount = PojoActiveCost.INDEX_AMOUNT;
+        if (props.length > 3 && props[3].contains(TypeNoteEnum.PASIVO.name())) {
+            indexAmount = PojoActiveCost.INDEX_PASIVE_AMOUNT;
+        }
+        final var amount = props[indexAmount].split(PojoActiveCost.SEPARATOR)[1].trim();
         return new BigDecimal(amount);
     }
     

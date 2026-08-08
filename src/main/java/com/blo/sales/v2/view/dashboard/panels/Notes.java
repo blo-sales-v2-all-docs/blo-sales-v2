@@ -206,8 +206,7 @@ public final class Notes extends AbstractDashboardBase {
             data.setTimesamp(BloSalesV2Utils.getTimestamp());
             data.setTypeNote(noteType);
             controller.addNote(noteMapper.toInner(data));
-            GUICommons.setTextToField(areaNote, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.disabledButton(btnSaveNow);
+            reset();
             retrieveNotes();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -251,7 +250,7 @@ public final class Notes extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
+    protected void loadTargets() {
         GUICommons.setTextToField(areaInstrc, getTranslateBy(KeysEnum.NOTES_LBL_INSTRUCTIONS.getKey()));
         GUICommons.setTextToButton(btnSaveNow, getTranslateBy(KeysEnum.NOTES_BTN_SAVE_NOTE.getKey()));
     }
@@ -266,5 +265,11 @@ public final class Notes extends AbstractDashboardBase {
         loadTypesNotes();
         retrieveNotes();
         GUICommons.addDoubleClickOnTable(tblNotes, item -> openNoteDialog((long) item));
+    }
+
+    @Override
+    protected void reset() {
+        GUICommons.setTextToField(areaNote, BloSalesV2Utils.EMPTY_STRING);
+        GUICommons.disabledButton(btnSaveNow);
     }
 }

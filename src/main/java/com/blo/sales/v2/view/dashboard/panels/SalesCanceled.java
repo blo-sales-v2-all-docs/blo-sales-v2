@@ -71,11 +71,6 @@ public final class SalesCanceled extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public void init() {
         try {
             initComponents();
@@ -88,19 +83,25 @@ public final class SalesCanceled extends AbstractDashboardBase {
         }
     }
     
+    @Override
+    protected void loadTargets() {}
+    
+    @Override
+    protected void reset() {}
+    
     private void loadDataOnTbl() throws BloSalesV2Exception {
         final var salesCanceled  = wrapperSalesDeletedMapper.toOuter(saleDeleted.getSalesDeleted());
-            getDefaultTableModel().setRowCount(0);
-            for (final var item: salesCanceled.getSalesDeleted()) {
-                Object[] row = {
-                    item.getIdSaleDeleted(),
-                    item.getProduct(),
-                    item.getReason(),
-                    parserTimestamp(item.getTimestamp()),
-                    item.getUsername()
-                };
-                getDefaultTableModel().addRow(row);
-            }
-            tblSalesCanceled.setModel(getDefaultTableModel());
+        getDefaultTableModel().setRowCount(0);
+        for (final var item: salesCanceled.getSalesDeleted()) {
+            Object[] row = {
+                item.getIdSaleDeleted(),
+                item.getProduct(),
+                item.getReason(),
+                parserTimestamp(item.getTimestamp()),
+                item.getUsername()
+            };
+            getDefaultTableModel().addRow(row);
+        }
+        tblSalesCanceled.setModel(getDefaultTableModel());
     }
 }

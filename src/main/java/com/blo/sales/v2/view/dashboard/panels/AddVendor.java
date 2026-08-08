@@ -139,21 +139,12 @@ public class AddVendor extends AbstractDashboardBase {
             vendor.setName(vendorName);
             vendor.setVisits(VisitEnum.valueOf(visitDays.getVisits()));
             vendorController.addVendor(vendorMapper.toInner(vendor));
-            resetFields();
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), ex.getCode());
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-
-    @Override
-    public void loadTargets() {
-        GUICommons.setTextToField(lblVendorName, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_VENDOR_NAME.getKey()));
-        GUICommons.setTextToField(lblContact, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_CONTACT.getKey()));
-        GUICommons.setTextToField(lblBrand, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_BRAND.getKey()));
-        GUICommons.setTextToCheckbox(chbxPreSale, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_PRE_SALE.getKey()));
-        GUICommons.setTextToField(lblVisitDats, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_VISIT_DAYS.getKey()));
-    }
 
     @Override
     public void init() {
@@ -163,7 +154,17 @@ public class AddVendor extends AbstractDashboardBase {
         week.createCheckboxDaysList();
     }
     
-    private void resetFields() {
+    @Override
+    protected void loadTargets() {
+        GUICommons.setTextToField(lblVendorName, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_VENDOR_NAME.getKey()));
+        GUICommons.setTextToField(lblContact, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_CONTACT.getKey()));
+        GUICommons.setTextToField(lblBrand, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_BRAND.getKey()));
+        GUICommons.setTextToCheckbox(chbxPreSale, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_PRE_SALE.getKey()));
+        GUICommons.setTextToField(lblVisitDats, getTranslateBy(KeysEnum.ADD_VENDOR_LBL_VISIT_DAYS.getKey()));
+    }
+
+    @Override
+    protected void reset() {
         GUICommons.setTextToField(txtVendorName, BloSalesV2Utils.EMPTY_STRING);
         GUICommons.setTextToField(txtContact, BloSalesV2Utils.EMPTY_STRING);
         GUICommons.setTextToField(txtBrand, BloSalesV2Utils.EMPTY_STRING);

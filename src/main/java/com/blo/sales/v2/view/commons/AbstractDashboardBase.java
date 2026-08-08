@@ -13,6 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Clase base para paneles de dashboard
+ * @version 1.0.0
+ * @author BLO
+ */
 public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     
     private static final Translate translate = new Translate("es", "MX");
@@ -28,9 +33,11 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     
     private PojoLoggedInUser userData;
     
-    public abstract void loadTargets();
+    protected abstract void loadTargets();
     
     public abstract void init();
+    
+    protected abstract void reset();
 
     public void setUserData(PojoLoggedInUser userData) {
         this.userData = userData;

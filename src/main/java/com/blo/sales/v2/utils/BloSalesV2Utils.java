@@ -138,6 +138,8 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_CREDIT_DEBIT_UNAVAILABLE = "Esta operación no se puede realizar porque el elemento no está disponible o ya fue pagado";
     
+    public static final String ERROR_PRODUCTS_ON_ORDERS_IS_EMPTY = "La orden fue entregada, pero debes escribir los productos comprados";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -210,6 +212,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_CREDIT_DEBIT_NOT_FOUND = "030";
     
     public static final String CODE_CREDIT_DEBIT_UNAVAILABLE = "031";
+    
+    public static final String CODE_PRODUCTS_ON_ORDERS_IS_EMPTY = "032";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

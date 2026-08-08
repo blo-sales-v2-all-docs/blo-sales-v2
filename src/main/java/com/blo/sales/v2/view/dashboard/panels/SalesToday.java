@@ -162,15 +162,16 @@ public final class SalesToday extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void init() {
         initComponents();
         setMainTable(tblSummary);
         loadData();
         GUICommons.addDoubleClickOnTable(tblSummary, id -> removeSale(Long.parseLong(String.valueOf(id))));
     }
+    
+    @Override
+    protected void loadTargets() { }
+    
+    @Override
+    protected void reset() { }
 }

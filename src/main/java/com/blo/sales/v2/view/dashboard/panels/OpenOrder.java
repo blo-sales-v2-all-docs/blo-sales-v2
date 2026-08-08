@@ -115,7 +115,7 @@ public final class OpenOrder extends AbstractDashboardBase {
                 order.setProductsInfo(BloSalesV2Utils.EMPTY_STRING);
                 ordersVendorsController.highOrder(pojoVendorMapper.toInner(order));
             }
-            resetFields();
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -162,11 +162,11 @@ public final class OpenOrder extends AbstractDashboardBase {
     public void init() {
         initComponents();
         loadTargets();
-        resetFields();
+        reset();
     }
     
-    
-    private void resetFields() {
+    @Override
+    protected void reset() {
         GUICommons.setTextToField(nmbAmountOrder, BloSalesV2Utils.EMPTY_STRING);
         idVendorSelected = 0;
         GUICommons.setTextToField(lblProviderSelected, BloSalesV2Utils.EMPTY_STRING);

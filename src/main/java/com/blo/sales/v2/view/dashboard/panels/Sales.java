@@ -320,7 +320,7 @@ public final class Sales extends AbstractDashboardBase {
             disableButtons();
             GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
             totalSale = BigDecimal.ZERO;
-            resetFields();
+            reset();
             GUIStore.clearInfoStore();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -367,7 +367,7 @@ public final class Sales extends AbstractDashboardBase {
                                 getUserData().getIdUser(),
                                 item.getIdDebtor());
                         }
-                        resetFields();
+                        reset();
                         totalSale = BigDecimal.ZERO;
                         GUIStore.clearInfoStore();
                     } catch (BloSalesV2Exception ex) {
@@ -460,7 +460,7 @@ public final class Sales extends AbstractDashboardBase {
                         disableButtons();
                         GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
                         totalSale = BigDecimal.ZERO;
-                        resetFields();
+                        reset();
             
                         // 2. Usamos la referencia del arreglo para cerrar
                         if (paymentWrapper[0] != null) {
@@ -589,21 +589,6 @@ public final class Sales extends AbstractDashboardBase {
      */
     private void retrieveProducts() throws BloSalesV2Exception {
         products = mapperProducts.toOuter(productsController.getAllProducts()).getProducts();
-    }
-    
-    private void resetFields() {
-        try {
-            GUICommons.setTextToField(nmbQuantity, "1");
-            getDefaultTableModel().setRowCount(0);
-            tblProductsSales.repaint();
-            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
-            GUICommons.setTextToField(lblResult, totalSale);
-            GUICommons.setTextToField(nmbCalcPay, BloSalesV2Utils.EMPTY_STRING);
-            retrieveProducts();
-        } catch (BloSalesV2Exception ex) {
-            logger.error(ex.getMessage());
-            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
-        }
     }
     
     private void addElementByKeyEnter() {
@@ -741,18 +726,6 @@ public final class Sales extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
-        GUICommons.setTextToField(lblQuantity, getTranslateBy(KeysEnum.SALES_LBL_QUANTITY.getKey()));
-        GUICommons.setTextToField(lblBarCode, getTranslateBy(KeysEnum.SALES_LBL_BAR_CODE.getKey()));
-        GUICommons.setTextToButton(btnComplete, getTranslateBy(KeysEnum.SALES_BTN_COMPLETE.getKey()));
-        GUICommons.setTextToButton(btnDebtors, getTranslateBy(KeysEnum.SALES_BTN_NO_COMPLETE.getKey()));
-        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), BigDecimal.ZERO));
-        GUICommons.setTextToField(lblResult, BigDecimal.ZERO);
-        GUICommons.setTextToField(lblFastRest, getTranslateBy(KeysEnum.SALES_LBL_FAST_REST.getKey()));
-        GUICommons.setTextToField(lblPaymentType, getTranslateBy(KeysEnum.COMMON_LBL_PAYMENT_TYPE.getKey()));
-    }
-
-    @Override
     public void init() {
         try {
             initComponents();
@@ -761,7 +734,7 @@ public final class Sales extends AbstractDashboardBase {
             setMainTable(tblProductsSales);
             loadPaymentsType();
             totalSale = BigDecimal.ZERO;
-            resetFields();
+            reset();
             disableButtons();
             retrieveProducts();
             GUICommons.loadTitleOnTable(tblProductsSales, titles, false);
@@ -774,5 +747,33 @@ public final class Sales extends AbstractDashboardBase {
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
         txtSearch.requestFocusInWindow();
+    }
+    
+    @Override
+    protected void loadTargets() {
+        GUICommons.setTextToField(lblQuantity, getTranslateBy(KeysEnum.SALES_LBL_QUANTITY.getKey()));
+        GUICommons.setTextToField(lblBarCode, getTranslateBy(KeysEnum.SALES_LBL_BAR_CODE.getKey()));
+        GUICommons.setTextToButton(btnComplete, getTranslateBy(KeysEnum.SALES_BTN_COMPLETE.getKey()));
+        GUICommons.setTextToButton(btnDebtors, getTranslateBy(KeysEnum.SALES_BTN_NO_COMPLETE.getKey()));
+        GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), BigDecimal.ZERO));
+        GUICommons.setTextToField(lblResult, BigDecimal.ZERO);
+        GUICommons.setTextToField(lblFastRest, getTranslateBy(KeysEnum.SALES_LBL_FAST_REST.getKey()));
+        GUICommons.setTextToField(lblPaymentType, getTranslateBy(KeysEnum.COMMON_LBL_PAYMENT_TYPE.getKey()));
+    }
+
+    @Override
+    protected void reset() {
+        try {
+            GUICommons.setTextToField(nmbQuantity, "1");
+            getDefaultTableModel().setRowCount(0);
+            tblProductsSales.repaint();
+            GUICommons.setTextToField(lblTotal, String.format(getTranslateBy(KeysEnum.COMMON_TOTAL.getKey()), "0"));
+            GUICommons.setTextToField(lblResult, totalSale);
+            GUICommons.setTextToField(nmbCalcPay, BloSalesV2Utils.EMPTY_STRING);
+            retrieveProducts();
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
     }
 }
