@@ -67,7 +67,7 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
     }// </editor-fold>//GEN-END:initComponents
 
     @Override
-    public void loadTargets() {
+    protected void loadTargets() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -121,4 +121,7 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDebtHistory;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void reset() { }
 }

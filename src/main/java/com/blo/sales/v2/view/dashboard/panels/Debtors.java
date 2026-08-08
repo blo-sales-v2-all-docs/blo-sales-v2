@@ -196,8 +196,18 @@ public final class Debtors extends AbstractDashboardBase {
         areaPayments.setEditable(false);
         areaPayments.setColumns(20);
         areaPayments.setRows(5);
+        areaPayments.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                areaPaymentsMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(areaPayments);
 
+        lstProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstProductsMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(lstProducts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -247,7 +257,7 @@ public final class Debtors extends AbstractDashboardBase {
             final var payment = GUICommons.getNumberFromJText(nmbPay, GUICommons.DIGITS_OF_CURRENCY);
             debtors.addPayment(payment, getUserData().getIdUser(), debtorSelected.getIdDebtor());
             loadDataAndTitles();
-            disabledButtons();
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -274,7 +284,7 @@ public final class Debtors extends AbstractDashboardBase {
             if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.DEBTORS_DLG_PAY_ALL.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
                 debtors.addPayment(debtorSelected.getDebt(), getUserData().getIdUser(), debtorSelected.getIdDebtor());
                 loadDataAndTitles();
-                disabledButtons();
+                reset();
             }
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
@@ -282,7 +292,16 @@ public final class Debtors extends AbstractDashboardBase {
         }
     }//GEN-LAST:event_btnPayallActionPerformed
 
-    private void disabledButtons() {
+    private void lstProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstProductsMouseClicked
+        GUICommons.copyToClipboard(lstProducts);
+    }//GEN-LAST:event_lstProductsMouseClicked
+
+    private void areaPaymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_areaPaymentsMouseClicked
+        GUICommons.copyToClipboard(areaPayments);
+    }//GEN-LAST:event_areaPaymentsMouseClicked
+
+    @Override
+    protected void reset() {
         debtorSelected = null;
         storeTotalSale = BigDecimal.ZERO;
         GUICommons.disabledButton(btnSave);
@@ -394,7 +413,7 @@ public final class Debtors extends AbstractDashboardBase {
                         salesController.registerPaymentTypeData(paymentTypeInfoMapper.toInner(paymentTypeAux), getUserData().getIdUser());
                         
                         loadDataAndTitles();
-                        disabledButtons();
+                        reset();
                         
                         // 2. Usamos la referencia del arreglo para cerrar
                         if (paymentWrapper[0] != null) {
@@ -436,7 +455,7 @@ public final class Debtors extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
+    protected void loadTargets() {
         GUICommons.setTextToField(lblAddPartialPay, getTranslateBy(KeysEnum.DEBTORS_LBL_ADD_PAY.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
         GUICommons.setTextToButton(btnPayall, getTranslateBy(KeysEnum.DEBTORS_BTN_PAY_ALL.getKey()));
@@ -449,7 +468,7 @@ public final class Debtors extends AbstractDashboardBase {
             initComponents();
             setMainTable(tblDebtors);
             loadTargets();
-            disabledButtons();
+            reset();
             loadDataAndTitles();
             GUICommons.addDoubleClickOnTable(tblDebtors, item -> selectADebtor((long) item));
             loadPaymentsType();
