@@ -23,6 +23,8 @@ public final class BloSalesV2Utils {
     
     public static final String JSON_EMPTY_ARRAY = "[]";
     
+    public static final String ANOTHER_LINE = "\n";
+    
     public static final String JSON_PAYMENT_HISTORY_ITEM = "pago: %s, fecha: %s";
     
     public static final String RECUPERAR_PAGO_DE_HISTORIAL_PAGOS = "pago:\\s*([\\d.]+)";

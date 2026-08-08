@@ -9,6 +9,8 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -33,9 +35,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.ListModel;
 import javax.swing.RowFilter;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -251,6 +253,19 @@ public final class GUICommons {
     public static String getTextFromField(JTextArea field, boolean validate) throws BloSalesV2Exception {
         final var text = field.getText().trim();
         validateRule(validate && text.isBlank(), BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.INVALID_TEXT);
+        return text;
+    }
+    
+    /**
+     * Metodo para recuperar el texto de un text area
+     * <br>
+     * No valida el contenido del texto
+     * @param field
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    public static String getTextFromField(JTextArea field) {
+        final var text = field.getText().trim();
         return text;
     }
 
@@ -584,6 +599,40 @@ public final class GUICommons {
         lbl.setOpaque(true);
         lbl.setBackground(bgColor);
         lbl.setForeground(txtColor);
+    }
+    
+    /**
+     * Metodo que se encarga de hacer una copia del contenido de un componente al clipboard
+     * @param component 
+     */
+    public static void copyToClipboard(JList component) {
+        component.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                final ListModel<String> model = component.getModel();
+                if (e.getClickCount() == 2 && model.getSize() > 0) {
+                    final StringBuilder text = new StringBuilder();
+                    for (int i = 0; i < model.getSize(); i++) {
+                        text.append(model.getElementAt(i));
+                        text.append(BloSalesV2Utils.ANOTHER_LINE);
+                    }
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(text.toString()), null);
+                }
+            }
+        });
+        
+    }
+    
+    public static void copyToClipboard(JTextArea component) {
+        component.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                final String text = getTextFromField(component);
+                if (e.getClickCount() == 2 && !text.isBlank()) {
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(component.getText()), null);
+                }
+            }
+        });
     }
    
     /**

@@ -51,6 +51,7 @@ public class DebtorsControllerImpl implements IDebtorsController {
     @Override
     public PojoIntDebtor saveDebtor(PojoIntDebtor debtor) throws BloSalesV2Exception {
         transactionManager.disableAutocommit();
+        debtor.setName(debtor.getName());
         return model.saveDebtor(debtor);
     }
 
