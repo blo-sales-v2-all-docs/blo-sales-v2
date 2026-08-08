@@ -24,6 +24,7 @@ import com.blo.sales.v2.view.mappers.WrapperPojoStockPriceHistoryMapper;
 import com.blo.sales.v2.view.pojos.PojoProduct;
 import com.blo.sales.v2.view.pojos.WrapperPojoProducts;
 import com.blo.sales.v2.view.pojos.WrapperPojoStockPriceHistory;
+import com.blo.sales.v2.view.commons.GUILogger;
 import jakarta.inject.Inject;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -35,8 +36,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.SwingWorker;
 
 public final class Stock extends AbstractDashboardBase {
+    
+    private static final GUILogger logger = GUILogger.getLogger(Stock.class.getName());
     
     private static final String[] TITLES = {"ID", "Codigo de barras", "Producto", "Cantidad en existencia", "Precio", "Costo de venta", "¿Por kg?", "Categoria"};
     
@@ -75,7 +79,7 @@ public final class Stock extends AbstractDashboardBase {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        txtSearcher = new javax.swing.JTextField();
         lblF1Instructions = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStock = new javax.swing.JTable();
@@ -84,6 +88,13 @@ public final class Stock extends AbstractDashboardBase {
         btnMovementsOfProduct = new javax.swing.JButton();
         btnCancelOperations = new javax.swing.JButton();
         btnDownloadStock = new javax.swing.JButton();
+        pgrBrLoader = new javax.swing.JProgressBar();
+
+        txtSearcher.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearcherKeyReleased(evt);
+            }
+        });
 
         lblF1Instructions.setText("pulsa_la_tecla_f1_para_recuperar_informacion_detallada_del_historial_y_movimientos_del_producto");
 
@@ -149,28 +160,33 @@ public final class Stock extends AbstractDashboardBase {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlOperations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblF1Instructions)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
-                        .addComponent(btnDownloadStock)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pgrBrLoader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1236, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(txtSearcher, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblF1Instructions)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDownloadStock)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(pgrBrLoader, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblF1Instructions)
-                    .addComponent(btnDownloadStock))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                    .addComponent(btnDownloadStock)
+                    .addComponent(txtSearcher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblF1Instructions))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(pnlOperations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -207,22 +223,23 @@ public final class Stock extends AbstractDashboardBase {
         BloSalesV2CSVPlugin.exportFile(headers, bloSalesRow, getTranslateBy(KeysEnum.STOCK_FILE_NAME.getKey()), false);
     }//GEN-LAST:event_btnDownloadStockActionPerformed
 
+    private void txtSearcherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearcherKeyReleased
+        final var filter = txtSearcher.getText();
+        GUICommons.addFilter(tblStock, "(?i)", filter);
+    }//GEN-LAST:event_txtSearcherKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCancelOperations;
     private javax.swing.JButton btnCostEvolution;
-    private javax.swing.JButton btnDeleteProduct;
     private javax.swing.JButton btnDownloadStock;
-    private javax.swing.JButton btnGetEvolution;
-    private javax.swing.JButton btnMovements;
     private javax.swing.JButton btnMovementsOfProduct;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblF1Instructions;
+    private javax.swing.JProgressBar pgrBrLoader;
     private javax.swing.JPanel pnlOperations;
-    private javax.swing.JPanel pnlProductDetail;
     private javax.swing.JTable tblStock;
+    private javax.swing.JTextField txtSearcher;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -248,6 +265,7 @@ public final class Stock extends AbstractDashboardBase {
         GUICommons.changeRowSelectedFromTable(tblStock, (Integer nextRow) -> reset());
     }
     
+    @Override
     public void reset() {
         for (MouseListener ml : btnCostEvolution.getMouseListeners()) {
             btnCostEvolution.removeMouseListener(ml);
@@ -256,6 +274,7 @@ public final class Stock extends AbstractDashboardBase {
             btnMovementsOfProduct.removeMouseListener(ml);
         }
         GUICommons.hiddenPanel(pnlOperations);
+        GUICommons.enabledComponent(txtSearcher);
     }
     
     /** abre panel para poder ver las operacioens */
@@ -306,7 +325,76 @@ public final class Stock extends AbstractDashboardBase {
     /** metodo que permite editar el stock */
     private void addEditStockAction() {
         GUICommons.addEventKeyColumnsProtecteds(new int[] {0, 1, 6, 7}, GUICommons.ENTER_KEY, tblStock, (String[] data) -> {
+            new SwingWorker<Void, Integer>() {
+                    
+                    /** ejecuta tareas en un segundo plano */
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        final DoUpdateProductRunneable update = new DoUpdateProductRunneable(data);
+                        update.run();
+                        return null;
+                    }
+
+                    /** actualiza la interfaz de usuario */
+                    @Override
+                    protected void process(List<Integer> chunks) {
+                        int ultimoValor = chunks.get(chunks.size() - 1);
+                        pgrBrLoader.setValue(ultimoValor);
+                    }
+                    
+                    /** reincia la barra en 0 */
+                    @Override
+                    protected void done() {
+                        pgrBrLoader.setValue(0);
+                        CommonAlerts.openMessage(getTranslateBy(KeysEnum.COMMON_LBL_UPDATED_COMPLETE.getKey()), getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()));
+                        reset();
+                        GUICommons.setFocusToComponent(txtSearcher);
+                    }
+                }.execute();
+        });
+    }
+    
+    /** carga el inventario completo */
+    private void loadStock() {
+        try {
+            final WrapperPojoProducts allProducts = productsMapper.toOuter(productsController.getAllProducts());
+            getDefaultTableModel().setRowCount(0);
+            if (allProducts.getProducts() != null && !allProducts.getProducts().isEmpty()) {
+                final var categories = categoriesMapper.toOuter(categoriesController.getAllCategories());
+                allProducts.getProducts().forEach(p -> {
+                    /** filtro para buscar nombre de categorias */
+                    final var category = categories.getCategories().stream().filter(c -> c.getIdCategory() == p.getFkCategory()).findFirst().get();
+                    final Object[] row = {
+                        p.getIdProduct(),
+                        p.getBarCode(),
+                        p.getProduct(),
+                        p.getQuantity(),
+                        p.getPrice(),
+                        p.getCostOfSale(),
+                        p.isKg(),
+                        category
+                    };
+                    getDefaultTableModel().addRow(row);
+                });
+            }
+        } catch (BloSalesV2Exception e) {
+            logger.error(e.getMessage());
+            CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
+    }
+    
+     class DoUpdateProductRunneable implements Runnable {
+        
+        private final String[] data;
+        
+        public DoUpdateProductRunneable(String data[]) {
+            this.data = data;
+        }
+
+        @Override
+        public void run() {
             try {
+                GUICommons.disabledComponent(txtSearcher);
                 final List<String> dataAsList = Arrays.asList(data).stream().
                         map(String::trim).
                         collect(Collectors.toList());
@@ -350,37 +438,11 @@ public final class Stock extends AbstractDashboardBase {
                     type
                 );
                 reset();
-                CommonAlerts.openMessage(getTranslateBy(KeysEnum.COMMON_LBL_UPDATED_COMPLETE.getKey()), getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()));
-            } catch (BloSalesV2Exception ex) { }
-        });
-    }
-    
-    /** carga el inventario completo */
-    private void loadStock() {
-        try {
-            final WrapperPojoProducts allProducts = productsMapper.toOuter(productsController.getAllProducts());
-            getDefaultTableModel().setRowCount(0);
-            if (allProducts.getProducts() != null && !allProducts.getProducts().isEmpty()) {
-                final var categories = categoriesMapper.toOuter(categoriesController.getAllCategories());
-                allProducts.getProducts().forEach(p -> {
-                    /** filtro para buscar nombre de categorias */
-                    final var category = categories.getCategories().stream().filter(c -> c.getIdCategory() == p.getFkCategory()).findFirst().get();
-                    final Object[] row = {
-                        p.getIdProduct(),
-                        p.getBarCode(),
-                        p.getProduct(),
-                        p.getQuantity(),
-                        p.getPrice(),
-                        p.getCostOfSale(),
-                        p.isKg(),
-                        category
-                    };
-                    getDefaultTableModel().addRow(row);
-                });
-            }
-        } catch (BloSalesV2Exception ex) {
-            Logger.getLogger(Stock.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (BloSalesV2Exception e) {
+                    logger.error(e.getMessage());
+                    CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+                }
         }
+        
     }
-    
 }
