@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.SwingWorker;
 
+@Deprecated(forRemoval = true, since = "2.24")
 public final class AllProducts extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(AllProducts.class.getName());

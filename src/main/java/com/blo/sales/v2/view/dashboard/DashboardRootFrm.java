@@ -9,7 +9,6 @@ import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.dashboard.panels.AddVendor;
 import com.blo.sales.v2.view.dashboard.panels.AllCashboxes;
-import com.blo.sales.v2.view.dashboard.panels.AllProducts;
 import com.blo.sales.v2.view.dashboard.panels.CashboxOpen;
 import com.blo.sales.v2.view.dashboard.panels.Categories;
 import com.blo.sales.v2.view.dashboard.panels.Credits;
@@ -24,6 +23,7 @@ import com.blo.sales.v2.view.dashboard.panels.Sales;
 import com.blo.sales.v2.view.dashboard.panels.SalesCanceled;
 import com.blo.sales.v2.view.dashboard.panels.SalesReport;
 import com.blo.sales.v2.view.dashboard.panels.SalesToday;
+import com.blo.sales.v2.view.dashboard.panels.Stock;
 import com.blo.sales.v2.view.dashboard.panels.TopUps;
 import com.blo.sales.v2.view.dashboard.panels.Vendors;
 import com.blo.sales.v2.view.dashboard.panels.ViewDigitalWallet;
@@ -355,7 +355,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
     }//GEN-LAST:event_optCategoryActionPerformed
 
     private void optStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optStockActionPerformed
-        handlerDashboard(new AllProducts(KeysEnum.DASHBOARD_TITLES_VIEW_ALL_PRODUCTS.getKey()));
+        handlerDashboard(new Stock(KeysEnum.DASHBOARD_TITLES_VIEW_ALL_PRODUCTS.getKey()));
     }//GEN-LAST:event_optStockActionPerformed
 
     private void optAddSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAddSaleActionPerformed
