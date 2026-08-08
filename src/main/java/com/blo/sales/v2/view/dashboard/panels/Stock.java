@@ -224,8 +224,7 @@ public final class Stock extends AbstractDashboardBase {
     }//GEN-LAST:event_btnDownloadStockActionPerformed
 
     private void txtSearcherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearcherKeyReleased
-        final var filter = txtSearcher.getText();
-        GUICommons.addFilter(tblStock, "(?i)", filter);
+        GUICommons.addFilter(tblStock, "(?i)", GUICommons.getTextFromField(txtSearcher));
     }//GEN-LAST:event_txtSearcherKeyReleased
 
 

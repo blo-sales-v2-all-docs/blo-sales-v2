@@ -262,11 +262,20 @@ public final class GUICommons {
      * No valida el contenido del texto
      * @param field
      * @return
-     * @throws BloSalesV2Exception 
      */
     public static String getTextFromField(JTextArea field) {
-        final var text = field.getText().trim();
-        return text;
+        return field.getText().trim();
+    }
+    
+    /**
+     * Metodo para recuperar el texto de un text area
+     * <br>
+     * No valida el contenido del texto
+     * @param field
+     * @return
+     */
+    public static String getTextFromField(JTextField field) {
+        return field.getText().trim();
     }
 
     /**
