@@ -185,8 +185,7 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
                     GUICommons.getTextFromField(txtReference, true)
             );
             getFinancialData();
-            GUICommons.setTextToField(nmbQuantity, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(txtReference, BloSalesV2Utils.EMPTY_STRING);
+            reset();
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -216,24 +215,7 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_nmbQuantityKeyReleased
-
-    @Override
-    public void loadTargets() {
-        GUICommons.setTextToField(lblAddQuantity, getTranslateBy(KeysEnum.DIGITAL_ACCOUNT_LBL_ADD_CASH_ON_WALLET_DIGITAL.getKey()));
-        GUICommons.setTextToField(lblCurrentAccount, String.format(getTranslateBy(KeysEnum.DIGITAL_WALLET_LBL_CURRENT_ACCOUNT.getKey()), BigDecimal.ZERO));
-        GUICommons.setTextToField(lblReferenceNumber, getTranslateBy(KeysEnum.DIGITAL_WALLET_LBL_REFERENCE_NUMBER.getKey()));
-        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
-        GUICommons.setTextToField(lblPrevisualization, String.format(getTranslateBy(KeysEnum.DIGITAL_WALLET_LBL_TOTAL_ACCOUNT.getKey()), BigDecimal.ZERO));
-    }
-
-    @Override
-    public void init() {
-        initComponents();
-        setMainTable(tblFinancialHistory);
-        loadTargets();
-        getFinancialData();
-    }
-    
+ 
     private void getFinancialData() {
         try {
             final var innerHistory = historyController.retrieveFinancialHistoryByAccountId(AccountsEnum.DIGITAL_WALLET.getId());
@@ -276,4 +258,28 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
     private javax.swing.JTable tblFinancialHistory;
     private javax.swing.JTextField txtReference;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void init() {
+        initComponents();
+        setMainTable(tblFinancialHistory);
+        loadTargets();
+        getFinancialData();
+    }
+    
+    @Override
+    protected void loadTargets() {
+        GUICommons.setTextToField(lblAddQuantity, getTranslateBy(KeysEnum.DIGITAL_ACCOUNT_LBL_ADD_CASH_ON_WALLET_DIGITAL.getKey()));
+        GUICommons.setTextToField(lblCurrentAccount, String.format(getTranslateBy(KeysEnum.DIGITAL_WALLET_LBL_CURRENT_ACCOUNT.getKey()), BigDecimal.ZERO));
+        GUICommons.setTextToField(lblReferenceNumber, getTranslateBy(KeysEnum.DIGITAL_WALLET_LBL_REFERENCE_NUMBER.getKey()));
+        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
+        GUICommons.setTextToField(lblPrevisualization, String.format(getTranslateBy(KeysEnum.DIGITAL_WALLET_LBL_TOTAL_ACCOUNT.getKey()), BigDecimal.ZERO));
+    }
+
+    @Override
+    protected void reset() {
+        GUICommons.setTextToField(nmbQuantity, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.setTextToField(txtReference, BloSalesV2Utils.EMPTY_STRING);
+    }
+
 }

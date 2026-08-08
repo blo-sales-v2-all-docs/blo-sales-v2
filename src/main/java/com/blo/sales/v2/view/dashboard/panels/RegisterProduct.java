@@ -206,13 +206,7 @@ public final class RegisterProduct extends AbstractDashboardBase {
             data.setAvailable(true);
             GUIStore.resetProductData();
             productsController.registerProduct(productMapper.toInner(data));
-            GUICommons.setTextToField(txtProductName, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(txtBarCode, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(nmbQuantity, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(nmbPrice, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(nmbSaleCost, BloSalesV2Utils.EMPTY_STRING);
-            GUICommons.setTextToField(lblCategorySelected, BloSalesV2Utils.EMPTY_STRING);
-            categorySelected = 0;
+            reset();            
         } catch (BloSalesV2Exception | NumberFormatException ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -310,7 +304,14 @@ public final class RegisterProduct extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
+    public void init() {
+        initComponents();
+        loadDataForm();
+        loadTargets();
+    }
+    
+    @Override
+    protected void loadTargets() {
         GUICommons.setTextToField(lblBarCode, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_BAR_CODE.getKey()));
         GUICommons.setTextToField(lblProductName, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_NAME.getKey()));
         GUICommons.setTextToField(lblQuantity, getTranslateBy(KeysEnum.REGISTER_PRODUCT_LBL_QUANTITY.getKey()));
@@ -323,9 +324,13 @@ public final class RegisterProduct extends AbstractDashboardBase {
     }
 
     @Override
-    public void init() {
-        initComponents();
-        loadDataForm();
-        loadTargets();
+    protected void reset() {
+        GUICommons.setTextToField(txtProductName, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.setTextToField(txtBarCode, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.setTextToField(nmbQuantity, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.setTextToField(nmbPrice, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.setTextToField(nmbSaleCost, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.setTextToField(lblCategorySelected, BloSalesV2Utils.EMPTY_STRING);
+            categorySelected = 0;
     }
 }

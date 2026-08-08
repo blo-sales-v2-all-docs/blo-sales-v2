@@ -282,7 +282,7 @@ public final class Credits extends AbstractDashboardBase {
     }//GEN-LAST:event_btnCancelCreditsActionPerformed
 
     @Override
-    public void loadTargets() {
+    protected void loadTargets() {
         GUICommons.setTextToField(lblLender, getTranslateBy(KeysEnum.CREDITS_LBL_LANDER_NAME.getKey()));
         GUICommons.setTextToField(lblTotal, getTranslateBy(KeysEnum.CREDITS_LBL_TOTAL_CREDIT.getKey()));
         GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE.getKey()));
@@ -324,7 +324,8 @@ public final class Credits extends AbstractDashboardBase {
     private javax.swing.JTextField txtLender;
     // End of variables declaration//GEN-END:variables
 
-    private void reset() {
+    @Override
+    protected void reset() {
         GUICommons.setTextToField(txtLender, BloSalesV2Utils.EMPTY_STRING);
         GUICommons.setTextToField(nmbTotal, BloSalesV2Utils.EMPTY_STRING);
         GUICommons.setTextToField(nmbPayment, BloSalesV2Utils.EMPTY_STRING);

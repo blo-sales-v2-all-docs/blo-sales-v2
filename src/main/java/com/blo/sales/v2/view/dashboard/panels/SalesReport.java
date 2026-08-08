@@ -295,17 +295,20 @@ public final class SalesReport extends AbstractDashboardBase {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void loadTargets() {
-        GUICommons.setTextToField(lblInit, getTranslateBy(KeysEnum.SALES_REPORT_LBL_INIT_DATE.getKey()));
-        GUICommons.setTextToField(lblEnd, getTranslateBy(KeysEnum.SALES_REPORT_LBL_END_DATE.getKey()));
-        GUICommons.setTextToButton(btnFilterNow, getTranslateBy(KeysEnum.SALES_REPORT_BTN_FILTER_NOW.getKey()));
-        GUICommons.setTextToButton(btnDownloadReport, getTranslateBy(KeysEnum.SALES_REPORT_BTN_DOWNLOAD_REPORT.getKey()));
-    }
-
-    @Override
     public void init() {
         initComponents();
         loadTargets();
         retrieveData();
     }
+    
+    @Override
+    protected void loadTargets() {
+        GUICommons.setTextToField(lblInit, getTranslateBy(KeysEnum.SALES_REPORT_LBL_INIT_DATE.getKey()));
+        GUICommons.setTextToField(lblEnd, getTranslateBy(KeysEnum.SALES_REPORT_LBL_END_DATE.getKey()));
+        GUICommons.setTextToButton(btnFilterNow, getTranslateBy(KeysEnum.SALES_REPORT_BTN_FILTER_NOW.getKey()));
+        GUICommons.setTextToButton(btnDownloadReport, getTranslateBy(KeysEnum.SALES_REPORT_BTN_DOWNLOAD_REPORT.getKey()));
+    }
+    
+    @Override
+    protected void reset() { }
 }
