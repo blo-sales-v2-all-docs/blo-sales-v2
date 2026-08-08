@@ -13,6 +13,8 @@ public class PojoActiveCost {
     
     public static final int INDEX_AMOUNT = 1;
     
+    public static final int INDEX_PASIVE_AMOUNT = 2;
+    
     private long idActiveCosts;
     
     private String concept;

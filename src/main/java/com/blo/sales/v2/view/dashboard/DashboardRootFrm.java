@@ -274,7 +274,7 @@ public final class DashboardRootFrm extends AbstractFrameBase {
         });
         itmOrders.add(optOpenOrder);
 
-        optByStatus.setText("Ver pedido");
+        optByStatus.setText("Ver pedidos");
         optByStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optByStatusActionPerformed(evt);
