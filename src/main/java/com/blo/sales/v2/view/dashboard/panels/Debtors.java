@@ -196,8 +196,18 @@ public final class Debtors extends AbstractDashboardBase {
         areaPayments.setEditable(false);
         areaPayments.setColumns(20);
         areaPayments.setRows(5);
+        areaPayments.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                areaPaymentsMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(areaPayments);
 
+        lstProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstProductsMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(lstProducts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -281,6 +291,14 @@ public final class Debtors extends AbstractDashboardBase {
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
     }//GEN-LAST:event_btnPayallActionPerformed
+
+    private void lstProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstProductsMouseClicked
+        GUICommons.copyToClipboard(lstProducts);
+    }//GEN-LAST:event_lstProductsMouseClicked
+
+    private void areaPaymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_areaPaymentsMouseClicked
+        GUICommons.copyToClipboard(areaPayments);
+    }//GEN-LAST:event_areaPaymentsMouseClicked
 
     @Override
     protected void reset() {

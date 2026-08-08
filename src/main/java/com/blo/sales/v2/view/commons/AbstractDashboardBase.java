@@ -100,7 +100,7 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
         final var paymentsSplit = Arrays.asList(payments.split(BloSalesV2Utils.SEPARATOR_PAYMENTS));
         if (!payments.isEmpty()) {
             final var sb = new StringBuilder();
-            final var baseStr = "%s - %s\n";
+            final var baseStr = "$%s - %s\n";
             paymentsSplit.forEach(pay -> {
                 final var paymentSeparated = pay.split(BloSalesV2Utils.TIMESTAMP);
                 if (paymentSeparated.length == 2) {
