@@ -430,7 +430,7 @@ public final class Stock extends AbstractDashboardBase {
                 productFound.setPrice(new BigDecimal(price));
                 productFound.setCostOfSale(new BigDecimal(costOfSale));
                 
-                productsController.updateProductInfo(
+                productsController.updateProductInfoSavingPriceOnHistory(
                     productMapper.toInner(productFound),
                     reason,
                     getUserData().getIdUser(),
