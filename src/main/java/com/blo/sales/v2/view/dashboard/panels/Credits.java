@@ -260,6 +260,7 @@ public final class Credits extends AbstractDashboardBase {
             GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
             creditsController.addPayment(GUICommons.getNumberFromJText(nmbPayment, 2), idCreditSelected);
             reset();
+            filterCredits(FilterCreditEnum.PENDINGS);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
