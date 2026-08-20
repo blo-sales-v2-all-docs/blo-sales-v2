@@ -360,6 +360,8 @@ public final class Stock extends AbstractDashboardBase {
                         CommonAlerts.openMessage(getTranslateBy(KeysEnum.COMMON_LBL_UPDATED_COMPLETE.getKey()), getTranslateBy(KeysEnum.COMMON_TTL_COMPLETE.getKey()));
                         reset();
                         GUICommons.setFocusToComponent(txtSearcher);
+                        GUICommons.addFilter(tblStock, "(?i)", getFilterAndClearSearcher(txtSearcher, GUICommons.ESCAPE_KEY, GUICommons.ESCAPE_KEY));
+                        loadStock();
                     }
                 }.execute();
         });
