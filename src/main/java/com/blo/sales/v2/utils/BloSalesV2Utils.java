@@ -142,6 +142,8 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_PRODUCTS_ON_ORDERS_IS_EMPTY = "La orden fue entregada, pero debes escribir los productos comprados";
     
+    public static final String ERROR_PRODUCT_SELECTED_NOT_EQUALS = "Ha ocurrido un error intentando actualizar, recarga el formulario";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -216,6 +218,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_CREDIT_DEBIT_UNAVAILABLE = "031";
     
     public static final String CODE_PRODUCTS_ON_ORDERS_IS_EMPTY = "032";
+    
+    public static final String CODE_PRODUCT_SELECTED_NOT_EQUALS = "033";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

@@ -161,9 +161,6 @@ public final class Stock extends AbstractDashboardBase {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlOperations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pgrBrLoader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1236, Short.MAX_VALUE)
@@ -173,21 +170,24 @@ public final class Stock extends AbstractDashboardBase {
                                 .addComponent(lblF1Instructions)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnDownloadStock)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlOperations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pgrBrLoader, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pgrBrLoader, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDownloadStock)
                     .addComponent(txtSearcher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblF1Instructions))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(pnlOperations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -224,6 +224,7 @@ public final class Stock extends AbstractDashboardBase {
     }//GEN-LAST:event_btnDownloadStockActionPerformed
 
     private void txtSearcherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearcherKeyReleased
+        System.out.println("com.blo.sales.v2.view.dashboard.panels.Stock.txtSearcherKeyReleased()" + evt.getKeyCode());
         GUICommons.addFilter(tblStock, "(?i)", GUICommons.getTextFromField(txtSearcher));
     }//GEN-LAST:event_txtSearcherKeyReleased
 
@@ -324,13 +325,25 @@ public final class Stock extends AbstractDashboardBase {
     /** metodo que permite editar el stock */
     private void addEditStockAction() {
         GUICommons.addEventKeyColumnsProtecteds(new int[] {0, 1, 6, 7}, GUICommons.ENTER_KEY, tblStock, (String[] data) -> {
+            final int idProduct = Integer.parseInt(tblStock.getValueAt(tblStock.getSelectedRow(), 0) + "");
+            final String barCode = String.valueOf(tblStock.getValueAt(tblStock.getSelectedRow(), 1));
+            logger.info("Datos de fila seleccionada [%s]; id = %s; codigo de barras: %s", tblStock.getSelectedRow(), idProduct, barCode);            
+            logger.info(data);
+            
             new SwingWorker<Void, Integer>() {
                     
                     /** ejecuta tareas en un segundo plano */
                     @Override
                     protected Void doInBackground() throws Exception {
                         final DoUpdateProductRunneable update = new DoUpdateProductRunneable(data);
+                        if (Integer.parseInt(data[0]) != idProduct || !barCode.equals(data[1])) {
+                            throw new BloSalesV2Exception(BloSalesV2Utils.CODE_PRODUCT_SELECTED_NOT_EQUALS, BloSalesV2Utils.ERROR_PRODUCT_SELECTED_NOT_EQUALS);
+                        }
                         update.run();
+                        for (int i = 0; i < 100; i++) {
+                            Thread.sleep(3);
+                            publish(i);
+                        }
                         return null;
                     }
 
