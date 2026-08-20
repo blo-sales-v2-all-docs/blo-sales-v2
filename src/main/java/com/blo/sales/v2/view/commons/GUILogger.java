@@ -73,46 +73,12 @@ public final class GUILogger {
         Logger.getLogger(className).log(Level.INFO, _str);
     }
     
-    @Deprecated(forRemoval = true, since = "2.22")
-    public void downloadLogs() {
-        final var origen = new File(LOG_FILE_PATH);
-        
-        if (!origen.exists() || origen.length() == 0) {
-            JOptionPane.showMessageDialog(null, 
-                    "No hay logs registrados en esta sesión todavía.", 
-                    "Información", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            return;
+    public void info(Object[] array) {
+        Logger.getLogger(className).log(Level.INFO, String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, "INICIO log de arreglo"));
+        for (Object item : array) {
+            Logger.getLogger(className).log(Level.INFO, String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, item));
         }
-        // 2. Configurar el JFileChooser
-        final var fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Guardar archivo de Logs");
-        // Sugerir un nombre de archivo por defecto al usuario
-        fileChooser.setSelectedFile(new File("logs_sistema.log"));
-
-        final var seleccion = fileChooser.showSaveDialog(null);
-
-        // 3. Si el usuario presiona "Guardar"
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File destino = fileChooser.getSelectedFile();
-
-            try {
-                // Copiar el archivo reemplazándolo si ya existe un archivo con ese nombre
-                Files.copy(origen.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                
-                JOptionPane.showMessageDialog(null, 
-                        "Archivo de logs guardado exitosamente en:\n" + destino.getAbsolutePath(), 
-                        "Éxito", 
-                        JOptionPane.INFORMATION_MESSAGE);
-                        
-            } catch (HeadlessException | IOException ex) {
-                JOptionPane.showMessageDialog(null, 
-                        "Error al exportar los logs: " + ex.getMessage(), 
-                        "Error", 
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        Logger.getLogger(className).log(Level.INFO, String.format("%s [%s] INFO - %s \n", BloSalesV2Utils.getTimestamp(), className, "FIN log de arreglo"));
     }
-    
     
 }
