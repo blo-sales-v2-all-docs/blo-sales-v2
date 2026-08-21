@@ -56,6 +56,7 @@ public final class Vendors extends AbstractDashboardBase {
         btnCancel = new javax.swing.JButton();
         cmbxIsPreSale = new javax.swing.JCheckBox();
         btnDeleteVendor = new javax.swing.JButton();
+        chkbxReminder = new javax.swing.JCheckBox();
 
         tblVendors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -96,6 +97,8 @@ public final class Vendors extends AbstractDashboardBase {
         btnDeleteVendor.setText("eliminar");
         btnDeleteVendor.addActionListener(this::btnDeleteVendorActionPerformed);
 
+        chkbxReminder.setText("recordatorio");
+
         javax.swing.GroupLayout pnlContactEditLayout = new javax.swing.GroupLayout(pnlContactEdit);
         pnlContactEdit.setLayout(pnlContactEditLayout);
         pnlContactEditLayout.setHorizontalGroup(
@@ -112,19 +115,20 @@ public final class Vendors extends AbstractDashboardBase {
                     .addComponent(lblContact))
                 .addGap(18, 18, 18)
                 .addComponent(pnlDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlContactEditLayout.createSequentialGroup()
+                        .addComponent(chkbxReminder)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDeleteVendor)
                         .addGap(18, 18, 18)
                         .addComponent(btnSave)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancel)
-                        .addContainerGap())
+                        .addComponent(btnCancel))
                     .addGroup(pnlContactEditLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(cmbxIsPreSale)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlContactEditLayout.setVerticalGroup(
             pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +154,8 @@ public final class Vendors extends AbstractDashboardBase {
                             .addComponent(btnDeleteVendor, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(chkbxReminder))
                         .addContainerGap())))
         );
 
@@ -191,6 +196,7 @@ public final class Vendors extends AbstractDashboardBase {
             vendorSelected.setPerWeek(data.isPerWeek());
             vendorSelected.setPreSale(GUICommons.isCheckedCkeckBox(cmbxIsPreSale));
             vendorSelected.setVisits(VisitEnum.valueOf(data.getVisits()));
+            vendorSelected.setReminder(weekComponent.getSelectedDaysToReminder(GUICommons.isCheckedCkeckBox(chkbxReminder), data));
             
             final var vendorUpdated = vendorMapper.toInner(vendorSelected);
             vendorsController.updateVendor(vendorUpdated, vendorUpdated.getIdVendor());
@@ -225,6 +231,7 @@ public final class Vendors extends AbstractDashboardBase {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDeleteVendor;
     private javax.swing.JButton btnSave;
+    private javax.swing.JCheckBox chkbxReminder;
     private javax.swing.JCheckBox cmbxIsPreSale;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblContact;

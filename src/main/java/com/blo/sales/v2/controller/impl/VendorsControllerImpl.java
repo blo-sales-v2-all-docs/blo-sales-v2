@@ -9,6 +9,7 @@ import com.blo.sales.v2.model.IVendorsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.components.CheckboxDays;
 import com.google.gson.Gson;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -113,6 +115,30 @@ public class VendorsControllerImpl implements IVendorsController {
             final var allVendors = getAllVendors();
             if (allVendors.getVendors() != null && !allVendors.getVendors().isEmpty()) {
                 final var gson = new Gson();
+                allVendors.getVendors().stream().
+                        // filtra los que tienen recordatorio
+                        filter(v -> gson.fromJson(v.getReminder(), String[].class).length != 0).
+                        // filtrar los proveedores que pasaran hoy
+                        filter(v -> {
+                            final LocalDate hoy = LocalDate.now();
+                            final String dayOnSpanish = hoy.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+                            return 
+                                    Arrays.asList(CheckboxDays.getDaysArray()).stream().filter(s -> s.equals(dayOnSpanish)).findFirst().isPresent();
+                        });
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 // proveedores por semana
                 final var today = LocalDate.now();
                 final var translate = Locale.forLanguageTag("es-ES");

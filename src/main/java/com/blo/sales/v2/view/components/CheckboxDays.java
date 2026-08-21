@@ -5,8 +5,10 @@ import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.google.gson.Gson;
 import jakarta.inject.Singleton;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -186,7 +188,7 @@ public class CheckboxDays {
                     !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.ONLY_NUMBERS, dayMonth) || Integer.parseInt(dayMonth) > 31,
                     BloSalesV2Utils.COMMON_RULE_CODE,
                     BloSalesV2Utils.INVALID_TEXT);
-                info.setDaysSelected(gson.toJson(dayMonth));
+                info.setDaysSelected(gson.toJson(new String[]{dayMonth}));
             } catch (BloSalesV2Exception ex) {
                 CommonAlerts.openError(ex.getMessage(), BloSalesV2Utils.COMMON_RULE);
                 return null;
@@ -195,6 +197,46 @@ public class CheckboxDays {
         }
         info.setVisits(visits);
         return info;
+    }
+    
+    /**
+     * Permite recuperar los dias seleccionados restando un día .cuando está activada la bandera de recordatorio.<br>
+ Cuando es un domingo el día de recordatorio derá sábado
+    <br>
+ Regresa los días en formato JSON
+     * @param reminder
+     * @param infoSelected
+     * @return 
+     */
+    public String getSelectedDaysToReminder(boolean reminder, WeekInfoSelected infoSelected) {
+        final var gson = new Gson();
+        if (!reminder) {
+            return gson.toJson(BloSalesV2Utils.JSON_EMPTY_ARRAY);
+        }
+        // si es un día del calendario entonces regresa el día seleccionado
+        if (BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.ONLY_NUMBERS, infoSelected.getDaysSelected())) {
+            return infoSelected.getDaysSelected();
+        }
+        final List<String> lstDays = new ArrayList<>();
+        final var panelWeek = (JPanel) container.getComponent(1);
+        for (int i = 0; i < panelWeek.getComponents().length; i++) {
+            final Component day = panelWeek.getComponent(i);
+            if (day instanceof JCheckBox &&  ((JCheckBox) day).isSelected()) {
+                int previusDayIndex = 0;
+                if (i == 0) {
+                    previusDayIndex = week.length - 1;
+                }
+                if (i > 0) {
+                    previusDayIndex = i - 1;
+                }
+                lstDays.add(panelWeek.getComponent(previusDayIndex).getName());
+            }
+        }
+        return gson.toJson(lstDays);
+    }
+    
+    public static String[] getDaysArray() {
+        return week;
     }
     
     /**
