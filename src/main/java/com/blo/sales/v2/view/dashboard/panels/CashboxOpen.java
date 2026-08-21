@@ -3,6 +3,7 @@ package com.blo.sales.v2.view.dashboard.panels;
 import com.blo.sales.v2.controller.IAccountsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.IUserController;
+import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
@@ -38,6 +39,9 @@ public final class CashboxOpen extends AbstractDashboardBase {
     
     @Inject
     private IAccountsController accountsController;
+    
+    @Inject
+    private IVendorsController vendorsController;
     
     @Inject
     private WrapperPojoActivesCostsMapper activesCostMapper;
@@ -149,6 +153,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
             account,
             (PojoDialogCashboxData data) -> {
                 try {
+                    vendorsController.getVendorsFromToday();
                     final var wrapper = new WrapperPojoActivesCosts();
                     wrapper.setActivesCosts(data.getItems());
                     openCashbox.setAmount(data.getTotalAmountInCashbox());

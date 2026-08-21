@@ -2,7 +2,9 @@ package com.blo.sales.v2.utils;
 
 import com.blo.sales.v2.config.BloSalesV2ConfigManagement;
 import java.math.BigDecimal;
+import java.text.Normalizer;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -337,5 +339,20 @@ public final class BloSalesV2Utils {
             return EMPTY_STRING;
         }
         return matcher.group(indexFromPattern);
+    }
+    
+    /**
+     * Métpdp que elimina acentos y convierte todo a mayúsculas. Ideal para hacer comparación de Strings
+     * @param text
+     * @return 
+     */
+    public static String removeAccentsAndLowercase(String text) {
+        if (text.isBlank()) {
+            return "";
+        }
+        // Separar caracteres base de sus acentos (NFD)
+        final String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+        // Eliminar los diacríticos y pasar a minúsculas
+        return normalized.replaceAll("\\p{M}", "").toLowerCase(Locale.ROOT).trim();
     }
 }

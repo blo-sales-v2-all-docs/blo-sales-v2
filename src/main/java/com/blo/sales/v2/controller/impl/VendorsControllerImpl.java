@@ -1,9 +1,12 @@
 package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
+import com.blo.sales.v2.controller.IOrdersVendorsController;
 import com.blo.sales.v2.controller.IVendorsController;
+import com.blo.sales.v2.controller.pojos.PojoIntOrderVendor;
 import com.blo.sales.v2.controller.pojos.PojoIntVendor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntVendors;
+import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.VisitIntEnum;
 import com.blo.sales.v2.model.IVendorsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -13,9 +16,8 @@ import com.blo.sales.v2.view.components.CheckboxDays;
 import com.google.gson.Gson;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Arrays;
@@ -30,6 +32,9 @@ public class VendorsControllerImpl implements IVendorsController {
     
     @Inject
     private IVendorsModel vendorsModel;
+    
+    @Inject
+    private IOrdersVendorsController ordersVendorsController;
     
     @Inject
     private IDBTransactionManagerController dbt;
@@ -114,73 +119,72 @@ public class VendorsControllerImpl implements IVendorsController {
         try {
             final var allVendors = getAllVendors();
             if (allVendors.getVendors() != null && !allVendors.getVendors().isEmpty()) {
-                final var gson = new Gson();
-                allVendors.getVendors().stream().
-                        // filtra los que tienen recordatorio
-                        filter(v -> gson.fromJson(v.getReminder(), String[].class).length != 0).
-                        // filtrar los proveedores que pasaran hoy
-                        filter(v -> {
-                            final LocalDate hoy = LocalDate.now();
-                            final String dayOnSpanish = hoy.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-                            return 
-                                    Arrays.asList(CheckboxDays.getDaysArray()).stream().filter(s -> s.equals(dayOnSpanish)).findFirst().isPresent();
-                        });
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                // proveedores por semana
-                final var today = LocalDate.now();
-                final var translate = Locale.forLanguageTag("es-ES");
-                logger.info("fecha de hoy %s", today);
-                final var day = today.getDayOfWeek().getDisplayName(TextStyle.FULL, translate).toLowerCase();
-                final var vendorsToDay = allVendors.getVendors().stream().
-                        filter(v -> v.isPerWeek()).
-                        filter(vendor -> !List.of(gson.fromJson(vendor.getVisitDays(), String[].class)).stream().
-                                            map(String::toLowerCase).
-                                            filter(d -> d.equals(day)).
-                                            toList().
-                                            isEmpty()
-                        ).collect(Collectors.toList());
-                logger.info("proveedores del dia %s", vendorsToDay.size());
-                // proveedores por mes
-                final var vendorsByMonth = allVendors.getVendors().stream()
-                    .filter(v -> !v.isPerWeek()) // Filtra solo los que NO son semanales (mensuales)
-                    .filter(vendor -> {
+                final Gson gson = new Gson();
+                final LocalDate today = LocalDate.now();
+                final List<PojoIntVendor> vendorsFiltered = allVendors.getVendors().stream().
+                    // filtra los que tienen recordatorio
+                    filter(v -> {
+                        if (v.getReminder().isBlank() || v.getReminder().equals(BloSalesV2Utils.JSON_EMPTY_ARRAY)) {
+                            return false;
+                        }
                         try {
-                            // fecha del vendendor parseada
-                            final var parsedDateFromVendor = 
-                                    LocalDateTime.parse(vendor.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                            // día de visita
-                            final var dayOfVisitCalendar = parsedDateFromVendor.getDayOfMonth();
-                            // día actual
-                            final var currentDayOfMonth = today.getDayOfMonth();
-                            // ultimo dia del mes
-                            final var lastDayOfMonth = YearMonth.from(parsedDateFromVendor).lengthOfMonth();
-                            if (currentDayOfMonth == lastDayOfMonth) {
-                                return dayOfVisitCalendar >= currentDayOfMonth;
-                            }
-                            return dayOfVisitCalendar == currentDayOfMonth;
+                            // 2. Deserializar
+                            String[] days = gson.fromJson(v.getReminder(), String[].class);
+                            // 3. Confirmar que el arreglo no sea nulo y tenga al menos un elemento
+                            return days != null && days.length > 0;
                         } catch (Exception e) {
-                            return false; 
+                            // Prevenir fallos si el JSON está malformado
+                            return false;
                         }
                     }).
-                    collect(Collectors.toList());
-                logger.info("vendedores que pasaran el dia de hoy por día del mes %s", vendorsByMonth.size());
-                 vendorsToDay.addAll(vendorsByMonth);
-                 logger.info("proveedores que pasarán hoy %s", vendorsToDay.size());
-                 allVendors.setVendors(vendorsToDay);
+                    // filtrar los proveedores que pasaran hoy
+                    filter(v -> {
+                        // caso cuando el recordatorio es mensua y por fechas
+                        if (v.getVisits().compareTo(VisitIntEnum.MONTHLY) == 0 && BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.ONLY_NUMBERS, v.getReminder())) {
+                            final int numberCurrentMonth = today.getMonthValue();
+                            final int visitDay = Integer.parseInt(gson.fromJson(v.getVisitDays(), String[].class)[0]);
+                            // true si la visita está programada para el último día del mes 30 || 31
+                            final boolean isEndOfMonthVisit = visitDay >= 30;
+                            // true si el día de hoy es el último día del mes
+                            boolean isLastDayOfMonth = today.getDayOfMonth() == today.lengthOfMonth();
+                            // regresa true si el día de visita es mayor o igual a 30 y es el último día de mes
+                            if (numberCurrentMonth == 2 && isEndOfMonthVisit) {
+                                return isLastDayOfMonth;
+                            }
+                            return isEndOfMonthVisit && isLastDayOfMonth;
+                        }
+                        // dia de hoy en español
+                        final String dayOnSpanish = BloSalesV2Utils.removeAccentsAndLowercase(today.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES")));
+                        final List<String> visitDays = Arrays.asList(gson.fromJson(v.getReminder(), String[].class));
+                        if (visitDays.isEmpty()) {
+                            return false;
+                        }
+                        return visitDays.stream()
+                            .filter(s -> !s.isBlank())
+                            .map(BloSalesV2Utils::removeAccentsAndLowercase)
+                            .filter(s -> s.equals(dayOnSpanish)).findAny().isPresent();
+                    }).collect(Collectors.toList());
+                
+                if (vendorsFiltered != null && !vendorsFiltered.isEmpty()) {
+                    logger.info("abriendo orden en borrador");
+                    PojoIntOrderVendor orderVendor = null;
+                    for (final PojoIntVendor vendor: vendorsFiltered) {
+                        orderVendor = new PojoIntOrderVendor();
+                        orderVendor.setAmount(BigDecimal.ZERO);
+                        orderVendor.setBrand(vendor.getBrand());
+                        // se agrega un día después de la fecha que se abre la nota
+                        orderVendor.setDeadline(
+                                today.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        );
+                        orderVendor.setFkVendor(vendor.getIdVendor());
+                        orderVendor.setStatusOrder(StatusMovementProviderIntEnum.PENDIG);
+                        orderVendor.setProductsInfo(BloSalesV2Utils.EMPTY_STRING);
+                        ordersVendorsController.highOrder(orderVendor);
+                    }
+                    allVendors.setVendors(vendorsFiltered);
+                }
             }
+            logger.info("proveedores recordatorio de hoy: %s", allVendors.getVendors().size());
             return allVendors;
         } catch(BloSalesV2Exception e) {
             dbt.doRollback();
