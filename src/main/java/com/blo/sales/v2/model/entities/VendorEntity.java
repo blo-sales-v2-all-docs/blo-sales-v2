@@ -31,4 +31,6 @@ public @ToString class VendorEntity {
     
     private boolean enabled;
     
+    private String reminder;
+    
 }

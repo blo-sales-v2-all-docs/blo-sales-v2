@@ -380,6 +380,9 @@ public final class GUICommons {
      * @return
      */
     public static boolean isCheckedCkeckBox(JCheckBox checkbox) {
+        if (checkbox == null) {
+            return false;
+        }
         return checkbox.isSelected();
     }
 

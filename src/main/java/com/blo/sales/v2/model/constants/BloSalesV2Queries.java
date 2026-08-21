@@ -155,15 +155,15 @@ public final class BloSalesV2Queries {
     public static final String SELECT_DIGITAL_WALLET = "SELECT id_financial_movement, amount, reason, type, fh.authorization, fh.timestamp FROM financial_history fh INNER JOIN accounts a ON fh.fk_account = a.id_account WHERE a.id_account = ?";
     
     /** proveedores */
-    public static final String ADD_PROVIDER = "INSERT INTO vendors(fk_user, name, brand, contact, visit_days, pre_sale, timestamp, per_week, visits, enabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, true)";
+    public static final String ADD_PROVIDER = "INSERT INTO vendors(fk_user, name, brand, contact, visit_days, pre_sale, timestamp, per_week, visits, reminder, enabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, true)";
     
-    public static final String GET_PROVIDER_BY_CONTACT = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits, enabled FROM vendors WHERE contact = ? LIMIT 1";
+    public static final String GET_PROVIDER_BY_CONTACT = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits, enabled, reminder FROM vendors WHERE contact = ? LIMIT 1";
     
-    public static final String GET_PROVIDER_BY_ID = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits, enabled FROM vendors WHERE id_vendor = ?";
+    public static final String GET_PROVIDER_BY_ID = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits, enabled, reminder FROM vendors WHERE id_vendor = ?";
     
-    public static final String GET_PROVIDERS = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits, enabled FROM vendors WHERE enabled = true";
+    public static final String GET_PROVIDERS = "SELECT id_vendor, name, brand, contact, visit_days, pre_sale, per_week, timestamp, visits, enabled, reminder FROM vendors WHERE enabled = true";
     
-    public static final String UPDATE_PROVIDER = "UPDATE vendors SET name = ?, brand = ?, contact = ?, visit_days = ?, timestamp = ?, pre_sale = ?, per_week = ?, visits = ?, enabled = ? WHERE id_vendor = ?";
+    public static final String UPDATE_PROVIDER = "UPDATE vendors SET name = ?, brand = ?, contact = ?, visit_days = ?, timestamp = ?, pre_sale = ?, per_week = ?, visits = ?, enabled = ?, reminder = ? WHERE id_vendor = ?";
     
     /** ordenes */
     public static final String ADD_ORDER = "INSERT INTO orders_vendor(fk_vendor, amount, status_order, invoice, timestamp, deadline, payment_type, products_info) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";

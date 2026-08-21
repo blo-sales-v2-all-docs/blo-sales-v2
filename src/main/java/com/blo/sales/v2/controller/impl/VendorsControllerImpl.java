@@ -93,6 +93,7 @@ public class VendorsControllerImpl implements IVendorsController {
             vendorFound.setVisitDays(vendorData.getVisitDays());
             vendorFound.setPreSale(vendorData.isPreSale());
             vendorFound.setVisits(VisitIntEnum.valueOf(vendorData.getVisits().name()));
+            vendorFound.setReminder(vendorData.getReminder());
             final var debtorUpdated = vendorsModel.updateVendor(vendorData, idVendor);
             logger.info("datos de proveedor actualizado [%s]", String.valueOf(debtorUpdated));
             dbt.doCommit();

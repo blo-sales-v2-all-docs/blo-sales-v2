@@ -31,4 +31,6 @@ public @ToString class PojoIntVendor {
     
     private boolean enabled;
     
+    private String reminder;
+    
 }

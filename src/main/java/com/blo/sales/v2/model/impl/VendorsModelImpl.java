@@ -52,6 +52,7 @@ public class VendorsModelImpl implements IVendorsModel {
             ps.setString(7, data.getTimestamp());
             ps.setBoolean(8, data.isPer_week());
             ps.setString(9, data.getVisits().name());
+            ps.setString(10, data.getReminder());
             
             final var rowsAffected = ps.executeUpdate();
             
@@ -92,6 +93,7 @@ public class VendorsModelImpl implements IVendorsModel {
                     vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
                 }
                 vendor.setEnabled(data.getBoolean(BloSalesV2Columns.ENABLED));
+                vendor.setReminder(data.getString(BloSalesV2Columns.REMINDER));
             }
             logger.info("proveedor encontrado %s", String.valueOf(vendor));
             return vendorMapper.toOuter(vendor);
@@ -124,6 +126,7 @@ public class VendorsModelImpl implements IVendorsModel {
                     vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
                 }
                 vendor.setEnabled(data.getBoolean(BloSalesV2Columns.ENABLED));
+                vendor.setReminder(data.getString(BloSalesV2Columns.REMINDER));
             }
             logger.info("proveedor encontrado %s", String.valueOf(vendor));
             return vendorMapper.toOuter(vendor);
@@ -157,6 +160,7 @@ public class VendorsModelImpl implements IVendorsModel {
                     vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
                 }
                 vendor.setEnabled(data.getBoolean(BloSalesV2Columns.ENABLED));
+                vendor.setReminder(data.getString(BloSalesV2Columns.REMINDER));
                 lst.add(vendor);
             }
             wrapper.setVendors(lst);
@@ -185,7 +189,8 @@ public class VendorsModelImpl implements IVendorsModel {
             ps.setBoolean(7, data.isPer_week());
             ps.setString(8, data.getVisits().name());
             ps.setBoolean(9, data.isEnabled());
-            ps.setLong(10, data.getId_vendor());
+            ps.setString(10, data.getReminder());
+            ps.setLong(11, data.getId_vendor());
             
             final var rowsAffected = ps.executeUpdate();
             

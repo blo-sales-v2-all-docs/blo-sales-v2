@@ -31,6 +31,8 @@ public @ToString class PojoVendor {
     
     private boolean enabled;
     
+    private String reminder;
+    
     public String getBasicData() {
         final var out = "[%s]\t%s - %s";
         return String.format(out, idVendor, name, brand);
