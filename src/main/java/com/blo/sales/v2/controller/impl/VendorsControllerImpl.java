@@ -115,7 +115,7 @@ public class VendorsControllerImpl implements IVendorsController {
     }
 
     @Override
-    public WrapperPojoIntVendors getVendorsFromToday() throws BloSalesV2Exception {
+    public WrapperPojoIntVendors addOrderVendorAsDraft() throws BloSalesV2Exception {
         try {
             final var allVendors = getAllVendors();
             if (allVendors.getVendors() != null && !allVendors.getVendors().isEmpty()) {
@@ -177,7 +177,7 @@ public class VendorsControllerImpl implements IVendorsController {
                                 today.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                         );
                         orderVendor.setFkVendor(vendor.getIdVendor());
-                        orderVendor.setStatusOrder(StatusMovementProviderIntEnum.PENDIG);
+                        orderVendor.setStatusOrder(StatusMovementProviderIntEnum.DRAFT);
                         orderVendor.setProductsInfo(BloSalesV2Utils.EMPTY_STRING);
                         ordersVendorsController.highOrder(orderVendor);
                     }

@@ -153,7 +153,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
             account,
             (PojoDialogCashboxData data) -> {
                 try {
-                    vendorsController.getVendorsFromToday();
+                    vendorsController.addOrderVendorAsDraft();
                     final var wrapper = new WrapperPojoActivesCosts();
                     wrapper.setActivesCosts(data.getItems());
                     openCashbox.setAmount(data.getTotalAmountInCashbox());

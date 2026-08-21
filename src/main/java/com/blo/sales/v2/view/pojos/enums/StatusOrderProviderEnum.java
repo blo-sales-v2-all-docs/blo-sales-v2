@@ -6,7 +6,7 @@ import lombok.Getter;
 
 public enum StatusOrderProviderEnum {
     
-    PENDIG("Pendiente de entrega", 0), DELIVERED("Entregado", 1), CANCELLED("Cancelado", 2);
+    PENDIG("Pendiente de entrega", 0), DELIVERED("Entregado", 1), CANCELLED("Cancelado", 2), DRAFT("Borrador", 3);
     
     @Getter
     private final String target;

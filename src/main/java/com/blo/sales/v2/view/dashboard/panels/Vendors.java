@@ -20,7 +20,7 @@ public final class Vendors extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Vendors.class.getName());
     
-    private static final String[] titles = {"Id proveedor", "Nombre", "Contacto", "Marca que maneja", "Dias de visita", "¿Es preventa?", "Visita", "Ultima actualizacion"};
+    private static final String[] titles = {"Id proveedor", "Nombre", "Contacto", "Marca que maneja", "Dias de visita", "¿Es preventa?", "¿Recordatorio?", "Visita", "Ultima actualizacion"};
     
     @Inject
     private IVendorsController vendorsController;
@@ -252,6 +252,7 @@ public final class Vendors extends AbstractDashboardBase {
             GUICommons.setTextToField(txtName, vendorSelected.getName());
             GUICommons.setTextToField(txtContact, vendorSelected.getContact());
             GUICommons.selectElementByBooleanCondition(cmbxIsPreSale, vendorSelected.isPreSale());
+            GUICommons.selectElementByBooleanCondition(chkbxReminder, !isEmptyReminder(vendorSelected.getReminder()));
             
             final var daysSelected = gson.fromJson(vendorSelected.getVisitDays(), String[].class);
             var visits = VisitEnum.WEEKLY.name();
@@ -279,6 +280,7 @@ public final class Vendors extends AbstractDashboardBase {
                         v.getBrand(),
                         v.getVisitDays(),
                         v.isPreSale(),
+                        !isEmptyReminder(v.getReminder()),
                         v.getVisits() != null ? v.getVisits().getTarget() : BloSalesV2Utils.EMPTY_STRING,
                         parserTimestamp(v.getTimestamp())
                     };
@@ -317,5 +319,10 @@ public final class Vendors extends AbstractDashboardBase {
         pnlContactEdit.setVisible(false);
         GUICommons.setTextToField(txtName, BloSalesV2Utils.EMPTY_STRING);
         GUICommons.setTextToField(txtContact, BloSalesV2Utils.EMPTY_STRING);
+    }
+    
+    private boolean isEmptyReminder(String reminder) {
+        logger.info("reminder %s", reminder);
+        return getGson().fromJson(reminder.replace("\"", ""), String[].class).length == 0;
     }
 }

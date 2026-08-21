@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public enum StatusOrderVendorEntityEnum {
     
-    PENDIG("Se levantó pedido y está a la espera de entrega"), CANCELLED("El pedido fue cancelado"), DELIVERED("El pedido fue entregado");
+    PENDIG("Se levantó pedido y está a la espera de entrega"), CANCELLED("El pedido fue cancelado"), DELIVERED("El pedido fue entregado"), DRAFT("Solo una orden fantasma que se puede eliminar");
     
     @Getter
     private final String description;
