@@ -182,9 +182,10 @@ public class CheckboxDays {
         } else {
             try {
                 final String dayMonth = CommonAlerts.showMessageDialog("Por favor indica qué día del mes te visitarán");
-                if (!BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.ONLY_NUMBERS, dayMonth) || Integer.parseInt(dayMonth) > 31) {
-                    throw new BloSalesV2Exception(BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.INVALID_TEXT);
-                }
+                BloSalesV2Utils.validateRule(
+                    !BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.ONLY_NUMBERS, dayMonth) || Integer.parseInt(dayMonth) > 31,
+                    BloSalesV2Utils.COMMON_RULE_CODE,
+                    BloSalesV2Utils.INVALID_TEXT);
                 info.setDaysSelected(gson.toJson(dayMonth));
             } catch (BloSalesV2Exception ex) {
                 CommonAlerts.openError(ex.getMessage(), BloSalesV2Utils.COMMON_RULE);
