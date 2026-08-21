@@ -29,6 +29,8 @@ public @ToString class PojoVendor {
     
     private VisitEnum visits;
     
+    private boolean enabled;
+    
     public String getBasicData() {
         final var out = "[%s]\t%s - %s";
         return String.format(out, idVendor, name, brand);

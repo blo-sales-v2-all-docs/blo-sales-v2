@@ -129,6 +129,8 @@ public class AddVendor extends AbstractDashboardBase {
             
             final var visitDays = week.getInfoSelected();
             
+            BloSalesV2Utils.validateRule(visitDays == null, BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.INVALID_TEXT);
+            
             final var vendor = new PojoVendor();
             vendor.setBrand(brand);
             vendor.setContact(contact);

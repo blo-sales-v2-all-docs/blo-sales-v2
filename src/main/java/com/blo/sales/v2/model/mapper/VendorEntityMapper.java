@@ -49,7 +49,7 @@ public class VendorEntityMapper implements IToInner<VendorEntity, PojoIntVendor>
         if (inner.getVisits() != null) {
             outer.setVisits(VisitIntEnum.valueOf(inner.getVisits().name()));
         }
-        outer.setEnabled(outer.isEnabled());
+        outer.setEnabled(inner.isEnabled());
         return outer;
     }
     

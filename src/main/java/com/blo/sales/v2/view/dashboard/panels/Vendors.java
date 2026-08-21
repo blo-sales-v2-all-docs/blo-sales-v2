@@ -184,6 +184,9 @@ public final class Vendors extends AbstractDashboardBase {
             vendorSelected.setName(GUICommons.getTextFromField(txtName, true));
             vendorSelected.setContact(GUICommons.getTextFromField(txtContact, true));
             final var data = weekComponent.getInfoSelected();
+            
+            BloSalesV2Utils.validateRule(data == null, BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.INVALID_TEXT);
+            
             vendorSelected.setVisitDays(data.getDaysSelected());
             vendorSelected.setPerWeek(data.isPerWeek());
             vendorSelected.setPreSale(GUICommons.isCheckedCkeckBox(cmbxIsPreSale));
