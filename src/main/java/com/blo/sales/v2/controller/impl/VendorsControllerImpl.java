@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -160,6 +159,28 @@ public class VendorsControllerImpl implements IVendorsController {
             dbt.doRollback();
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(e.getCode(), e.getMessage());
+        }
+    }
+
+    @Override
+    public PojoIntVendor deleteVendor(long idVendor) throws BloSalesV2Exception {
+        try {
+            logger.info("eliminando proveedor por id %s", idVendor);
+            dbt.disableAutocommit();
+            final var vendorFound = getVendorById(idVendor);
+            logger.info("proveedor encontrado %s", String.valueOf(vendorFound));
+            BloSalesV2Utils.validateRule(vendorFound == null, BloSalesV2Utils.CODE_VENDOR_NOT_EXITS, BloSalesV2Utils.ERROR_VENDOR_NOT_EXITS);
+            vendorFound.setEnabled(false);
+            final var debtorUpdated = vendorsModel.updateVendor(vendorFound, idVendor);
+            logger.info("proveedor eliminado [%s]", String.valueOf(debtorUpdated));
+            dbt.doCommit();
+            return debtorUpdated;
+        } catch(BloSalesV2Exception e) {
+            dbt.doRollback();
+            logger.error(e.getMessage());
+            throw new BloSalesV2Exception(e.getCode(), e.getMessage());
+        } finally {
+            dbt.enableAutocommit();
         }
     }
     

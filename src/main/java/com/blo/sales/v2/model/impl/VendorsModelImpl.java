@@ -91,6 +91,7 @@ public class VendorsModelImpl implements IVendorsModel {
                 if (!data.getString(BloSalesV2Columns.VISITS).isBlank()) {
                     vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
                 }
+                vendor.setEnabled(data.getBoolean(BloSalesV2Columns.ENABLED));
             }
             logger.info("proveedor encontrado %s", String.valueOf(vendor));
             return vendorMapper.toOuter(vendor);
@@ -122,6 +123,7 @@ public class VendorsModelImpl implements IVendorsModel {
                 if (!data.getString(BloSalesV2Columns.VISITS).isBlank()) {
                     vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
                 }
+                vendor.setEnabled(data.getBoolean(BloSalesV2Columns.ENABLED));
             }
             logger.info("proveedor encontrado %s", String.valueOf(vendor));
             return vendorMapper.toOuter(vendor);
@@ -154,6 +156,7 @@ public class VendorsModelImpl implements IVendorsModel {
                 if (!data.getString(BloSalesV2Columns.VISITS).isBlank()) {
                     vendor.setVisits(VisitsEntityEnum.valueOf(data.getString(BloSalesV2Columns.VISITS)));
                 }
+                vendor.setEnabled(data.getBoolean(BloSalesV2Columns.ENABLED));
                 lst.add(vendor);
             }
             wrapper.setVendors(lst);
@@ -181,7 +184,8 @@ public class VendorsModelImpl implements IVendorsModel {
             ps.setBoolean(6, data.isPre_sale());
             ps.setBoolean(7, data.isPer_week());
             ps.setString(8, data.getVisits().name());
-            ps.setLong(9, data.getId_vendor());
+            ps.setBoolean(9, data.isEnabled());
+            ps.setLong(10, data.getId_vendor());
             
             final var rowsAffected = ps.executeUpdate();
             

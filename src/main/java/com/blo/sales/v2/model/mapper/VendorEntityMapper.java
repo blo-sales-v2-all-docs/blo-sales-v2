@@ -27,6 +27,7 @@ public class VendorEntityMapper implements IToInner<VendorEntity, PojoIntVendor>
         inner.setVisit_days(outer.getVisitDays());
         inner.setPer_week(outer.isPerWeek());
         inner.setVisits(VisitsEntityEnum.valueOf(outer.getVisits().name()));
+        inner.setEnabled(outer.isEnabled());
         return inner;
     }
 
@@ -48,6 +49,7 @@ public class VendorEntityMapper implements IToInner<VendorEntity, PojoIntVendor>
         if (inner.getVisits() != null) {
             outer.setVisits(VisitIntEnum.valueOf(inner.getVisits().name()));
         }
+        outer.setEnabled(outer.isEnabled());
         return outer;
     }
     

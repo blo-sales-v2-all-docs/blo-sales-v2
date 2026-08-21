@@ -181,5 +181,7 @@ public final class BloSalesV2Columns {
     public static final String UPDATE_DATE = "update_date";
     
     public static final String ORIGINAL_AMOUNT = "original_amount";
+    
+    public static final String ENABLED = "enabled";
        
 }

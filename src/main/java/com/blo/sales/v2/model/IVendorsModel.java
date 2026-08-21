@@ -8,7 +8,7 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
  * Clase modelo para operaciones de proveedores en la db
  * <br>
  * <b>LOS METODOS DE ESTA CLASE NO GUARDA CAMBIOS EN LA DB</b>
- * @version 1.0.0
+ * @version 1.0.1
  * @author BLO
  */
 public interface IVendorsModel {

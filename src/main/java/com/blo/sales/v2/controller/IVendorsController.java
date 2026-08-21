@@ -6,7 +6,7 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
  * Controlador para operaciones de proveedores
- * @version 1.0.0
+ * @version 1.2.0
  * @author BLO
  */
 public interface IVendorsController {
@@ -57,5 +57,13 @@ public interface IVendorsController {
      * @throws BloSalesV2Exception 
      */
     WrapperPojoIntVendors getVendorsFromToday() throws BloSalesV2Exception;
+    
+    /**
+     * Metodo que elimina un proveedor de forma lógica
+     * @param idVendor
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntVendor deleteVendor(long idVendor) throws BloSalesV2Exception;
     
 }

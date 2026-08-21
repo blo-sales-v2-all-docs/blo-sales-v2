@@ -55,6 +55,7 @@ public final class Vendors extends AbstractDashboardBase {
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         cmbxIsPreSale = new javax.swing.JCheckBox();
+        btnDeleteVendor = new javax.swing.JButton();
 
         tblVendors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -92,6 +93,9 @@ public final class Vendors extends AbstractDashboardBase {
 
         cmbxIsPreSale.setText("preventa");
 
+        btnDeleteVendor.setText("eliminar");
+        btnDeleteVendor.addActionListener(this::btnDeleteVendorActionPerformed);
+
         javax.swing.GroupLayout pnlContactEditLayout = new javax.swing.GroupLayout(pnlContactEdit);
         pnlContactEdit.setLayout(pnlContactEditLayout);
         pnlContactEditLayout.setHorizontalGroup(
@@ -111,6 +115,8 @@ public final class Vendors extends AbstractDashboardBase {
                 .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlContactEditLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDeleteVendor)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSave)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancel)
@@ -123,26 +129,29 @@ public final class Vendors extends AbstractDashboardBase {
         pnlContactEditLayout.setVerticalGroup(
             pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlContactEditLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(lblContact))
-                .addGap(18, 18, 18)
-                .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlContactEditLayout.createSequentialGroup()
-                .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnlDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlContactEditLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cmbxIsPreSale)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addComponent(pnlDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 9, Short.MAX_VALUE))
+            .addGroup(pnlContactEditLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlContactEditLayout.createSequentialGroup()
+                        .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblName)
+                            .addComponent(lblContact))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContactEditLayout.createSequentialGroup()
+                        .addComponent(cmbxIsPreSale)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnDeleteVendor, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlContactEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -195,9 +204,23 @@ public final class Vendors extends AbstractDashboardBase {
         reset();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void btnDeleteVendorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVendorActionPerformed
+        try {        
+            if (CommonAlerts.showConfirmDialog(String.format(getTranslateBy(KeysEnum.VENDORS_DLG_DELETE_VENDOR.getKey()), vendorSelected.getName()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey())) && vendorSelected != null) {
+                vendorsController.deleteVendor(vendorSelected.getIdVendor());
+                reset();
+                loadVendorsData();
+            }
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+        }
+    }//GEN-LAST:event_btnDeleteVendorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDeleteVendor;
     private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox cmbxIsPreSale;
     private javax.swing.JScrollPane jScrollPane1;
@@ -272,7 +295,11 @@ public final class Vendors extends AbstractDashboardBase {
     }
     
     @Override
-    protected void loadTargets() { }
+    protected void loadTargets() {
+        GUICommons.setTextToButton(btnSave, getTranslateBy(KeysEnum.COMMON_BTN_SAVE_CHANGES.getKey()));
+        GUICommons.setTextToButton(btnCancel, getTranslateBy(KeysEnum.COMMON_BTN_CANCEL.getKey()));
+        GUICommons.setTextToButton(btnDeleteVendor, getTranslateBy(KeysEnum.COMMON_BTN_DELETE.getKey()));
+    }
     
     @Override
     protected void reset() {

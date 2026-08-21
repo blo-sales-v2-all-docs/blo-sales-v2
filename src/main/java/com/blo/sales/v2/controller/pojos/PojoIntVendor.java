@@ -29,4 +29,6 @@ public @ToString class PojoIntVendor {
     
     private VisitIntEnum visits;
     
+    private boolean enabled;
+    
 }
