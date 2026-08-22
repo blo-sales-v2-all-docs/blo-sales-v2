@@ -73,6 +73,8 @@ public final class BloSalesV2Queries {
     
     public static final String SELECT_DEBTOR_BY_ID = "SELECT id_debtor, name, debt, payments FROM debtors WHERE id_debtor = ?";
     
+    public static final String SELECT_DEBTOR_DETAIL = "SELECT d.id_debtor, d.name, d.debt, d.payments, s.timestamp, st.product, st.price, sp.quantity_sale, sp.product_total_on_sale FROM debtors d INNER JOIN debtor_sale ds ON d.id_debtor = ds.fk_debtor INNER JOIN sales s ON s.id_sale = ds.fk_sale INNER JOIN sale_product sp ON s.id_sale = sp.fk_sale INNER JOIN stock st ON st.id_product = sp.fk_product WHERE d.id_debtor = ?";
+    
     public static final String SELECT_DEBTORS = "SELECT id_debtor, name, debt, payments FROM debtors";
     
     public static final String UPDATE_DEBTOR = "UPDATE debtors SET name = ?, debt = ?, payments = ? WHERE id_debtor = ?";

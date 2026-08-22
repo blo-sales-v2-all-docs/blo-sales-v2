@@ -134,16 +134,12 @@ public final class CashboxOpen extends AbstractDashboardBase {
                 return;
             }
         }
-        final var resp = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()));
-        WrapperPojoNotes pasives = null;
-        WrapperPojoNotes actives = null;
-        if (resp) {
-            pasives = filterLst(TypeNoteEnum.PASIVO);
-            actives = filterLst(TypeNoteEnum.ACTIVO);
-            final var ordenPasivos = filterLst(TypeNoteEnum.ORDEN_PASIVO);
-            pasives.getNotes().addAll(ordenPasivos.getNotes());
-        }
         
+        WrapperPojoNotes pasives = filterLst(TypeNoteEnum.PASIVO);
+        WrapperPojoNotes actives = filterLst(TypeNoteEnum.ACTIVO);
+        final var ordenPasivos = filterLst(TypeNoteEnum.ORDEN_PASIVO);
+        pasives.getNotes().addAll(ordenPasivos.getNotes());
+            
         final var cashboxDialog = new CashboxDialog<>(
             this,
             getTranslateBy(KeysEnum.CASHBOX_DLG_CLOSING_CASHBOX.getKey()),

@@ -1,6 +1,7 @@
 package com.blo.sales.v2.model.impl;
 
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtorInfoDetail;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtorsDetails;
 import com.blo.sales.v2.model.IDBTransactionManagerModel;
@@ -10,9 +11,11 @@ import com.blo.sales.v2.model.constants.BloSalesV2Columns;
 import com.blo.sales.v2.model.constants.BloSalesV2Queries;
 import com.blo.sales.v2.model.entities.DebtorDetailEntity;
 import com.blo.sales.v2.model.entities.DebtorEntity;
+import com.blo.sales.v2.model.entities.DebtorInfoDetailEntity;
 import com.blo.sales.v2.model.entities.WrapperDebtorsDetailsEntity;
 import com.blo.sales.v2.model.entities.WrapperDebtorsEntity;
 import com.blo.sales.v2.model.mapper.DebtorEntityMapper;
+import com.blo.sales.v2.model.mapper.DebtorInfoDetailEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperDebtorsDetailsEntityMapper;
 import com.blo.sales.v2.model.mapper.WrapperDebtorsEntityMapper;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
@@ -23,11 +26,15 @@ import jakarta.inject.Singleton;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class DebtorsModelImpl implements IDebtorsModel {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsModelImpl.class.getName());
+    
+    @Inject
+    private DebtorInfoDetailEntityMapper debtorDetailInfoMapper;
     
     @Inject
     private DebtorEntityMapper mapper;
@@ -193,6 +200,38 @@ public class DebtorsModelImpl implements IDebtorsModel {
                 throw new BloSalesV2Exception(BloSalesV2Utils.SQL_DELETE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_DELETING_DATA_ON_DATA_BASE);
             }
             logger.info("deudor eliminado");
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        }
+    }
+
+    @Override
+    public PojoIntDebtorInfoDetail getDebtorDetailById(long idDebtor) throws BloSalesV2Exception {
+        try {
+            final var conn = DBConnection.getConnection();
+            logger.info("recuperando detalles de deudor %s", idDebtor);
+            final var ps = conn.prepareStatement(BloSalesV2Queries.SELECT_DEBTOR_DETAIL);
+            ps.setLong(1, idDebtor);
+            final var rs = ps.executeQuery();
+            
+            final List<DebtorInfoDetailEntity> fullInformation = new ArrayList<>();
+            DebtorInfoDetailEntity outer = null;
+            while(rs.next()) {
+                outer = new DebtorInfoDetailEntity();
+                outer.setDebt(rs.getBigDecimal(BloSalesV2Columns.DEBT));
+                outer.setId_debtor(rs.getLong(BloSalesV2Columns.ID_DEBTOR));
+                outer.setPayments(rs.getString(BloSalesV2Columns.PAYMENTS));
+                outer.setPrice(rs.getBigDecimal(BloSalesV2Columns.PRICE));
+                outer.setQuantity_sale(rs.getBigDecimal(BloSalesV2Columns.QUANTITY_ON_SALE));
+                outer.setTimestamp(rs.getString(BloSalesV2Columns.TIMESTAMP));
+                outer.setName(rs.getString(BloSalesV2Columns.NAME));
+                outer.setProduct(rs.getString(BloSalesV2Columns.PRODUCT));
+                outer.setProduct_total_on_sale(rs.getBigDecimal(BloSalesV2Columns.PRODUCT_TOTAL_ON_SALE));
+                fullInformation.add(outer);
+            }
+            logger.info("deudor encontrado [%s]", String.valueOf(outer));
+            return debtorDetailInfoMapper.toOuter(fullInformation);
         } catch (SQLException ex) {
             logger.error(ex.getMessage());
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
