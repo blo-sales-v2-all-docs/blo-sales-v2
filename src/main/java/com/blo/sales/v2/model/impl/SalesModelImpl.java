@@ -54,7 +54,7 @@ public class SalesModelImpl implements ISalesModel {
         try {
             final var conn = DBConnection.getConnection();
             transactionManager.disableAutocommit();
-            logger.info("se comienza a registrar venta");
+            logger.info("se comienza a registrar venta %s", String.valueOf(sale));
             final var innerSale = saleMapper.toInner(sale);
             final var ps = conn.prepareStatement(BloSalesV2Queries.INSERT_SALE, Statement.RETURN_GENERATED_KEYS);
             ps.setBigDecimal(1, innerSale.getTotal());
