@@ -120,18 +120,17 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="pnlControlOrder" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cmbxCloseOrderReasons" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
                               <Component id="lblNoInvoice" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtInvoice" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="cmbxCloseOrderReasons" alignment="1" pref="155" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="txtInvoice" min="-2" pref="155" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace pref="18" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="lblOrder" min="-2" pref="165" max="-2" attributes="0"/>
