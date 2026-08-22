@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
@@ -13,13 +12,11 @@ public class Translate {
     private ResourceBundle bundle;
 
     public Translate(String lang, String country) {
-        Locale locale = new Locale(lang, country);
-        
         // Define la ruta del directorio externo donde residen tus archivos de propiedades
-        String externalPath = "config/i18n/"; 
+        final String externalPath = "config/i18n/"; 
         
         // Construye el nombre del archivo esperado, p. ej., "es.properties" o "es_ES.properties"
-        String fileName = lang + (country != null && !country.isEmpty() ? "_" + country : "") + ".properties";
+        final String fileName = lang + (country != null && !country.isEmpty() ? "_" + country : "") + ".properties";
         File file = new File(externalPath + fileName);
 
         // Si el archivo específico no existe, se intenta un fallback simple (ej. "es.properties")
