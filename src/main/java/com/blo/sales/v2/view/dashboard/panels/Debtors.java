@@ -2,7 +2,6 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.ISalesController;
-import com.blo.sales.v2.controller.pojos.PojoIntDebtorInfoDetail;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;

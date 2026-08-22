@@ -13,7 +13,6 @@ import com.blo.sales.v2.view.mappers.PojoVendorMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsMapper;
 import com.blo.sales.v2.view.pojos.PojoVendor;
 import com.blo.sales.v2.view.pojos.enums.VisitEnum;
-import com.google.gson.Gson;
 import jakarta.inject.Inject;
 
 public final class Vendors extends AbstractDashboardBase {
@@ -245,7 +244,6 @@ public final class Vendors extends AbstractDashboardBase {
 
     private void editVendor(long idVendor) {
         try {
-            final var gson = new Gson();
             vendorSelected = vendorMapper.toOuter(vendorsController.getVendorById(idVendor));
             pnlContactEdit.setVisible(true);
             
@@ -254,7 +252,7 @@ public final class Vendors extends AbstractDashboardBase {
             GUICommons.selectElementByBooleanCondition(cmbxIsPreSale, vendorSelected.isPreSale());
             GUICommons.selectElementByBooleanCondition(chkbxReminder, !isEmptyReminder(vendorSelected.getReminder()));
             
-            final var daysSelected = gson.fromJson(vendorSelected.getVisitDays(), String[].class);
+            final var daysSelected = getGson().fromJson(vendorSelected.getVisitDays(), String[].class);
             var visits = VisitEnum.WEEKLY.name();
             if (vendorSelected.getVisits() != null) {
                 visits = vendorSelected.getVisits().name();

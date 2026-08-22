@@ -20,7 +20,6 @@ import com.blo.sales.v2.view.mappers.WrapperPojoCashboxesSalesDetailMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsOrdersMapper;
 import com.blo.sales.v2.view.pojos.WrapperPojoOrdersVendors;
 import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
-import com.google.gson.Gson;
 import jakarta.inject.Inject;
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -57,8 +56,6 @@ public final class AllCashboxes extends AbstractDashboardBase {
     
     private WrapperPojoOrdersVendors ordersVendorsDetails;
     
-    private static final Gson GSON = new Gson();
-
     public AllCashboxes(String key) {
         super(key);
     }

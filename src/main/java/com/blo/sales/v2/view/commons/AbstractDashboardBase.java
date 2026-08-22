@@ -51,7 +51,7 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
         this.gson = new Gson();
     }
     
-    public String getTranslateBy(String key) {
+    public static String getTranslateBy(String key) {
         return translate.get(key);
     }
     
