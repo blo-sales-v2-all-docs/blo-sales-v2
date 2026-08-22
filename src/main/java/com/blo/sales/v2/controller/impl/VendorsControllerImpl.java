@@ -181,7 +181,7 @@ public class VendorsControllerImpl implements IVendorsController {
                         orderVendor.setFkVendor(vendor.getIdVendor());
                         orderVendor.setStatusOrder(StatusMovementProviderIntEnum.DRAFT);
                         orderVendor.setProductsInfo(BloSalesV2Utils.EMPTY_STRING);
-                        ordersVendorsController.highOrder(orderVendor);
+                        ordersVendorsController.highOrder(orderVendor, true);
                     }
                     allVendors.setVendors(vendorsFiltered);
                 }

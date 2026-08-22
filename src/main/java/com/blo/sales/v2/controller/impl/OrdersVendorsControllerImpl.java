@@ -43,7 +43,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     private ICashboxesOrdersVendorsController cashboxesOrdersVendors;
 
     @Override
-    public PojoIntOrderVendor highOrder(PojoIntOrderVendor order) throws BloSalesV2Exception {
+    public PojoIntOrderVendor highOrder(PojoIntOrderVendor order, boolean isDraft) throws BloSalesV2Exception {
         try {
             // desactivar la funcion para guardar en la db
             dbTransactionManager.disableAutocommit();
@@ -54,6 +54,9 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             BloSalesV2Utils.validateRule(deadLine.isBefore(now), BloSalesV2Utils.CODE_ORDER_IS_BEFORE_NOW, BloSalesV2Utils.ERROR_ORDER_IS_BEFORE_NOW);
             // setter invoice como PENDING
             order.setStatusOrder(StatusMovementProviderIntEnum.PENDIG);
+            if (isDraft) {
+                order.setStatusOrder(StatusMovementProviderIntEnum.DRAFT);
+            }
             order.setTimestamp(BloSalesV2Utils.getTimestamp());
             order.setInvoice(StatusMovementProviderIntEnum.PENDIG.toString());
             order.setPaymentType(BloSalesV2Utils.N_A);
