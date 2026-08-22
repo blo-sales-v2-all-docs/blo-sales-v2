@@ -42,7 +42,7 @@ public final class Stock extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Stock.class.getName());
     
-    private static final String[] TITLES = {"ID", "Codigo de barras", "Producto", "Cantidad en existencia", "Precio", "Costo de venta", "¿Por kg?", "Categoria"};
+    private static final String[] TITLES = getHeadersFrom(KeysEnum.TABLES_HEADERS_STOCK.getKey());
     
     @Inject
     private IProductsController productsController;

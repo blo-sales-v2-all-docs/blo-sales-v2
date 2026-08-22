@@ -31,6 +31,8 @@ public final class CashboxOpen extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(CashboxOpen.class.getName());
     
+    private static final String[] TITLES = getHeadersFrom(KeysEnum.TABLES_HEADERS_CASHBOX_OPEN.getKey());
+    
     @Inject
     private ICashboxController cashboxController;
     
@@ -172,8 +174,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
     }
     
     private void loadDataAndTitles(PojoCashbox cashbox) throws BloSalesV2Exception {
-        final String[] titles = {"ID", "Monto", "Gestionada por", "Fecha"};
-        GUICommons.loadTitleOnTable(tblCashboxes, titles, false);
+        GUICommons.loadTitleOnTable(tblCashboxes, TITLES, false);
         if (cashbox != null) {
             final Object[] row = {
                 cashbox.getIdCashbox(),

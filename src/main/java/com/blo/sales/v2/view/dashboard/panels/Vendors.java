@@ -19,7 +19,7 @@ public final class Vendors extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Vendors.class.getName());
     
-    private static final String[] titles = {"Id proveedor", "Nombre", "Contacto", "Marca que maneja", "Dias de visita", "¿Es preventa?", "¿Recordatorio?", "Visita", "Ultima actualizacion"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_VENDORS.getKey());
     
     @Inject
     private IVendorsController vendorsController;

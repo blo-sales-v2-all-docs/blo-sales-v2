@@ -30,7 +30,7 @@ public final class Notes extends AbstractDashboardBase {
     @Inject
     private WrapperPojoNotesMapper notesMapper;
     
-    private static final String[] titles = {"ID", "Nota", "Tipo", "Timestamp"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_NOTES.getKey());
     
     private static final String[] types_note = {"ACTIVO", "PASIVO", "OTRO"};
     

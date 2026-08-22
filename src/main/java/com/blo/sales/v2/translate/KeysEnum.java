@@ -61,7 +61,11 @@ public enum KeysEnum {
     COMMON_LBL_UPDATED_COMPLETE("common.lbl.updated-complete"), COMMON_TTL_COMPLETE("common.ttl.complete"),
     DASHBOARD_TITLES_CREDITS("dashboard.titles.credits"), CREDITS_LBL_LANDER_NAME("credits.lbl.lander-name"), CREDITS_LBL_TOTAL_CREDIT("credits.lbl.total-credit"), CREDITS_DLG_CANCEL_CREDIT("credits.dlg.cancel-credit"), CREDITS_BTN_CANCEL_CREDIT("credits.btn.cancel-credit"), CREDITS_LBL_ADD_PAYMENT("credits.lbl.add-payment"), CREDITS_DLG_PAYMENTS("credits.dlg.payemnts"),
     DASHBOARD_TITLES_DEBITS("dashboard.titles.debits"), DEBITS_LBL_DEBT_NAME("debits.lbl.debt-name"), DEBITS_LBL_DEBT_PAYMENT("debits.lbl.debt-payement"), DEBITS_BTN_CANCEL_DEBIT("debits.btn.cancel-debit"),
-    VENDORS_DLG_DELETE_VENDOR("vendors.dlg.delete-vendor")
+    VENDORS_DLG_DELETE_VENDOR("vendors.dlg.delete-vendor"),
+    // headers de tablas
+    TABLES_HEADERS_ALL_CASHBOXES("tables.headers.all-cashboxes"),TABLES_HEADERS_CASHBOX_OPEN("tables.headers.cashbox-open"),TABLES_HEADERS_CREDITS("tables.headers.credits"),TABLES_HEADERS_DEBITS("tables.headers.debits"),TABLES_HEADERS_DEBTORS("tables.headers.debtors"),TABLES_HEADERS_DEBTORS_SETTLEMENTS("tables.headers.debtors-settlements"),TABLES_HEADERS_MOBILE_COMPANIES("tables.headers.mobile-companies"),TABLES_HEADERS_NOTES("tables.headers.notes"),TABLES_HEADERS_SALES("tables.headers.sales"),TABLES_HEADERS_SALES_CANCELED("tables.headers.sales-canceled"),TABLES_HEADERS_SALES_REPORT("tables.headers.sales-report"),TABLES_HEADERS_SALES_TODAY("tables.headers.sales-today"),TABLES_HEADERS_STOCK("tables.headers.stock"),TABLES_HEADERS_TOP_UPS("tables.headers.top-ups"),TABLES_HEADERS_VENDORS("tables.headers.vendors"),TABLES_HEADERS_VIEW_DIGITAL_WALLET("tables.headers.view-digital-wallet"),TABLES_HEADERS_VIEW_ORDERS("tables.headers.view-orders")
+    
+    
     
     
     

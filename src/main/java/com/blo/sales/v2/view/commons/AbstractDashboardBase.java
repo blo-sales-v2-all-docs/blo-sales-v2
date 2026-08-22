@@ -51,6 +51,10 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
         this.gson = new Gson();
     }
     
+    public static String[] getHeadersFrom(String dashboard) {
+        return translate.get(dashboard).split(",");
+    }
+    
     public static String getTranslateBy(String key) {
         return translate.get(key);
     }
@@ -129,4 +133,5 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
         }
         return filter;
     }
+    
 }

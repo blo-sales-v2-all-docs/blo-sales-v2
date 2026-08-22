@@ -32,6 +32,8 @@ public final class AllCashboxes extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(AllCashboxes.class.getName());
     
+    private static final String[] HEADERS_CASHBOXES = getHeadersFrom(KeysEnum.TABLES_HEADERS_CASHBOX_OPEN.getKey());
+    
     @Inject
     private WrapperPojoCashboxesDetailsMapper mapper;
     
@@ -134,8 +136,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
     }
     
     private void cashboxesOnTable(WrapperPojoCashboxesDetails cashboxes) {
-        final String[] titles = {"ID", "Monto", "Status", "Timestamp"};
-        GUICommons.loadTitleOnTable(tblCashboxes, titles, false);
+        GUICommons.loadTitleOnTable(tblCashboxes, HEADERS_CASHBOXES, false);
             final var cashboxesFilter = cashboxes.getCashboxesInfo().stream().collect(Collectors.toMap(
                     PojoCashboxDetail::getIdCashbox,
                     obj -> obj,

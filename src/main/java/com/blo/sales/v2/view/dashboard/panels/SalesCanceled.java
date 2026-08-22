@@ -14,7 +14,7 @@ public final class SalesCanceled extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(SalesCanceled.class.getName());
     
-    private static final String[] titles = {"ID", "Producto", "Motivo", "Fecha", "Cancelado por"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_SALES_CANCELED.getKey());
     
     @Inject
     private ISaleDeletedDetailController saleDeleted;

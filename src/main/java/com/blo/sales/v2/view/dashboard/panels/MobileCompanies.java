@@ -27,7 +27,7 @@ public final class MobileCompanies extends AbstractDashboardBase {
     @Inject
     private PojoMobileCompanyMapper companyMapper;
 
-    private static final String[] titles = {"ID de compañía", "Compañía"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_MOBILE_COMPANIES.getKey());
     
     private WrapperPojoMobilesCompanies companies;
     

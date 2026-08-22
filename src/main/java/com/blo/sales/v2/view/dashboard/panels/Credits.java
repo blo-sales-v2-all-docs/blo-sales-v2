@@ -26,7 +26,7 @@ public final class Credits extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Credits.class.getName());
     
-    private static final String[] titles = { "ID crédito", "Monto inicial", "Se debe", "Te lo prestó", "Estatus", "Fecha de apertura", "Última actualización" };
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_CREDITS.getKey());
     
     private static final PojoCreditDebitMapper CREDITS_MAPPER = PojoCreditDebitMapper.INSTANCE;
     
