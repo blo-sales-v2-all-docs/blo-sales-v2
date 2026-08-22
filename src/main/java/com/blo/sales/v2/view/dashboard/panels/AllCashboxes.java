@@ -20,7 +20,6 @@ import com.blo.sales.v2.view.mappers.WrapperPojoCashboxesSalesDetailMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsOrdersMapper;
 import com.blo.sales.v2.view.pojos.WrapperPojoOrdersVendors;
 import com.blo.sales.v2.view.pojos.enums.ActivesCostsEnum;
-import com.google.gson.Gson;
 import jakarta.inject.Inject;
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -32,6 +31,8 @@ import javax.swing.DefaultListModel;
 public final class AllCashboxes extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(AllCashboxes.class.getName());
+    
+    private static final String[] HEADERS_CASHBOXES = getHeadersFrom(KeysEnum.TABLES_HEADERS_CASHBOX_OPEN.getKey());
     
     @Inject
     private WrapperPojoCashboxesDetailsMapper mapper;
@@ -57,8 +58,6 @@ public final class AllCashboxes extends AbstractDashboardBase {
     
     private WrapperPojoOrdersVendors ordersVendorsDetails;
     
-    private static final Gson GSON = new Gson();
-
     public AllCashboxes(String key) {
         super(key);
     }
@@ -137,8 +136,7 @@ public final class AllCashboxes extends AbstractDashboardBase {
     }
     
     private void cashboxesOnTable(WrapperPojoCashboxesDetails cashboxes) {
-        final String[] titles = {"ID", "Monto", "Status", "Timestamp"};
-        GUICommons.loadTitleOnTable(tblCashboxes, titles, false);
+        GUICommons.loadTitleOnTable(tblCashboxes, HEADERS_CASHBOXES, false);
             final var cashboxesFilter = cashboxes.getCashboxesInfo().stream().collect(Collectors.toMap(
                     PojoCashboxDetail::getIdCashbox,
                     obj -> obj,

@@ -4,6 +4,7 @@ import com.blo.sales.v2.controller.IDebtorSettlementsController;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
+import static com.blo.sales.v2.view.commons.AbstractDashboardBase.getHeadersFrom;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -16,7 +17,7 @@ public final class DebtorsSettlements extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(DebtorsSettlements.class.getName());
     
-    private static final String[] titles = {"Id historial de pago", "Deudor", "Timestamp"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_DEBTORS_SETTLEMENTS.getKey());
     
     @Inject
     private IDebtorSettlementsController settlementsController;

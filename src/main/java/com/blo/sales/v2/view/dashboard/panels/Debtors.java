@@ -2,11 +2,11 @@ package com.blo.sales.v2.view.dashboard.panels;
 
 import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.ISalesController;
-import com.blo.sales.v2.controller.pojos.PojoIntDebtorInfoDetail;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
+import static com.blo.sales.v2.view.commons.AbstractDashboardBase.getHeadersFrom;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
@@ -31,6 +31,8 @@ import javax.swing.DefaultListModel;
 public final class Debtors extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Debtors.class.getName());
+    
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_DEBTORS.getKey());
     
     private static final PojoDebtorInfoDetailMapper DEBTOR_INFO_DETAIL_MAPPER = PojoDebtorInfoDetailMapper.INSTANCE;
     
@@ -62,7 +64,6 @@ public final class Debtors extends AbstractDashboardBase {
     }
     
     private void loadDataAndTitles() throws BloSalesV2Exception {
-        final String[] titles = {"ID", "Nombre", "Debe", "Timestamp"};
         GUICommons.loadTitleOnTable(tblDebtors, titles, false);
         final var allDebtors = retrieveDebtorsDetails();
         if (allDebtors.getDebtors() != null && !allDebtors.getDebtors().isEmpty()) {

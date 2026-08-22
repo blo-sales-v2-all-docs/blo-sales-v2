@@ -25,7 +25,7 @@ public final class ViewOrders extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(ViewOrders.class.getName());
     
-    private static final String[] titles = {"ID orden", "ID vendedor", "Nombre de proveedor", "Marca", "Monto", "Factura/referencia", "Fecha de entrega estimada", "Estado de orden", "Fecha de creación de orden"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_VIEW_ORDERS.getKey());;
 
     @Inject
     private IOrdersVendorsController ordersVendorController;

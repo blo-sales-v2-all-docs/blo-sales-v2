@@ -20,29 +20,25 @@ import com.blo.sales.v2.controller.ICreditsDebtsController;
 import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
 import com.blo.sales.v2.view.pojos.enums.TypeCreditDebitEnum;
 import com.blo.sales.v2.view.mappers.PojoCreditDebitMapper;
-import com.google.gson.Gson;
 import java.math.BigDecimal;
 
 public final class Credits extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Credits.class.getName());
     
-    private static final String[] titles = { "ID crédito", "Monto inicial", "Se debe", "Te lo prestó", "Estatus", "Fecha de apertura", "Última actualización" };
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_CREDITS.getKey());
     
     private static final PojoCreditDebitMapper CREDITS_MAPPER = PojoCreditDebitMapper.INSTANCE;
     
     private WrapperPojoCredits credits;
     
     private long idCreditSelected;
-    
-    private final Gson gson;
-    
+        
     @Inject
     private ICreditsDebtsController creditsController;
     
     public Credits(String key) {
         super(key);
-        this.gson = new Gson();
     }
 
     @SuppressWarnings("unchecked")
@@ -383,7 +379,7 @@ public final class Credits extends AbstractDashboardBase {
         if (creditSelected != null) {
             idCreditSelected = idCredit;
             if (!creditSelected.getPayments().equals(BloSalesV2Utils.JSON_EMPTY_ARRAY)) {
-                final var items = gson.fromJson(creditSelected.getPayments(), String[].class);
+                final var items = getGson().fromJson(creditSelected.getPayments(), String[].class);
                 final var totalAbonos = Arrays.asList(items).stream().
                         map(item -> 
                                 BloSalesV2Utils.getMatcherByIndexGroup(BloSalesV2Utils.RECUPERAR_PAGO_DE_HISTORIAL_PAGOS, item, 1)).
@@ -391,7 +387,7 @@ public final class Credits extends AbstractDashboardBase {
                         reduce(BigDecimal.ZERO, BigDecimal::add);
                 logger.info("total abonos -> %s", totalAbonos);
                 
-                String[] p = gson.fromJson(creditSelected.getPayments(), String[].class);
+                String[] p = getGson().fromJson(creditSelected.getPayments(), String[].class);
                 if (p == null) {
                     p = new String[0];
                 }
@@ -402,7 +398,7 @@ public final class Credits extends AbstractDashboardBase {
                 
                 final var titulo = String.format(getTranslateBy(KeysEnum.CREDITS_DLG_PAYMENTS.getKey()), creditSelected.getLenderDebtorName());
                 
-                new ListViewerDialog(this, titulo, gson.toJson(pagosMasAbono)).setVisible(true);
+                new ListViewerDialog(this, titulo, getGson().toJson(pagosMasAbono)).setVisible(true);
             }
             GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
             // pendiente

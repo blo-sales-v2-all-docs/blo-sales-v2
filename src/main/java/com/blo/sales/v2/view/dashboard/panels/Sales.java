@@ -40,6 +40,8 @@ public final class Sales extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Sales.class.getName());
     
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_SALES.getKey());;
+    
     private static final String[] categoriesProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_CATEGORIES_PROTECTED.getKey()).split(",");
     
     @Inject
@@ -729,7 +731,6 @@ public final class Sales extends AbstractDashboardBase {
         try {
             initComponents();
             loadTargets();
-            final String[] titles = {"ID", "Producto", "Cantidad comprada", "Precio", "Total"};
             setMainTable(tblProductsSales);
             loadPaymentsType();
             totalSale = BigDecimal.ZERO;

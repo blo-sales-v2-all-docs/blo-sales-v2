@@ -24,7 +24,7 @@ public final class TopUps extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(TopUps.class.getName());
     
-    private static final String[] titles = {"ID", "Número telefónico", "Compañía", "Monto", "Usuario", "Referencia", "Timestamp"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_TOP_UPS.getKey());
     
     @Inject
     private IMobileCompanyController mobileController;
