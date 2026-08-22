@@ -161,5 +161,24 @@ public class OrdersVendorsModelImpl implements IOrdersVendorsModel {
             throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
         }
     }
+
+    @Override
+    public void deleteOrderById(long idOrder) throws BloSalesV2Exception {
+        try {
+            final var conn = DBConnection.getConnection();
+            dbtm.disableAutocommit();
+            logger.info("eliminando orden por id %s", idOrder);
+            final var ps = conn.prepareStatement(BloSalesV2Queries.DELETE_DRAFT_ORDER);
+            ps.setLong(1, idOrder);
+            final var rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new BloSalesV2Exception(BloSalesV2Utils.SQL_DELETE_EXCEPTION_CODE, BloSalesV2Utils.ERROR_DELETING_DATA_ON_DATA_BASE);
+            }
+            logger.info("orden eliminada");
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage());
+            throw new BloSalesV2Exception(BloSalesV2Utils.SQL_EXCEPTION_CODE, BloSalesV2Utils.SQL_EXCEPTION_MESSAGE);
+        }
+    }
     
 }

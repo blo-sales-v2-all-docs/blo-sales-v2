@@ -49,4 +49,11 @@ public interface IOrdersVendorsController {
      * @throws BloSalesV2Exception 
      */
     PojoIntOrderVendor getOrderById(long idOrder) throws BloSalesV2Exception;
+    
+    /**
+     * Elimina una orden que esta como borrador
+     * @param idOrder
+     * @throws BloSalesV2Exception 
+     */
+    void deleteDraftOrder(long idOrder) throws BloSalesV2Exception;
 }

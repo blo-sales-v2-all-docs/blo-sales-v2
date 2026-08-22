@@ -121,6 +121,7 @@ public class VendorsControllerImpl implements IVendorsController {
             if (allVendors.getVendors() != null && !allVendors.getVendors().isEmpty()) {
                 final Gson gson = new Gson();
                 final LocalDate today = LocalDate.now();
+                //final LocalDate today = LocalDate.of(2026, 8, 31);
                 final List<PojoIntVendor> vendorsFiltered = allVendors.getVendors().stream().
                     // filtra los que tienen recordatorio
                     filter(v -> {
@@ -141,17 +142,17 @@ public class VendorsControllerImpl implements IVendorsController {
                     filter(v -> {
                         // caso cuando el recordatorio es mensua y por fechas
                         if (v.getVisits().compareTo(VisitIntEnum.MONTHLY) == 0 && BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.ONLY_NUMBERS, v.getReminder())) {
-                            final int numberCurrentMonth = today.getMonthValue();
-                            final int visitDay = Integer.parseInt(gson.fromJson(v.getVisitDays(), String[].class)[0]);
-                            // true si la visita está programada para el último día del mes 30 || 31
-                            final boolean isEndOfMonthVisit = visitDay >= 30;
-                            // true si el día de hoy es el último día del mes
-                            boolean isLastDayOfMonth = today.getDayOfMonth() == today.lengthOfMonth();
-                            // regresa true si el día de visita es mayor o igual a 30 y es el último día de mes
-                            if (numberCurrentMonth == 2 && isEndOfMonthVisit) {
-                                return isLastDayOfMonth;
+                            // dia planeado de visita
+                            final int plannedDayVisit = Integer.parseInt(gson.fromJson(v.getVisitDays(), String[].class)[0]);
+                            // dia actual de mes
+                            final int currentDay = today.getDayOfMonth();
+                            if (today.getMonthValue() == 2 && plannedDayVisit >= 30) {
+                                return currentDay == today.lengthOfMonth();
                             }
-                            return isEndOfMonthVisit && isLastDayOfMonth;
+                            if (plannedDayVisit >= 30) {
+                                return currentDay == today.lengthOfMonth();
+                            }
+                            return plannedDayVisit == currentDay + 1;
                         }
                         // dia de hoy en español
                         final String dayOnSpanish = BloSalesV2Utils.removeAccentsAndLowercase(today.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES")));

@@ -153,4 +153,28 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
         return model.getOrderById(idOrder);
     }
 
+    @Override
+    public void deleteDraftOrder(long idOrder) throws BloSalesV2Exception {
+        try {
+            dbTransactionManager.disableAutocommit();
+            logger.info("Buscando orden %s", idOrder);
+            final PojoIntOrderVendor orderFound = getOrderById(idOrder);
+            BloSalesV2Utils.validateRule(orderFound == null, BloSalesV2Utils.CODE_ORDER_NOT_FOUND, BloSalesV2Utils.ERROR_ORDER_NOT_FOUND);
+            logger.info("Orden encontrada %s", String.valueOf(orderFound));
+            BloSalesV2Utils.validateRule(
+                    orderFound.getStatusOrder().compareTo(StatusMovementProviderIntEnum.DRAFT) != 0, 
+                    BloSalesV2Utils.CODE_ORDER_IS_NOT_DRAFT,
+                    BloSalesV2Utils.EROR_ORDER_IS_NOT_DRAFT
+            );
+            model.deleteOrderById(idOrder);
+            logger.info("orden eliminada");
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbTransactionManager.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbTransactionManager.enableAutocommit();
+        }
+    }
+
 }

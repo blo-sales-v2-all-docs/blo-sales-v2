@@ -146,6 +146,8 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_PRODUCT_SELECTED_NOT_EQUALS = "Ha ocurrido un error intentando actualizar, recarga el formulario";
     
+    public static final String EROR_ORDER_IS_NOT_DRAFT = "Esta órden no es borrador, no se puede eliminar";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -222,6 +224,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_PRODUCTS_ON_ORDERS_IS_EMPTY = "032";
     
     public static final String CODE_PRODUCT_SELECTED_NOT_EQUALS = "033";
+    
+    public static final String CODE_ORDER_IS_NOT_DRAFT = "034";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     

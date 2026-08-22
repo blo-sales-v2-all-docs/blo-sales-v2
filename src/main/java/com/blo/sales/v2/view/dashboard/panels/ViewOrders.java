@@ -16,7 +16,6 @@ import com.blo.sales.v2.view.pojos.PojoOrderVendor;
 import com.blo.sales.v2.view.pojos.WrapperPojoOrdersVendors;
 import com.blo.sales.v2.view.pojos.enums.StatusOrderProviderEnum;
 import jakarta.inject.Inject;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -98,6 +97,7 @@ public final class ViewOrders extends AbstractDashboardBase {
         lblOrderAmount.setText("monto_de_factura");
 
         btnDelete.setText("eliminar");
+        btnDelete.addActionListener(this::btnDeleteActionPerformed);
 
         javax.swing.GroupLayout pnlControlOrderLayout = new javax.swing.GroupLayout(pnlControlOrder);
         pnlControlOrder.setLayout(pnlControlOrderLayout);
@@ -143,7 +143,6 @@ public final class ViewOrders extends AbstractDashboardBase {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCtrlCloseOrderLayout.createSequentialGroup()
                         .addComponent(lblOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(77, 77, 77)))
-                .addGap(18, 18, 18)
                 .addComponent(btnCloseOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -263,6 +262,18 @@ public final class ViewOrders extends AbstractDashboardBase {
         }
     }//GEN-LAST:event_btnCloseOrderActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.VIEW_ORDERS_DLG_DELETE_ORDER.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
+            try {
+                ordersVendorController.deleteDraftOrder(orderVendor.getIdOrderVendor());
+                reset();
+            } catch (BloSalesV2Exception ex) {
+                logger.error(ex.getMessage());
+                CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApplyFilter;
     private javax.swing.JButton btnCloseOrder;
@@ -371,6 +382,8 @@ public final class ViewOrders extends AbstractDashboardBase {
         GUICommons.setTextToField(lblNoInvoice, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_NO_INVOICE.getKey()));
         GUICommons.setTextToField(lblFilterOrderStatus, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS.getKey()));
         GUICommons.setTextToButton(btnApplyFilter, getTranslateBy(KeysEnum.COMMON_BTN_APPLY_FILTER.getKey()));
+        GUICommons.setTextToField(lblOrderAmount, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_ORDER_AMOUNT.getKey()));
+        GUICommons.setTextToButton(btnDelete, getTranslateBy(KeysEnum.COMMON_BTN_DELETE.getKey()));
     }
 
     @Override
