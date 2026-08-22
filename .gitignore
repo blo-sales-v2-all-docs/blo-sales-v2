@@ -31,6 +31,7 @@ nb-configuration.xml
 
 # --- log ---
 *.log
+*.log.*
 
 # --- properties ---
 *.properties

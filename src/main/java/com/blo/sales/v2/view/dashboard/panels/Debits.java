@@ -18,6 +18,7 @@ import java.util.function.Predicate;
 import javax.swing.DefaultComboBoxModel;
 import com.blo.sales.v2.controller.ICreditsDebtsController;
 import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
+import static com.blo.sales.v2.view.commons.AbstractDashboardBase.getHeadersFrom;
 import com.blo.sales.v2.view.pojos.enums.TypeCreditDebitEnum;
 import com.blo.sales.v2.view.mappers.PojoCreditDebitMapper;
 
@@ -25,7 +26,7 @@ public final class Debits extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Debits.class.getName());
     
-    private static final String[] titles = { "ID crédito", "Monto inicial", "Se debe", "Te lo prestó", "Estatus", "Fecha de apertura", "Última actualización" };
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_DEBITS.getKey());
     
     private static final PojoCreditDebitMapper DEBITS_MAPPER = PojoCreditDebitMapper.INSTANCE;
     

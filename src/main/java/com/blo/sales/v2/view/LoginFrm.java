@@ -28,7 +28,6 @@ public final class LoginFrm extends AbstractFrameBase {
     
     @Inject
     private IUserController userController;
-    //private static final IUserController userController = UserControllerImpl.getInstance();
     
     @Inject
     private Injector injector;

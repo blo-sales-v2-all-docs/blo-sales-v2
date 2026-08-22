@@ -40,6 +40,8 @@ public final class Sales extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Sales.class.getName());
     
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_SALES.getKey());;
+    
     private static final String[] categoriesProtected = BloSalesV2Utils.getProp(PropsKeysEnum.APP_CATEGORIES_PROTECTED.getKey()).split(",");
     
     @Inject
@@ -332,7 +334,7 @@ public final class Sales extends AbstractDashboardBase {
         try {
             final var debtors = wrapperDebtorsMapper.toOuter(debtorsController.getAllDebtors());
             final var debtorsCoopy = wrapperDebtorsMapper.toOuter(debtorsController.getAllDebtors());
-            final var debtorsDialog = new DebtorsDialog<>(
+            new DebtorsDialog<>(
                 this,
                 getTranslateBy(KeysEnum.SALES_DLG_DEBTORS.getKey()),
                 debtors.getDebtors(),
@@ -374,8 +376,7 @@ public final class Sales extends AbstractDashboardBase {
                         logger.error(ex.getMessage());
                         CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                     }
-                });
-            debtorsDialog.setVisible(true);
+                }).setVisible(true);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -730,7 +731,6 @@ public final class Sales extends AbstractDashboardBase {
         try {
             initComponents();
             loadTargets();
-            final String[] titles = {"ID", "Producto", "Cantidad comprada", "Precio", "Total"};
             setMainTable(tblProductsSales);
             loadPaymentsType();
             totalSale = BigDecimal.ZERO;

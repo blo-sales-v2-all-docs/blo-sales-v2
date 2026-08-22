@@ -26,6 +26,8 @@ public class PojoProduct {
     
     private boolean available;
     
+    private String timestamp;
+    
     @Override
     public String toString() {
         return String.format("%s (%s)%s %s", idProduct, quantity, product, price);

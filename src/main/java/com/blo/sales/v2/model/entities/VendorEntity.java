@@ -29,4 +29,8 @@ public @ToString class VendorEntity {
     
     private VisitsEntityEnum visits;
     
+    private boolean enabled;
+    
+    private String reminder;
+    
 }

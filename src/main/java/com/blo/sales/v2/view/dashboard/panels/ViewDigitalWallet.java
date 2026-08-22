@@ -20,7 +20,7 @@ public class ViewDigitalWallet extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(ViewDigitalWallet.class.getName());
     
-    private static final String[] tblTitles = {"ID movimiento", "Monto", "Razón", "Tipo de movimiento", "Autorizacion" , "Timestamp"};
+    private static final String[] tblTitles = getHeadersFrom(KeysEnum.TABLES_HEADERS_VIEW_DIGITAL_WALLET.getKey());
     
     @Inject
     private IFinancialHistoryController historyController;

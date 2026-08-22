@@ -3,12 +3,14 @@ package com.blo.sales.v2.view.commons;
 import com.blo.sales.v2.translate.Translate;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
+import com.google.gson.Gson;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Arrays;
 import java.util.Locale;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,27 +33,29 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     @Setter
     private JTable mainTable;
     
+    @Setter
+    @Getter
     private PojoLoggedInUser userData;
+    
+    @Getter
+    private final Gson gson;
     
     protected abstract void loadTargets();
     
     public abstract void init();
     
     protected abstract void reset();
-
-    public void setUserData(PojoLoggedInUser userData) {
-        this.userData = userData;
-    }
-
-    public PojoLoggedInUser getUserData() {
-        return userData;
-    }
     
     public AbstractDashboardBase(String title) {
         this.title = title;
+        this.gson = new Gson();
     }
     
-    public String getTranslateBy(String key) {
+    public static String[] getHeadersFrom(String dashboard) {
+        return translate.get(dashboard).split(",");
+    }
+    
+    public static String getTranslateBy(String key) {
         return translate.get(key);
     }
     
@@ -113,4 +117,21 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
         }
         return BloSalesV2Utils.EMPTY_STRING;
     }
+    
+    /**
+     * Metodo que recupera el filtro, si se presiona una tecla en especifico se limpia el filtro
+     * @param searchField
+     * @param keyCode
+     * @param clearKey
+     * @return 
+     */
+    public String getFilterAndClearSearcher(JTextField searchField, int keyCode, int clearKey) {
+        String filter = GUICommons.getTextFromField(searchField);
+        if (keyCode == clearKey) {
+            filter = BloSalesV2Utils.EMPTY_STRING;
+            GUICommons.setTextToField(searchField, BloSalesV2Utils.EMPTY_STRING);
+        }
+        return filter;
+    }
+    
 }

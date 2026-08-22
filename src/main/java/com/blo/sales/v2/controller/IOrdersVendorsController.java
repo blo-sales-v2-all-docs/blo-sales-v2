@@ -16,10 +16,11 @@ public interface IOrdersVendorsController {
     /**
      * Funcion que da de alta una orden
      * @param order
+     * @param isDraft
      * @return 
      * @throws com.blo.sales.v2.utils.BloSalesV2Exception 
      */
-    PojoIntOrderVendor highOrder(PojoIntOrderVendor order) throws BloSalesV2Exception;
+    PojoIntOrderVendor highOrder(PojoIntOrderVendor order, boolean isDraft) throws BloSalesV2Exception;
     
     /**
      * Funcion que cierra un pedido
@@ -49,4 +50,11 @@ public interface IOrdersVendorsController {
      * @throws BloSalesV2Exception 
      */
     PojoIntOrderVendor getOrderById(long idOrder) throws BloSalesV2Exception;
+    
+    /**
+     * Elimina una orden que esta como borrador
+     * @param idOrder
+     * @throws BloSalesV2Exception 
+     */
+    void deleteDraftOrder(long idOrder) throws BloSalesV2Exception;
 }

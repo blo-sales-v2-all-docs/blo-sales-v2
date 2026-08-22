@@ -6,13 +6,16 @@ import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
+import static com.blo.sales.v2.view.commons.AbstractDashboardBase.getHeadersFrom;
 import com.blo.sales.v2.view.commons.CommonAlerts;
 import com.blo.sales.v2.view.commons.GUICommons;
 import com.blo.sales.v2.view.commons.GUILogger;
 import com.blo.sales.v2.view.dialogs.PaymentCardDialog;
+import com.blo.sales.v2.view.mappers.PojoDebtorInfoDetailMapper;
 import com.blo.sales.v2.view.mappers.PojoPaymentTypeInfoMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoDebtorsDetailsMapper;
 import com.blo.sales.v2.view.pojos.PojoDebtorDetail;
+import com.blo.sales.v2.view.pojos.PojoDebtorInfoDetail;
 import com.blo.sales.v2.view.pojos.PojoPaymentTypeInfo;
 import com.blo.sales.v2.view.pojos.WrapperPojoDebtorsDetails;
 import com.blo.sales.v2.view.pojos.enums.PaymentTypeEnum;
@@ -29,6 +32,10 @@ public final class Debtors extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Debtors.class.getName());
     
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_DEBTORS.getKey());
+    
+    private static final PojoDebtorInfoDetailMapper DEBTOR_INFO_DETAIL_MAPPER = PojoDebtorInfoDetailMapper.INSTANCE;
+    
     @Inject
     private IDebtorsController debtors;
     
@@ -41,8 +48,9 @@ public final class Debtors extends AbstractDashboardBase {
     @Inject
     private PojoPaymentTypeInfoMapper paymentTypeInfoMapper;
     
+    
     /** deudor seleccionado para hacer operaciones */
-    private PojoDebtorDetail debtorSelected;
+    private PojoDebtorInfoDetail debtorSelected;
     
     /** variable para poder guardar siempre el total como respaldo */
     private BigDecimal storeTotalSale;
@@ -56,7 +64,6 @@ public final class Debtors extends AbstractDashboardBase {
     }
     
     private void loadDataAndTitles() throws BloSalesV2Exception {
-        final String[] titles = {"ID", "Nombre", "Debe", "Timestamp"};
         GUICommons.loadTitleOnTable(tblDebtors, titles, false);
         final var allDebtors = retrieveDebtorsDetails();
         if (allDebtors.getDebtors() != null && !allDebtors.getDebtors().isEmpty()) {
@@ -322,20 +329,18 @@ public final class Debtors extends AbstractDashboardBase {
     
     private void selectADebtor(long idDebtor) {
         try {
-            final var debtorDetail = retrieveDebtorsDetails().getDebtors().stream().
-                    filter(d -> d.getIdDebtor() == idDebtor)
-                    .collect(Collectors.toList());
-        
+            debtorSelected = DEBTOR_INFO_DETAIL_MAPPER.toOuter(debtors.getDebtorDetailById(idDebtor));
             GUICommons.setTextToField(nmbPay, BloSalesV2Utils.EMPTY_STRING);
-            if (debtorDetail != null && !debtorDetail.isEmpty()) {
-                debtorSelected = debtorDetail.get(0);
+            if (debtorSelected != null) {
                 areaPayments.setText(BloSalesV2Utils.EMPTY_STRING);
                 GUICommons.setTextToField(txtName, debtorSelected.getName());
                 GUICommons.setTextToField(lblDebt, String.format(getTranslateBy(KeysEnum.DEBTORS_LBL_DEBTOR_DEBT.getKey()), debtorSelected.getDebt()));
                 final var payments = formatPayments(debtorSelected.getPayments());
                 areaPayments.append(payments);
                 final var model = new DefaultListModel<String>();
-                debtorDetail.forEach(d -> model.addElement(String.format("%s - %s [%s]", d.getProduct(), d.getQuantitySale(), parserTimestamp(d.getTimestamp()))));
+                debtorSelected.getProducts().forEach(p -> model.addElement(
+                        String.format("%s - %s %s = %s [%s]", p.getProduct(), p.getQuantity(), p.getPrice(), p.getCostOfSale(), BloSalesV2Utils.parserTimeStamp(p.getTimestamp()))
+                ));
                 lstProducts.setModel(model);
                 enabledButtons();
                 storeTotalSale = debtorSelected.getDebt();

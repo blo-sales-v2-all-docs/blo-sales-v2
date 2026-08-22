@@ -6,7 +6,7 @@ import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
  * Controlador para operaciones de proveedores
- * @version 1.0.0
+ * @version 1.2.0
  * @author BLO
  */
 public interface IVendorsController {
@@ -36,7 +36,7 @@ public interface IVendorsController {
     PojoIntVendor getVendorById(long id) throws BloSalesV2Exception;
     
     /**
-     * Recupera todos los proveedores
+     * Recupera todos los proveedores que estén activados
      * @return
      * @throws BloSalesV2Exception 
      */
@@ -52,10 +52,18 @@ public interface IVendorsController {
     PojoIntVendor updateVendor(PojoIntVendor vendorData, long idVendor) throws BloSalesV2Exception;
     
     /**
-     * filtrar una lista de proveedores (vendors) para quedarse únicamente con aquellos que deben ser visitados el día de hoy.
+     * Filtra una lista de proveedores marcados con un recordatorio para guardar una nota
      * @return
      * @throws BloSalesV2Exception 
      */
-    WrapperPojoIntVendors getVendorsFromToday() throws BloSalesV2Exception;
+    WrapperPojoIntVendors addOrderVendorAsDraft() throws BloSalesV2Exception;
+    
+    /**
+     * Metodo que elimina un proveedor de forma lógica
+     * @param idVendor
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntVendor deleteVendor(long idVendor) throws BloSalesV2Exception;
     
 }

@@ -26,7 +26,7 @@ public final class SalesToday extends AbstractDashboardBase {
     @Inject
     private WrapperPojoSalesAndStockMapper mapper;
 
-    private static final String[] titles = {"ID de venta", "ID producto", "Producto", "Precio o comprado", "Cantidad en venta", "Total de venta", "Tipo de pago", "Timestamp"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_SALES_TODAY.getKey());
     
     public SalesToday(String key) {
         super(key);

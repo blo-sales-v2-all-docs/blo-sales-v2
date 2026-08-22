@@ -20,29 +20,25 @@ import com.blo.sales.v2.controller.ICreditsDebtsController;
 import com.blo.sales.v2.controller.pojos.enums.TypeCreditDebtIntEnum;
 import com.blo.sales.v2.view.pojos.enums.TypeCreditDebitEnum;
 import com.blo.sales.v2.view.mappers.PojoCreditDebitMapper;
-import com.google.gson.Gson;
 import java.math.BigDecimal;
 
 public final class Credits extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(Credits.class.getName());
     
-    private static final String[] titles = { "ID crédito", "Monto inicial", "Se debe", "Te lo prestó", "Estatus", "Fecha de apertura", "Última actualización" };
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_CREDITS.getKey());
     
     private static final PojoCreditDebitMapper CREDITS_MAPPER = PojoCreditDebitMapper.INSTANCE;
     
     private WrapperPojoCredits credits;
     
     private long idCreditSelected;
-    
-    private Gson gson;
-    
+        
     @Inject
     private ICreditsDebtsController creditsController;
     
     public Credits(String key) {
         super(key);
-        this.gson = new Gson();
     }
 
     @SuppressWarnings("unchecked")
@@ -50,12 +46,6 @@ public final class Credits extends AbstractDashboardBase {
     private void initComponents() {
 
         tbdCredits = new javax.swing.JTabbedPane();
-        pnlOpenCredit = new javax.swing.JPanel();
-        txtLender = new javax.swing.JTextField();
-        nmbTotal = new javax.swing.JTextField();
-        lblLender = new javax.swing.JLabel();
-        lblTotal = new javax.swing.JLabel();
-        btnSave = new javax.swing.JButton();
         pnlViewCredits = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCredits = new javax.swing.JTable();
@@ -66,58 +56,12 @@ public final class Credits extends AbstractDashboardBase {
         nmbPayment = new javax.swing.JTextField();
         btnSavePayment = new javax.swing.JButton();
         btnCancelCredits = new javax.swing.JButton();
-
-        lblLender.setText("a_nombre_de_quien");
-
-        lblTotal.setText("total");
-
-        btnSave.setText("guardar");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlOpenCreditLayout = new javax.swing.GroupLayout(pnlOpenCredit);
-        pnlOpenCredit.setLayout(pnlOpenCreditLayout);
-        pnlOpenCreditLayout.setHorizontalGroup(
-            pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlOpenCreditLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlOpenCreditLayout.createSequentialGroup()
-                        .addComponent(lblLender)
-                        .addGap(45, 45, 45))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpenCreditLayout.createSequentialGroup()
-                        .addComponent(txtLender, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)))
-                .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nmbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTotal))
-                .addGap(55, 55, 55)
-                .addComponent(btnSave)
-                .addGap(0, 890, Short.MAX_VALUE))
-        );
-        pnlOpenCreditLayout.setVerticalGroup(
-            pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlOpenCreditLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlOpenCreditLayout.createSequentialGroup()
-                        .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(1, 1, 1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlOpenCreditLayout.createSequentialGroup()
-                        .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblLender)
-                            .addComponent(lblTotal))
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtLender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nmbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(491, 491, 491))
-        );
-
-        tbdCredits.addTab("Abrir crédito", pnlOpenCredit);
+        pnlOpenCredit = new javax.swing.JPanel();
+        txtLender = new javax.swing.JTextField();
+        nmbTotal = new javax.swing.JTextField();
+        lblLender = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
 
         tblCredits.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -191,7 +135,7 @@ public final class Credits extends AbstractDashboardBase {
             .addGroup(pnlViewCreditsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlViewCreditsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1276, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1288, Short.MAX_VALUE)
                     .addGroup(pnlViewCreditsLayout.createSequentialGroup()
                         .addComponent(cmbxFilters, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -213,26 +157,75 @@ public final class Credits extends AbstractDashboardBase {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(pnlAddPayment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tbdCredits.addTab("Ver créditos", pnlViewCredits);
+
+        lblLender.setText("a_nombre_de_quien");
+
+        lblTotal.setText("total");
+
+        btnSave.setText("guardar");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlOpenCreditLayout = new javax.swing.GroupLayout(pnlOpenCredit);
+        pnlOpenCredit.setLayout(pnlOpenCreditLayout);
+        pnlOpenCreditLayout.setHorizontalGroup(
+            pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOpenCreditLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlOpenCreditLayout.createSequentialGroup()
+                        .addComponent(lblLender)
+                        .addGap(45, 45, 45))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpenCreditLayout.createSequentialGroup()
+                        .addComponent(txtLender, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)))
+                .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nmbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTotal))
+                .addGap(55, 55, 55)
+                .addComponent(btnSave)
+                .addGap(0, 902, Short.MAX_VALUE))
+        );
+        pnlOpenCreditLayout.setVerticalGroup(
+            pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOpenCreditLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlOpenCreditLayout.createSequentialGroup()
+                        .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1, 1, 1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlOpenCreditLayout.createSequentialGroup()
+                        .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblLender)
+                            .addComponent(lblTotal))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlOpenCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtLender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nmbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(491, 491, 491))
+        );
+
+        tbdCredits.addTab("Abrir crédito", pnlOpenCredit);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tbdCredits)
-                .addContainerGap())
+            .addComponent(tbdCredits, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tbdCredits)
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -263,6 +256,7 @@ public final class Credits extends AbstractDashboardBase {
             GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
             creditsController.addPayment(GUICommons.getNumberFromJText(nmbPayment, 2), idCreditSelected);
             reset();
+            filterCredits(FilterCreditEnum.PENDINGS);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
@@ -301,6 +295,7 @@ public final class Credits extends AbstractDashboardBase {
         GUICommons.loadTitleOnTable(tblCredits, titles, false);
         reset();
         GUICommons.addDoubleClickOnTable(tblCredits, idCredit -> selectedClick((Long) idCredit));
+        filterCredits(FilterCreditEnum.PENDINGS);
     }
 
 
@@ -384,7 +379,7 @@ public final class Credits extends AbstractDashboardBase {
         if (creditSelected != null) {
             idCreditSelected = idCredit;
             if (!creditSelected.getPayments().equals(BloSalesV2Utils.JSON_EMPTY_ARRAY)) {
-                final var items = gson.fromJson(creditSelected.getPayments(), String[].class);
+                final var items = getGson().fromJson(creditSelected.getPayments(), String[].class);
                 final var totalAbonos = Arrays.asList(items).stream().
                         map(item -> 
                                 BloSalesV2Utils.getMatcherByIndexGroup(BloSalesV2Utils.RECUPERAR_PAGO_DE_HISTORIAL_PAGOS, item, 1)).
@@ -392,7 +387,7 @@ public final class Credits extends AbstractDashboardBase {
                         reduce(BigDecimal.ZERO, BigDecimal::add);
                 logger.info("total abonos -> %s", totalAbonos);
                 
-                String[] p = gson.fromJson(creditSelected.getPayments(), String[].class);
+                String[] p = getGson().fromJson(creditSelected.getPayments(), String[].class);
                 if (p == null) {
                     p = new String[0];
                 }
@@ -403,7 +398,7 @@ public final class Credits extends AbstractDashboardBase {
                 
                 final var titulo = String.format(getTranslateBy(KeysEnum.CREDITS_DLG_PAYMENTS.getKey()), creditSelected.getLenderDebtorName());
                 
-                new ListViewerDialog(this, titulo, gson.toJson(pagosMasAbono)).setVisible(true);
+                new ListViewerDialog(this, titulo, getGson().toJson(pagosMasAbono)).setVisible(true);
             }
             GUICommons.setTextToField(lblAddPayment, String.format(getTranslateBy(KeysEnum.CREDITS_LBL_ADD_PAYMENT.getKey()), idCreditSelected));
             // pendiente

@@ -17,6 +17,7 @@ import com.blo.sales.v2.view.pojos.WrapperPojoOrdersVendors;
 import com.blo.sales.v2.view.pojos.enums.StatusOrderProviderEnum;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 
@@ -24,7 +25,7 @@ public final class ViewOrders extends AbstractDashboardBase {
     
     private static final GUILogger logger = GUILogger.getLogger(ViewOrders.class.getName());
     
-    private static final String[] titles = {"ID orden", "ID vendedor", "Nombre de proveedor", "Marca", "Monto", "Factura/referencia", "Fecha de entrega estimada", "Estado de orden", "Fecha de creación de orden"};
+    private static final String[] titles = getHeadersFrom(KeysEnum.TABLES_HEADERS_VIEW_ORDERS.getKey());;
 
     @Inject
     private IOrdersVendorsController ordersVendorController;
@@ -57,6 +58,10 @@ public final class ViewOrders extends AbstractDashboardBase {
         lblNoInvoice = new javax.swing.JLabel();
         btnCloseOrder = new javax.swing.JButton();
         lblOrder = new javax.swing.JLabel();
+        pnlControlOrder = new javax.swing.JPanel();
+        lblOrderAmount = new javax.swing.JLabel();
+        nmbOrderAmount = new javax.swing.JTextField();
+        btnDelete = new javax.swing.JButton();
 
         btnApplyFilter.setText("aplicar_filtro");
         btnApplyFilter.addActionListener(this::btnApplyFilterActionPerformed);
@@ -89,6 +94,37 @@ public final class ViewOrders extends AbstractDashboardBase {
 
         lblOrder.setText("cerrando_orden_de_%s");
 
+        lblOrderAmount.setText("monto_de_factura");
+
+        btnDelete.setText("eliminar");
+        btnDelete.addActionListener(this::btnDeleteActionPerformed);
+
+        javax.swing.GroupLayout pnlControlOrderLayout = new javax.swing.GroupLayout(pnlControlOrder);
+        pnlControlOrder.setLayout(pnlControlOrderLayout);
+        pnlControlOrderLayout.setHorizontalGroup(
+            pnlControlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlControlOrderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlControlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlControlOrderLayout.createSequentialGroup()
+                        .addComponent(lblOrderAmount)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nmbOrderAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        pnlControlOrderLayout.setVerticalGroup(
+            pnlControlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlControlOrderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlControlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblOrderAmount)
+                    .addComponent(nmbOrderAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout pnlCtrlCloseOrderLayout = new javax.swing.GroupLayout(pnlCtrlCloseOrder);
         pnlCtrlCloseOrder.setLayout(pnlCtrlCloseOrderLayout);
         pnlCtrlCloseOrderLayout.setHorizontalGroup(
@@ -96,13 +132,17 @@ public final class ViewOrders extends AbstractDashboardBase {
             .addGroup(pnlCtrlCloseOrderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlCtrlCloseOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtInvoice, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                    .addComponent(cmbxCloseOrderReasons, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnlCtrlCloseOrderLayout.createSequentialGroup()
-                        .addComponent(lblNoInvoice)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(lblOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCtrlCloseOrderLayout.createSequentialGroup()
+                        .addComponent(pnlControlOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlCtrlCloseOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbxCloseOrderReasons, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNoInvoice)
+                            .addComponent(txtInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCtrlCloseOrderLayout.createSequentialGroup()
+                        .addComponent(lblOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)))
                 .addComponent(btnCloseOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -112,15 +152,17 @@ public final class ViewOrders extends AbstractDashboardBase {
                 .addContainerGap()
                 .addGroup(pnlCtrlCloseOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCtrlCloseOrderLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblOrder)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbxCloseOrderReasons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblNoInvoice)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGroup(pnlCtrlCloseOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlCtrlCloseOrderLayout.createSequentialGroup()
+                                .addComponent(cmbxCloseOrderReasons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblNoInvoice)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addComponent(pnlControlOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(btnCloseOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -220,15 +262,31 @@ public final class ViewOrders extends AbstractDashboardBase {
         }
     }//GEN-LAST:event_btnCloseOrderActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.VIEW_ORDERS_DLG_DELETE_ORDER.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()))) {
+            try {
+                ordersVendorController.deleteDraftOrder(orderVendor.getIdOrderVendor());
+                reset();
+            } catch (BloSalesV2Exception ex) {
+                logger.error(ex.getMessage());
+                CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApplyFilter;
     private javax.swing.JButton btnCloseOrder;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JComboBox<String> cmbxCloseOrderReasons;
     private javax.swing.JComboBox<String> cmbxSelectOrderStatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFilterOrderStatus;
     private javax.swing.JLabel lblNoInvoice;
     private javax.swing.JLabel lblOrder;
+    private javax.swing.JLabel lblOrderAmount;
+    private javax.swing.JTextField nmbOrderAmount;
+    private javax.swing.JPanel pnlControlOrder;
     private javax.swing.JPanel pnlCtrlCloseOrder;
     private javax.swing.JTable tblOrders;
     private javax.swing.JTextField txtInvoice;
@@ -238,7 +296,12 @@ public final class ViewOrders extends AbstractDashboardBase {
     /** metodo que aplica un filtro a la lista de ordenes que son recuperadas desde la db */
     private void applyFilterOnTable(List<PojoOrderVendor> orders, StatusOrderProviderEnum itemSelected) {
         if (itemSelected != null) {
-            orders = orders.stream().filter(o -> o.getStatusOrder().equals(itemSelected)).collect(Collectors.toList());
+            Predicate<PojoOrderVendor> filtroOrdenes = o -> o.getStatusOrder().equals(itemSelected);
+            
+            if (itemSelected.equals(StatusOrderProviderEnum.PENDIG) || itemSelected.equals(StatusOrderProviderEnum.DRAFT)) {
+                filtroOrdenes = o -> o.getStatusOrder().equals(StatusOrderProviderEnum.PENDIG) || o.getStatusOrder().equals(StatusOrderProviderEnum.DRAFT);
+            }
+            orders = orders.stream().filter(filtroOrdenes).collect(Collectors.toList());
         }
         for (final var order: orders) {
             final Object[] row = {
@@ -260,14 +323,22 @@ public final class ViewOrders extends AbstractDashboardBase {
     /** muestra un panel si la orden seleccionada esta pendiente */
     private void closeOrder(Long idOrder) {
         final var orderFound = wrapperOrders.getOrders().stream().filter(o -> o.getIdOrderVendor() == idOrder).findFirst().orElse(null);
-        if (orderFound != null && orderFound.getStatusOrder().compareTo(StatusOrderProviderEnum.PENDIG) == 0) {
+        if (orderFound == null) {
+            return;
+        }
+        if (
+                orderFound.getStatusOrder().equals(StatusOrderProviderEnum.PENDIG) ||
+                orderFound.getStatusOrder().equals(StatusOrderProviderEnum.DRAFT)
+            ) {
             GUICommons.setTextToField(lblOrder, String.format(getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_NAME_OF_VENDOR.getKey()), orderFound.getVendorName()));
             GUICommons.showPanel(pnlCtrlCloseOrder);
             orderVendor = orderFound;
+            if (orderFound.getStatusOrder().compareTo(StatusOrderProviderEnum.DRAFT) == 0) {
+                enabledControlOrder();
+            }
             return;
         }
-        GUICommons.hiddenPanel(pnlCtrlCloseOrder);
-        orderVendor = null;
+        reset();
     }
     
     private void loadBySatusFilter() {
@@ -311,6 +382,8 @@ public final class ViewOrders extends AbstractDashboardBase {
         GUICommons.setTextToField(lblNoInvoice, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_NO_INVOICE.getKey()));
         GUICommons.setTextToField(lblFilterOrderStatus, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS.getKey()));
         GUICommons.setTextToButton(btnApplyFilter, getTranslateBy(KeysEnum.COMMON_BTN_APPLY_FILTER.getKey()));
+        GUICommons.setTextToField(lblOrderAmount, getTranslateBy(KeysEnum.VIEW_ORDERS_LBL_ORDER_AMOUNT.getKey()));
+        GUICommons.setTextToButton(btnDelete, getTranslateBy(KeysEnum.COMMON_BTN_DELETE.getKey()));
     }
 
     @Override
@@ -319,13 +392,22 @@ public final class ViewOrders extends AbstractDashboardBase {
             getDefaultTableModel().setRowCount(0);
             GUICommons.hiddenPanel(pnlCtrlCloseOrder);
             wrapperOrders = vendorsOrdersMapper.toOuter(ordersVendorController.getOrders());
-            applyFilterOnTable(wrapperOrders.getOrders(), StatusOrderProviderEnum.PENDIG);
+            applyFilterOnTable(wrapperOrders.getOrders(), StatusOrderProviderEnum.DRAFT);
             GUICommons.setTextToField(txtInvoice, BloSalesV2Utils.EMPTY_STRING);
             GUICommons.setTextToField(lblOrder, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.setTextToField(nmbOrderAmount, BloSalesV2Utils.EMPTY_STRING);
+            GUICommons.disabledButton(btnDelete);
+            GUICommons.hiddenPanel(pnlControlOrder);
             orderVendor = null;
+            cmbxSelectOrderStatus.setSelectedIndex(0);
         } catch (BloSalesV2Exception e) {
             logger.error(e.getMessage());
             CommonAlerts.openError(e.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
         }
+    }
+    
+    private void enabledControlOrder() {
+        GUICommons.showPanel(pnlControlOrder);
+        GUICommons.enabledButton(btnDelete);
     }
 }
