@@ -120,8 +120,12 @@ public class VendorsControllerImpl implements IVendorsController {
             final var allVendors = getAllVendors();
             if (allVendors.getVendors() != null && !allVendors.getVendors().isEmpty()) {
                 final Gson gson = new Gson();
+                //hoy
                 final LocalDate today = LocalDate.now();
+                // 31 de agosto
                 //final LocalDate today = LocalDate.of(2026, 8, 31);
+                // 28 de febrero
+                //final LocalDate today = LocalDate.of(2026, 2, 28);
                 final List<PojoIntVendor> vendorsFiltered = allVendors.getVendors().stream().
                     // filtra los que tienen recordatorio
                     filter(v -> {
@@ -146,9 +150,6 @@ public class VendorsControllerImpl implements IVendorsController {
                             final int plannedDayVisit = Integer.parseInt(gson.fromJson(v.getVisitDays(), String[].class)[0]);
                             // dia actual de mes
                             final int currentDay = today.getDayOfMonth();
-                            if (today.getMonthValue() == 2 && plannedDayVisit >= 30) {
-                                return currentDay == today.lengthOfMonth();
-                            }
                             if (plannedDayVisit >= 30) {
                                 return currentDay == today.lengthOfMonth();
                             }
