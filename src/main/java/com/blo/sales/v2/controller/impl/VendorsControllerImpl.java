@@ -1,20 +1,23 @@
 package com.blo.sales.v2.controller.impl;
 
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
+import com.blo.sales.v2.controller.IOrdersVendorsController;
 import com.blo.sales.v2.controller.IVendorsController;
+import com.blo.sales.v2.controller.pojos.PojoIntOrderVendor;
 import com.blo.sales.v2.controller.pojos.PojoIntVendor;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntVendors;
+import com.blo.sales.v2.controller.pojos.enums.StatusMovementProviderIntEnum;
 import com.blo.sales.v2.controller.pojos.enums.VisitIntEnum;
 import com.blo.sales.v2.model.IVendorsModel;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.commons.GUILogger;
+import com.blo.sales.v2.view.components.CheckboxDays;
 import com.google.gson.Gson;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Arrays;
@@ -29,6 +32,9 @@ public class VendorsControllerImpl implements IVendorsController {
     
     @Inject
     private IVendorsModel vendorsModel;
+    
+    @Inject
+    private IOrdersVendorsController ordersVendorsController;
     
     @Inject
     private IDBTransactionManagerController dbt;
@@ -94,6 +100,7 @@ public class VendorsControllerImpl implements IVendorsController {
             vendorFound.setVisitDays(vendorData.getVisitDays());
             vendorFound.setPreSale(vendorData.isPreSale());
             vendorFound.setVisits(VisitIntEnum.valueOf(vendorData.getVisits().name()));
+            vendorFound.setReminder(vendorData.getReminder());
             final var debtorUpdated = vendorsModel.updateVendor(vendorData, idVendor);
             logger.info("datos de proveedor actualizado [%s]", String.valueOf(debtorUpdated));
             dbt.doCommit();
@@ -108,58 +115,105 @@ public class VendorsControllerImpl implements IVendorsController {
     }
 
     @Override
-    public WrapperPojoIntVendors getVendorsFromToday() throws BloSalesV2Exception {
+    public WrapperPojoIntVendors addOrderVendorAsDraft() throws BloSalesV2Exception {
         try {
             final var allVendors = getAllVendors();
             if (allVendors.getVendors() != null && !allVendors.getVendors().isEmpty()) {
-                final var gson = new Gson();
-                // proveedores por semana
-                final var today = LocalDate.now();
-                final var translate = Locale.forLanguageTag("es-ES");
-                logger.info("fecha de hoy %s", today);
-                final var day = today.getDayOfWeek().getDisplayName(TextStyle.FULL, translate).toLowerCase();
-                final var vendorsToDay = allVendors.getVendors().stream().
-                        filter(v -> v.isPerWeek()).
-                        filter(vendor -> !List.of(gson.fromJson(vendor.getVisitDays(), String[].class)).stream().
-                                            map(String::toLowerCase).
-                                            filter(d -> d.equals(day)).
-                                            toList().
-                                            isEmpty()
-                        ).collect(Collectors.toList());
-                logger.info("proveedores del dia %s", vendorsToDay.size());
-                // proveedores por mes
-                final var vendorsByMonth = allVendors.getVendors().stream()
-                    .filter(v -> !v.isPerWeek()) // Filtra solo los que NO son semanales (mensuales)
-                    .filter(vendor -> {
+                final Gson gson = new Gson();
+                //hoy
+                final LocalDate today = LocalDate.now();
+                // 31 de agosto
+                //final LocalDate today = LocalDate.of(2026, 8, 31);
+                // 28 de febrero
+                //final LocalDate today = LocalDate.of(2026, 2, 28);
+                final List<PojoIntVendor> vendorsFiltered = allVendors.getVendors().stream().
+                    // filtra los que tienen recordatorio
+                    filter(v -> {
+                        if (v.getReminder().isBlank() || v.getReminder().equals(BloSalesV2Utils.JSON_EMPTY_ARRAY)) {
+                            return false;
+                        }
                         try {
-                            // fecha del vendendor parseada
-                            final var parsedDateFromVendor = 
-                                    LocalDateTime.parse(vendor.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                            // día de visita
-                            final var dayOfVisitCalendar = parsedDateFromVendor.getDayOfMonth();
-                            // día actual
-                            final var currentDayOfMonth = today.getDayOfMonth();
-                            // ultimo dia del mes
-                            final var lastDayOfMonth = YearMonth.from(parsedDateFromVendor).lengthOfMonth();
-                            if (currentDayOfMonth == lastDayOfMonth) {
-                                return dayOfVisitCalendar >= currentDayOfMonth;
-                            }
-                            return dayOfVisitCalendar == currentDayOfMonth;
+                            // 2. Deserializar
+                            String[] days = gson.fromJson(v.getReminder(), String[].class);
+                            // 3. Confirmar que el arreglo no sea nulo y tenga al menos un elemento
+                            return days != null && days.length > 0;
                         } catch (Exception e) {
-                            return false; 
+                            // Prevenir fallos si el JSON está malformado
+                            return false;
                         }
                     }).
-                    collect(Collectors.toList());
-                logger.info("vendedores que pasaran el dia de hoy por día del mes %s", vendorsByMonth.size());
-                 vendorsToDay.addAll(vendorsByMonth);
-                 logger.info("proveedores que pasarán hoy %s", vendorsToDay.size());
-                 allVendors.setVendors(vendorsToDay);
+                    // filtrar los proveedores que pasaran hoy
+                    filter(v -> {
+                        // caso cuando el recordatorio es mensua y por fechas
+                        if (v.getVisits().compareTo(VisitIntEnum.MONTHLY) == 0 && BloSalesV2Utils.validateTextWithPattern(BloSalesV2Utils.ONLY_NUMBERS, v.getReminder())) {
+                            // dia planeado de visita
+                            final int plannedDayVisit = Integer.parseInt(gson.fromJson(v.getVisitDays(), String[].class)[0]);
+                            // dia actual de mes
+                            final int currentDay = today.getDayOfMonth();
+                            if (plannedDayVisit >= 30) {
+                                return currentDay == today.lengthOfMonth();
+                            }
+                            return plannedDayVisit == currentDay + 1;
+                        }
+                        // dia de hoy en español
+                        final String dayOnSpanish = BloSalesV2Utils.removeAccentsAndLowercase(today.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES")));
+                        final List<String> visitDays = Arrays.asList(gson.fromJson(v.getReminder(), String[].class));
+                        if (visitDays.isEmpty()) {
+                            return false;
+                        }
+                        return visitDays.stream()
+                            .filter(s -> !s.isBlank())
+                            .map(BloSalesV2Utils::removeAccentsAndLowercase)
+                            .filter(s -> s.equals(dayOnSpanish)).findAny().isPresent();
+                    }).collect(Collectors.toList());
+                
+                if (vendorsFiltered != null && !vendorsFiltered.isEmpty()) {
+                    logger.info("abriendo orden en borrador");
+                    PojoIntOrderVendor orderVendor = null;
+                    for (final PojoIntVendor vendor: vendorsFiltered) {
+                        orderVendor = new PojoIntOrderVendor();
+                        orderVendor.setAmount(BigDecimal.ZERO);
+                        orderVendor.setBrand(vendor.getBrand());
+                        // se agrega un día después de la fecha que se abre la nota
+                        orderVendor.setDeadline(
+                                today.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        );
+                        orderVendor.setFkVendor(vendor.getIdVendor());
+                        orderVendor.setStatusOrder(StatusMovementProviderIntEnum.DRAFT);
+                        orderVendor.setProductsInfo(BloSalesV2Utils.EMPTY_STRING);
+                        ordersVendorsController.highOrder(orderVendor, true);
+                    }
+                    allVendors.setVendors(vendorsFiltered);
+                }
             }
+            logger.info("proveedores recordatorio de hoy: %s", allVendors.getVendors().size());
             return allVendors;
         } catch(BloSalesV2Exception e) {
             dbt.doRollback();
             logger.error(e.getMessage());
             throw new BloSalesV2Exception(e.getCode(), e.getMessage());
+        }
+    }
+
+    @Override
+    public PojoIntVendor deleteVendor(long idVendor) throws BloSalesV2Exception {
+        try {
+            logger.info("eliminando proveedor por id %s", idVendor);
+            dbt.disableAutocommit();
+            final var vendorFound = getVendorById(idVendor);
+            logger.info("proveedor encontrado %s", String.valueOf(vendorFound));
+            BloSalesV2Utils.validateRule(vendorFound == null, BloSalesV2Utils.CODE_VENDOR_NOT_EXITS, BloSalesV2Utils.ERROR_VENDOR_NOT_EXITS);
+            vendorFound.setEnabled(false);
+            final var debtorUpdated = vendorsModel.updateVendor(vendorFound, idVendor);
+            logger.info("proveedor eliminado [%s]", String.valueOf(debtorUpdated));
+            dbt.doCommit();
+            return debtorUpdated;
+        } catch(BloSalesV2Exception e) {
+            dbt.doRollback();
+            logger.error(e.getMessage());
+            throw new BloSalesV2Exception(e.getCode(), e.getMessage());
+        } finally {
+            dbt.enableAutocommit();
         }
     }
     

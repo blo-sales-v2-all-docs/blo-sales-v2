@@ -205,6 +205,7 @@ import com.blo.sales.v2.view.mappers.PojoVendorOrderMapper;
 import com.blo.sales.v2.view.mappers.WrapperPojoVendorsOrdersMapper;
 import com.blo.sales.v2.model.ICreditsDebtsModel;
 import com.blo.sales.v2.controller.ICreditsDebtsController;
+import com.blo.sales.v2.model.mapper.DebtorInfoDetailEntityMapper;
 
 public class BloSalesV2SingletonConfig extends AbstractModule {
 
@@ -379,6 +380,7 @@ public class BloSalesV2SingletonConfig extends AbstractModule {
         bind(WrapperVendorsEntityMapper.class).in(Singleton.class);
         bind(OrderVendorEntityMapper.class).in(Singleton.class);
         bind(WrapperOrdersVendorsMapper.class).in(Singleton.class);
+        bind(DebtorInfoDetailEntityMapper.class).in(Singleton.class);
         
         /** components */
         bind(CheckboxDays.class).in(Singleton.class);

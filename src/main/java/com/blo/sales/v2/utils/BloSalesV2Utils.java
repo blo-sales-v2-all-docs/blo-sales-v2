@@ -2,7 +2,9 @@ package com.blo.sales.v2.utils;
 
 import com.blo.sales.v2.config.BloSalesV2ConfigManagement;
 import java.math.BigDecimal;
+import java.text.Normalizer;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -144,6 +146,8 @@ public final class BloSalesV2Utils {
     
     public static final String ERROR_PRODUCT_SELECTED_NOT_EQUALS = "Ha ocurrido un error intentando actualizar, recarga el formulario";
     
+    public static final String EROR_ORDER_IS_NOT_DRAFT = "Esta órden no es borrador, no se puede eliminar";
+    
     /** codigos de error */
     public static final String COMMON_RULE_CODE = "000";
     
@@ -220,6 +224,8 @@ public final class BloSalesV2Utils {
     public static final String CODE_PRODUCTS_ON_ORDERS_IS_EMPTY = "032";
     
     public static final String CODE_PRODUCT_SELECTED_NOT_EQUALS = "033";
+    
+    public static final String CODE_ORDER_IS_NOT_DRAFT = "034";
     
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     
@@ -337,5 +343,20 @@ public final class BloSalesV2Utils {
             return EMPTY_STRING;
         }
         return matcher.group(indexFromPattern);
+    }
+    
+    /**
+     * Métpdp que elimina acentos y convierte todo a mayúsculas. Ideal para hacer comparación de Strings
+     * @param text
+     * @return 
+     */
+    public static String removeAccentsAndLowercase(String text) {
+        if (text.isBlank()) {
+            return "";
+        }
+        // Separar caracteres base de sus acentos (NFD)
+        final String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+        // Eliminar los diacríticos y pasar a minúsculas
+        return normalized.replaceAll("\\p{M}", "").toLowerCase(Locale.ROOT).trim();
     }
 }

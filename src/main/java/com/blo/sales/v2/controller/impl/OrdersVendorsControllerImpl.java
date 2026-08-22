@@ -43,7 +43,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     private ICashboxesOrdersVendorsController cashboxesOrdersVendors;
 
     @Override
-    public PojoIntOrderVendor highOrder(PojoIntOrderVendor order) throws BloSalesV2Exception {
+    public PojoIntOrderVendor highOrder(PojoIntOrderVendor order, boolean isDraft) throws BloSalesV2Exception {
         try {
             // desactivar la funcion para guardar en la db
             dbTransactionManager.disableAutocommit();
@@ -54,6 +54,9 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
             BloSalesV2Utils.validateRule(deadLine.isBefore(now), BloSalesV2Utils.CODE_ORDER_IS_BEFORE_NOW, BloSalesV2Utils.ERROR_ORDER_IS_BEFORE_NOW);
             // setter invoice como PENDING
             order.setStatusOrder(StatusMovementProviderIntEnum.PENDIG);
+            if (isDraft) {
+                order.setStatusOrder(StatusMovementProviderIntEnum.DRAFT);
+            }
             order.setTimestamp(BloSalesV2Utils.getTimestamp());
             order.setInvoice(StatusMovementProviderIntEnum.PENDIG.toString());
             order.setPaymentType(BloSalesV2Utils.N_A);
@@ -151,6 +154,30 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
     public PojoIntOrderVendor getOrderById(long idOrder) throws BloSalesV2Exception {
         logger.info("recuperando orden por id=%s", idOrder);
         return model.getOrderById(idOrder);
+    }
+
+    @Override
+    public void deleteDraftOrder(long idOrder) throws BloSalesV2Exception {
+        try {
+            dbTransactionManager.disableAutocommit();
+            logger.info("Buscando orden %s", idOrder);
+            final PojoIntOrderVendor orderFound = getOrderById(idOrder);
+            BloSalesV2Utils.validateRule(orderFound == null, BloSalesV2Utils.CODE_ORDER_NOT_FOUND, BloSalesV2Utils.ERROR_ORDER_NOT_FOUND);
+            logger.info("Orden encontrada %s", String.valueOf(orderFound));
+            BloSalesV2Utils.validateRule(
+                    orderFound.getStatusOrder().compareTo(StatusMovementProviderIntEnum.DRAFT) != 0, 
+                    BloSalesV2Utils.CODE_ORDER_IS_NOT_DRAFT,
+                    BloSalesV2Utils.EROR_ORDER_IS_NOT_DRAFT
+            );
+            model.deleteOrderById(idOrder);
+            logger.info("orden eliminada");
+        } catch (BloSalesV2Exception ex) {
+            logger.error(ex.getMessage());
+            dbTransactionManager.doRollback();
+            throw new BloSalesV2Exception(ex.getCode(), ex.getMessage());
+        } finally {
+            dbTransactionManager.enableAutocommit();
+        }
     }
 
 }

@@ -45,6 +45,7 @@ public class AddVendor extends AbstractDashboardBase {
         chbxPreSale = new javax.swing.JCheckBox();
         btnSave = new javax.swing.JButton();
         pnlAreaVisitDays = new javax.swing.JPanel();
+        chbxReminder = new javax.swing.JCheckBox();
 
         lblVendorName.setText("nombre_de_proveedor");
 
@@ -70,6 +71,8 @@ public class AddVendor extends AbstractDashboardBase {
             .addGap(0, 78, Short.MAX_VALUE)
         );
 
+        chbxReminder.setText("recordatorio");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,7 +92,10 @@ public class AddVendor extends AbstractDashboardBase {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblVisitDats)
-                    .addComponent(chbxPreSale)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(chbxPreSale)
+                        .addGap(18, 18, 18)
+                        .addComponent(chbxReminder))
                     .addComponent(pnlAreaVisitDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(533, Short.MAX_VALUE))
         );
@@ -113,7 +119,8 @@ public class AddVendor extends AbstractDashboardBase {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblBrand)
                     .addComponent(txtBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chbxPreSale))
+                    .addComponent(chbxPreSale)
+                    .addComponent(chbxReminder))
                 .addGap(18, 18, 18)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(383, Short.MAX_VALUE))
@@ -129,6 +136,8 @@ public class AddVendor extends AbstractDashboardBase {
             
             final var visitDays = week.getInfoSelected();
             
+            BloSalesV2Utils.validateRule(visitDays == null, BloSalesV2Utils.COMMON_RULE_CODE, BloSalesV2Utils.INVALID_TEXT);
+            
             final var vendor = new PojoVendor();
             vendor.setBrand(brand);
             vendor.setContact(contact);
@@ -138,6 +147,7 @@ public class AddVendor extends AbstractDashboardBase {
             vendor.setPerWeek(visitDays.isPerWeek());
             vendor.setName(vendorName);
             vendor.setVisits(VisitEnum.valueOf(visitDays.getVisits()));
+            vendor.setReminder(week.getSelectedDaysToReminder(GUICommons.isCheckedCkeckBox(chbxReminder), visitDays));
             vendorController.addVendor(vendorMapper.toInner(vendor));
             reset();
         } catch (BloSalesV2Exception ex) {
@@ -173,6 +183,7 @@ public class AddVendor extends AbstractDashboardBase {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox chbxPreSale;
+    private javax.swing.JCheckBox chbxReminder;
     private javax.swing.JLabel lblBrand;
     private javax.swing.JLabel lblContact;
     private javax.swing.JLabel lblVendorName;

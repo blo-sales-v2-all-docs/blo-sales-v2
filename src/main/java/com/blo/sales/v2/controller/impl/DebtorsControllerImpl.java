@@ -8,6 +8,7 @@ import com.blo.sales.v2.controller.IProductsController;
 import com.blo.sales.v2.controller.ISalesController;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtSettlement;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtorInfoDetail;
 import com.blo.sales.v2.controller.pojos.PojoIntSaleProductData;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtorsDetails;
@@ -151,5 +152,11 @@ public class DebtorsControllerImpl implements IDebtorsController {
         debtorTmp.setIdSale(saleSaved.getIdSale());
         logger.info("regresando solamente el id de la venta registrada %s", saleSaved.getIdSale());
         return debtorTmp;
+    }
+
+    @Override
+    public PojoIntDebtorInfoDetail getDebtorDetailById(long idDebtor) throws BloSalesV2Exception {
+        logger.info("recuperando detalles de dedudor [%s]", idDebtor);
+        return model.getDebtorDetailById(idDebtor);
     }
 }

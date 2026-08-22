@@ -37,7 +37,7 @@ public enum KeysEnum {
     // companies
     MOBILE_COMPANIES_LBL_COMPANY_NAME("mobile-companies.lbl.company-name"),
     // commons
-    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now"), COMMON_BTN_CONTINUE("common.btn.continue"), COMMON_BTN_CLOSE("common.btn.close"), COMMON_ALERT_ERROR("common.alert.error"), COMMON_ALERT_WARNING("common.alert.warning"), COMMON_LBL_PAYMENT_TYPE("common.lbl.payment-type"), COMMON_BTN_APPLY_FILTER("common.btn.apply-filter"),
+    COMMON_BTN_SAVE("common.btn.save"), COMMON_BTN_SAVE_CHANGES("common.btn.save-changes"), COMMON_BTN_CANCEL("common.btn.cancel"), COMMON_TOTAL("common.lbl.total"), COMMON_CURRENCY_SYMBOL_BEFORE("common.lbl.currency-symbol-before"), COMMON_BTN_SAVE_NOW("common.btn.save-now"), COMMON_BTN_CONTINUE("common.btn.continue"), COMMON_BTN_CLOSE("common.btn.close"), COMMON_ALERT_ERROR("common.alert.error"), COMMON_ALERT_WARNING("common.alert.warning"), COMMON_LBL_PAYMENT_TYPE("common.lbl.payment-type"), COMMON_BTN_APPLY_FILTER("common.btn.apply-filter"), COMMON_BTN_DELETE("common.btn.delete"),
     // Recargas telefonicas
     TOP_UP_LBL_COMPANY_PHONE("top-ups.lbl.company-phone"), TOP_UP_LBL_PHONE_NUMBER("top-ups.lbl.phone-number"), TOP_UPS_LBL_AMOUNT("top-ups.lbl.amount"), TOP_UPS_BTN_APPLY_FILTER("top-ups.btn.apply-filter"), TOP_UPS_BTN_CLOSE_NOW("top-ups.btn.close-now"), TOP_UPS_DLG_SURE_CLOSE_ALL("top-ups.dlg.sure-close-all"),
     // dashboard
@@ -57,10 +57,13 @@ public enum KeysEnum {
     // ver ordenes
     DASHBOARD_TITLES_VIEW_ORDERS("dashboard.titles.view-orders"), VIEW_ORDERS_LBL_FILTER_ORDERS_BY_STATUS("view-orders.lbl.filter-orders-by-status"), VIEW_ORDERS_LBL_NO_INVOICE("view-orders.lbl.no-invoice"), VIEW_ORDERS_BTN_CLOSE_ORDER("view-orders.btn.close-order"),
     DASHBOARD_ROOT_DLG_REMEMBER_VISIT("dashboard-root.dlg.remeber-visit"),
-    VIEW_ORDERS_DLG_ADDING_ADDITIONAL_INFO_ON_NOTE("view-orders.dlg.adding-additional-info-on-note"), VIEW_ORDERS_DLG_PUT_PRODUCTS_DETAILS("view-orders.dlg.put-products-details"), VIEW_ORDERS_DLG_PRODUCTS_BOUGHT_ON_ORDER("view-orders.dlg.products-bought-on-order"), VIEW_ORDERS_LBL_NAME_OF_VENDOR("view-orders.lbl.name-of-vendor"),
+    VIEW_ORDERS_DLG_ADDING_ADDITIONAL_INFO_ON_NOTE("view-orders.dlg.adding-additional-info-on-note"), VIEW_ORDERS_DLG_PUT_PRODUCTS_DETAILS("view-orders.dlg.put-products-details"), VIEW_ORDERS_DLG_PRODUCTS_BOUGHT_ON_ORDER("view-orders.dlg.products-bought-on-order"), VIEW_ORDERS_LBL_NAME_OF_VENDOR("view-orders.lbl.name-of-vendor"), VIEW_ORDERS_LBL_ORDER_AMOUNT("view-orders.lbl.order-amount"), VIEW_ORDERS_DLG_DELETE_ORDER("view-orders.dlg.delete-order"),
     COMMON_LBL_UPDATED_COMPLETE("common.lbl.updated-complete"), COMMON_TTL_COMPLETE("common.ttl.complete"),
     DASHBOARD_TITLES_CREDITS("dashboard.titles.credits"), CREDITS_LBL_LANDER_NAME("credits.lbl.lander-name"), CREDITS_LBL_TOTAL_CREDIT("credits.lbl.total-credit"), CREDITS_DLG_CANCEL_CREDIT("credits.dlg.cancel-credit"), CREDITS_BTN_CANCEL_CREDIT("credits.btn.cancel-credit"), CREDITS_LBL_ADD_PAYMENT("credits.lbl.add-payment"), CREDITS_DLG_PAYMENTS("credits.dlg.payemnts"),
-    DASHBOARD_TITLES_DEBITS("dashboard.titles.debits"), DEBITS_LBL_DEBT_NAME("debits.lbl.debt-name"), DEBITS_LBL_DEBT_PAYMENT("debits.lbl.debt-payement"), DEBITS_BTN_CANCEL_DEBIT("debits.btn.cancel-debit")
+    DASHBOARD_TITLES_DEBITS("dashboard.titles.debits"), DEBITS_LBL_DEBT_NAME("debits.lbl.debt-name"), DEBITS_LBL_DEBT_PAYMENT("debits.lbl.debt-payement"), DEBITS_BTN_CANCEL_DEBIT("debits.btn.cancel-debit"),
+    VENDORS_DLG_DELETE_VENDOR("vendors.dlg.delete-vendor")
+    
+    
     
     
     

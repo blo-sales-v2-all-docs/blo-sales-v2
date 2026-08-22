@@ -3,6 +3,7 @@ package com.blo.sales.v2.view.commons;
 import com.blo.sales.v2.translate.Translate;
 import com.blo.sales.v2.utils.BloSalesV2Utils;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
+import com.google.gson.Gson;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -32,24 +33,22 @@ public abstract class AbstractDashboardBase extends javax.swing.JPanel {
     @Setter
     private JTable mainTable;
     
+    @Setter
+    @Getter
     private PojoLoggedInUser userData;
+    
+    @Getter
+    private final Gson gson;
     
     protected abstract void loadTargets();
     
     public abstract void init();
     
     protected abstract void reset();
-
-    public void setUserData(PojoLoggedInUser userData) {
-        this.userData = userData;
-    }
-
-    public PojoLoggedInUser getUserData() {
-        return userData;
-    }
     
     public AbstractDashboardBase(String title) {
         this.title = title;
+        this.gson = new Gson();
     }
     
     public String getTranslateBy(String key) {

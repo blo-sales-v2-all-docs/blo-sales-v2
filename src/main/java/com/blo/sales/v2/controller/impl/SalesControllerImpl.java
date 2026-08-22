@@ -3,6 +3,7 @@ package com.blo.sales.v2.controller.impl;
 import com.blo.sales.v2.controller.IAccountsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.IDBTransactionManagerController;
+import com.blo.sales.v2.controller.IDebtorSettlementsController;
 import com.blo.sales.v2.controller.IDebtorsController;
 import com.blo.sales.v2.controller.IDebtorsSalesController;
 import com.blo.sales.v2.controller.IHistoryController;
@@ -13,6 +14,7 @@ import com.blo.sales.v2.controller.ISalesProductController;
 import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.controller.pojos.PojoIntAccount;
 import com.blo.sales.v2.controller.pojos.PojoIntCashbox;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtSettlement;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
 import com.blo.sales.v2.controller.pojos.PojoIntDebtorSale;
 import com.blo.sales.v2.controller.pojos.PojoIntMovement;
@@ -75,6 +77,12 @@ public @Singleton class SalesControllerImpl implements ISalesController {
     
     @Inject
     private IDBTransactionManagerController managerController;
+    
+    @Inject
+    private IDebtorsSalesController debtorsSales;
+    
+    @Inject
+    private IDebtorSettlementsController debtorsSettlements;
     
     @Inject
     private IAccountsController accountsController;
@@ -160,22 +168,37 @@ public @Singleton class SalesControllerImpl implements ISalesController {
             /** esta operacion es usada para validar que aunque el pago sea mayor que el precio del producto no sea borrado el deudor */
             final var newDebt = currentDebt.add(allProductsSum).subtract(partialPay);
             logger.info("nueva deuda (%s + %s - %s = %s)", currentDebt, allProductsSum, partialPay, newDebt);
+            PojoIntSale regiteredSale = null;
             if (newDebt.compareTo(BigDecimal.ZERO) > 0) {
                 logger.info("aun hay deuda");
                 //registerSaleCommitNotEnabled(partialPay, productsInfo, idUser);
                 debtorFound.setPayments(partialPayments);
                 logger.info("debtor found actualizado %s", String.valueOf(debtorFound));
                 // se guarda relacion
-                final var regiteredSale = registerSaleCommitNotEnabled(partialPay, productsInfo, idUser);
+                regiteredSale = registerSaleCommitNotEnabled(partialPay, productsInfo, idUser);
                 registereRelationship(idDebtor, regiteredSale.getIdSale(), regiteredSale.getTimestamp());
                 final var debtorUpdatd = debtorsController.updateDebtor(debtorFound, idDebtor);
                 managerController.doCommit();
                 return debtorUpdatd;
             }
-            logger.info("se ha pagado toda la deuda");
-            registerSaleCommitNotEnabled(totalSale, productsInfo, idUser);
+            // pago completo
+            logger.info("pago completo");
+            regiteredSale = registerSaleCommitNotEnabled(totalSale, productsInfo, idUser);
+            final var salesProductData = debtorsSales.retrieveSalesProductsDataByIdDebtor(idDebtor);
+            logger.info("informacion de productos en venta con deudor %s", String.valueOf(salesProductData));
+            debtorFound.setPayments(debtorFound.getPayments() + BloSalesV2Utils.getPartialPayment(totalSale));
+            // informacion de pago completo
+            final var settlement = new PojoIntDebtSettlement();
+            settlement.setDebtor(debtorFound.getName());
+            settlement.setFkSale(regiteredSale.getIdSale());
+            settlement.setTimestamp(BloSalesV2Utils.getTimestamp());
+            settlement.setProductsDetails(salesProductData.getProducts());
+            final var settlementSaved = debtorsSettlements.addSettlement(settlement);
+            logger.info("pago guardado [%s]", String.valueOf(settlementSaved));
+            // eliminar deudor
             debtorsSalesController.deleteRelationhip(idDebtor);
             debtorsController.deleteDebtor(idDebtor);
+            logger.info("deudor %s eliminado", idDebtor);
             managerController.doCommit();
             return null;
         } catch (BloSalesV2Exception ex) {

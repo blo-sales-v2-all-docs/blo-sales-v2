@@ -332,7 +332,7 @@ public final class Sales extends AbstractDashboardBase {
         try {
             final var debtors = wrapperDebtorsMapper.toOuter(debtorsController.getAllDebtors());
             final var debtorsCoopy = wrapperDebtorsMapper.toOuter(debtorsController.getAllDebtors());
-            final var debtorsDialog = new DebtorsDialog<>(
+            new DebtorsDialog<>(
                 this,
                 getTranslateBy(KeysEnum.SALES_DLG_DEBTORS.getKey()),
                 debtors.getDebtors(),
@@ -374,8 +374,7 @@ public final class Sales extends AbstractDashboardBase {
                         logger.error(ex.getMessage());
                         CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));
                     }
-                });
-            debtorsDialog.setVisible(true);
+                }).setVisible(true);
         } catch (BloSalesV2Exception ex) {
             logger.error(ex.getMessage());
             CommonAlerts.openError(ex.getMessage(), getTranslateBy(KeysEnum.COMMON_ALERT_ERROR.getKey()));

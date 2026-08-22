@@ -1,13 +1,14 @@
 package com.blo.sales.v2.model;
 
 import com.blo.sales.v2.controller.pojos.PojoIntDebtor;
+import com.blo.sales.v2.controller.pojos.PojoIntDebtorInfoDetail;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtors;
 import com.blo.sales.v2.controller.pojos.WrapperPojoIntDebtorsDetails;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 
 /**
  * Clase modelo para operaciones deudores en la base de datos
- * @version 1.0.0
+ * @version 1.1.0
  * @author BLO
  */
 public interface IDebtorsModel {
@@ -63,5 +64,13 @@ public interface IDebtorsModel {
      * @throws BloSalesV2Exception
      */
     void deleteDebtor(long idDebtor) throws BloSalesV2Exception;
+    
+    /**
+     * Método que recupera toda la información de un deudor
+     * @param idDebtor
+     * @return
+     * @throws BloSalesV2Exception 
+     */
+    PojoIntDebtorInfoDetail getDebtorDetailById(long idDebtor) throws BloSalesV2Exception;
     
 }

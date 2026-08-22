@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Clase controlador para flujo de ventas
- * @version 1.0.0
+ * @version 1.0.1
  * @author BLO
  */
 public interface ISalesController {

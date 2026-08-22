@@ -3,6 +3,7 @@ package com.blo.sales.v2.view.dashboard.panels;
 import com.blo.sales.v2.controller.IAccountsController;
 import com.blo.sales.v2.controller.ICashboxController;
 import com.blo.sales.v2.controller.IUserController;
+import com.blo.sales.v2.controller.IVendorsController;
 import com.blo.sales.v2.translate.KeysEnum;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.commons.AbstractDashboardBase;
@@ -38,6 +39,9 @@ public final class CashboxOpen extends AbstractDashboardBase {
     
     @Inject
     private IAccountsController accountsController;
+    
+    @Inject
+    private IVendorsController vendorsController;
     
     @Inject
     private WrapperPojoActivesCostsMapper activesCostMapper;
@@ -130,16 +134,12 @@ public final class CashboxOpen extends AbstractDashboardBase {
                 return;
             }
         }
-        final var resp = CommonAlerts.showConfirmDialog(getTranslateBy(KeysEnum.CASHBOX_DLG_IMPORT_FROM_NOTES.getKey()), getTranslateBy(KeysEnum.COMMON_ALERT_WARNING.getKey()));
-        WrapperPojoNotes pasives = null;
-        WrapperPojoNotes actives = null;
-        if (resp) {
-            pasives = filterLst(TypeNoteEnum.PASIVO);
-            actives = filterLst(TypeNoteEnum.ACTIVO);
-            final var ordenPasivos = filterLst(TypeNoteEnum.ORDEN_PASIVO);
-            pasives.getNotes().addAll(ordenPasivos.getNotes());
-        }
         
+        WrapperPojoNotes pasives = filterLst(TypeNoteEnum.PASIVO);
+        WrapperPojoNotes actives = filterLst(TypeNoteEnum.ACTIVO);
+        final var ordenPasivos = filterLst(TypeNoteEnum.ORDEN_PASIVO);
+        pasives.getNotes().addAll(ordenPasivos.getNotes());
+            
         final var cashboxDialog = new CashboxDialog<>(
             this,
             getTranslateBy(KeysEnum.CASHBOX_DLG_CLOSING_CASHBOX.getKey()),
@@ -149,6 +149,7 @@ public final class CashboxOpen extends AbstractDashboardBase {
             account,
             (PojoDialogCashboxData data) -> {
                 try {
+                    vendorsController.addOrderVendorAsDraft();
                     final var wrapper = new WrapperPojoActivesCosts();
                     wrapper.setActivesCosts(data.getItems());
                     openCashbox.setAmount(data.getTotalAmountInCashbox());
