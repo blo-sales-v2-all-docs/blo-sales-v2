@@ -324,6 +324,6 @@ public final class Vendors extends AbstractDashboardBase {
         if (reminder.isBlank()) {
             return true;
         }
-        return getGson().fromJson(reminder, String[].class).length == 0;
+        return getGson().fromJson(reminder.replace("\"", ""), String[].class).length == 0;
     }
 }
