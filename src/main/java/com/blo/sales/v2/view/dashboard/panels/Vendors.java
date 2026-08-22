@@ -321,6 +321,9 @@ public final class Vendors extends AbstractDashboardBase {
     
     private boolean isEmptyReminder(String reminder) {
         logger.info("reminder %s", reminder);
+        if (reminder.isBlank()) {
+            return true;
+        }
         return getGson().fromJson(reminder.replace("\"", ""), String[].class).length == 0;
     }
 }
