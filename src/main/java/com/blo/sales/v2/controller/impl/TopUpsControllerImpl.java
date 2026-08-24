@@ -50,7 +50,7 @@ public class TopUpsControllerImpl implements ITopUpsController {
             salesController.registerTopUpComission(data.getFkUser().getIdUser(), data.getAmount());
             logger.info("comision guardada");
             // restar dinero de cuenta digital
-            final var walletDigital = accountsController.getAccountById(AccountsIntEnum.DIGITAL_WALLET.getId());
+            /*final var walletDigital = accountsController.getAccountById(AccountsIntEnum.DIGITAL_WALLET.getId());
             logger.info("moviendo dinero digital a dinero fisico");
             accountsController.substractMoneyNotCommit(
                     walletDigital.getIdAccount(),
@@ -58,7 +58,7 @@ public class TopUpsControllerImpl implements ITopUpsController {
                     data.getAmount(),
                     data.getReference()
             );
-            logger.info("se ha restado dinero de cuenta digital a cashbox");
+            logger.info("se ha restado dinero de cuenta digital a cashbox");*/
             final var topUpSaved = model.addTopUp(data);
             dbtc.doCommit();
             logger.info("recarga guardada %s", String.valueOf(topUpSaved));
