@@ -16,6 +16,7 @@ import com.blo.sales.v2.view.pojos.PojoOrderVendor;
 import com.blo.sales.v2.view.pojos.WrapperPojoOrdersVendors;
 import com.blo.sales.v2.view.pojos.enums.StatusOrderProviderEnum;
 import jakarta.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -245,10 +246,14 @@ public final class ViewOrders extends AbstractDashboardBase {
                 BloSalesV2Utils.CODE_PRODUCTS_ON_ORDERS_IS_EMPTY,
                 BloSalesV2Utils.ERROR_PRODUCTS_ON_ORDERS_IS_EMPTY
             );
+            BigDecimal amount = orderVendor.getAmount();
+            if (orderVendor.getStatusOrder().equals(StatusOrderProviderEnum.DRAFT)) {
+                amount = GUICommons.getNumberFromJText(nmbOrderAmount, 2);
+            }
             final var invoice = GUICommons.getTextFromField(txtInvoice, orderDelivered);
             ordersVendorController.closeOrder(
                     StatusMovementProviderIntEnum.valueOf(reason.name()),
-                    orderVendor.getAmount(),
+                    amount,
                     orderVendor.getBrand(),
                     invoice,
                     getUserData().getIdUser(),
