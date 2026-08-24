@@ -46,19 +46,9 @@ public class TopUpsControllerImpl implements ITopUpsController {
             logger.info("Compania encontrada %s", String.valueOf(companyFound));
             BloSalesV2Utils.validateRule(companyFound == null, BloSalesV2Utils.CODE_COMPANY_NOT_FOUND, BloSalesV2Utils.ERROR_COMPANY_NOT_FOUND);
             data.setFkMobileCompany(companyFound);
-            // guardando comision + monto de recarga
+            // guardando comision de recarga
             salesController.registerTopUpComission(data.getFkUser().getIdUser(), data.getAmount());
             logger.info("comision guardada");
-            // restar dinero de cuenta digital
-            /*final var walletDigital = accountsController.getAccountById(AccountsIntEnum.DIGITAL_WALLET.getId());
-            logger.info("moviendo dinero digital a dinero fisico");
-            accountsController.substractMoneyNotCommit(
-                    walletDigital.getIdAccount(),
-                    data.getFkUser().getIdUser(),
-                    data.getAmount(),
-                    data.getReference()
-            );
-            logger.info("se ha restado dinero de cuenta digital a cashbox");*/
             final var topUpSaved = model.addTopUp(data);
             dbtc.doCommit();
             logger.info("recarga guardada %s", String.valueOf(topUpSaved));
