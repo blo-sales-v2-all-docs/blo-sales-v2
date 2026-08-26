@@ -88,6 +88,7 @@ public class OrdersVendorsControllerImpl implements IOrdersVendorsController {
                 orderFound.setInvoice(BloSalesV2Utils.N_A);
             }
             if (reason.equals(StatusMovementProviderIntEnum.DELIVERED)) {
+                orderFound.setAmount(amount);
                 orderFound.setInvoice(invoice);
             }
             final var timestamp = BloSalesV2Utils.getTimestamp();
