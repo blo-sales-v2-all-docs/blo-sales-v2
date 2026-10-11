@@ -17,6 +17,9 @@ nbactions.xml
 nb-configuration.xml
 .nb-gradle/
 
+# --- IntelliJ Specific --
+.idea/
+
 # --- OS Specific (Linux) ---
 .DS_Store
 .directory
@@ -35,3 +38,4 @@ nb-configuration.xml
 
 # --- properties ---
 *.properties
+config/
