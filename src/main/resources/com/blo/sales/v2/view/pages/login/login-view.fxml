@@ -6,8 +6,10 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import com.blo.sales.v2.view.components.inputText.InputText?>
+<?import com.blo.sales.v2.view.components.inputPassword.InputPassword?>
 
-<VBox alignment="CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
+<VBox alignment="CENTER" spacing="24.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.blo.sales.v2.view.pages.login.LoginController">
 
     <padding>
@@ -15,14 +17,11 @@
     </padding>
 
     <Label text="Iniciar Sesión" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-
-    <TextField fx:id="txtUsuario" promptText="Usuario"/>
-
-    <PasswordField fx:id="txtPassword" promptText="Contraseña"/>
-
-    <!-- Agregado el Label con el fx:id correspondiente -->
-    <Label fx:id="lblMensaje" text=""/>
-
+    
+    <InputText fx:id="inputUsuario" title="Usuario" promptText="Ej. admin"/>
+    
+    <InputPassword fx:id="inputPassword" title="Contraseña" promptText="********" />
+    
     <Button text="Ingresar" onAction="#handleLoginButtonAction"
             style="-fx-background-color: #2563eb; -fx-text-fill: white;"/>
 
