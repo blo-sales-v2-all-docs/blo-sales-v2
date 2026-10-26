@@ -1,5 +1,11 @@
 package com.blo.sales.v2.view.pages.login;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.blo.sales.v2.controller.IUserController;
 import com.blo.sales.v2.utils.BloSalesV2Exception;
 import com.blo.sales.v2.view.LoginFrm;
@@ -11,18 +17,15 @@ import com.blo.sales.v2.view.mappers.LoggedInUserMapper;
 import com.blo.sales.v2.view.mappers.UserMapper;
 import com.blo.sales.v2.view.pojos.PojoLoggedInUser;
 import com.blo.sales.v2.view.pojos.PojoUser;
-import jakarta.inject.Inject;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jakarta.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginController extends AbstractController {
 
@@ -64,6 +67,27 @@ public class LoginController extends AbstractController {
 			logger.info("Iniciando sesion %s", userData);
 			final PojoLoggedInUser userLogged = loggedInUserMapper
 					.toOuter(userController.doLogin(userMapper.toInner(userData)));
+			
+			// 🚀 TRANSICIÓN AL DASHBOARD AL SER EXITOSO EL LOGIN
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/blo/sales/v2/view/pages/dashboard/dashboard-view.fxml"));
+	        Parent root;
+			try {
+				root = loader.load();
+				Stage stage = (Stage) btnLogin.getScene().getWindow();
+		        Scene scene = new Scene(root);
+				
+				// Mantener estilos globales si aplica
+
+		        stage.setScene(scene);
+		        stage.setTitle("BloSales v2 - Panel Principal");
+		        stage.centerOnScreen();
+		        stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	        
 		} catch (BloSalesV2Exception ex) {
 			Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
 		}

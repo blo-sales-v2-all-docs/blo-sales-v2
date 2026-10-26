@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="mainContainer" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blo.sales.v2.view.pages.dashboard.DashboardController">
+   
+   <!-- Menú Lateral (Sidebar) -->
+   <left>
+      <VBox prefWidth="220.0" spacing="12.0" style="-fx-background-color: #1e293b; -fx-padding: 20px;">
+         <children>
+            <Label text="BloSales v2" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            <Button fx:id="btnVentas" text="Módulo de Ventas" onAction="#cargarVistaVentas" maxWidth="Infinity" styleClass="sidebar-button"/>
+            <Button fx:id="btnProductos" text="Inventario / Productos" onAction="#cargarVistaProductos" maxWidth="Infinity" styleClass="sidebar-button"/>
+            <Button fx:id="btnCerrarSesion" text="Cerrar Sesión" onAction="#cerrarSesion" maxWidth="Infinity" styleClass="sidebar-button" style="-fx-text-fill: #ef4444;" />
+         </children>
+      </VBox>
+   </left>
+   
+   <!-- Contenedor Central (Wrapper donde se cargan las demás pantallas dinámicamente) -->
+   <center>
+      <StackPane fx:id="contentArea" style="-fx-background-color: #f8fafc; -fx-padding: 20px;">
+         <!-- Aquí se inyectarán las vistas hijas de manera dinámica -->
+      </StackPane>
+   </center>
+</BorderPane>
