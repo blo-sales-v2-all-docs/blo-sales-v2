@@ -5,6 +5,8 @@
 package com.blo.sales.v2.view.components.inputPassword;
 
 import java.io.IOException;
+
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -58,6 +60,10 @@ public class InputPassword extends VBox {
 
     public String getPromptText() {
         return passwordField != null ? passwordField.getPromptText() : "";
+    }
+    
+    public StringProperty getTextProperty() {
+    	return passwordField.textProperty();
     }
 
     // Método útil para mostrar errores visuales de validación

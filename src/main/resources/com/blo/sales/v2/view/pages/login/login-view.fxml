@@ -22,7 +22,7 @@
     
     <InputPassword fx:id="inputPassword" title="Contraseña" promptText="********" />
     
-    <Button text="Ingresar" onAction="#handleLoginButtonAction"
+    <Button fx:id="btnLogin" text="Ingresar" onAction="#handleLoginButtonAction"
             style="-fx-background-color: #2563eb; -fx-text-fill: white;"/>
 
 </VBox>
