@@ -1,0 +1,17 @@
+.input-text__title {
+	-fx-font-weight: bold;
+	-fx-text-fill: #374151;
+	-fx-font-size: 12px;
+}
+
+.input-text__field {
+	-fx-background-radius: 6px;
+	-fx-border-radius: 6px;
+	-fx-border-color: #d1d5db;
+	-fx-padding: 8px;
+}
+
+.input-text--error {
+	-fx-text-fill: #dc2626;
+	-fx-font-size: 11px;
+}

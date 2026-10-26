@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root type="VBox" xmlns:fx="http://javafx.com/fxml" spacing="4.0">
-    
-    <!-- Título o etiqueta superior del input -->
-    <Label fx:id="lblTitle" text="Campo" 
-           style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 12px;"/>
-    
-    <!-- Campo de texto principal con estilos modernos -->
-    <TextField fx:id="textField" promptText="Escribe aquí..." 
-               style="-fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: #d1d5db; -fx-padding: 8px;"/>
-    
-    <!-- Mensaje de error (oculto por defecto) -->
-    <Label fx:id="lblError" text="" 
-           style="-fx-text-fill: #dc2626; -fx-font-size: 11px;" 
-           visible="false" managed="false"/>
+<fx:root type="VBox" xmlns:fx="http://javafx.com/fxml"
+	spacing="4.0">
+
+	<stylesheets>
+		<URL value="@input-text.css" />
+	</stylesheets>
+
+	<!-- Título o etiqueta superior del input -->
+	<Label fx:id="lblTitle" text="Campo" styleClass="input-text__title" />
+
+	<!-- Campo de texto principal con estilos modernos -->
+	<TextField fx:id="textField" promptText="Escribe aquí..." styleClass="input-text__field" />
+
+	<!-- Mensaje de error (oculto por defecto) -->
+	<Label fx:id="lblError" text="" visible="false" managed="false" styleClass="input-text--error" />
 
 </fx:root>
